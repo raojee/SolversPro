@@ -16,6 +16,8 @@ const {
 } = Astro.props;
 
 const canonicalUrl = canonical || Astro.url.href;
+
+import '../styles/global.css';
 ---
 
 <!DOCTYPE html>
@@ -54,9 +56,6 @@ const canonicalUrl = canonical || Astro.url.href;
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="/src/styles/global.css" />
 
   <!-- Schema.org -->
   {schema && (
