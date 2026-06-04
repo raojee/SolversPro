@@ -1,0 +1,19 @@
+{
+  "name": "SolversPro",
+  "short_name": "SolversPro",
+  "description": "Solve Anything. Instantly. Free problem solvers for finance, health, math, and trades.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF9D2",
+  "theme_color": "#FFF9D2",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["utilities", "education", "finance", "health"]
+}

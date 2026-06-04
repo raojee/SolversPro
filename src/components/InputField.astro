@@ -1,0 +1,73 @@
+---
+interface Props {
+  label: string;
+  id?: string;
+  name?: string;
+  type?: "text" | "number" | "email";
+  placeholder?: string;
+  required?: boolean;
+  min?: string | number;
+  max?: string | number;
+  step?: string | number;
+  suffix?: string;
+  prefix?: string;
+  value?: string | number;
+}
+
+const {
+  label,
+  id,
+  name,
+  type = "text",
+  placeholder,
+  required = false,
+  min,
+  max,
+  step,
+  suffix,
+  prefix,
+  value
+} = Astro.props;
+
+// To match original behavior where id defaults to input-{name} if id is missing
+const fieldId = id || (name ? `input-${name}` : "input-field");
+const fieldName = name || id || "input-field";
+
+// Ensure Tailwind JIT picks up the dynamic classes by assigning them cleanly
+const paddingClass = prefix ? "pl-11" : "pl-4";
+const suffixClass = suffix ? "pr-12" : "pr-4";
+---
+
+<div class="mb-5">
+  <label for={fieldId} class="block mb-2 text-xs font-semibold uppercase tracking-widest text-zinc-400" style="font-family: 'JetBrains Mono', monospace;">
+    {label} {required && <span class="text-[#ff6b35]">*</span>}
+  </label>
+  
+  <div class="relative flex items-center">
+    {prefix && (
+      <span class="absolute left-4 text-zinc-400 font-medium select-none pointer-events-none prefix-el" style="font-family: 'JetBrains Mono', monospace;">
+        {prefix}
+      </span>
+    )}
+    
+    <input
+      type={type}
+      id={fieldId}
+      name={fieldName}
+      value={value}
+      placeholder={placeholder}
+      required={required}
+      min={min}
+      max={max}
+      step={step}
+      class={`w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 transition-all duration-200 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35] focus:bg-white/[0.05] ${paddingClass} ${suffixClass}`}
+      style="font-family: 'JetBrains Mono', monospace;"
+    />
+    
+    {suffix && (
+      <span class="absolute right-4 text-zinc-400 text-sm select-none pointer-events-none" style="font-family: 'JetBrains Mono', monospace;">
+        {suffix}
+      </span>
+    )}
+  </div>
+</div>

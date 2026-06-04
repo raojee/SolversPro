@@ -1,0 +1,199 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import InputField from '../../components/InputField.astro';
+import SelectField from '../../components/SelectField.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Wire Size Calculator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+};
+
+const faqItems = [
+  {
+    question: "What is Voltage Drop?",
+    answer: "Voltage drop is the decrease of electrical potential along the path of a current flowing in an electrical circuit. The National Electrical Code (NEC) recommends a maximum voltage drop of 3% for branch circuits to ensure equipment operates efficiently."
+  },
+  {
+    question: "Why does wire material matter?",
+    answer: "Different materials have different resistivity (K). Copper is a better conductor (K=12.9) than aluminum (K=21.2), meaning you generally need a thicker aluminum wire to carry the same current over the same distance as copper."
+  },
+  {
+    question: "How is this calculated?",
+    answer: "We use the standard industry formula: Circular Mils = (K × I × L × Phase Factor) / Allowable Voltage Drop. The result is then mapped to the next largest standard AWG or kcmil wire size."
+  }
+];
+---
+
+<BaseLayout
+  title="Wire Size & Voltage Drop Calculator | SolversPro"
+  description="Calculate the correct AWG wire size and check voltage drop based on load, distance, and material using NEC approximations."
+  canonical="https://solverspro.com/trades/wire-size"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Trades', href: '/trades' },
+        { label: 'Wire Size Calculator' },
+      ]} />
+
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+          Wire Size Calculator
+        </h1>
+        <p class="text-lg text-zinc-400">
+          Find the correct AWG wire size based on voltage drop and load requirements.
+        </p>
+      </div>
+
+      <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 md:p-10 shadow-sm mb-8" id="wire-form" onsubmit="event.preventDefault();">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+          <InputField label="Load Current (Amps)" name="current" value={20} step={0.1} />
+          <InputField label="Cable Length (ft)" name="length" value={100} step={1} />
+          <InputField label="System Voltage (V)" name="voltage" value={120} step={1} />
+          <InputField label="Allowable Voltage Drop (%)" name="drop" value={3} step={0.1} />
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+          <SelectField
+            label="Conductor Material"
+            name="material"
+            options={[
+              { value: 'cu', label: 'Copper' },
+              { value: 'al', label: 'Aluminum' }
+            ]}
+          />
+          <SelectField
+            label="Phase System"
+            name="phase"
+            options={[
+              { value: '1', label: 'Single Phase (1Φ)' },
+              { value: '3', label: 'Three Phase (3Φ)' }
+            ]}
+          />
+        </div>
+
+        <div class="mt-6">
+          <CalculateButton text="Calculate Wire Size" icon="⚡" id="calc-btn" />
+        </div>
+      </form>
+
+      <!-- Results -->
+      <div id="results-section" class="hidden space-y-6 mb-12 max-w-2xl mx-auto">
+        <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02] shadow-sm flex flex-col items-center justify-center min-h-[200px]" id="result-summary">
+          <h3 class="text-sm font-semibold uppercase text-zinc-500 tracking-wider mb-2" id="result-title">Recommended Wire Size</h3>
+          
+          <p class="text-5xl font-bold text-[#2dd4bf] mb-4 text-center" id="res-awg">12 AWG</p>
+          
+          <div class="w-full h-px bg-white/[0.03] my-4"></div>
+          
+          <div class="grid grid-cols-2 gap-8 w-full">
+            <div class="text-center">
+              <p class="text-xs font-semibold text-zinc-500 uppercase">Actual Voltage Drop</p>
+              <p class="text-xl font-bold text-white mt-1" id="res-vd">0.00%</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xs font-semibold text-zinc-500 uppercase">Required Area</p>
+              <p class="text-xl font-bold text-white mt-1" id="res-cm">0 CM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+        <FAQAccordion items={faqItems} />
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  const awgTable = [
+    { size: "14 AWG", cm: 4110 },
+    { size: "12 AWG", cm: 6530 },
+    { size: "10 AWG", cm: 10380 },
+    { size: "8 AWG", cm: 16510 },
+    { size: "6 AWG", cm: 26240 },
+    { size: "4 AWG", cm: 41740 },
+    { size: "3 AWG", cm: 52620 },
+    { size: "2 AWG", cm: 66360 },
+    { size: "1 AWG", cm: 83690 },
+    { size: "1/0 AWG", cm: 105600 },
+    { size: "2/0 AWG", cm: 133100 },
+    { size: "3/0 AWG", cm: 167800 },
+    { size: "4/0 AWG", cm: 211600 },
+    { size: "250 kcmil", cm: 250000 },
+    { size: "300 kcmil", cm: 300000 },
+    { size: "350 kcmil", cm: 350000 },
+    { size: "400 kcmil", cm: 400000 },
+    { size: "500 kcmil", cm: 500000 },
+    { size: "600 kcmil", cm: 600000 },
+    { size: "750 kcmil", cm: 750000 },
+    { size: "1000 kcmil", cm: 1000000 }
+  ];
+
+  document.getElementById('wire-form')?.addEventListener('submit', () => {
+    const current = parseFloat((document.querySelector('input[name="current"]') as HTMLInputElement).value) || 0;
+    const length = parseFloat((document.querySelector('input[name="length"]') as HTMLInputElement).value) || 0;
+    const voltage = parseFloat((document.querySelector('input[name="voltage"]') as HTMLInputElement).value) || 0;
+    const dropPct = parseFloat((document.querySelector('input[name="drop"]') as HTMLInputElement).value) || 0;
+    const material = (document.querySelector('select[name="material"]') as HTMLSelectElement).value;
+    const phase = (document.querySelector('select[name="phase"]') as HTMLSelectElement).value;
+
+    const btn = document.getElementById('calc-btn');
+    btn?.setAttribute('data-loading', 'true');
+
+    setTimeout(() => {
+      const K = material === 'cu' ? 12.9 : 21.2;
+      const phaseFactor = phase === '1' ? 2 : 1.732;
+      const maxVd = voltage * (dropPct / 100);
+      
+      const reqCM = (K * current * length * phaseFactor) / maxVd;
+
+      let chosenAwg = "Out of Range";
+      let chosenCM = 0;
+
+      for (let i = 0; i < awgTable.length; i++) {
+        if (awgTable[i].cm >= reqCM) {
+          chosenAwg = awgTable[i].size;
+          chosenCM = awgTable[i].cm;
+          break;
+        }
+      }
+
+      if (chosenCM === 0) {
+        document.getElementById('res-awg')!.textContent = "> 1000 kcmil";
+        document.getElementById('res-vd')!.textContent = "N/A";
+        document.getElementById('res-cm')!.textContent = Math.round(reqCM).toLocaleString() + " CM";
+      } else {
+        const actualVd = (K * current * length * phaseFactor) / chosenCM;
+        const actualVdPct = (actualVd / voltage) * 100;
+        
+        document.getElementById('res-awg')!.textContent = chosenAwg;
+        document.getElementById('res-vd')!.textContent = actualVdPct.toFixed(2) + "%";
+        document.getElementById('res-cm')!.textContent = Math.round(reqCM).toLocaleString() + " CM";
+      }
+
+      document.getElementById('results-section')?.classList.remove('hidden');
+      document.getElementById('result-summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      btn?.removeAttribute('data-loading');
+    }, 200);
+  });
+</script>

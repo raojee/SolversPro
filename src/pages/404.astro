@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ToolCard from '../components/ToolCard.astro';
+
+const relatedTools = [
+  {
+    title: 'Compound Interest',
+    description: 'Calculate your wealth growth over time.',
+    icon: '📈',
+    href: '/finance/compound-interest',
+  },
+  {
+    title: 'TDEE Calculator',
+    description: 'Find your daily calorie needs.',
+    icon: '🔥',
+    href: '/health/tdee-calculator',
+  },
+  {
+    title: 'Concrete Slab',
+    description: 'Calculate concrete volume and bags.',
+    icon: '🧱',
+    href: '/trades/concrete-slab',
+  },
+];
+---
+
+<BaseLayout
+  title="Page Not Found | SolversPro"
+  description="The page you're looking for doesn't exist."
+>
+  <Header />
+
+  <main class="flex-1 py-16 md:py-24 bg-[#0d0d14] text-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-9xl font-bold text-gray-200 mb-4 tracking-tighter">404</h1>
+      <h2 class="text-3xl font-bold text-white mb-4">Page Not Found</h2>
+      <p class="text-zinc-500 mb-8 max-w-md mx-auto">
+        The page you're looking for doesn't exist or has been moved.
+      </p>
+      <a
+        href="/"
+        class="inline-block bg-[#ff6b35] text-white font-medium rounded-lg px-6 py-3 transition-colors hover:bg-[#ff8c5a]"
+      >
+        Back to Home
+      </a>
+
+      <div class="mt-24 pt-12 border-t border-gray-100 text-left">
+        <h3 class="text-2xl font-bold text-white mb-8 text-center">Explore Popular Tools</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {relatedTools.map((tool) => (
+            <ToolCard {...tool} />
+          ))}
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

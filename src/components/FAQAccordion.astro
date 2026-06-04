@@ -1,0 +1,96 @@
+---
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FAQItem[];
+  id?: string;
+  generateSchema?: boolean;
+}
+
+const { items, id = 'faq', generateSchema = true } = Astro.props;
+
+// Generate FAQ Schema
+const faqSchema = generateSchema ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": items.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer,
+    }
+  }))
+} : null;
+---
+
+{faqSchema && (
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+)}
+
+<div id={id} class="divide-y divide-white/[0.05] border-y border-white/[0.05] mt-8">
+  {items.map((item, index) => (
+    <div class="faq-item py-5" data-index={index}>
+      <button
+        class="faq-toggle w-full flex items-center justify-between text-left font-semibold text-white transition-colors hover:text-[#ff6b35]"
+        style="font-family: 'JetBrains Mono', monospace;"
+        aria-expanded="false"
+        aria-controls={`faq-answer-${id}-${index}`}
+      >
+        <span><span class="text-[#ff6b35] mr-2">/</span>{item.question}</span>
+        <svg
+          class="faq-chevron flex-shrink-0 ml-4 transition-transform duration-300 text-zinc-500"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="square"
+          stroke-linejoin="miter"
+        >
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+      <div
+        id={`faq-answer-${id}-${index}`}
+        class="faq-answer overflow-hidden transition-all duration-300"
+        style="max-height: 0;"
+      >
+        <p class="pt-4 text-[15px] text-zinc-400 leading-relaxed border-l border-[#ff6b35]/20 ml-[5px] pl-4">
+          {item.answer}
+        </p>
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .faq-item[data-open="true"] .faq-chevron {
+    transform: rotate(180deg);
+    color: #ff6b35;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.faq-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item') as HTMLElement;
+      const answer = item?.querySelector('.faq-answer') as HTMLElement;
+      const isOpen = item?.getAttribute('data-open') === 'true';
+
+      if (isOpen) {
+        answer.style.maxHeight = '0';
+        item?.setAttribute('data-open', 'false');
+        btn.setAttribute('aria-expanded', 'false');
+      } else {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        item?.setAttribute('data-open', 'true');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+</script>

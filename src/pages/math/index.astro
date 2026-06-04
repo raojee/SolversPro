@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ToolCard from '../../components/ToolCard.astro';
+
+const tools = [
+ {
+ title: 'Scientific Calculator',
+ description: 'Advanced math functions including trig, logarithms, and constants for STEM work.',
+ icon: '🔬',
+ href: '/math/scientific-calculator',
+ },
+ {
+ title: 'Quadratic Equation Solver',
+ description: 'Find the roots of any quadratic equation with step-by-step solutions.',
+ icon: '📈',
+ href: '/math/quadratic-solver',
+ },
+ {
+ title: 'Matrix Calculator',
+ description: 'Perform matrix operations: addition, multiplication, determinant, and inverse.',
+ icon: '🔢',
+ href: '/math/matrix-calculator',
+ },
+ {
+ title: 'Percentage Calculator',
+ description: 'Calculate percentages, increases, decreases, and percentage of a number.',
+ icon: '📊',
+ href: '/math/percentage-calculator',
+ },
+ {
+ title: 'Unit Converter',
+ description: 'Convert between length, weight, temperature, volume, and more.',
+ icon: '📏',
+ href: '/math/unit-converter',
+ },
+];
+---
+
+<BaseLayout
+ title="Math Calculators — Free Algebra, Calculus & Statistics Tools | SolversPro"
+ description="Free math calculators for algebra, calculus, statistics, and matrices. No signup required."
+>
+ <Header />
+ <SearchOverlay />
+
+ <main class="flex-1 py-12">
+ <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <Breadcrumbs items={[
+ { label: 'Home', href: '/' },
+ { label: 'Math' },
+ ]} />
+
+ <div class="mb-12">
+ <div class="flex items-center gap-4 mb-4">
+ <div class="w-14 h-14 rounded-lg flex items-center justify-center text-3xl" style="background-color: #eff6ff; border-radius: 16px;">
+ 📐
+ </div>
+ <div>
+ <h1 class="text-3xl md:text-4xl font-bold text-white ">Math Tools</h1>
+ <p class="text-zinc-500 mt-1">Algebra, calculus, statistics, matrices, and advanced STEM tools.</p>
+ </div>
+ </div>
+ </div>
+
+ <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+ {tools.map((tool) => (
+ <ToolCard {...tool} />
+ ))}
+ </div>
+ </div>
+ </main>
+
+ <Footer />
+</BaseLayout>

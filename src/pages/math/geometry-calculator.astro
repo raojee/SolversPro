@@ -1,0 +1,159 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import InputField from '../../components/InputField.astro';
+import SelectField from '../../components/SelectField.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Geometry Calculator",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Any"
+};
+---
+
+<BaseLayout
+  title="Geometry Calculator | SolversPro"
+  description="Calculate area, perimeter, and volume for 2D and 3D shapes."
+  canonical="https://solverspro.com/math/geometry-calculator"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Math', href: '/math' },
+        { label: 'Geometry' },
+      ]} />
+
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Geometry Calculator</h1>
+        <p class="text-lg text-zinc-400">Calculate Area, Perimeter, and Volume for common shapes.</p>
+      </div>
+
+      <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8" id="calculator-form">
+        <SelectField
+          label="Shape"
+          name="shape"
+          id="select-shape"
+          value="circle"
+          options={[
+            { value: 'circle', label: 'Circle (2D)' },
+            { value: 'rectangle', label: 'Rectangle (2D)' },
+            { value: 'triangle', label: 'Triangle (2D)' },
+            { value: 'sphere', label: 'Sphere (3D)' },
+            { value: 'cylinder', label: 'Cylinder (3D)' }
+          ]}
+        />
+        
+        <div id="inputs-circle" class="shape-inputs">
+          <InputField label="Radius (r)" name="radius" value={5} min={0.1} step={0.1} />
+        </div>
+        
+        <div id="inputs-rectangle" class="shape-inputs hidden">
+          <InputField label="Length (l)" name="length" value={10} min={0.1} step={0.1} />
+          <InputField label="Width (w)" name="width" value={5} min={0.1} step={0.1} />
+        </div>
+        
+        <div id="inputs-triangle" class="shape-inputs hidden">
+          <InputField label="Base (b)" name="base" value={10} min={0.1} step={0.1} />
+          <InputField label="Height (h)" name="height" value={8} min={0.1} step={0.1} />
+        </div>
+        
+        <div id="inputs-sphere" class="shape-inputs hidden">
+          <InputField label="Radius (r)" name="sphereRadius" value={5} min={0.1} step={0.1} />
+        </div>
+        
+        <div id="inputs-cylinder" class="shape-inputs hidden">
+          <InputField label="Radius (r)" name="cylRadius" value={5} min={0.1} step={0.1} />
+          <InputField label="Height (h)" name="cylHeight" value={10} min={0.1} step={0.1} />
+        </div>
+
+        <div class="mt-6">
+          <CalculateButton text="Calculate" icon="📐" id="calculate-btn" />
+        </div>
+      </form>
+
+      <!-- Results -->
+      <div id="results-section" class="hidden space-y-8 mb-12 max-w-2xl mx-auto">
+        <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02]" id="result-summary">
+          <div class="grid grid-cols-1 gap-6" id="result-grid">
+            <!-- Dynamic results injected here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const shapeSelect = document.getElementById('select-shape') as HTMLSelectElement;
+  
+  shapeSelect?.addEventListener('change', (e) => {
+    document.querySelectorAll('.shape-inputs').forEach(el => el.classList.add('hidden'));
+    const shape = (e.target as HTMLSelectElement).value;
+    document.getElementById(`inputs-${shape}`)?.classList.remove('hidden');
+    document.getElementById('results-section')?.classList.add('hidden');
+  });
+
+  function calculate() {
+    const shape = shapeSelect?.value;
+    const btn = document.getElementById('calculate-btn');
+    btn?.setAttribute('data-loading', 'true');
+
+    setTimeout(() => {
+      let results: {label: string, value: string}[] = [];
+
+      if (shape === 'circle') {
+        const r = parseFloat((document.getElementById('input-radius') as HTMLInputElement)?.value) || 0;
+        results.push({ label: 'Area (πr²)', value: (Math.PI * r * r).toFixed(4) });
+        results.push({ label: 'Circumference (2πr)', value: (2 * Math.PI * r).toFixed(4) });
+      } else if (shape === 'rectangle') {
+        const l = parseFloat((document.getElementById('input-length') as HTMLInputElement)?.value) || 0;
+        const w = parseFloat((document.getElementById('input-width') as HTMLInputElement)?.value) || 0;
+        results.push({ label: 'Area (l × w)', value: (l * w).toFixed(4) });
+        results.push({ label: 'Perimeter (2l + 2w)', value: (2 * l + 2 * w).toFixed(4) });
+      } else if (shape === 'triangle') {
+        const b = parseFloat((document.getElementById('input-base') as HTMLInputElement)?.value) || 0;
+        const h = parseFloat((document.getElementById('input-height') as HTMLInputElement)?.value) || 0;
+        results.push({ label: 'Area (½bh)', value: (0.5 * b * h).toFixed(4) });
+      } else if (shape === 'sphere') {
+        const r = parseFloat((document.getElementById('input-sphereRadius') as HTMLInputElement)?.value) || 0;
+        results.push({ label: 'Volume (4/3πr³)', value: ((4/3) * Math.PI * Math.pow(r, 3)).toFixed(4) });
+        results.push({ label: 'Surface Area (4πr²)', value: (4 * Math.PI * Math.pow(r, 2)).toFixed(4) });
+      } else if (shape === 'cylinder') {
+        const r = parseFloat((document.getElementById('input-cylRadius') as HTMLInputElement)?.value) || 0;
+        const h = parseFloat((document.getElementById('input-cylHeight') as HTMLInputElement)?.value) || 0;
+        results.push({ label: 'Volume (πr²h)', value: (Math.PI * Math.pow(r, 2) * h).toFixed(4) });
+        results.push({ label: 'Surface Area (2πrh + 2πr²)', value: (2 * Math.PI * r * h + 2 * Math.PI * Math.pow(r, 2)).toFixed(4) });
+      }
+
+      const grid = document.getElementById('result-grid');
+      if (grid) {
+        grid.innerHTML = results.map(r => `
+          <div class="flex justify-between items-center border-b border-white/[0.05] pb-4">
+            <span class="text-zinc-400 font-medium">${r.label}</span>
+            <span class="text-2xl font-bold text-[#ff6b35]">${r.value}</span>
+          </div>
+        `).join('');
+      }
+
+      document.getElementById('results-section')?.classList.remove('hidden');
+      btn?.removeAttribute('data-loading');
+    }, 300);
+  }
+
+  document.getElementById('calculator-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    calculate();
+  });
+</script>

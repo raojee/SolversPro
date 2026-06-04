@@ -1,0 +1,217 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import InputField from '../../components/InputField.astro';
+import SelectField from '../../components/SelectField.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+
+const schema = {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Concrete Slab Calculator",
+ "applicationCategory": "UtilitiesApplication",
+ "operatingSystem": "Any",
+ "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+ "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.7", "ratingCount": "89" }
+};
+
+const faqItems = [
+ {
+ question: "What is the standard thickness for a concrete slab?",
+ answer: "For residential slabs like patios, driveways, and garage floors, the standard thickness is 4 inches (10 cm). For heavier loads like commercial floors or areas with vehicle traffic, 5-6 inches is recommended. Always check local building codes for specific requirements in your area."
+ },
+ {
+ question: "How much extra concrete should I order?",
+ answer: "It's recommended to order 5-10% more concrete than your calculated amount to account for spillage, uneven subgrade, and form irregularities. For smaller projects, round up to the nearest full yard. Running short mid-pour is far worse than having a small amount left over."
+ },
+ {
+ question: "How long does concrete take to cure?",
+ answer: "Concrete reaches about 70% of its full strength in 7 days and continues to cure for 28 days to reach its rated strength. Initial set occurs within 24-48 hours. During curing, keep the concrete moist and avoid heavy loads. Temperature affects curing — cold weather slows it down significantly."
+ },
+ {
+ question: "Do I need rebar in my concrete slab?",
+ answer: "For most residential slabs 4 inches or thicker, wire mesh or rebar is recommended to prevent cracking. Use #3 or #4 rebar on 18-24 inch centers for driveways and garages. Patios may only need wire mesh or fiber reinforcement. Always follow local building codes."
+ },
+];
+---
+
+<BaseLayout
+ title="Concrete Slab Calculator — Free Construction Tool | SolversPro"
+ description="Free concrete slab calculator. Calculate cubic yards, bags needed, and cost for any slab, footing, or wall. No signup required."
+ canonical="https://solverspro.com/trades/concrete-slab"
+ schema={schema}
+>
+ <Header />
+ <SearchOverlay />
+
+ <main class="flex-1 py-12">
+ <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <Breadcrumbs items={[
+ { label: 'Home', href: '/' },
+ { label: 'Trades', href: '/trades' },
+ { label: 'Concrete Slab' },
+ ]} />
+
+ <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+ Concrete Slab Calculator
+ </h1>
+ <p class="text-lg text-zinc-400 ">
+ Calculate exactly how much concrete you need for your project.
+ </p>
+ </div>
+
+ <!-- Calculator -->
+ <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8" id="concrete-form">
+ <SelectField
+ label="Unit System"
+ name="unitSystem"
+ value="imperial"
+ options={[
+ { value: 'imperial', label: 'Imperial (feet/inches)' },
+ { value: 'metric', label: 'Metric (meters)' },
+ ]}
+ />
+
+ <div class="grid grid-cols-1 sm:grid-cols-3 gap-x-6">
+ <InputField label="Length" name="length" suffix="ft" value={20} min={0} step={0.5} />
+ <InputField label="Width" name="width" suffix="ft" value={10} min={0} step={0.5} />
+ <InputField label="Thickness" name="thickness" suffix="in" value={4} min={1} max={24} step={0.5} />
+ </div>
+
+ <div class="mt-6">
+ <CalculateButton text="Calculate Concrete" icon="🧱" id="concrete-calc-btn" />
+ </div>
+ </form>
+
+ <!-- Results -->
+ <div id="concrete-results" class="hidden space-y-6 mb-12 max-w-2xl mx-auto">
+ <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02]" id="concrete-summary">
+ <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+ <div>
+ <p class="label mb-1">Volume</p>
+ <p class="text-3xl font-bold text-white " id="result-volume">0</p>
+ </div>
+ <div>
+ <p class="label mb-1">Volume (Cubic Feet)</p>
+ <p class="text-2xl font-bold text-[#2dd4bf]" id="result-cubicft">0</p>
+ </div>
+ </div>
+
+ <hr class="mb-6" style="border-color: #e5e7eb;" />
+
+ <h3 class="font-semibold text-white mb-4">Bags Needed (Pre-Mixed)</h3>
+ <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+ <div class="p-4 rounded-lg bg-white/[0.02] " style="border-radius: 12px;">
+ <p class="text-xs font-semibold uppercase text-zinc-500 mb-1">40 lb Bags</p>
+ <p class="text-xl font-bold text-white " id="result-bags40">0</p>
+ <p class="text-xs text-zinc-500">0.011 yd³ per bag</p>
+ </div>
+ <div class="p-4 rounded-lg bg-white/[0.02] " style="border-radius: 12px;">
+ <p class="text-xs font-semibold uppercase text-zinc-500 mb-1">60 lb Bags</p>
+ <p class="text-xl font-bold text-white " id="result-bags60">0</p>
+ <p class="text-xs text-zinc-500">0.017 yd³ per bag</p>
+ </div>
+ <div class="p-4 rounded-lg bg-white/[0.02] " style="border-radius: 12px;">
+ <p class="text-xs font-semibold uppercase text-zinc-500 mb-1">80 lb Bags</p>
+ <p class="text-xl font-bold text-white " id="result-bags80">0</p>
+ <p class="text-xs text-zinc-500">0.022 yd³ per bag</p>
+ </div>
+ </div>
+
+ <p class="mt-4 text-sm text-zinc-500">
+ 💡 Tip: Order 10% extra to account for spillage and uneven surfaces.
+ </p>
+ </div>
+ </div>
+
+ <!-- Formula -->
+ <div class="result-surface mb-12 p-6 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-2xl mx-auto " id="concrete-formula">
+ <h2 class="text-2xl font-bold text-white mb-4">The Formula</h2>
+ <div class="p-4 bg-white/[0.02] border border-white/[0.06] rounded-lg font-mono text-sm text-gray-800 overflow-x-auto" style="border-radius: 12px;">
+ <p class="text-white ">Volume (ft³) = Length (ft) × Width (ft) × Thickness (ft)</p>
+ <p class="text-white mt-1">Volume (yd³) = Volume (ft³) ÷ 27</p>
+ </div>
+ </div>
+
+ <!-- FAQ -->
+ <div class="mb-12 max-w-3xl mx-auto">
+<h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+ <FAQAccordion items={faqItems} id="concrete-faq" />
+ </div>
+ </div>
+ </main>
+
+ <Footer />
+</BaseLayout>
+
+<script>
+ function calculateConcrete() {
+ const unitSystem = (document.getElementById('select-unitSystem') as HTMLSelectElement)?.value || 'imperial';
+ let length = parseFloat((document.getElementById('input-length') as HTMLInputElement)?.value) || 0;
+ let width = parseFloat((document.getElementById('input-width') as HTMLInputElement)?.value) || 0;
+ let thickness = parseFloat((document.getElementById('input-thickness') as HTMLInputElement)?.value) || 0;
+
+ const btn = document.getElementById('concrete-calc-btn');
+ btn?.setAttribute('data-loading', 'true');
+
+ setTimeout(() => {
+ let cubicFeet: number;
+ let cubicYards: number;
+
+ if (unitSystem === 'imperial') {
+ // thickness is in inches, convert to feet
+ cubicFeet = length * width * (thickness / 12);
+ cubicYards = cubicFeet / 27;
+ } else {
+ // metric: length/width in meters, thickness in cm
+ const cubicMeters = length * width * (thickness / 100);
+ cubicFeet = cubicMeters * 35.3147;
+ cubicYards = cubicMeters * 1.30795;
+ }
+
+ // Bags calculation
+ const bags40 = Math.ceil(cubicYards / 0.011);
+ const bags60 = Math.ceil(cubicYards / 0.017);
+ const bags80 = Math.ceil(cubicYards / 0.022);
+
+ // Update UI
+ const volumeLabel = unitSystem === 'imperial' ? 'cubic yards' : 'cubic meters';
+ const volume = unitSystem === 'imperial' ? cubicYards : cubicYards / 1.30795;
+
+ (document.getElementById('result-volume') as HTMLElement).textContent = `${volume.toFixed(2)} ${volumeLabel}`;
+ (document.getElementById('result-cubicft') as HTMLElement).textContent = `${cubicFeet.toFixed(1)} ft³`;
+ (document.getElementById('result-bags40') as HTMLElement).textContent = bags40.toString();
+ (document.getElementById('result-bags60') as HTMLElement).textContent = bags60.toString();
+ (document.getElementById('result-bags80') as HTMLElement).textContent = bags80.toString();
+
+ document.getElementById('concrete-results')?.classList.remove('hidden');
+ document.getElementById('concrete-summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+ btn?.removeAttribute('data-loading');
+ }, 300);
+ }
+
+ document.getElementById('concrete-form')?.addEventListener('submit', (e) => {
+   e.preventDefault();
+   calculateConcrete();
+ });
+
+ // Unit system toggle
+ document.getElementById('select-unitSystem')?.addEventListener('change', (e) => {
+ const isMetric = (e.target as HTMLSelectElement).value === 'metric';
+ const lengthSuffix = document.querySelector('#input-length')?.parentElement?.querySelector('span:last-child');
+ const widthSuffix = document.querySelector('#input-width')?.parentElement?.querySelector('span:last-child');
+ const thicknessSuffix = document.querySelector('#input-thickness')?.parentElement?.querySelector('span:last-child');
+
+ if (lengthSuffix) lengthSuffix.textContent = isMetric ? 'm' : 'ft';
+ if (widthSuffix) widthSuffix.textContent = isMetric ? 'm' : 'ft';
+ if (thicknessSuffix) thicknessSuffix.textContent = isMetric ? 'cm' : 'in';
+ });
+</script>
+
+

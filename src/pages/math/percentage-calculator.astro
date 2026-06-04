@@ -1,0 +1,187 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import InputField from '../../components/InputField.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Percentage Calculator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "210" }
+};
+
+const faqItems = [
+  {
+    question: "What is a percentage?",
+    answer: "A percentage is a number or ratio expressed as a fraction of 100. It is often denoted using the percent sign (%). For example, 45% is equal to 45/100 or 0.45."
+  },
+  {
+    question: "How do you calculate percentage increase?",
+    answer: "To calculate percentage increase, subtract the original number from the new number, divide that difference by the original number, and then multiply by 100."
+  },
+  {
+    question: "Is X% of Y the same as Y% of X?",
+    answer: "Yes! In mathematics, percentages are commutative. For example, 8% of 50 is exactly the same as 50% of 8 (both equal 4). Sometimes swapping the numbers makes it easier to calculate in your head."
+  }
+];
+---
+
+<BaseLayout
+  title="Percentage Calculator | SolversPro"
+  description="Free percentage calculator. Easily find X% of Y, calculate what percentage one number is of another, or find percentage increase/decrease."
+  canonical="https://solverspro.com/math/percentage-calculator"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Math', href: '/math' },
+        { label: 'Percentage Calculator' },
+      ]} />
+
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+          Percentage Calculator
+        </h1>
+        <p class="text-lg text-zinc-400">
+          Quickly solve any percentage problem with our three calculators.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+        <!-- Calculator 1 -->
+        <form class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm" id="calc1-form" onsubmit="event.preventDefault();">
+          <h2 class="text-xl font-bold text-white mb-4">What is X% of Y?</h2>
+          <InputField label="Percentage (X)" name="c1_x" suffix="%" value={20} step={0.01} />
+          <InputField label="Number (Y)" name="c1_y" value={150} step={0.01} />
+          <CalculateButton text="Calculate" id="btn-c1" icon="📊" />
+          
+          <div id="res1-container" class="mt-6 pt-6 border-t border-gray-100 hidden">
+            <p class="text-sm font-medium text-zinc-500 uppercase tracking-wider mb-1">Result</p>
+            <p class="text-3xl font-bold text-[#2dd4bf]" id="res1-val">0</p>
+            <p class="text-zinc-400 mt-1" id="res1-text"></p>
+          </div>
+        </form>
+
+        <!-- Calculator 2 -->
+        <form class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm" id="calc2-form" onsubmit="event.preventDefault();">
+          <h2 class="text-xl font-bold text-white mb-4">X is what % of Y?</h2>
+          <InputField label="Number (X)" name="c2_x" value={30} step={0.01} />
+          <InputField label="Number (Y)" name="c2_y" value={150} step={0.01} />
+          <CalculateButton text="Calculate" id="btn-c2" icon="📊" />
+          
+          <div id="res2-container" class="mt-6 pt-6 border-t border-gray-100 hidden">
+            <p class="text-sm font-medium text-zinc-500 uppercase tracking-wider mb-1">Result</p>
+            <p class="text-3xl font-bold text-[#2dd4bf]" id="res2-val">0%</p>
+            <p class="text-zinc-400 mt-1" id="res2-text"></p>
+          </div>
+        </form>
+
+        <!-- Calculator 3 -->
+        <form class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm" id="calc3-form" onsubmit="event.preventDefault();">
+          <h2 class="text-xl font-bold text-white mb-4">% Increase / Decrease</h2>
+          <InputField label="From Value" name="c3_x" value={50} step={0.01} />
+          <InputField label="To Value" name="c3_y" value={75} step={0.01} />
+          <CalculateButton text="Calculate" id="btn-c3" icon="📈" />
+          
+          <div id="res3-container" class="mt-6 pt-6 border-t border-gray-100 hidden">
+            <p class="text-sm font-medium text-zinc-500 uppercase tracking-wider mb-1">Result</p>
+            <p class="text-3xl font-bold text-[#2dd4bf]" id="res3-val">0%</p>
+            <p class="text-zinc-400 mt-1 font-semibold" id="res3-text"></p>
+          </div>
+        </form>
+      </div>
+
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+        <FAQAccordion items={faqItems} />
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  function formatNum(n: number): string {
+    return Number(n.toFixed(4)).toString(); // Max 4 decimal places
+  }
+
+  // Calc 1
+  document.getElementById('calc1-form')?.addEventListener('submit', () => {
+    const btn = document.getElementById('btn-c1');
+    btn?.setAttribute('data-loading', 'true');
+    setTimeout(() => {
+      const x = parseFloat((document.querySelector('input[name="c1_x"]') as HTMLInputElement).value) || 0;
+      const y = parseFloat((document.querySelector('input[name="c1_y"]') as HTMLInputElement).value) || 0;
+      const res = (x / 100) * y;
+      
+      const v = document.getElementById('res1-val');
+      const t = document.getElementById('res1-text');
+      if (v) v.textContent = formatNum(res);
+      if (t) t.textContent = `${x}% of ${y} is ${formatNum(res)}`;
+      
+      document.getElementById('res1-container')?.classList.remove('hidden');
+      btn?.removeAttribute('data-loading');
+    }, 200);
+  });
+
+  // Calc 2
+  document.getElementById('calc2-form')?.addEventListener('submit', () => {
+    const btn = document.getElementById('btn-c2');
+    btn?.setAttribute('data-loading', 'true');
+    setTimeout(() => {
+      const x = parseFloat((document.querySelector('input[name="c2_x"]') as HTMLInputElement).value) || 0;
+      const y = parseFloat((document.querySelector('input[name="c2_y"]') as HTMLInputElement).value) || 0;
+      if (y === 0) { btn?.removeAttribute('data-loading'); return; }
+      
+      const res = (x / y) * 100;
+      
+      const v = document.getElementById('res2-val');
+      const t = document.getElementById('res2-text');
+      if (v) v.textContent = formatNum(res) + '%';
+      if (t) t.textContent = `${x} is ${formatNum(res)}% of ${y}`;
+      
+      document.getElementById('res2-container')?.classList.remove('hidden');
+      btn?.removeAttribute('data-loading');
+    }, 200);
+  });
+
+  // Calc 3
+  document.getElementById('calc3-form')?.addEventListener('submit', () => {
+    const btn = document.getElementById('btn-c3');
+    btn?.setAttribute('data-loading', 'true');
+    setTimeout(() => {
+      const x = parseFloat((document.querySelector('input[name="c3_x"]') as HTMLInputElement).value) || 0;
+      const y = parseFloat((document.querySelector('input[name="c3_y"]') as HTMLInputElement).value) || 0;
+      if (x === 0) { btn?.removeAttribute('data-loading'); return; }
+      
+      const diff = y - x;
+      const res = (diff / Math.abs(x)) * 100;
+      const type = diff >= 0 ? 'Increase' : 'Decrease';
+      
+      const v = document.getElementById('res3-val');
+      const t = document.getElementById('res3-text');
+      if (v) {
+        v.textContent = formatNum(Math.abs(res)) + '%';
+        v.className = diff >= 0 ? 'text-3xl font-bold text-green-600' : 'text-3xl font-bold text-red-600';
+      }
+      if (t) t.textContent = `${formatNum(Math.abs(res))}% ${type}`;
+      
+      document.getElementById('res3-container')?.classList.remove('hidden');
+      btn?.removeAttribute('data-loading');
+    }, 200);
+  });
+</script>

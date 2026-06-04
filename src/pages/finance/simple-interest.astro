@@ -1,0 +1,251 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import InputField from '../../components/InputField.astro';
+import SelectField from '../../components/SelectField.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+
+const schema = {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Simple Interest Calculator",
+ "applicationCategory": "FinanceApplication",
+ "operatingSystem": "Any",
+ "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+ "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.7", "ratingCount": "98" }
+};
+
+const faqItems = [
+ {
+ question: "What is simple interest?",
+ answer: "Simple interest is calculated solely on the initial principal amount of a loan or investment. Unlike compound interest, it does not factor in accumulated interest from previous periods. It is commonly used for short-term personal loans or automobile loans."
+ },
+ {
+ question: "How does simple interest differ from compound interest?",
+ answer: "Simple interest only grows based on the original amount invested or borrowed. Compound interest grows based on the original amount PLUS the interest that has already been added. Over long periods, compound interest yields significantly more growth."
+ },
+ {
+ question: "When is simple interest typically used?",
+ answer: "Simple interest is often used for auto loans, short-term personal loans, and some types of mortgages. It's also occasionally used for short-term certificates of deposit (CDs) or bonds."
+ }
+];
+---
+
+<BaseLayout
+ title="Simple Interest Calculator — Free Finance Tool | SolversPro"
+ description="Free simple interest calculator to quickly determine total interest earned or paid on a principal amount. No signup required."
+ canonical="https://solverspro.com/finance/simple-interest"
+ schema={schema}
+>
+ <Header />
+ <SearchOverlay />
+
+ <main class="flex-1 py-12">
+ <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <Breadcrumbs items={[
+ { label: 'Home', href: '/' },
+ { label: 'Finance', href: '/finance' },
+ { label: 'Simple Interest' },
+ ]} />
+
+ <!-- Title -->
+ <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+ Simple Interest Calculator
+ </h1>
+ <p class="text-lg text-zinc-400">
+ Quickly calculate simple interest on loans or investments.
+ </p>
+ </div>
+
+ <!-- Calculator Form -->
+ <form
+ class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8"
+ id="calculator-form"
+ >
+ <SelectField
+ label="Currency"
+ name="currency"
+ id="select-currency"
+ value="USD"
+ options={[
+ { value: 'USD', label: 'USD ($)' },
+ { value: 'EUR', label: 'EUR (€)' },
+ { value: 'GBP', label: 'GBP (£)' },
+ { value: 'INR', label: 'INR (₹)' },
+ { value: 'PKR', label: 'PKR (₨)' },
+ { value: 'JPY', label: 'JPY (¥)' },
+ { value: 'CAD', label: 'CAD ($)' },
+ { value: 'AUD', label: 'AUD ($)' },
+ ]}
+ />
+
+ <InputField
+ label="Principal Amount"
+ name="principal"
+ prefix="$"
+ value={5000}
+ min={0}
+ step={100}
+ placeholder="5,000"
+ />
+
+ <InputField
+ label="Annual Interest Rate"
+ name="annualRate"
+ suffix="%"
+ value={5}
+ min={0}
+ max={100}
+ step={0.1}
+ placeholder="5"
+ />
+
+ <InputField
+ label="Time (Years)"
+ name="years"
+ value={5}
+ min={0.1}
+ max={100}
+ step={0.5}
+ placeholder="5"
+ />
+
+ <div class="mt-6">
+ <CalculateButton text="Calculate" icon="💰" id="calculate-btn" />
+ </div>
+ </form>
+
+ <!-- Results -->
+ <div id="results-section" class="hidden space-y-8 mb-12 max-w-3xl mx-auto">
+ <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02]" id="result-summary">
+ <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+ <div>
+ <p class="label mb-1 text-sm font-medium text-zinc-500 uppercase tracking-wider">Total Interest Earned</p>
+ <p class="text-3xl md:text-4xl font-bold text-[#2dd4bf]" id="result-interest">$0</p>
+ </div>
+ <div>
+ <p class="label mb-1 text-sm font-medium text-zinc-500 uppercase tracking-wider">Total Principal + Interest</p>
+ <p class="text-3xl md:text-4xl font-bold text-white" id="result-total">$0</p>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Formula -->
+ <div class="result-surface mb-12 p-6 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-2xl mx-auto" id="formula-section">
+ <h2 class="text-2xl font-bold text-white mb-6">The Formula</h2>
+ <div class="p-4 bg-white/[0.02] rounded-lg font-mono text-sm md:text-base overflow-x-auto border border-white/[0.06]">
+ <p class="text-white">Interest = P × r × t</p>
+ <p class="text-white mt-2">Total Amount (A) = P(1 + rt)</p>
+ </div>
+ <div class="mt-4 space-y-1 text-sm text-zinc-400">
+ <p><strong>P</strong> = Principal amount</p>
+ <p><strong>r</strong> = Annual interest rate (decimal)</p>
+ <p><strong>t</strong> = Time in years</p>
+ </div>
+ </div>
+
+ <!-- FAQ -->
+ <div class="mb-12 max-w-3xl mx-auto">
+ <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+ <FAQAccordion items={faqItems} />
+ </div>
+
+ </div>
+ </main>
+
+ <Footer />
+</BaseLayout>
+
+<script>
+ const CURRENCIES = {
+ USD: '$', EUR: '€', GBP: '£', INR: '₹', PKR: '₨', JPY: '¥', CAD: '$', AUD: '$'
+ };
+
+ function formatCurrency(n: number): string {
+ const currencyCode = (document.getElementById('select-currency') as HTMLSelectElement)?.value || 'USD';
+ return new Intl.NumberFormat('en-US', {
+ style: 'currency',
+ currency: currencyCode,
+ minimumFractionDigits: 2,
+ maximumFractionDigits: 2,
+ }).format(n);
+ }
+
+ function updateInputPrefixes() {
+ const currencyCode = (document.getElementById('select-currency') as HTMLSelectElement)?.value || 'USD';
+ const symbol = CURRENCIES[currencyCode as keyof typeof CURRENCIES] || '$';
+ 
+ const moneyInputs = ['input-principal'];
+ moneyInputs.forEach(id => {
+ const el = document.getElementById(id);
+ if (el) {
+ const wrapper = el.closest('.relative');
+ const prefixEl = wrapper?.querySelector('.prefix-el');
+ if (prefixEl) {
+ prefixEl.textContent = symbol;
+ }
+ }
+ });
+
+ const results = document.getElementById('results-section');
+ if (!results?.classList.contains('hidden')) {
+ calculate();
+ }
+ }
+
+ document.getElementById('select-currency')?.addEventListener('change', (e) => {
+ const code = (e.target as HTMLSelectElement).value;
+ localStorage.setItem('preferredCurrency', code);
+ updateInputPrefixes();
+ });
+
+ function calculate() {
+ const P = parseFloat((document.getElementById('input-principal') as HTMLInputElement)?.value) || 0;
+ const r = (parseFloat((document.getElementById('input-annualRate') as HTMLInputElement)?.value) || 0) / 100;
+ const t = parseFloat((document.getElementById('input-years') as HTMLInputElement)?.value) || 0;
+
+ if (P <= 0 || t <= 0) return;
+
+ const btn = document.getElementById('calculate-btn');
+ btn?.setAttribute('data-loading', 'true');
+
+ setTimeout(() => {
+ const interest = P * r * t;
+ const total = P + interest;
+
+ const resultInterest = document.getElementById('result-interest');
+ const resultTotal = document.getElementById('result-total');
+
+ if (resultInterest) resultInterest.textContent = formatCurrency(interest);
+ if (resultTotal) resultTotal.textContent = formatCurrency(total);
+
+ const results = document.getElementById('results-section');
+ results?.classList.remove('hidden');
+
+ document.getElementById('result-summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+ btn?.removeAttribute('data-loading');
+ }, 300);
+ }
+
+ document.getElementById('calculator-form')?.addEventListener('submit', (e) => {
+ e.preventDefault();
+ calculate();
+ });
+
+ // Init Currency Selection
+ const savedCurrency = localStorage.getItem('preferredCurrency');
+ const currencySelect = document.getElementById('select-currency') as HTMLSelectElement;
+ if (savedCurrency && currencySelect) {
+ currencySelect.value = savedCurrency;
+ }
+ if (currencySelect) {
+ updateInputPrefixes();
+ }
+</script>

@@ -1,0 +1,193 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import InputField from '../../components/InputField.astro';
+import SelectField from '../../components/SelectField.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "ROI Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "120" }
+};
+
+const faqItems = [
+  {
+    question: "What is Return on Investment (ROI)?",
+    answer: "Return on Investment (ROI) is a performance measure used to evaluate the efficiency or profitability of an investment or compare the efficiency of a number of different investments. ROI tries to directly measure the amount of return on a particular investment, relative to the investment's cost."
+  },
+  {
+    question: "What is Annualized ROI?",
+    answer: "Annualized ROI represents the equivalent annual return of an investment over a given period. This is especially useful for comparing investments that have been held for different lengths of time."
+  }
+];
+---
+
+<BaseLayout
+  title="ROI Calculator | SolversPro"
+  description="Calculate your Return on Investment (ROI) and annualized return instantly with our free financial tool."
+  canonical="https://solverspro.com/finance/roi-calculator"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Finance', href: '/finance' },
+        { label: 'ROI Calculator' },
+      ]} />
+
+      <!-- Title -->
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+          ROI Calculator
+        </h1>
+        <p class="text-lg text-zinc-400">
+          Calculate the total and annualized return on your investments.
+        </p>
+      </div>
+
+      <!-- Calculator Form -->
+      <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8" id="calculator-form">
+        <SelectField
+          label="Currency"
+          name="currency"
+          id="select-currency"
+          value="USD"
+          options={[
+            { value: 'USD', label: 'USD ($)' },
+            { value: 'EUR', label: 'EUR (€)' },
+            { value: 'GBP', label: 'GBP (£)' },
+            { value: 'INR', label: 'INR (₹)' },
+            { value: 'PKR', label: 'PKR (₨)' },
+            { value: 'JPY', label: 'JPY (¥)' },
+            { value: 'CAD', label: 'CAD ($)' },
+            { value: 'AUD', label: 'AUD ($)' },
+          ]}
+        />
+
+        <InputField label="Amount Invested" name="invested" prefix="$" value={10000} min={0} step={100} placeholder="10,000" />
+        <InputField label="Amount Returned (Total)" name="returned" prefix="$" value={12500} min={0} step={100} placeholder="12,500" />
+        <InputField label="Investment Length (Years)" name="years" value={3} min={0.1} max={100} step={0.1} placeholder="3" />
+
+        <div class="mt-6">
+          <CalculateButton text="Calculate ROI" icon="📈" id="calculate-btn" />
+        </div>
+      </form>
+
+      <!-- Results -->
+      <div id="results-section" class="hidden space-y-8 mb-12 max-w-3xl mx-auto">
+        <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02]" id="result-summary">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div>
+              <p class="label mb-1 text-sm font-medium text-zinc-500 uppercase tracking-wider">Net Profit</p>
+              <p class="text-3xl md:text-4xl font-bold text-[#2dd4bf]" id="result-profit">$0</p>
+            </div>
+            <div>
+              <p class="label mb-1 text-sm font-medium text-zinc-500 uppercase tracking-wider">Total ROI</p>
+              <p class="text-3xl md:text-4xl font-bold text-white" id="result-roi">0%</p>
+            </div>
+            <div>
+              <p class="label mb-1 text-sm font-medium text-zinc-500 uppercase tracking-wider">Annualized ROI</p>
+              <p class="text-3xl md:text-4xl font-bold text-white" id="result-annual-roi">0%</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formula -->
+      <div class="result-surface mb-12 p-6 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-2xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">The Formula</h2>
+        <div class="p-4 bg-white/[0.02] rounded-lg font-mono text-sm md:text-base overflow-x-auto border border-white/[0.06]">
+          <p class="text-white">ROI = (Net Profit / Amount Invested) × 100</p>
+          <p class="text-white mt-2">Annualized ROI = [(1 + ROI/100) ^ (1/Years) - 1] × 100</p>
+        </div>
+      </div>
+
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+        <FAQAccordion items={faqItems} />
+      </div>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const CURRENCIES = { USD: '$', EUR: '€', GBP: '£', INR: '₹', PKR: '₨', JPY: '¥', CAD: '$', AUD: '$' };
+
+  function formatCurrency(n: number): string {
+    const currencyCode = (document.getElementById('select-currency') as HTMLSelectElement)?.value || 'USD';
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency', currency: currencyCode, minimumFractionDigits: 2, maximumFractionDigits: 2,
+    }).format(n);
+  }
+
+  function updateInputPrefixes() {
+    const currencyCode = (document.getElementById('select-currency') as HTMLSelectElement)?.value || 'USD';
+    const symbol = CURRENCIES[currencyCode as keyof typeof CURRENCIES] || '$';
+    
+    ['input-invested', 'input-returned'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        const wrapper = el.closest('.relative');
+        const prefixEl = wrapper?.querySelector('.prefix-el');
+        if (prefixEl) prefixEl.textContent = symbol;
+      }
+    });
+    if (!document.getElementById('results-section')?.classList.contains('hidden')) calculate();
+  }
+
+  document.getElementById('select-currency')?.addEventListener('change', (e) => {
+    localStorage.setItem('preferredCurrency', (e.target as HTMLSelectElement).value);
+    updateInputPrefixes();
+  });
+
+  function calculate() {
+    const invested = parseFloat((document.getElementById('input-invested') as HTMLInputElement)?.value) || 0;
+    const returned = parseFloat((document.getElementById('input-returned') as HTMLInputElement)?.value) || 0;
+    const years = parseFloat((document.getElementById('input-years') as HTMLInputElement)?.value) || 0;
+
+    if (invested <= 0) return;
+
+    const btn = document.getElementById('calculate-btn');
+    btn?.setAttribute('data-loading', 'true');
+
+    setTimeout(() => {
+      const profit = returned - invested;
+      const roi = (profit / invested) * 100;
+      const annualRoi = ((Math.pow((returned / invested), (1 / years))) - 1) * 100;
+
+      document.getElementById('result-profit')!.textContent = formatCurrency(profit);
+      document.getElementById('result-roi')!.textContent = isNaN(roi) ? '0%' : roi.toFixed(2) + '%';
+      document.getElementById('result-annual-roi')!.textContent = isNaN(annualRoi) || !isFinite(annualRoi) ? '0%' : annualRoi.toFixed(2) + '%';
+
+      document.getElementById('results-section')?.classList.remove('hidden');
+      document.getElementById('result-summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      btn?.removeAttribute('data-loading');
+    }, 300);
+  }
+
+  document.getElementById('calculator-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    calculate();
+  });
+
+  // Init
+  const savedCurrency = localStorage.getItem('preferredCurrency');
+  const currencySelect = document.getElementById('select-currency') as HTMLSelectElement;
+  if (savedCurrency && currencySelect) currencySelect.value = savedCurrency;
+  if (currencySelect) updateInputPrefixes();
+</script>

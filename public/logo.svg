@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="40" viewBox="0 0 160 40">
+  <!-- Logo Mark -->
+  <rect x="4" y="4" width="32" height="32" rx="8" fill="#8CC0EB"/>
+  <text x="20" y="26" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="18" fill="white">S</text>
+
+  <!-- Wordmark -->
+  <text x="44" y="27" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="20" letter-spacing="-0.02em">
+    <tspan fill="#1a1a2e">Solvers</tspan><tspan fill="#8CC0EB">Pro</tspan>
+  </text>
+</svg>

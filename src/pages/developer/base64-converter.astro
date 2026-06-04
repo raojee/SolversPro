@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Base64 Encoder and Decoder",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Any"
+};
+---
+
+<BaseLayout
+  title="Base64 Encoder & Decoder | SolversPro"
+  description="Free online tool to encode text to Base64 or decode Base64 strings back to text instantly."
+  canonical="https://solverspro.com/developer/base64-converter"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Developer', href: '/developer' },
+        { label: 'Base64 Converter' },
+      ]} />
+
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Base64 Encoder & Decoder</h1>
+        <p class="text-lg text-zinc-400">Convert plain text into Base64 format, or decode Base64 back into readable text securely in your browser.</p>
+      </div>
+
+      <div class="flex flex-col lg:flex-row gap-6 w-full h-full min-h-[500px]">
+        {/* Encoder Side */}
+        <div class="flex-1 flex flex-col gap-4">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Text to Encode</h2>
+            <button id="btn-encode" class="px-3 py-1.5 text-xs font-semibold bg-[#2dd4bf]/20 hover:bg-[#2dd4bf]/30 text-[#2dd4bf] rounded transition-colors border border-[#2dd4bf]/30">Encode to Base64 &rarr;</button>
+          </div>
+          <textarea
+            id="input-text"
+            class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#ff6b35] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[300px]"
+            placeholder="Enter text to encode..."
+            spellcheck="false"
+          ></textarea>
+        </div>
+
+        {/* Decoder Side */}
+        <div class="flex-1 flex flex-col gap-4">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <button id="btn-decode" class="px-3 py-1.5 text-xs font-semibold bg-[#ff6b35]/20 hover:bg-[#ff6b35]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30">&larr; Decode to Text</button>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Base64 String</h2>
+          </div>
+          <textarea
+            id="input-base64"
+            class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[300px]"
+            placeholder="Enter Base64 string to decode..."
+            spellcheck="false"
+          ></textarea>
+        </div>
+      </div>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const textInput = document.getElementById('input-text') as HTMLTextAreaElement;
+  const base64Input = document.getElementById('input-base64') as HTMLTextAreaElement;
+  
+  document.getElementById('btn-encode')?.addEventListener('click', () => {
+    try {
+      // Encode as UTF-8 then to base64
+      const text = textInput.value;
+      const utf8Bytes = new TextEncoder().encode(text);
+      let binaryString = '';
+      for (let i = 0; i < utf8Bytes.length; i++) {
+        binaryString += String.fromCharCode(utf8Bytes[i]);
+      }
+      base64Input.value = btoa(binaryString);
+      base64Input.classList.add('ring-2', 'ring-[#2dd4bf]', 'border-[#2dd4bf]');
+      setTimeout(() => base64Input.classList.remove('ring-2', 'ring-[#2dd4bf]', 'border-[#2dd4bf]'), 500);
+    } catch (e) {
+      alert("Error encoding text.");
+    }
+  });
+
+  document.getElementById('btn-decode')?.addEventListener('click', () => {
+    try {
+      const base64 = base64Input.value.trim();
+      if (!base64) return;
+      const binaryString = atob(base64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      textInput.value = new TextDecoder('utf-8').decode(bytes);
+      textInput.classList.add('ring-2', 'ring-[#ff6b35]', 'border-[#ff6b35]');
+      setTimeout(() => textInput.classList.remove('ring-2', 'ring-[#ff6b35]', 'border-[#ff6b35]'), 500);
+    } catch (e) {
+      alert("Invalid Base64 string.");
+    }
+  });
+</script>

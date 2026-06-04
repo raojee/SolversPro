@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import InputField from '../../components/InputField.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Paint Calculator",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any"
+};
+---
+
+<BaseLayout
+  title="Paint Calculator | SolversPro"
+  description="Estimate how much paint you need for your room or project."
+  canonical="https://solverspro.com/trades/paint-calculator"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Trades', href: '/trades' },
+        { label: 'Paint Calculator' },
+      ]} />
+
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Paint Calculator</h1>
+        <p class="text-lg text-zinc-400">Estimate how many gallons of paint you need based on room dimensions.</p>
+      </div>
+
+      <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8" id="calculator-form">
+        
+        <InputField label="Room Length (feet)" name="length" value={12} min={1} step={0.5} placeholder="12" />
+        <InputField label="Room Width (feet)" name="width" value={12} min={1} step={0.5} placeholder="12" />
+        <InputField label="Room Height (feet)" name="height" value={8} min={1} step={0.5} placeholder="8" />
+        
+        <div class="border-t border-white/[0.06] pt-6 mt-2">
+          <InputField label="Number of Doors (21 sq ft each)" name="doors" value={1} min={0} step={1} placeholder="1" />
+          <InputField label="Number of Windows (15 sq ft each)" name="windows" value={2} min={0} step={1} placeholder="2" />
+          <InputField label="Number of Coats" name="coats" value={2} min={1} step={1} placeholder="2" />
+        </div>
+
+        <div class="mt-6">
+          <CalculateButton text="Calculate Paint" icon="🖌️" id="calculate-btn" />
+        </div>
+      </form>
+
+      <!-- Results -->
+      <div id="results-section" class="hidden space-y-8 mb-12 max-w-2xl mx-auto">
+        <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02]">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <p class="label mb-1 text-sm font-medium text-zinc-500 uppercase tracking-wider">Paint Required</p>
+              <p class="text-3xl md:text-4xl font-bold text-[#ff6b35]"><span id="result-gallons">0</span> Gallons</p>
+            </div>
+            <div>
+              <p class="label mb-1 text-sm font-medium text-zinc-500 uppercase tracking-wider">Total Paintable Area</p>
+              <p class="text-3xl md:text-4xl font-bold text-white"><span id="result-sqft">0</span> sq ft</p>
+            </div>
+          </div>
+          <p class="text-sm text-zinc-500 mt-6 pt-4 border-t border-white/[0.05]">
+            *Assuming 1 gallon covers 350 sq ft of surface.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  function calculate() {
+    const l = parseFloat((document.getElementById('input-length') as HTMLInputElement)?.value) || 0;
+    const w = parseFloat((document.getElementById('input-width') as HTMLInputElement)?.value) || 0;
+    const h = parseFloat((document.getElementById('input-height') as HTMLInputElement)?.value) || 0;
+    const doors = parseFloat((document.getElementById('input-doors') as HTMLInputElement)?.value) || 0;
+    const windows = parseFloat((document.getElementById('input-windows') as HTMLInputElement)?.value) || 0;
+    const coats = parseFloat((document.getElementById('input-coats') as HTMLInputElement)?.value) || 1;
+    
+    if (l <= 0 || w <= 0 || h <= 0) return;
+
+    const btn = document.getElementById('calculate-btn');
+    btn?.setAttribute('data-loading', 'true');
+
+    setTimeout(() => {
+      // Area of 4 walls
+      let totalArea = 2 * (l * h) + 2 * (w * h);
+      
+      // Subtract doors and windows
+      const doorArea = doors * 21;
+      const windowArea = windows * 15;
+      totalArea = totalArea - doorArea - windowArea;
+      if (totalArea < 0) totalArea = 0;
+      
+      // Multiply by coats
+      const finalArea = totalArea * coats;
+      
+      // 1 gallon covers approx 350 sq ft
+      const gallons = Math.ceil(finalArea / 350);
+
+      document.getElementById('result-sqft')!.textContent = finalArea.toFixed(1);
+      document.getElementById('result-gallons')!.textContent = gallons.toString();
+
+      document.getElementById('results-section')?.classList.remove('hidden');
+      btn?.removeAttribute('data-loading');
+    }, 300);
+  }
+
+  document.getElementById('calculator-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    calculate();
+  });
+</script>

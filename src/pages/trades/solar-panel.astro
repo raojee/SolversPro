@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import InputField from '../../components/InputField.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Solar Panel Calculator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+};
+
+const faqItems = [
+  {
+    question: "What are Peak Sun Hours?",
+    answer: "Peak sun hours refer to the number of hours per day when solar irradiance averages 1,000 watts per square meter. It is not just the hours of daylight, but the hours of *usable* solar energy. You can find this value for your specific location online."
+  },
+  {
+    question: "Why is System Efficiency defaulted to 80%?",
+    answer: "Solar systems never operate at 100% efficiency. Energy is lost due to inverter inefficiency, wiring resistance, shading, dust on the panels, and temperature fluctuations. 80% is a standard conservative estimate for a well-designed grid-tied system."
+  },
+  {
+    question: "How is the number of panels calculated?",
+    answer: "We first determine the required total system size (in kW) by dividing your daily usage by your peak sun hours and efficiency factor. Then, we divide that total size (in Watts) by your individual panel wattage and round up to the nearest whole panel."
+  }
+];
+---
+
+<BaseLayout
+  title="Solar Panel Calculator | SolversPro"
+  description="Determine the solar system size and number of solar panels you need based on your daily energy usage and local peak sun hours."
+  canonical="https://solverspro.com/trades/solar-panel"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Trades', href: '/trades' },
+        { label: 'Solar Panel Calculator' },
+      ]} />
+
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+          Solar Panel Calculator
+        </h1>
+        <p class="text-lg text-zinc-400">
+          Estimate the total system size and number of panels required for your home.
+        </p>
+      </div>
+
+      <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 md:p-10 shadow-sm mb-8" id="solar-form" onsubmit="event.preventDefault();">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
+          <InputField label="Daily Energy Usage (kWh/day)" name="usage" value={30} step={0.1} />
+          <InputField label="Peak Sun Hours (h)" name="sun_hours" value={5.5} step={0.1} />
+          <InputField label="Panel Wattage (W)" name="wattage" value={400} step={1} />
+          <InputField label="System Efficiency (%)" name="efficiency" value={80} step={1} />
+        </div>
+
+        <div class="mt-6">
+          <CalculateButton text="Calculate Solar Requirements" icon="☀️" id="calc-btn" />
+        </div>
+      </form>
+
+      <!-- Results -->
+      <div id="results-section" class="hidden space-y-6 mb-12 max-w-2xl mx-auto">
+        <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02] shadow-sm flex flex-col items-center justify-center min-h-[200px]" id="result-summary">
+          <h3 class="text-sm font-semibold uppercase text-zinc-500 tracking-wider mb-2" id="result-title">Required Number of Panels</h3>
+          
+          <p class="text-6xl font-bold text-[#2dd4bf] mb-2 text-center" id="res-panels">0</p>
+          <p class="text-zinc-400 font-medium mb-6 text-center">Panels</p>
+          
+          <div class="w-full h-px bg-white/[0.03] mb-6"></div>
+          
+          <div class="text-center w-full">
+            <p class="text-xs font-semibold text-zinc-500 uppercase">Recommended System Size</p>
+            <p class="text-3xl font-bold text-white mt-2" id="res-size">0.00 kW</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+        <FAQAccordion items={faqItems} />
+      </div>
+
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  document.getElementById('solar-form')?.addEventListener('submit', () => {
+    const usage = parseFloat((document.querySelector('input[name="usage"]') as HTMLInputElement).value) || 0;
+    const sunHours = parseFloat((document.querySelector('input[name="sun_hours"]') as HTMLInputElement).value) || 0;
+    const wattage = parseFloat((document.querySelector('input[name="wattage"]') as HTMLInputElement).value) || 0;
+    const efficiency = parseFloat((document.querySelector('input[name="efficiency"]') as HTMLInputElement).value) || 0;
+
+    const btn = document.getElementById('calc-btn');
+    btn?.setAttribute('data-loading', 'true');
+
+    setTimeout(() => {
+      if (sunHours > 0 && efficiency > 0 && wattage > 0) {
+        const effFactor = efficiency / 100;
+        
+        // System Size (kW) = (Daily Usage kWh) / (Peak Sun Hours * Efficiency)
+        const systemSizeKw = usage / (sunHours * effFactor);
+        
+        // Number of Panels = (System Size kW * 1000) / Panel Wattage
+        const numPanels = Math.ceil((systemSizeKw * 1000) / wattage);
+
+        document.getElementById('res-size')!.textContent = systemSizeKw.toFixed(2) + " kW";
+        document.getElementById('res-panels')!.textContent = numPanels.toString();
+      }
+
+      document.getElementById('results-section')?.classList.remove('hidden');
+      document.getElementById('result-summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      btn?.removeAttribute('data-loading');
+    }, 200);
+  });
+</script>

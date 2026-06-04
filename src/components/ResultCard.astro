@@ -1,0 +1,65 @@
+---
+interface ResultItem {
+  label: string;
+  value: string;
+  accent?: boolean;
+}
+
+interface Props {
+  items: ResultItem[];
+  id?: string;
+}
+
+const { items, id = 'result-card' } = Astro.props;
+---
+
+<div
+  id={id}
+  class="hidden rounded-lg p-6 border animate-slide-up"
+  style={`
+    background-color: var(--color-peach);
+    border-color: var(--color-border);
+    border-radius: 16px;
+  `}
+>
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+    <!-- Result items are populated by JavaScript -->
+  </div>
+
+  <!-- Utility Buttons -->
+  <div class="flex flex-wrap gap-3 mt-6 pt-6" style="border-top: 1px solid var(--color-border);">
+    <button
+      class="copy-result-btn flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border transition-all hover:bg-sky-light hover:border-sky"
+      style="border-color: var(--color-border); border-radius: 8px;"
+      aria-label="Copy results"
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+      </svg>
+      <span>Copy</span>
+    </button>
+    <button
+      class="share-result-btn flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border transition-all hover:bg-sky-light hover:border-sky"
+      style="border-color: var(--color-border); border-radius: 8px;"
+      aria-label="Share results"
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="18" cy="5" r="3"/>
+        <circle cx="6" cy="12" r="3"/>
+        <circle cx="18" cy="19" r="3"/>
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+      </svg>
+      <span>Share</span>
+    </button>
+  </div>
+</div>
+
+<style>
+  .dark #result-card,
+  .dark [id$="-result-card"] {
+    background-color: var(--color-dark-surface);
+    border-color: var(--color-dark-border);
+  }
+</style>

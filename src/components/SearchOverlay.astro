@@ -1,0 +1,247 @@
+---
+---
+
+<div
+  id="search-overlay"
+  class="search-overlay-bg hidden fixed inset-0 z-[100] flex items-start justify-center pt-[15vh] bg-[#0a0a0f]/95"
+  style="backdrop-filter: blur(8px);"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Search tools"
+>
+  <div class="w-full max-w-2xl px-6 relative">
+    <!-- Close hint -->
+    <div class="flex justify-end mb-4">
+      <span class="text-xs text-zinc-500 font-mono">
+        Press <kbd class="px-1.5 py-0.5 ml-1 text-xs rounded border border-zinc-700 bg-zinc-800 text-zinc-300">ESC</kbd> to close
+      </span>
+    </div>
+
+    <!-- Search Input -->
+    <div class="relative mb-8 group">
+      <div class="absolute inset-0 bg-[#ff6b35]/20 blur-xl rounded-full opacity-0 group-focus-within:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+      <svg class="absolute left-6 top-1/2 -translate-y-1/2 text-[#ff6b35]" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input
+        id="search-input"
+        type="text"
+        placeholder="SEARCH_TOOLS..."
+        class="w-full pl-16 pr-6 py-5 text-2xl md:text-3xl font-medium bg-[#0d0d14] border border-white/[0.1] rounded-xl text-white focus:outline-none focus:border-[#ff6b35] transition-all shadow-2xl placeholder-zinc-600"
+        autocomplete="off"
+        style="font-family: 'JetBrains Mono', monospace;"
+      />
+    </div>
+
+    <!-- Results -->
+    <ul id="search-results" class="space-y-2 max-h-[50vh] overflow-y-auto m-0 p-0 list-none custom-scrollbar">
+      <!-- Populated by JS -->
+    </ul>
+  </div>
+</div>
+
+<script>
+  const tools = [
+    {
+      title: 'Compound Interest',
+      url: '/finance/compound-interest',
+      category: 'Finance',
+      keywords: ['investing', 'growth', 'savings', 'interest', 'wealth', 'money', 'finance', 'compound'],
+      icon: '📈'
+    },
+    {
+      title: 'TDEE Calculator',
+      url: '/health/tdee-calculator',
+      category: 'Health',
+      keywords: ['calories', 'diet', 'weight loss', 'maintenance', 'bmr', 'energy', 'health', 'fitness'],
+      icon: '⚡'
+    },
+    {
+      title: 'Concrete Slab',
+      url: '/trades/concrete-slab',
+      category: 'Trades',
+      keywords: ['construction', 'concrete', 'volume', 'bags', 'building', 'slab', 'patio', 'driveway'],
+      icon: '🏗️'
+    },
+    {
+      title: 'Scientific Calculator',
+      url: '/math/scientific-calculator',
+      category: 'Math',
+      keywords: ['math', 'trigonometry', 'logarithm', 'pi', 'equations', 'calc', 'scientific'],
+      icon: '📐'
+    },
+    {
+      title: 'Simple Interest',
+      url: '/finance/simple-interest',
+      category: 'Finance',
+      keywords: ['loans', 'borrowing', 'interest', 'simple', 'finance', 'money', 'principal'],
+      icon: '📊'
+    },
+    {
+      title: 'Cash-on-Cash Return',
+      url: '/finance/cash-on-cash-return',
+      category: 'Finance',
+      keywords: ['real estate', 'property', 'investing', 'roi', 'cash flow', 'yield', 'finance'],
+      icon: '🏠'
+    }
+  ];
+
+  const overlay = document.getElementById('search-overlay');
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  const resultsContainer = document.getElementById('search-results');
+  let selectedIndex = -1;
+
+  function renderResults(query: string) {
+    const q = query.toLowerCase().trim();
+    
+    const filtered = q
+      ? tools.filter(t => 
+          t.title.toLowerCase().includes(q) || 
+          t.keywords.some(k => k.toLowerCase().includes(q))
+        )
+      : tools;
+
+    if (!resultsContainer) return;
+
+    if (filtered.length === 0 && q) {
+      resultsContainer.innerHTML = `
+        <li class="text-center py-12 text-zinc-500 font-mono">
+          <p class="text-lg mb-2">ERR_NO_MATCH</p>
+          <p class="text-sm">Query "${query}" returned 0 results.</p>
+        </li>
+      `;
+      return;
+    }
+
+    // Group by category
+    const groups: Record<string, typeof tools> = {};
+    filtered.forEach(t => {
+      if (!groups[t.category]) groups[t.category] = [];
+      groups[t.category].push(t);
+    });
+
+    let html = '';
+    let idx = 0;
+    for (const [category, categoryTools] of Object.entries(groups)) {
+      html += `<li class="mb-6">
+        <h3 class="text-xs font-bold uppercase tracking-widest text-[#ff6b35] mb-3 px-3 font-mono border-b border-[#ff6b35]/20 pb-1 inline-block">${category}</h3>
+        <ul class="space-y-2">`;
+      for (const tool of categoryTools) {
+        html += `
+          <li>
+            <a href="${tool.url}" class="search-result flex items-center gap-4 px-4 py-3 rounded-lg border border-transparent transition-all duration-200 hover:bg-white/[0.03] hover:border-white/[0.08]" data-index="${idx}">
+              <span class="text-xl bg-white/[0.05] p-2 rounded">${tool.icon}</span>
+              <div class="flex flex-col">
+                <span class="font-medium text-white font-mono">${tool.title}</span>
+                <span class="text-xs text-zinc-500 font-mono hidden sm:block">${tool.url}</span>
+              </div>
+            </a>
+          </li>`;
+        idx++;
+      }
+      html += `</ul></li>`;
+    }
+    resultsContainer.innerHTML = html;
+    selectedIndex = -1;
+  }
+
+  function updateSelection() {
+    const items = resultsContainer?.querySelectorAll('.search-result') || [];
+    items.forEach((el, i) => {
+      if (i === selectedIndex) {
+        el.classList.add('bg-white/[0.05]', 'border-white/[0.1]');
+        el.classList.remove('border-transparent');
+      } else {
+        el.classList.remove('bg-white/[0.05]', 'border-white/[0.1]');
+        el.classList.add('border-transparent');
+      }
+    });
+  }
+
+  function openSearch() {
+    overlay?.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    renderResults('');
+    // Slight delay to ensure element is visible before focusing
+    setTimeout(() => searchInput?.focus(), 50);
+  }
+
+  function closeSearch() {
+    overlay?.classList.add('hidden');
+    if (searchInput) searchInput.value = '';
+    if (resultsContainer) resultsContainer.innerHTML = '';
+    document.body.style.overflow = '';
+  }
+
+  // Input handler
+  searchInput?.addEventListener('input', () => {
+    renderResults(searchInput.value);
+  });
+
+  // Keyboard navigation within search
+  searchInput?.addEventListener('keydown', (e) => {
+    const items = resultsContainer?.querySelectorAll('.search-result') || [];
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+      updateSelection();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      selectedIndex = Math.max(selectedIndex - 1, -1);
+      updateSelection();
+    } else if (e.key === 'Enter' && selectedIndex >= 0) {
+      e.preventDefault();
+      const selected = items[selectedIndex] as HTMLAnchorElement;
+      if (selected) window.location.href = selected.href;
+    }
+  });
+
+  // Global Ctrl+K / Cmd+K handler
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      if (overlay?.classList.contains('hidden')) {
+        openSearch();
+      } else {
+        closeSearch();
+      }
+    }
+    
+    // Close on ESC
+    if (e.key === 'Escape' && overlay && !overlay.classList.contains('hidden')) {
+      e.preventDefault();
+      closeSearch();
+    }
+  });
+
+  // Close on backdrop click
+  overlay?.addEventListener('click', (e) => {
+    if (e.target === overlay) closeSearch();
+  });
+
+  // When opened via Header button, render initial results
+  const observer = new MutationObserver(() => {
+    if (overlay && !overlay.classList.contains('hidden')) {
+      renderResults(searchInput?.value || '');
+      document.body.style.overflow = 'hidden';
+    }
+  });
+
+  if (overlay) {
+    observer.observe(overlay, { attributes: true, attributeFilter: ['class'] });
+  }
+</script>
+
+<style>
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+</style>

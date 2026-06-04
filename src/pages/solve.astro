@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SearchOverlay from '../components/SearchOverlay.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import UniversalSolver from '../components/react/UniversalSolver.jsx';
+
+// Since this page handles no post requests itself, it can be static,
+// but the API endpoint /api/solve.ts requires SSR to build if we export POST.
+// For now, this is a standard Astro page.
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "The Universal Solver",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+};
+---
+
+<BaseLayout
+  title="The Universal Solver | SolversPro"
+  description="You think a problem, we solve it. Type any math, science, or logic problem below for an instant, step-by-step solution."
+  canonical="https://solverspro.com/solve"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12 md:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Universal Solver' },
+      ]} />
+
+      <div class="max-w-3xl mx-auto mt-4">
+        <!-- Hero Section -->
+        <div class="mb-10 text-center">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#ff6b35]/10 text-[#2dd4bf] mb-6 shadow-sm border border-blue-100">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+          </div>
+          <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
+            The Universal Solver
+          </h1>
+          <p class="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+            You think a problem, we solve it. Type any math, science, or logic problem below to see the engine in action.
+          </p>
+        </div>
+
+        <!-- React App Mounted as an Island -->
+        <UniversalSolver client:load />
+
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

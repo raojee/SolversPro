@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SearchOverlay from '../components/SearchOverlay.astro';
+---
+
+<BaseLayout
+  title="About Us | SolversPro"
+  description="You think a problem, we solve it. SolversPro offers 100% free, fast, and secure utilities."
+>
+  <Header />
+  <SearchOverlay />
+  
+  <main class="flex-1 py-16 px-6">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">About SolversPro</h1>
+      <div class="prose prose-lg text-zinc-400">
+        <p class="text-xl font-medium text-white mb-6">
+          You think a problem, we solve it. 100% free, fast, and secure utilities.
+        </p>
+        <p class="mb-4">
+          SolversPro was built with a simple mission: to provide the fastest, most reliable, and easiest-to-use tools on the internet. Whether you are a student, a professional, or someone looking to make quick calculations for your personal life, our platform is designed to get out of your way and deliver instant results.
+        </p>
+        <p class="mb-4">
+          We believe that basic utilities shouldn't be locked behind paywalls, bogged down by intrusive advertisements, or demand your personal data. That's why the vast majority of our tools—from our financial calculators to our developer utilities—run entirely in your browser. For advanced tasks requiring our Universal AI Solver, we securely transmit your queries to industry-leading AI models without storing your data on our servers.
+        </p>
+        <p class="mb-4">
+          From complex financial projections to quick health metrics, our directory is constantly expanding. We are dedicated to building a comprehensive suite of utilities that you can rely on every single day.
+        </p>
+      </div>
+    </div>
+  </main>
+  
+  <Footer />
+</BaseLayout>

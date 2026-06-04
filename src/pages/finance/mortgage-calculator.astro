@@ -1,0 +1,214 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import InputField from '../../components/InputField.astro';
+import SelectField from '../../components/SelectField.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Mortgage Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any"
+};
+
+const faqItems = [
+  {
+    question: "How is the monthly payment calculated?",
+    answer: "The monthly payment is calculated using the standard amortization formula. It accounts for the principal amount (home price minus down payment), the interest rate divided by 12, and the total number of monthly payments."
+  }
+];
+---
+
+<BaseLayout
+  title="Mortgage Calculator | SolversPro"
+  description="Calculate your monthly mortgage payments and view amortization schedules."
+  canonical="https://solverspro.com/finance/mortgage-calculator"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Finance', href: '/finance' },
+        { label: 'Mortgage Calculator' },
+      ]} />
+
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Mortgage Calculator</h1>
+        <p class="text-lg text-zinc-400">Estimate your monthly mortgage payments and total interest.</p>
+      </div>
+
+      <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8" id="calculator-form">
+        <SelectField
+          label="Currency"
+          name="currency"
+          id="select-currency"
+          value="USD"
+          options={[
+            { value: 'USD', label: 'USD ($)' },
+            { value: 'EUR', label: 'EUR (€)' },
+            { value: 'GBP', label: 'GBP (£)' }
+          ]}
+        />
+        <InputField label="Home Price" name="homePrice" prefix="$" value={350000} min={0} step={1000} placeholder="350,000" />
+        <InputField label="Down Payment" name="downPayment" prefix="$" value={70000} min={0} step={1000} placeholder="70,000" />
+        <InputField label="Loan Term (Years)" name="years" value={30} min={1} max={50} step={1} placeholder="30" />
+        <InputField label="Interest Rate (%)" name="annualRate" suffix="%" value={6.5} min={0.1} max={30} step={0.1} placeholder="6.5" />
+
+        <div class="mt-6">
+          <CalculateButton text="Calculate Payment" icon="🏠" id="calculate-btn" />
+        </div>
+      </form>
+
+      <!-- Results -->
+      <div id="results-section" class="hidden space-y-8 mb-12 max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02] flex flex-col justify-center">
+            <div class="mb-6">
+              <p class="label mb-1 text-sm font-medium text-zinc-500 uppercase tracking-wider">Estimated Monthly Payment</p>
+              <p class="text-4xl font-bold text-[#ff6b35]" id="result-monthly">$0</p>
+            </div>
+            <div class="space-y-4">
+              <div class="flex justify-between border-b border-white/[0.05] pb-2">
+                <span class="text-zinc-400">Principal Amount</span>
+                <span class="text-white font-bold" id="result-principal">$0</span>
+              </div>
+              <div class="flex justify-between border-b border-white/[0.05] pb-2">
+                <span class="text-zinc-400">Total Interest Paid</span>
+                <span class="text-[#2dd4bf] font-bold" id="result-total-interest">$0</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-zinc-400">Total Cost of Loan</span>
+                <span class="text-white font-bold" id="result-total-cost">$0</span>
+              </div>
+            </div>
+          </div>
+          <div class="result-surface p-6 rounded-xl border bg-white/[0.02] flex items-center justify-center min-h-[300px]">
+            <canvas id="mortgageChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const CURRENCIES = { USD: '$', EUR: '€', GBP: '£' };
+  let chartInstance: any = null;
+
+  function formatCurrency(n: number): string {
+    const currencyCode = (document.getElementById('select-currency') as HTMLSelectElement)?.value || 'USD';
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency', currency: currencyCode, minimumFractionDigits: 0, maximumFractionDigits: 0,
+    }).format(n);
+  }
+
+  function updateInputPrefixes() {
+    const currencyCode = (document.getElementById('select-currency') as HTMLSelectElement)?.value || 'USD';
+    const symbol = CURRENCIES[currencyCode as keyof typeof CURRENCIES] || '$';
+    
+    ['input-homePrice', 'input-downPayment'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        const wrapper = el.closest('.relative');
+        const prefixEl = wrapper?.querySelector('.prefix-el');
+        if (prefixEl) prefixEl.textContent = symbol;
+      }
+    });
+    if (!document.getElementById('results-section')?.classList.contains('hidden')) calculate();
+  }
+
+  document.getElementById('select-currency')?.addEventListener('change', (e) => {
+    localStorage.setItem('preferredCurrency', (e.target as HTMLSelectElement).value);
+    updateInputPrefixes();
+  });
+
+  function calculate() {
+    const homePrice = parseFloat((document.getElementById('input-homePrice') as HTMLInputElement)?.value) || 0;
+    const downPayment = parseFloat((document.getElementById('input-downPayment') as HTMLInputElement)?.value) || 0;
+    const annualRate = parseFloat((document.getElementById('input-annualRate') as HTMLInputElement)?.value) || 0;
+    const years = parseFloat((document.getElementById('input-years') as HTMLInputElement)?.value) || 0;
+
+    const principal = homePrice - downPayment;
+    if (principal <= 0 || years <= 0) return;
+
+    const btn = document.getElementById('calculate-btn');
+    btn?.setAttribute('data-loading', 'true');
+
+    setTimeout(() => {
+      const r = (annualRate / 100) / 12;
+      const n = years * 12;
+      
+      let M = 0;
+      if (r === 0) {
+        M = principal / n;
+      } else {
+        M = principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+      }
+      
+      const totalCost = M * n;
+      const totalInterest = totalCost - principal;
+
+      document.getElementById('result-monthly')!.textContent = formatCurrency(M);
+      document.getElementById('result-principal')!.textContent = formatCurrency(principal);
+      document.getElementById('result-total-interest')!.textContent = formatCurrency(totalInterest);
+      document.getElementById('result-total-cost')!.textContent = formatCurrency(totalCost);
+
+      updateChart(principal, totalInterest);
+
+      document.getElementById('results-section')?.classList.remove('hidden');
+      btn?.removeAttribute('data-loading');
+    }, 300);
+  }
+
+  function updateChart(principal: number, interest: number) {
+    const ctx = document.getElementById('mortgageChart') as HTMLCanvasElement;
+    if (!ctx) return;
+    
+    // @ts-ignore
+    if (chartInstance) chartInstance.destroy();
+    
+    // @ts-ignore
+    chartInstance = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Principal', 'Total Interest'],
+        datasets: [{
+          data: [principal, interest],
+          backgroundColor: ['#ffffff', '#2dd4bf'],
+          borderWidth: 0,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom', labels: { color: '#a1a1aa', padding: 20, font: { family: "'JetBrains Mono', monospace" } } }
+        },
+        cutout: '75%'
+      }
+    });
+  }
+
+  document.getElementById('calculator-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    calculate();
+  });
+
+  const savedCurrency = localStorage.getItem('preferredCurrency');
+  const currencySelect = document.getElementById('select-currency') as HTMLSelectElement;
+  if (savedCurrency && currencySelect) currencySelect.value = savedCurrency;
+  if (currencySelect) updateInputPrefixes();
+</script>

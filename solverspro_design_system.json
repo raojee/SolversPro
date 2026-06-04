@@ -1,0 +1,97 @@
+{
+  "brand": {
+    "name": "SolversPro",
+    "tagline": "Solve Anything. Instantly.",
+    "domains": [
+      "solverspro.com"
+    ],
+    "positioning": "Multi-vertical problem solver platform \u2014 Finance, Health, Math, Trades"
+  },
+  "color_palette": {
+    "primary": "#FFF9D2",
+    "secondary": "#FFEBCC",
+    "accent": "#8CC0EB",
+    "accent_deep": "#5A9FD4",
+    "highlight": "#BFDDF0",
+    "text_primary": "#1a1a2e",
+    "text_secondary": "#4a4a5e",
+    "text_muted": "#7a7a8e",
+    "text_on_accent": "#ffffff",
+    "border": "#e0d5c0",
+    "success": "#22c55e",
+    "warning": "#f59e0b",
+    "danger": "#ef4444",
+    "dark_bg": "#1a1a2e",
+    "dark_surface": "#252540"
+  },
+  "typography": {
+    "primary_font": "Inter",
+    "secondary_font": "Geist",
+    "headings": {
+      "h1": "48px / 700 / -0.02em letter-spacing / Inter",
+      "h2": "36px / 600 / -0.01em / Inter",
+      "h3": "24px / 600 / 0 / Inter",
+      "h4": "18px / 600 / 0 / Inter"
+    },
+    "body": {
+      "large": "18px / 400 / 1.6 / Inter",
+      "regular": "16px / 400 / 1.6 / Inter",
+      "small": "14px / 400 / 1.5 / Inter",
+      "caption": "12px / 500 / 1.4 / Geist / uppercase / 0.05em tracking"
+    }
+  },
+  "layout": {
+    "max_width": "1200px",
+    "grid": "12-column",
+    "gutter": "24px",
+    "border_radius": {
+      "small": "8px",
+      "medium": "12px",
+      "large": "16px",
+      "pill": "999px"
+    },
+    "shadows": {
+      "card": "0 2px 8px rgba(26, 26, 46, 0.06)",
+      "card_hover": "0 8px 24px rgba(26, 26, 46, 0.1)",
+      "button": "0 2px 4px rgba(140, 192, 235, 0.3)"
+    }
+  },
+  "components": {
+    "button_primary": {
+      "bg": "#8CC0EB",
+      "text": "#ffffff",
+      "hover_bg": "#5A9FD4",
+      "border_radius": "12px",
+      "padding": "12px 24px",
+      "font": "16px / 600 / Inter"
+    },
+    "button_secondary": {
+      "bg": "transparent",
+      "border": "2px solid #8CC0EB",
+      "text": "#8CC0EB",
+      "hover_bg": "rgba(140, 192, 235, 0.1)"
+    },
+    "card": {
+      "bg": "#FFEBCC",
+      "border": "1px solid #e0d5c0",
+      "border_radius": "16px",
+      "padding": "24px",
+      "shadow": "0 2px 8px rgba(26, 26, 46, 0.06)"
+    },
+    "input": {
+      "bg": "#ffffff",
+      "border": "2px solid #e0d5c0",
+      "border_focus": "2px solid #8CC0EB",
+      "border_radius": "12px",
+      "padding": "12px 16px",
+      "placeholder": "#7a7a8e"
+    },
+    "badge": {
+      "bg": "#BFDDF0",
+      "text": "#1a1a2e",
+      "border_radius": "999px",
+      "padding": "4px 12px",
+      "font": "12px / 600 / Geist / uppercase"
+    }
+  }
+}

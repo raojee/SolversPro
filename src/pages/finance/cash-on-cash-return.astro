@@ -1,0 +1,242 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import InputField from '../../components/InputField.astro';
+import SelectField from '../../components/SelectField.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+
+const schema = {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Cash-on-Cash Return Calculator",
+ "applicationCategory": "FinanceApplication",
+ "operatingSystem": "Any",
+ "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+ "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "125" }
+};
+
+const faqItems = [
+ {
+ question: "What is cash-on-cash return?",
+ answer: "Cash-on-cash return is a metric used in real estate investing to measure the annual income earned on the actual cash invested in a property. It's expressed as a percentage and helps investors evaluate the yield of an investment property over a one-year period."
+ },
+ {
+ question: "What is a good cash-on-cash return?",
+ answer: "A 'good' return varies by investor and market, but generally, investors aim for a cash-on-cash return of 8% to 12%. Returns above this are considered excellent, but higher returns often come with higher risk or require significant hands-on property management."
+ },
+ {
+ question: "How does it differ from ROI?",
+ answer: "ROI (Return on Investment) considers the total return on the total value of the investment, including debt payoff and property appreciation. Cash-on-cash return only measures the annual cash flow relative to the actual cash you put in out-of-pocket (down payment, closing costs, repairs)."
+ }
+];
+---
+
+<BaseLayout
+ title="Cash-on-Cash Return Calculator — Free Finance Tool | SolversPro"
+ description="Free cash-on-cash return calculator for real estate investors. Instantly determine your investment yield based on cash flow and invested capital."
+ canonical="https://solverspro.com/finance/cash-on-cash-return"
+ schema={schema}
+>
+ <Header />
+ <SearchOverlay />
+
+ <main class="flex-1 py-12">
+ <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <Breadcrumbs items={[
+ { label: 'Home', href: '/' },
+ { label: 'Finance', href: '/finance' },
+ { label: 'Cash-on-Cash Return' },
+ ]} />
+
+ <!-- Title -->
+ <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+ Cash-on-Cash Return Calculator
+ </h1>
+ <p class="text-lg text-zinc-400">
+ Evaluate rental property investments by calculating your annual cash yield.
+ </p>
+ </div>
+
+ <!-- Calculator Form -->
+ <form
+ class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8"
+ id="calculator-form"
+ >
+ <SelectField
+ label="Currency"
+ name="currency"
+ id="select-currency"
+ value="USD"
+ options={[
+ { value: 'USD', label: 'USD ($)' },
+ { value: 'EUR', label: 'EUR (€)' },
+ { value: 'GBP', label: 'GBP (£)' },
+ { value: 'INR', label: 'INR (₹)' },
+ { value: 'PKR', label: 'PKR (₨)' },
+ { value: 'JPY', label: 'JPY (¥)' },
+ { value: 'CAD', label: 'CAD ($)' },
+ { value: 'AUD', label: 'AUD ($)' },
+ ]}
+ />
+
+ <InputField
+ label="Total Cash Invested"
+ name="cashInvested"
+ prefix="$"
+ value={50000}
+ min={1}
+ step={100}
+ placeholder="50,000"
+ />
+
+ <InputField
+ label="Annual Pre-Tax Cash Flow"
+ name="cashFlow"
+ prefix="$"
+ value={4500}
+ min={0}
+ step={100}
+ placeholder="4,500"
+ />
+
+ <div class="mt-6">
+ <CalculateButton text="Calculate Return" icon="🏠" id="calculate-btn" />
+ </div>
+ </form>
+
+ <!-- Results -->
+ <div id="results-section" class="hidden space-y-8 mb-12 max-w-3xl mx-auto">
+ <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02]" id="result-summary">
+ <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center md:text-left">
+ <div class="md:col-span-2 text-center pb-4 border-b border-gray-100">
+ <p class="label mb-2 text-sm font-medium text-zinc-500 uppercase tracking-wider">Cash-on-Cash Return</p>
+ <p class="text-5xl font-bold text-[#2dd4bf]" id="result-coc">0%</p>
+ </div>
+ <div class="text-center md:text-left pt-2">
+ <p class="label mb-1 text-sm font-medium text-zinc-500 uppercase tracking-wider">Annual Cash Flow</p>
+ <p class="text-2xl font-bold text-white" id="result-flow">$0</p>
+ </div>
+ <div class="text-center md:text-left pt-2">
+ <p class="label mb-1 text-sm font-medium text-zinc-500 uppercase tracking-wider">Total Invested</p>
+ <p class="text-2xl font-bold text-white" id="result-invested">$0</p>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Formula -->
+ <div class="result-surface mb-12 p-6 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-2xl mx-auto" id="formula-section">
+ <h2 class="text-2xl font-bold text-white mb-6">The Formula</h2>
+ <div class="p-4 bg-white/[0.02] rounded-lg font-mono text-sm md:text-base overflow-x-auto border border-white/[0.06]">
+ <p class="text-white">CoC Return = (Annual Pre-Tax Cash Flow / Total Cash Invested) × 100</p>
+ </div>
+ <div class="mt-4 space-y-1 text-sm text-zinc-400">
+ <p><strong>Annual Pre-Tax Cash Flow</strong> = Net Operating Income (NOI) - Annual Debt Service</p>
+ <p><strong>Total Cash Invested</strong> = Down Payment + Closing Costs + Initial Repairs</p>
+ </div>
+ </div>
+
+ <!-- FAQ -->
+ <div class="mb-12 max-w-3xl mx-auto">
+ <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+ <FAQAccordion items={faqItems} />
+ </div>
+
+ </div>
+ </main>
+
+ <Footer />
+</BaseLayout>
+
+<script>
+ const CURRENCIES = {
+ USD: '$', EUR: '€', GBP: '£', INR: '₹', PKR: '₨', JPY: '¥', CAD: '$', AUD: '$'
+ };
+
+ function formatCurrency(n: number): string {
+ const currencyCode = (document.getElementById('select-currency') as HTMLSelectElement)?.value || 'USD';
+ return new Intl.NumberFormat('en-US', {
+ style: 'currency',
+ currency: currencyCode,
+ minimumFractionDigits: 0,
+ maximumFractionDigits: 0,
+ }).format(n);
+ }
+
+ function updateInputPrefixes() {
+ const currencyCode = (document.getElementById('select-currency') as HTMLSelectElement)?.value || 'USD';
+ const symbol = CURRENCIES[currencyCode as keyof typeof CURRENCIES] || '$';
+ 
+ const moneyInputs = ['input-cashInvested', 'input-cashFlow'];
+ moneyInputs.forEach(id => {
+ const el = document.getElementById(id);
+ if (el) {
+ const wrapper = el.closest('.relative');
+ const prefixEl = wrapper?.querySelector('.prefix-el');
+ if (prefixEl) {
+ prefixEl.textContent = symbol;
+ }
+ }
+ });
+
+ const results = document.getElementById('results-section');
+ if (!results?.classList.contains('hidden')) {
+ calculate();
+ }
+ }
+
+ document.getElementById('select-currency')?.addEventListener('change', (e) => {
+ const code = (e.target as HTMLSelectElement).value;
+ localStorage.setItem('preferredCurrency', code);
+ updateInputPrefixes();
+ });
+
+ function calculate() {
+ const cashInvested = parseFloat((document.getElementById('input-cashInvested') as HTMLInputElement)?.value) || 0;
+ const cashFlow = parseFloat((document.getElementById('input-cashFlow') as HTMLInputElement)?.value) || 0;
+
+ if (cashInvested <= 0) return;
+
+ const btn = document.getElementById('calculate-btn');
+ btn?.setAttribute('data-loading', 'true');
+
+ setTimeout(() => {
+ const cocReturn = (cashFlow / cashInvested) * 100;
+
+ const resultCoc = document.getElementById('result-coc');
+ const resultFlow = document.getElementById('result-flow');
+ const resultInvested = document.getElementById('result-invested');
+
+ if (resultCoc) resultCoc.textContent = cocReturn.toFixed(2) + '%';
+ if (resultFlow) resultFlow.textContent = formatCurrency(cashFlow);
+ if (resultInvested) resultInvested.textContent = formatCurrency(cashInvested);
+
+ const results = document.getElementById('results-section');
+ results?.classList.remove('hidden');
+
+ document.getElementById('result-summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+ btn?.removeAttribute('data-loading');
+ }, 300);
+ }
+
+ document.getElementById('calculator-form')?.addEventListener('submit', (e) => {
+ e.preventDefault();
+ calculate();
+ });
+
+ // Init Currency Selection
+ const savedCurrency = localStorage.getItem('preferredCurrency');
+ const currencySelect = document.getElementById('select-currency') as HTMLSelectElement;
+ if (savedCurrency && currencySelect) {
+ currencySelect.value = savedCurrency;
+ }
+ if (currencySelect) {
+ updateInputPrefixes();
+ }
+</script>

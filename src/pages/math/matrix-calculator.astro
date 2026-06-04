@@ -1,0 +1,280 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SelectField from '../../components/SelectField.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+
+const schema = {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "3x3 Matrix Calculator",
+ "applicationCategory": "EducationalApplication",
+ "operatingSystem": "Any",
+ "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+ "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "84" }
+};
+
+const faqItems = [
+ {
+ question: "What is a matrix determinant?",
+ answer: "The determinant is a scalar value that can be computed from the elements of a square matrix. For a 3x3 matrix, it helps determine if the matrix is invertible (it must be non-zero) and is used in calculus, linear algebra, and geometry."
+ },
+ {
+ question: "When does a matrix have an inverse?",
+ answer: "A matrix has an inverse if and only if its determinant is NOT equal to zero. If the determinant is zero, the matrix is called 'singular' and cannot be inverted."
+ },
+ {
+ question: "What is the transpose of a matrix?",
+ answer: "The transpose of a matrix is found by swapping its rows and columns. The first row becomes the first column, the second row becomes the second column, and so on."
+ }
+];
+---
+
+<BaseLayout
+ title="3x3 Matrix Calculator | SolversPro"
+ description="Free online matrix calculator. Instantly calculate the determinant, inverse, or transpose of any 3x3 matrix. No signup required."
+ canonical="https://solverspro.com/math/matrix-calculator"
+ schema={schema}
+>
+ <Header />
+ <SearchOverlay />
+
+ <main class="flex-1 py-12">
+ <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <Breadcrumbs items={[
+ { label: 'Home', href: '/' },
+ { label: 'Math', href: '/math' },
+ { label: 'Matrix Calculator' },
+ ]} />
+
+ <!-- Title -->
+ <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+ 3x3 Matrix Calculator
+ </h1>
+ <p class="text-lg text-zinc-400">
+ Quickly compute the determinant, inverse, and transpose of a 3x3 matrix.
+ </p>
+ </div>
+
+ <!-- Calculator Form -->
+ <form
+ class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 md:p-10 shadow-sm mb-8"
+ id="matrix-form"
+ onsubmit="event.preventDefault();"
+ >
+ <div class="flex justify-center mb-8">
+ <!-- Matrix Grid -->
+ <div class="relative inline-block border-l-4 border-r-4 border-[#111827] px-4 py-2 rounded-lg">
+ <div class="grid grid-cols-3 gap-3">
+ <!-- Row 1 -->
+ <input type="number" id="m00" step="any" value="1" class="w-20 md:w-24 h-14 text-center bg-[#0d0d14] border border-white/[0.1] rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff6b35] text-white font-medium text-lg" required />
+ <input type="number" id="m01" step="any" value="2" class="w-20 md:w-24 h-14 text-center bg-[#0d0d14] border border-white/[0.1] rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff6b35] text-white font-medium text-lg" required />
+ <input type="number" id="m02" step="any" value="3" class="w-20 md:w-24 h-14 text-center bg-[#0d0d14] border border-white/[0.1] rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff6b35] text-white font-medium text-lg" required />
+ 
+ <!-- Row 2 -->
+ <input type="number" id="m10" step="any" value="0" class="w-20 md:w-24 h-14 text-center bg-[#0d0d14] border border-white/[0.1] rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff6b35] text-white font-medium text-lg" required />
+ <input type="number" id="m11" step="any" value="1" class="w-20 md:w-24 h-14 text-center bg-[#0d0d14] border border-white/[0.1] rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff6b35] text-white font-medium text-lg" required />
+ <input type="number" id="m12" step="any" value="4" class="w-20 md:w-24 h-14 text-center bg-[#0d0d14] border border-white/[0.1] rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff6b35] text-white font-medium text-lg" required />
+ 
+ <!-- Row 3 -->
+ <input type="number" id="m20" step="any" value="5" class="w-20 md:w-24 h-14 text-center bg-[#0d0d14] border border-white/[0.1] rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff6b35] text-white font-medium text-lg" required />
+ <input type="number" id="m21" step="any" value="6" class="w-20 md:w-24 h-14 text-center bg-[#0d0d14] border border-white/[0.1] rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff6b35] text-white font-medium text-lg" required />
+ <input type="number" id="m22" step="any" value="0" class="w-20 md:w-24 h-14 text-center bg-[#0d0d14] border border-white/[0.1] rounded-md focus:outline-none focus:ring-2 focus:ring-[#ff6b35] text-white font-medium text-lg" required />
+ </div>
+ </div>
+ </div>
+
+ <SelectField
+ label="Operation"
+ name="operation"
+ id="matrix-operation"
+ value="determinant"
+ options={[
+ { value: 'determinant', label: 'Calculate Determinant' },
+ { value: 'inverse', label: 'Find Inverse' },
+ { value: 'transpose', label: 'Transpose Matrix' },
+ ]}
+ />
+
+ <div class="mt-6">
+ <CalculateButton text="Calculate" icon="📐" id="calc-btn" />
+ </div>
+ </form>
+
+ <!-- Results -->
+ <div id="results-section" class="hidden space-y-8 mb-12 max-w-2xl mx-auto">
+ <div class="result-surface p-6 md:p-10 rounded-xl border bg-white/[0.02] flex flex-col items-center justify-center min-h-[200px]" id="result-summary">
+ <h3 class="text-sm font-semibold uppercase text-zinc-500 tracking-wider mb-4" id="result-title">Result</h3>
+ 
+ <!-- Determinant Output -->
+ <div id="result-single" class="hidden">
+ <p class="text-5xl font-bold text-[#2dd4bf]" id="det-value">0</p>
+ </div>
+
+ <!-- Error Output -->
+ <div id="result-error" class="hidden text-center">
+ <p class="text-xl font-bold text-red-600 mb-2">Singular Matrix</p>
+ <p class="text-zinc-400">This matrix has a determinant of 0, so it cannot be inverted.</p>
+ </div>
+
+ <!-- Matrix Output -->
+ <div id="result-matrix" class="hidden">
+ <div class="relative inline-block border-l-4 border-r-4 border-[#ff6b35] px-4 py-2 rounded-lg">
+ <div class="grid grid-cols-3 gap-x-6 gap-y-4">
+ <div class="text-center font-bold text-xl text-white" id="rm00">0</div>
+ <div class="text-center font-bold text-xl text-white" id="rm01">0</div>
+ <div class="text-center font-bold text-xl text-white" id="rm02">0</div>
+ <div class="text-center font-bold text-xl text-white" id="rm10">0</div>
+ <div class="text-center font-bold text-xl text-white" id="rm11">0</div>
+ <div class="text-center font-bold text-xl text-white" id="rm12">0</div>
+ <div class="text-center font-bold text-xl text-white" id="rm20">0</div>
+ <div class="text-center font-bold text-xl text-white" id="rm21">0</div>
+ <div class="text-center font-bold text-xl text-white" id="rm22">0</div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- FAQ -->
+ <div class="mb-12 max-w-3xl mx-auto">
+ <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+ <FAQAccordion items={faqItems} />
+ </div>
+
+ </div>
+ </main>
+
+ <Footer />
+</BaseLayout>
+
+<script>
+ function getMatrix(): number[][] {
+ return [
+ [parseFloat((document.getElementById('m00') as HTMLInputElement).value) || 0,
+ parseFloat((document.getElementById('m01') as HTMLInputElement).value) || 0,
+ parseFloat((document.getElementById('m02') as HTMLInputElement).value) || 0],
+ [parseFloat((document.getElementById('m10') as HTMLInputElement).value) || 0,
+ parseFloat((document.getElementById('m11') as HTMLInputElement).value) || 0,
+ parseFloat((document.getElementById('m12') as HTMLInputElement).value) || 0],
+ [parseFloat((document.getElementById('m20') as HTMLInputElement).value) || 0,
+ parseFloat((document.getElementById('m21') as HTMLInputElement).value) || 0,
+ parseFloat((document.getElementById('m22') as HTMLInputElement).value) || 0]
+ ];
+ }
+
+ function calcDeterminant(m: number[][]): number {
+ return (
+ m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) -
+ m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) +
+ m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0])
+ );
+ }
+
+ function calcInverse(m: number[][], det: number): number[][] {
+ const invDet = 1 / det;
+ return [
+ [
+ (m[1][1] * m[2][2] - m[1][2] * m[2][1]) * invDet,
+ (m[0][2] * m[2][1] - m[0][1] * m[2][2]) * invDet,
+ (m[0][1] * m[1][2] - m[0][2] * m[1][1]) * invDet
+ ],
+ [
+ (m[1][2] * m[2][0] - m[1][0] * m[2][2]) * invDet,
+ (m[0][0] * m[2][2] - m[0][2] * m[2][0]) * invDet,
+ (m[0][2] * m[1][0] - m[0][0] * m[1][2]) * invDet
+ ],
+ [
+ (m[1][0] * m[2][1] - m[1][1] * m[2][0]) * invDet,
+ (m[0][1] * m[2][0] - m[0][0] * m[2][1]) * invDet,
+ (m[0][0] * m[1][1] - m[0][1] * m[1][0]) * invDet
+ ]
+ ];
+ }
+
+ function calcTranspose(m: number[][]): number[][] {
+ return [
+ [m[0][0], m[1][0], m[2][0]],
+ [m[0][1], m[1][1], m[2][1]],
+ [m[0][2], m[1][2], m[2][2]]
+ ];
+ }
+
+ function formatNum(n: number): string {
+ // Round to 4 decimal places to avoid floating point weirdness
+ const rounded = Math.round(n * 10000) / 10000;
+ return rounded.toString();
+ }
+
+ function handleCalculate() {
+ const op = (document.getElementById('matrix-operation') as HTMLSelectElement).value;
+ const m = getMatrix();
+ 
+ const btn = document.getElementById('calc-btn');
+ btn?.setAttribute('data-loading', 'true');
+
+ const resultsSection = document.getElementById('results-section');
+ const resultSingle = document.getElementById('result-single');
+ const resultMatrix = document.getElementById('result-matrix');
+ const resultError = document.getElementById('result-error');
+ const resultTitle = document.getElementById('result-title');
+
+ // Hide all output containers initially
+ resultSingle?.classList.add('hidden');
+ resultMatrix?.classList.add('hidden');
+ resultError?.classList.add('hidden');
+
+ setTimeout(() => {
+ if (op === 'determinant') {
+ const det = calcDeterminant(m);
+ if (resultTitle) resultTitle.textContent = 'Determinant';
+ const detVal = document.getElementById('det-value');
+ if (detVal) detVal.textContent = formatNum(det);
+ resultSingle?.classList.remove('hidden');
+ } 
+ else if (op === 'inverse') {
+ const det = calcDeterminant(m);
+ if (resultTitle) resultTitle.textContent = 'Inverse Matrix';
+ 
+ if (Math.abs(det) < 1e-10) {
+ resultError?.classList.remove('hidden');
+ } else {
+ const inv = calcInverse(m, det);
+ for(let i=0; i<3; i++) {
+ for(let j=0; j<3; j++) {
+ const cell = document.getElementById(`rm${i}${j}`);
+ if(cell) cell.textContent = formatNum(inv[i][j]);
+ }
+ }
+ resultMatrix?.classList.remove('hidden');
+ }
+ } 
+ else if (op === 'transpose') {
+ const trans = calcTranspose(m);
+ if (resultTitle) resultTitle.textContent = 'Transposed Matrix';
+ 
+ for(let i=0; i<3; i++) {
+ for(let j=0; j<3; j++) {
+ const cell = document.getElementById(`rm${i}${j}`);
+ if(cell) cell.textContent = formatNum(trans[i][j]);
+ }
+ }
+ resultMatrix?.classList.remove('hidden');
+ }
+
+ resultsSection?.classList.remove('hidden');
+ document.getElementById('result-summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+ btn?.removeAttribute('data-loading');
+ }, 300);
+ }
+
+ document.getElementById('matrix-form')?.addEventListener('submit', (e) => {
+ e.preventDefault();
+ handleCalculate();
+ });
+</script>

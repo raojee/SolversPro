@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PdfMerger from '../../components/react/PdfMerger.jsx';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "PDF Merger",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Combine multiple PDF files into one instantly. 100% secure—your files never leave your browser."
+};
+---
+
+<BaseLayout
+  title="Merge PDFs Online — 100% Free & Secure | SolversPro"
+  description="Combine multiple PDF files into one instantly. 100% secure—your files never leave your browser. Fast, free, and no sign-up required."
+  canonical="https://solverspro.com/tools/pdf-merger"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Tools', href: '/tools' },
+        { label: 'PDF Merger' },
+      ]} />
+
+      <div class="max-w-3xl mx-auto">
+        <div class="mb-8 text-center">
+          <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+            Merge PDFs Online
+          </h1>
+          <p class="text-lg text-zinc-400">
+            Combine multiple PDF files into one instantly. <br class="hidden sm:block" />
+            <span class="font-semibold text-[#2dd4bf]">100% secure</span>—your files never leave your browser.
+          </p>
+        </div>
+
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 md:p-10 shadow-sm mb-12">
+          <PdfMerger client:load />
+        </div>
+        
+        <div class="mb-12">
+          <h2 class="text-2xl font-bold text-white mb-6 text-center">How It Works</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="text-center p-4">
+              <div class="w-12 h-12 rounded-full bg-[#ff6b35]/10 flex items-center justify-center text-[#2dd4bf] font-bold mx-auto mb-4 text-xl">1</div>
+              <h3 class="font-semibold text-white mb-2">Upload Files</h3>
+              <p class="text-sm text-zinc-500">Drag and drop your PDFs into the upload zone or click to select them from your device.</p>
+            </div>
+            <div class="text-center p-4">
+              <div class="w-12 h-12 rounded-full bg-[#ff6b35]/10 flex items-center justify-center text-[#2dd4bf] font-bold mx-auto mb-4 text-xl">2</div>
+              <h3 class="font-semibold text-white mb-2">Review & Merge</h3>
+              <p class="text-sm text-zinc-500">Check the list of files to merge. Click the "Merge PDFs" button to start the process instantly.</p>
+            </div>
+            <div class="text-center p-4">
+              <div class="w-12 h-12 rounded-full bg-[#ff6b35]/10 flex items-center justify-center text-[#2dd4bf] font-bold mx-auto mb-4 text-xl">3</div>
+              <h3 class="font-semibold text-white mb-2">Download Safe</h3>
+              <p class="text-sm text-zinc-500">Your merged file downloads immediately. Processing happens directly in your browser.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

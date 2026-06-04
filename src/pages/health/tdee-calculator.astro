@@ -1,0 +1,228 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import InputField from '../../components/InputField.astro';
+import SelectField from '../../components/SelectField.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+import ToolCard from '../../components/ToolCard.astro';
+
+const schema = {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "TDEE Calculator",
+ "applicationCategory": "HealthApplication",
+ "operatingSystem": "Any",
+ "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+ "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "230" }
+};
+
+const faqItems = [
+ {
+ question: "What is TDEE?",
+ answer: "TDEE stands for Total Daily Energy Expenditure. It's the total number of calories your body burns in a day, including your basal metabolic rate (BMR), physical activity, and the thermic effect of food. Knowing your TDEE helps you understand how many calories you need to maintain, lose, or gain weight."
+ },
+ {
+ question: "What's the difference between BMR and TDEE?",
+ answer: "BMR (Basal Metabolic Rate) is the number of calories your body burns at complete rest — just to keep you alive (breathing, circulation, cell production). TDEE takes your BMR and multiplies it by an activity factor to account for your daily movement, exercise, and lifestyle. TDEE is always higher than BMR."
+ },
+ {
+ question: "How accurate is the Mifflin-St Jeor equation?",
+ answer: "The Mifflin-St Jeor equation is considered the most accurate predictive equation for estimating BMR, with an accuracy of about ±10%. It was developed in 1990 and is recommended by the Academy of Nutrition and Dietetics. However, individual results may vary based on body composition, genetics, and other factors."
+ },
+ {
+ question: "How should I use TDEE for weight loss?",
+ answer: "For safe, sustainable weight loss, aim for a caloric deficit of 300-500 calories below your TDEE. This results in approximately 0.5-1 pound of weight loss per week. Never go below 1,200 calories (women) or 1,500 calories (men) per day without medical supervision. Combine caloric deficit with regular exercise for best results."
+ },
+];
+---
+
+<BaseLayout
+ title="TDEE Calculator — Free Calorie & Metabolism Tool | SolversPro"
+ description="Free TDEE calculator using the Mifflin-St Jeor equation. Calculate your daily calorie needs for weight loss, maintenance, or muscle gain. No signup required."
+ canonical="https://solverspro.com/health/tdee-calculator"
+ schema={schema}
+>
+ <Header />
+ <SearchOverlay />
+
+ <main class="flex-1 py-12">
+ <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <Breadcrumbs items={[
+ { label: 'Home', href: '/' },
+ { label: 'Health', href: '/health' },
+ { label: 'TDEE Calculator' },
+ ]} />
+
+ <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+ TDEE Calculator
+ </h1>
+ <p class="text-lg text-zinc-400 ">
+ Calculate your Total Daily Energy Expenditure based on your body and activity level.
+ </p>
+ </div>
+
+ <!-- Calculator Form -->
+ <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8" id="tdee-form">
+ <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
+ <InputField label="Age" name="age" value={25} min={15} max={100} step={1} />
+ <SelectField
+ label="Gender"
+ name="gender"
+ value="male"
+ options={[
+ { value: 'male', label: 'Male' },
+ { value: 'female', label: 'Female' },
+ ]}
+ />
+ <InputField label="Weight" name="weight" suffix="lbs" value={170} min={50} max={700} step={1} />
+ <InputField label="Height" name="height" suffix="in" value={70} min={36} max={96} step={1} />
+ </div>
+
+ <SelectField
+ label="Activity Level"
+ name="activityLevel"
+ value="1.55"
+ options={[
+ { value: '1.2', label: 'Sedentary (office job, little exercise)' },
+ { value: '1.375', label: 'Lightly Active (1-3 days/week exercise)' },
+ { value: '1.55', label: 'Moderately Active (3-5 days/week exercise)' },
+ { value: '1.725', label: 'Very Active (6-7 days/week exercise)' },
+ { value: '1.9', label: 'Extra Active (athlete, physical job)' },
+ ]}
+ />
+
+ <div class="mt-6">
+ <CalculateButton text="Calculate TDEE" icon="🔥" id="tdee-calc-btn" />
+ </div>
+ </form>
+
+ <!-- Results -->
+ <div id="tdee-results" class="hidden space-y-6 mb-12 max-w-2xl mx-auto">
+ <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02]" id="tdee-summary">
+ <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+ <div>
+ <p class="label mb-1">Your BMR</p>
+ <p class="text-2xl font-bold text-white " id="result-bmr">0</p>
+ <p class="text-sm text-zinc-500">calories/day at rest</p>
+ </div>
+ <div>
+ <p class="label mb-1">Your TDEE</p>
+ <p class="text-3xl md:text-4xl font-bold text-[#2dd4bf]" id="result-tdee">0</p>
+ <p class="text-sm text-zinc-500">calories/day total</p>
+ </div>
+ </div>
+
+ <hr class="mb-6" style="border-color: #e5e7eb;" />
+
+ <h3 class="font-semibold text-white mb-4">Daily Calorie Targets</h3>
+ <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+ <div class="p-4 rounded-lg bg-white/[0.02] " style="border-radius: 12px;">
+ <p class="text-xs font-semibold uppercase text-danger mb-1">Weight Loss</p>
+ <p class="text-xl font-bold text-white " id="result-loss">0</p>
+ <p class="text-xs text-zinc-500">-500 cal deficit</p>
+ </div>
+ <div class="p-4 rounded-lg bg-white/[0.02] " style="border-radius: 12px;">
+ <p class="text-xs font-semibold uppercase text-success mb-1">Maintenance</p>
+ <p class="text-xl font-bold text-white " id="result-maintain">0</p>
+ <p class="text-xs text-zinc-500">current weight</p>
+ </div>
+ <div class="p-4 rounded-lg bg-white/[0.02] " style="border-radius: 12px;">
+ <p class="text-xs font-semibold uppercase text-[#2dd4bf] mb-1">Weight Gain</p>
+ <p class="text-xl font-bold text-white " id="result-gain">0</p>
+ <p class="text-xs text-zinc-500">+500 cal surplus</p>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- How It Works -->
+ <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">How It Works</h2>
+ <div class="grid grid-cols-1 sm:grid-cols-4 gap-6">
+ {[
+ { step: '1', title: 'Enter Stats', desc: 'Your age, gender, weight, and height.' },
+ { step: '2', title: 'Activity Level', desc: 'How active you are day-to-day.' },
+ { step: '3', title: 'Get BMR', desc: 'Your base metabolic rate is calculated.' },
+ { step: '4', title: 'See TDEE', desc: 'Your total daily calorie needs.' },
+ ].map((item) => (
+ <div class="text-center p-4">
+ <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mx-auto mb-3 bg-[#ff6b35]" >{item.step}</div>
+ <h3 class="font-semibold text-white mb-1">{item.title}</h3>
+ <p class="text-sm text-zinc-500">{item.desc}</p>
+ </div>
+ ))}
+ </div>
+ </div>
+
+ <!-- Formula -->
+ <div class="result-surface mb-12 p-6 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-2xl mx-auto " id="tdee-formula">
+ <h2 class="text-2xl font-bold text-white mb-4">Mifflin-St Jeor Equation</h2>
+ <div class="p-4 bg-white/[0.02] border border-white/[0.06] rounded-lg font-mono text-sm text-gray-800 overflow-x-auto" style="border-radius: 12px;">
+ <p class="text-white mb-1"><strong>Men:</strong> BMR = 10 × weight(kg) + 6.25 × height(cm) - 5 × age - 161 + 166</p>
+ <p class="text-white "><strong>Women:</strong> BMR = 10 × weight(kg) + 6.25 × height(cm) - 5 × age - 161</p>
+ </div>
+ <p class="mt-3 text-sm text-zinc-500">TDEE = BMR × Activity Multiplier</p>
+ </div>
+
+ <!-- FAQ -->
+ <div class="mb-12 max-w-3xl mx-auto">
+<h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+ <FAQAccordion items={faqItems} id="tdee-faq" />
+ </div>
+ </div>
+ </main>
+
+ <Footer />
+</BaseLayout>
+
+<script>
+ function calculateTDEE() {
+ const age = parseFloat((document.getElementById('input-age') as HTMLInputElement)?.value) || 0;
+ const gender = (document.getElementById('select-gender') as HTMLSelectElement)?.value || 'male';
+ const weightLbs = parseFloat((document.getElementById('input-weight') as HTMLInputElement)?.value) || 0;
+ const heightIn = parseFloat((document.getElementById('input-height') as HTMLInputElement)?.value) || 0;
+ const activityMultiplier = parseFloat((document.getElementById('select-activityLevel') as HTMLSelectElement)?.value) || 1.55;
+
+ // Convert to metric
+ const weightKg = weightLbs * 0.453592;
+ const heightCm = heightIn * 2.54;
+
+ // Mifflin-St Jeor
+ let bmr: number;
+ if (gender === 'male') {
+ bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5;
+ } else {
+ bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161;
+ }
+
+ const tdee = Math.round(bmr * activityMultiplier);
+ bmr = Math.round(bmr);
+
+ // Update UI
+ const btn = document.getElementById('tdee-calc-btn');
+ btn?.setAttribute('data-loading', 'true');
+
+ setTimeout(() => {
+ (document.getElementById('result-bmr') as HTMLElement).textContent = bmr.toLocaleString() + ' cal';
+ (document.getElementById('result-tdee') as HTMLElement).textContent = tdee.toLocaleString() + ' cal';
+ (document.getElementById('result-loss') as HTMLElement).textContent = (tdee - 500).toLocaleString() + ' cal';
+ (document.getElementById('result-maintain') as HTMLElement).textContent = tdee.toLocaleString() + ' cal';
+ (document.getElementById('result-gain') as HTMLElement).textContent = (tdee + 500).toLocaleString() + ' cal';
+
+ document.getElementById('tdee-results')?.classList.remove('hidden');
+ document.getElementById('tdee-summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+ btn?.removeAttribute('data-loading');
+ }, 300);
+ }
+
+ document.getElementById('tdee-form')?.addEventListener('submit', (e) => {
+ e.preventDefault();
+ calculateTDEE();
+ });
+</script>

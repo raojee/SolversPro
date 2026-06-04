@@ -1,0 +1,87 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  canonical?: string;
+  ogImage?: string;
+  schema?: object;
+}
+
+const {
+  title = 'SolversPro — Solve Anything. Instantly.',
+  description = 'Free problem solvers for finance, health, math, and trades. No signup. No ads. 100% private.',
+  canonical,
+  ogImage = '/og-image.png',
+  schema,
+} = Astro.props;
+
+const canonicalUrl = canonical || Astro.url.href;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
+
+  <!-- SEO -->
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalUrl} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:site_name" content="SolversPro" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1a1a2e" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/src/styles/global.css" />
+
+  <!-- Schema.org -->
+  {schema && (
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  )}
+
+  <!-- Website Schema -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "SolversPro",
+      "url": "https://solverspro.com",
+      "description": "Free problem solvers for finance, health, math, and trades.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://solverspro.com/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+
+
+</head>
+<body class="min-h-screen flex flex-col bg-[#0a0a0f] text-zinc-400">
+  <slot />
+</body>
+</html>

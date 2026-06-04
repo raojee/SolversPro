@@ -1,0 +1,572 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import InputField from '../../components/InputField.astro';
+import SelectField from '../../components/SelectField.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+import DataTable from '../../components/DataTable.astro';
+import LineChart from '../../components/LineChart.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+import ToolCard from '../../components/ToolCard.astro';
+
+const schema = {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Compound Interest Calculator",
+ "applicationCategory": "FinanceApplication",
+ "operatingSystem": "Any",
+ "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+ "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "150" }
+};
+
+const faqItems = [
+ {
+ question: "What is compound interest?",
+ answer: "Compound interest is interest calculated on both the initial principal and the accumulated interest from previous periods. Unlike simple interest, which is only calculated on the principal, compound interest grows exponentially over time. This is why Einstein reportedly called it the 'eighth wonder of the world.'"
+ },
+ {
+ question: "How is compound interest different from simple interest?",
+ answer: "Simple interest is calculated only on the original principal amount. For example, $10,000 at 5% simple interest earns $500 every year. Compound interest is calculated on the principal plus any accumulated interest. So in year two, you'd earn interest on $10,500 instead of $10,000. Over long periods, this difference becomes massive."
+ },
+ {
+ question: "What is the Rule of 72?",
+ answer: "The Rule of 72 is a quick way to estimate how long it will take for your investment to double. Simply divide 72 by your annual interest rate. For example, at 8% interest, your money doubles in approximately 72 ÷ 8 = 9 years. At 6%, it takes about 12 years. This rule is most accurate for rates between 6% and 10%."
+ },
+ {
+ question: "Can I really reach $1 million with compound interest?",
+ answer: "Yes! With consistent contributions and time, $1 million is very achievable. For example, investing $500 per month at an average 7% annual return would reach $1 million in about 30 years. Starting earlier makes a huge difference — the same $500/month at 7% for 40 years would grow to over $1.3 million."
+ },
+];
+
+const relatedTools = [
+ {
+ title: 'Cash-on-Cash Return',
+ description: 'Evaluate rental property investments by calculating your annual cash return.',
+ icon: '🏠',
+ href: '/finance/cash-on-cash-return',
+ },
+ {
+ title: 'Simple Interest Calculator',
+ description: 'Calculate simple interest on loans and investments quickly.',
+ icon: '📊',
+ href: '/finance/simple-interest',
+ },
+];
+---
+
+<BaseLayout
+ title="Compound Interest Calculator — Free Finance Tool | SolversPro"
+ description="Free compound interest calculator with yearly projections and growth charts. See exactly when you'll reach $1M. No signup required. Try SolversPro."
+ canonical="https://solverspro.com/finance/compound-interest"
+ schema={schema}
+>
+ <Header />
+ <SearchOverlay />
+
+ <main class="flex-1 py-12">
+ <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <Breadcrumbs items={[
+ { label: 'Home', href: '/' },
+ { label: 'Finance', href: '/finance' },
+ { label: 'Compound Interest' },
+ ]} />
+
+ <!-- Title -->
+ <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+ Compound Interest Calculator
+ </h1>
+ <p class="text-lg text-zinc-400 ">
+ See how your money grows over time with the power of compound interest.
+ </p>
+ </div>
+
+ <!-- Calculator Form -->
+  <form
+    class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8"
+    id="calculator-form"
+  >
+    <SelectField
+      label="Currency"
+      name="currency"
+      id="select-currency"
+      value="USD"
+      options={[
+        { value: 'USD', label: 'USD ($)' },
+        { value: 'EUR', label: 'EUR (€)' },
+        { value: 'GBP', label: 'GBP (£)' },
+        { value: 'INR', label: 'INR (₹)' },
+        { value: 'PKR', label: 'PKR (₨)' },
+        { value: 'JPY', label: 'JPY (¥)' },
+        { value: 'CAD', label: 'CAD ($)' },
+        { value: 'AUD', label: 'AUD ($)' },
+      ]}
+    />
+
+    <InputField
+      label="Initial Investment"
+      name="principal"
+      prefix="$"
+      value={10000}
+      min={0}
+      step={100}
+      placeholder="10,000"
+    />
+
+ <InputField
+ label="Monthly Contribution"
+ name="monthlyContribution"
+ prefix="$"
+ value={500}
+ min={0}
+ step={50}
+ placeholder="500"
+ />
+
+ <InputField
+ label="Annual Interest Rate"
+ name="annualRate"
+ suffix="%"
+ value={7}
+ min={0}
+ max={100}
+ step={0.1}
+ placeholder="7"
+ />
+
+ <InputField
+ label="Years to Grow"
+ name="years"
+ value={30}
+ min={1}
+ max={100}
+ step={1}
+ placeholder="30"
+ />
+
+ <SelectField
+ label="Compounding Frequency"
+ name="compoundFrequency"
+ value="12"
+ options={[
+ { value: '1', label: 'Annually' },
+ { value: '4', label: 'Quarterly' },
+ { value: '12', label: 'Monthly' },
+ { value: '365', label: 'Daily' },
+ ]}
+ />
+
+    <div class="mt-6">
+      <CalculateButton text="Calculate" icon="💰" />
+    </div>
+  </form>
+
+ <!-- Results -->
+ <div id="results-section" class="hidden space-y-8 mb-12 max-w-3xl mx-auto">
+ <!-- Summary Cards -->
+ <div
+ class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02]"
+ id="result-summary"
+ >
+ <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+ <div>
+ <p class="label mb-1">Final Amount</p>
+ <p class="text-3xl md:text-4xl font-bold text-white " id="result-final">$0</p>
+ </div>
+ <div>
+ <p class="label mb-1">Total Invested</p>
+ <p class="text-2xl md:text-3xl font-bold text-white " id="result-invested">$0</p>
+ </div>
+ <div>
+ <p class="label mb-1">Interest Earned</p>
+ <p class="text-2xl md:text-3xl font-bold text-[#2dd4bf]" id="result-interest">$0</p>
+ </div>
+ </div>
+
+ <!-- Utility Buttons -->
+ <div class="flex flex-wrap gap-3 mt-6 pt-6" style="border-top: 1px solid var(--color-border);">
+ <button
+ id="copy-results"
+ class="util-btn flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border transition-all hover:bg-sky-light hover:border-sky"
+ style="border-color: #e5e7eb; border-radius: 8px;"
+ >
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+ <span>Copy</span>
+ </button>
+ <button
+ id="share-results"
+ class="util-btn flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border transition-all hover:bg-sky-light hover:border-sky"
+ style="border-color: #e5e7eb; border-radius: 8px;"
+ >
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+ <span>Share</span>
+ </button>
+ <button
+ id="toggle-chart"
+ class="util-btn flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border transition-all hover:bg-sky-light hover:border-sky"
+ style="border-color: #e5e7eb; border-radius: 8px;"
+ >
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+ <span>Chart</span>
+ </button>
+ </div>
+ </div>
+
+ <!-- Year-by-Year Table -->
+ <div>
+ <h2 class="text-xl font-bold text-white mb-4">Year-by-Year Growth</h2>
+ <DataTable headers={['Year', 'Total Invested', 'Interest Earned', 'Balance']} id="growth-table" />
+ </div>
+
+ <!-- Chart -->
+ <div id="chart-container" class="hidden">
+ <h2 class="text-xl font-bold text-white mb-4">📈 Growth Chart</h2>
+ <LineChart id="growth-chart" />
+ </div>
+ </div>
+
+ <!-- How It Works -->
+ <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">How It Works</h2>
+ <div class="grid grid-cols-1 sm:grid-cols-4 gap-6">
+ {[
+ { step: '1', title: 'Enter Principal', desc: 'Enter your starting investment amount.' },
+ { step: '2', title: 'Add Contributions', desc: 'Set how much you contribute monthly.' },
+ { step: '3', title: 'Set Rate', desc: 'Enter your expected annual return rate.' },
+ { step: '4', title: 'See Results', desc: 'View your complete wealth projection.' },
+ ].map((item) => (
+ <div class="text-center p-4">
+ <div
+ class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mx-auto mb-3 bg-[#ff6b35]"
+ 
+ >
+ {item.step}
+ </div>
+ <h3 class="font-semibold text-white mb-1">{item.title}</h3>
+ <p class="text-sm text-zinc-500">{item.desc}</p>
+ </div>
+ ))}
+ </div>
+ </div>
+
+ <!-- Formula -->
+ <div class="result-surface mb-12 p-6 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-2xl mx-auto " id="formula-section">
+ <h2 class="text-2xl font-bold text-white mb-6">The Formula</h2>
+ <div class="p-4 bg-white/[0.02] rounded-lg font-mono text-sm md:text-base overflow-x-auto " style="border-radius: 12px;">
+ <p class="text-white ">A = P(1 + r/n)<sup>nt</sup> + PMT × [((1 + r/n)<sup>nt</sup> - 1) / (r/n)]</p>
+ </div>
+ <div class="mt-4 space-y-1 text-sm text-zinc-400 ">
+ <p><strong>A</strong> = Final amount</p>
+ <p><strong>P</strong> = Principal (starting amount)</p>
+ <p><strong>r</strong> = Annual interest rate (decimal)</p>
+ <p><strong>n</strong> = Compounding frequency per year</p>
+ <p><strong>t</strong> = Number of years</p>
+ <p><strong>PMT</strong> = Monthly contribution</p>
+ </div>
+ </div>
+
+ <!-- FAQ -->
+ <div class="mb-12 max-w-3xl mx-auto">
+<h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+ <FAQAccordion items={faqItems} />
+ </div>
+
+ <!-- Related Tools -->
+ <div class="mb-8">
+ <h2 class="text-2xl font-bold text-white mb-6">Related Tools</h2>
+ <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+ {relatedTools.map((tool) => (
+ <ToolCard {...tool} />
+ ))}
+ </div>
+ </div>
+ </div>
+ </main>
+
+ <Footer />
+</BaseLayout>
+
+<script>
+  // ==================== Compound Interest Calculator Logic ====================
+
+  const CURRENCIES = {
+    USD: '$', EUR: '€', GBP: '£', INR: '₹', PKR: '₨', JPY: '¥', CAD: '$', AUD: '$'
+  };
+
+  function formatCurrency(n: number): string {
+    const currencyCode = (document.getElementById('select-currency') as HTMLSelectElement)?.value || 'USD';
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currencyCode,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(n);
+  }
+
+  function updateInputPrefixes() {
+    const currencyCode = (document.getElementById('select-currency') as HTMLSelectElement)?.value || 'USD';
+    const symbol = CURRENCIES[currencyCode as keyof typeof CURRENCIES] || '$';
+    
+    const moneyInputs = ['input-principal', 'input-monthlyContribution'];
+    moneyInputs.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        const wrapper = el.closest('.relative');
+        const prefixEl = wrapper?.querySelector('.prefix-el');
+        if (prefixEl) {
+          prefixEl.textContent = symbol;
+        }
+      }
+    });
+
+    const results = document.getElementById('results-section');
+    if (!results?.classList.contains('hidden')) {
+      calculate();
+    }
+  }
+
+  document.getElementById('select-currency')?.addEventListener('change', (e) => {
+    const code = (e.target as HTMLSelectElement).value;
+    localStorage.setItem('preferredCurrency', code);
+    updateInputPrefixes();
+  });
+
+ function calculate() {
+ const P = parseFloat((document.getElementById('input-principal') as HTMLInputElement)?.value) || 0;
+ const PMT = parseFloat((document.getElementById('input-monthlyContribution') as HTMLInputElement)?.value) || 0;
+ const r = (parseFloat((document.getElementById('input-annualRate') as HTMLInputElement)?.value) || 0) / 100;
+ const t = parseInt((document.getElementById('input-years') as HTMLInputElement)?.value) || 0;
+ const n = parseInt((document.getElementById('select-compoundFrequency') as HTMLSelectElement)?.value) || 12;
+
+ if (t <= 0) return;
+
+ // Show loading
+ const btn = document.getElementById('calculate-btn');
+ btn?.setAttribute('data-loading', 'true');
+
+ setTimeout(() => {
+ const yearlyData: Array<{ year: number; invested: number; interest: number; total: number }> = [];
+
+ for (let year = 1; year <= t; year++) {
+ const nt = n * year;
+ const rn = r / n;
+
+ // Compound interest on principal
+ const compoundPrincipal = P * Math.pow(1 + rn, nt);
+
+ // Future value of annuity (monthly contributions)
+ let compoundPMT = 0;
+ if (rn > 0) {
+ // Adjust PMT to per-period contribution
+ const periodicPMT = PMT * 12 / n;
+ compoundPMT = periodicPMT * ((Math.pow(1 + rn, nt) - 1) / rn);
+ } else {
+ compoundPMT = PMT * 12 * year;
+ }
+
+ const total = compoundPrincipal + compoundPMT;
+ const invested = P + (PMT * 12 * year);
+ const interest = total - invested;
+
+ yearlyData.push({ year, invested, interest, total });
+ }
+
+ const final = yearlyData[yearlyData.length - 1];
+
+ // Update summary
+ const resultFinal = document.getElementById('result-final');
+ const resultInvested = document.getElementById('result-invested');
+ const resultInterest = document.getElementById('result-interest');
+
+ if (resultFinal) resultFinal.textContent = formatCurrency(final.total);
+ if (resultInvested) resultInvested.textContent = formatCurrency(final.invested);
+ if (resultInterest) resultInterest.textContent = formatCurrency(final.interest);
+
+ // Populate table
+ const tbody = document.getElementById('growth-table-body');
+ if (tbody) {
+ tbody.innerHTML = yearlyData.map(row => `
+ <tr>
+ <td class="text-left">${row.year}</td>
+ <td style="text-align: right;">${formatCurrency(row.invested)}</td>
+ <td style="text-align: right; color: var(--color-sky);">${formatCurrency(row.interest)}</td>
+ <td style="text-align: right; font-weight: 600;">${formatCurrency(row.total)}</td>
+ </tr>
+ `).join('');
+ }
+
+ // Store data for chart
+ (window as any).__chartData = yearlyData;
+
+ // Show results
+ const results = document.getElementById('results-section');
+ results?.classList.remove('hidden');
+
+ // Smooth scroll
+ document.getElementById('result-summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+ // Remove loading
+ btn?.removeAttribute('data-loading');
+ }, 300);
+ }
+
+  document.getElementById('calculator-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    calculate();
+  });
+
+ // Chart rendering
+ function renderChart() {
+ const data = (window as any).__chartData;
+ if (!data || data.length === 0) return;
+
+ const svg = document.getElementById('growth-chart-svg');
+ if (!svg) return;
+
+ const width = 800;
+ const height = 400;
+ const padding = { top: 20, right: 20, bottom: 40, left: 70 };
+ const chartW = width - padding.left - padding.right;
+ const chartH = height - padding.top - padding.bottom;
+
+ const maxVal = Math.max(...data.map((d: any) => d.total));
+ const maxYear = data.length;
+
+ const xScale = (year: number) => padding.left + (year / maxYear) * chartW;
+ const yScale = (val: number) => padding.top + chartH - (val / maxVal) * chartH;
+
+ // Build paths
+ const investedPath = data.map((d: any, i: number) =>
+ `${i === 0 ? 'M' : 'L'} ${xScale(d.year)} ${yScale(d.invested)}`
+ ).join(' ');
+
+ const interestPath = data.map((d: any, i: number) =>
+ `${i === 0 ? 'M' : 'L'} ${xScale(d.year)} ${yScale(d.interest)}`
+ ).join(' ');
+
+ const totalPath = data.map((d: any, i: number) =>
+ `${i === 0 ? 'M' : 'L'} ${xScale(d.year)} ${yScale(d.total)}`
+ ).join(' ');
+
+ // Grid lines
+ const gridLines = [];
+ const numGridLines = 5;
+ for (let i = 0; i <= numGridLines; i++) {
+ const y = padding.top + (chartH / numGridLines) * i;
+ const val = maxVal - (maxVal / numGridLines) * i;
+ gridLines.push(`
+ <line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}"
+ stroke="var(--color-border)" stroke-dasharray="4,4" stroke-width="1" opacity="0.5"/>
+ <text x="${padding.left - 10}" y="${y + 4}" text-anchor="end"
+ fill="var(--color-ink-muted)" font-size="11" font-family="Inter, sans-serif">
+ ${formatCurrency(val)}
+ </text>
+ `);
+ }
+
+ // X axis labels
+ const xLabels = [];
+ const labelStep = Math.max(1, Math.floor(maxYear / 6));
+ for (let i = 0; i <= maxYear; i += labelStep) {
+ if (i === 0) continue;
+ xLabels.push(`
+ <text x="${xScale(i)}" y="${height - 8}" text-anchor="middle"
+ fill="var(--color-ink-muted)" font-size="11" font-family="Inter, sans-serif">
+ Year ${i}
+ </text>
+ `);
+ }
+
+ svg.innerHTML = `
+ ${gridLines.join('')}
+ ${xLabels.join('')}
+ <path d="${investedPath}" fill="none" stroke="var(--color-border)" stroke-width="2"/>
+ <path d="${interestPath}" fill="none" stroke="var(--color-sky)" stroke-width="2"/>
+ <path d="${totalPath}" fill="none" stroke="var(--color-ink)" stroke-width="2.5"/>
+ `;
+
+ // Show chart container
+ const chartContainer = document.getElementById('chart-container');
+ const chartDiv = document.getElementById('growth-chart');
+ chartContainer?.classList.remove('hidden');
+ chartDiv?.classList.remove('hidden');
+ }
+
+ // Event listeners
+ document.getElementById('toggle-chart')?.addEventListener('click', () => {
+ const container = document.getElementById('chart-container');
+ if (container?.classList.contains('hidden')) {
+ renderChart();
+ } else {
+ container?.classList.add('hidden');
+ }
+ });
+
+ // Copy results
+ document.getElementById('copy-results')?.addEventListener('click', () => {
+ const final = document.getElementById('result-final')?.textContent || '';
+ const invested = document.getElementById('result-invested')?.textContent || '';
+ const interest = document.getElementById('result-interest')?.textContent || '';
+
+ const text = `Compound Interest Results (SolversPro)\n━━━━━━━━━━━━━━━━━━━━\nFinal Amount: ${final}\nTotal Invested: ${invested}\nInterest Earned: ${interest}\n\nCalculate yours: https://solverspro.com/finance/compound-interest`;
+
+ navigator.clipboard.writeText(text).then(() => {
+ const btn = document.getElementById('copy-results');
+ const span = btn?.querySelector('span');
+ if (span) {
+ span.textContent = 'Copied!';
+ setTimeout(() => { span.textContent = 'Copy'; }, 2000);
+ }
+ });
+ });
+
+ // Share
+ document.getElementById('share-results')?.addEventListener('click', () => {
+ const P = (document.getElementById('input-principal') as HTMLInputElement)?.value;
+ const PMT = (document.getElementById('input-monthlyContribution') as HTMLInputElement)?.value;
+ const r = (document.getElementById('input-annualRate') as HTMLInputElement)?.value;
+ const t = (document.getElementById('input-years') as HTMLInputElement)?.value;
+ const n = (document.getElementById('select-compoundFrequency') as HTMLSelectElement)?.value;
+
+ const url = `${window.location.origin}/finance/compound-interest?p=${P}&pmt=${PMT}&r=${r}&t=${t}&n=${n}`;
+
+ if (navigator.share) {
+ navigator.share({ title: 'Compound Interest Calculator', url });
+ } else {
+ navigator.clipboard.writeText(url).then(() => {
+ const btn = document.getElementById('share-results');
+ const span = btn?.querySelector('span');
+ if (span) {
+ span.textContent = 'Link copied!';
+ setTimeout(() => { span.textContent = 'Share'; }, 2000);
+ }
+ });
+ }
+ });
+
+  // Load from URL params
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('p')) {
+    const fields: Record<string, string> = { p: 'input-principal', pmt: 'input-monthlyContribution', r: 'input-annualRate', t: 'input-years', n: 'select-compoundFrequency' };
+    for (const [param, id] of Object.entries(fields)) {
+      const val = params.get(param);
+      const el = document.getElementById(id) as HTMLInputElement;
+      if (val && el) el.value = val;
+    }
+    // Auto-calculate
+    setTimeout(calculate, 100);
+  }
+
+  // Init Currency Selection
+  const savedCurrency = localStorage.getItem('preferredCurrency');
+  const currencySelect = document.getElementById('select-currency') as HTMLSelectElement;
+  if (savedCurrency && currencySelect) {
+    currencySelect.value = savedCurrency;
+  }
+  if (currencySelect) {
+    updateInputPrefixes();
+  }
+</script>

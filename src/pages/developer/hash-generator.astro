@@ -1,0 +1,138 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Hash Generator",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Any"
+};
+---
+
+<BaseLayout
+  title="Hash Generator | SolversPro"
+  description="Generate cryptographic hashes like SHA-1, SHA-256, SHA-384, and SHA-512 instantly from any text."
+  canonical="https://solverspro.com/developer/hash-generator"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Developer', href: '/developer' },
+        { label: 'Hash Generator' },
+      ]} />
+
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Hash Generator</h1>
+        <p class="text-lg text-zinc-400">Securely generate cryptographic hashes from your text. Runs locally in your browser.</p>
+      </div>
+
+      <div class="flex flex-col lg:flex-row gap-6 w-full min-h-[500px]">
+        {/* Input Side */}
+        <div class="flex-1 flex flex-col gap-4">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Input Text</h2>
+          </div>
+          <textarea
+            id="input-text"
+            class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#ff6b35] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[300px]"
+            placeholder="Type or paste your text here..."
+            spellcheck="false"
+          ></textarea>
+        </div>
+
+        {/* Output Side */}
+        <div class="flex-1 flex flex-col gap-4">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Generated Hashes</h2>
+          </div>
+          <div class="flex-1 w-full p-6 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl overflow-y-auto space-y-6">
+            
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-blue-400">SHA-1</h3>
+                <span class="text-xs text-zinc-500 font-mono">40 chars</span>
+              </div>
+              <input type="text" id="hash-sha1" readonly class="w-full bg-[#0d0d14] p-3 rounded-lg border border-white/[0.05] font-mono text-sm text-zinc-300 focus:outline-none focus:ring-1 focus:ring-blue-500" />
+            </div>
+
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-green-400">SHA-256</h3>
+                <span class="text-xs text-zinc-500 font-mono">64 chars</span>
+              </div>
+              <input type="text" id="hash-sha256" readonly class="w-full bg-[#0d0d14] p-3 rounded-lg border border-white/[0.05] font-mono text-sm text-zinc-300 focus:outline-none focus:ring-1 focus:ring-green-500" />
+            </div>
+
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-orange-400">SHA-384</h3>
+                <span class="text-xs text-zinc-500 font-mono">96 chars</span>
+              </div>
+              <input type="text" id="hash-sha384" readonly class="w-full bg-[#0d0d14] p-3 rounded-lg border border-white/[0.05] font-mono text-sm text-zinc-300 focus:outline-none focus:ring-1 focus:ring-orange-500" />
+            </div>
+
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-purple-400">SHA-512</h3>
+                <span class="text-xs text-zinc-500 font-mono">128 chars</span>
+              </div>
+              <input type="text" id="hash-sha512" readonly class="w-full bg-[#0d0d14] p-3 rounded-lg border border-white/[0.05] font-mono text-sm text-zinc-300 focus:outline-none focus:ring-1 focus:ring-purple-500" />
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const inputText = document.getElementById('input-text') as HTMLTextAreaElement;
+  const els = {
+    'SHA-1': document.getElementById('hash-sha1') as HTMLInputElement,
+    'SHA-256': document.getElementById('hash-sha256') as HTMLInputElement,
+    'SHA-384': document.getElementById('hash-sha384') as HTMLInputElement,
+    'SHA-512': document.getElementById('hash-sha512') as HTMLInputElement,
+  };
+
+  async function generateHashes(text: string) {
+    if (!text) {
+      Object.values(els).forEach(el => el.value = '');
+      return;
+    }
+
+    const msgUint8 = new TextEncoder().encode(text);
+    
+    for (const alg of ['SHA-1', 'SHA-256', 'SHA-384', 'SHA-512']) {
+      try {
+        const hashBuffer = await crypto.subtle.digest(alg, msgUint8);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        els[alg as keyof typeof els].value = hashHex;
+      } catch(e) {
+        els[alg as keyof typeof els].value = 'Error generating hash';
+      }
+    }
+  }
+
+  inputText?.addEventListener('input', (e) => {
+    generateHashes((e.target as HTMLTextAreaElement).value);
+  });
+
+  // Select all on click for easy copy
+  Object.values(els).forEach(el => {
+    el?.addEventListener('click', () => el.select());
+  });
+</script>

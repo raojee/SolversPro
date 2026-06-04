@@ -1,0 +1,250 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolCard from '../components/ToolCard.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+
+const tools = [
+  {
+    title: 'Universal AI Solver',
+    description: 'Ask any math, engineering, or logic question. Our Gemini-powered AI breaks down the solution step-by-step.',
+    icon: '🧠',
+    href: '/solve'
+  },
+  {
+    title: 'PDF Merger Tool',
+    description: 'Instantly combine multiple PDF documents into a single file locally in your browser. 100% private and secure.',
+    icon: '📄',
+    href: '/tools/pdf-merger'
+  },
+  {
+    title: 'Mathematics',
+    description: 'Solve complex equations, matrix operations, and unit conversions instantly.',
+    icon: '📐',
+    href: '/math'
+  },
+  {
+    title: 'Financial Analysis',
+    description: 'Lightning-fast financial calculations for investments, loans, and market analysis.',
+    icon: '📊',
+    href: '/finance'
+  },
+  {
+    title: 'Health & Science',
+    description: 'Accurate health metrics and scientific calculations running at the speed of light.',
+    icon: '🧬',
+    href: '/health'
+  },
+  {
+    title: 'Developer Tools',
+    description: 'Essential utilities for software engineers. Format payloads, validate syntax, and visualize complex JSON/XML structures.',
+    icon: '💻',
+    href: '/developer'
+  },
+  {
+    title: 'Trades & Engineering',
+    description: 'Instant step-by-step solutions for complex engineering problems with precision tools.',
+    icon: '🏗️',
+    href: '/trades'
+  }
+];
+
+const testimonials = [
+  {
+    quote: "SolversPro solved my engineering problems in seconds. Absolutely game-changing!",
+    author: "Alex Chen",
+    role: "Mechanical Engineer"
+  },
+  {
+    quote: "The accuracy and speed are unmatched. I use it for all my financial calculations now.",
+    author: "Sarah Johnson",
+    role: "Finance Analyst"
+  },
+  {
+    quote: "Finally, a calculator that understands complex math. Highly recommended!",
+    author: "Marcus Williams",
+    role: "Physics Student"
+  }
+];
+---
+
+<BaseLayout
+  title="SolversPro | Master Math with Intelligence"
+  description="Free, lightning-fast, client-side calculation engines for engineering, finance, and health. All running at the speed of light, right in your browser."
+>
+  <!-- Hero Section -->
+  <section class="relative pt-24 pb-32 overflow-hidden border-b border-white/[0.06]">
+    <!-- Abstract Background Element -->
+    <div class="absolute inset-0 w-full h-full pointer-events-none z-0">
+      <img src="/hero-dark-tech.webp" alt="" class="w-full h-full object-cover object-top opacity-50 mix-blend-screen" />
+    </div>
+
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="max-w-2xl">
+        <div class="mb-6">
+          <span class="scifi-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            PRECISION COMPUTING
+          </span>
+        </div>
+        
+        <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 text-white tracking-tight leading-[1.1]">
+          Master <span id="hero-dynamic-text" class="inline-block transition-opacity duration-300 min-w-[200px] sm:min-w-[320px]">Math</span> <br />
+          <span class="text-[#ff6b35]">with Intelligence</span>
+        </h1>
+        
+        <p class="text-lg sm:text-xl text-zinc-400 mb-10 max-w-lg leading-relaxed">
+          Free, lightning-fast, client-side calculation engines for engineering, finance, and health. All running at the speed of light, right in your browser.
+        </p>
+        
+        <div class="flex flex-wrap items-center gap-4 mb-12">
+          <a href="/solve" class="px-8 py-3.5 bg-[#2dd4bf] hover:bg-[#5eead4] text-slate-900 rounded font-semibold text-sm transition-all shadow-[0_0_15px_rgba(45,212,191,0.3)] hover:shadow-[0_0_25px_rgba(45,212,191,0.5)] flex items-center gap-2" style="font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em;">
+            Start Calculating
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="/docs" class="px-8 py-3.5 bg-transparent border border-white/[0.2] hover:border-white/[0.4] text-white rounded font-semibold text-sm transition-all" style="font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em;">
+            Learn More
+          </a>
+        </div>
+
+        <div class="pt-6 border-t border-white/[0.06]">
+          <p class="text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-4" style="font-family: 'JetBrains Mono', monospace;">Trusted By</p>
+          <div class="flex items-center gap-4 text-sm text-white font-medium" style="font-family: 'JetBrains Mono', monospace;">
+            <span>Engineers</span>
+            <span class="text-[#ff6b35]">•</span>
+            <span>Finance Pros</span>
+            <span class="text-[#ff6b35]">•</span>
+            <span>Students</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities Section -->
+  <section class="py-24 border-b border-white/[0.06] bg-[#0d0d14]">
+    <div class="container mx-auto px-4">
+      <div class="mb-16">
+        <span class="scifi-badge mb-6">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+          CAPABILITIES
+        </span>
+        <h2 class="text-4xl font-bold text-white mb-4">What We Offer</h2>
+        <p class="text-lg text-zinc-400 max-w-2xl">
+          Powerful calculation engines designed for professionals who demand precision and speed.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {tools.map(tool => (
+          <ToolCard {...tool} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="py-24 border-b border-white/[0.06]">
+    <div class="container mx-auto px-4">
+      <div class="mb-16">
+        <span class="scifi-badge mb-6">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          TESTIMONIALS
+        </span>
+        <h2 class="text-4xl font-bold text-white mb-4">Loved by Professionals</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {testimonials.map(item => (
+          <div class="pl-6 border-l-2 border-[#2dd4bf]/50 relative">
+            <p class="text-zinc-300 italic mb-6 leading-relaxed">
+              "{item.quote}"
+            </p>
+            <div>
+              <p class="text-white font-bold text-sm mb-1" style="font-family: 'JetBrains Mono', monospace;">{item.author}</p>
+              <p class="text-zinc-500 text-xs font-mono">{item.role}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="py-24 bg-[#0d0d14]">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div>
+          <span class="scifi-badge mb-6">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            GET IN TOUCH
+          </span>
+          <h2 class="text-4xl font-bold text-white mb-4">Contact Us</h2>
+          <p class="text-zinc-400 mb-10 max-w-md">
+            Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+          </p>
+
+          <div class="space-y-6">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded border border-white/[0.1] bg-white/[0.03] flex items-center justify-center text-[#2dd4bf] flex-shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div>
+                <p class="text-white font-bold text-sm mb-1" style="font-family: 'JetBrains Mono', monospace;">Email</p>
+                <p class="text-zinc-400 text-sm">support@solverspro.com</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded border border-white/[0.1] bg-white/[0.03] flex items-center justify-center text-[#2dd4bf] flex-shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <p class="text-white font-bold text-sm mb-1" style="font-family: 'JetBrains Mono', monospace;">Location</p>
+                <p class="text-zinc-400 text-sm">Washington, DC 20008, USA</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-8">
+          <form class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold uppercase text-zinc-400 mb-2" style="font-family: 'JetBrains Mono', monospace;">Name</label>
+              <input type="text" placeholder="Your name" class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 px-3 focus:border-[#ff6b35] focus:outline-none transition-colors" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold uppercase text-zinc-400 mb-2" style="font-family: 'JetBrains Mono', monospace;">Email</label>
+              <input type="email" placeholder="your@email.com" class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 px-3 focus:border-[#ff6b35] focus:outline-none transition-colors" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold uppercase text-zinc-400 mb-2" style="font-family: 'JetBrains Mono', monospace;">Message</label>
+              <textarea placeholder="Tell us how we can help..." rows="4" class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 px-3 focus:border-[#ff6b35] focus:outline-none transition-colors resize-none"></textarea>
+            </div>
+            <button type="button" class="w-full py-3 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white rounded-md font-semibold text-sm transition-all shadow-[0_0_15px_rgba(255,107,53,0.3)] mt-2" style="font-family: 'JetBrains Mono', monospace;">
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const words = ['Math', 'Finance', 'Engineering', 'Health', 'Trades'];
+  let i = 0;
+  const el = document.getElementById('hero-dynamic-text');
+  
+  if (el) {
+    setInterval(() => {
+      // Fade out
+      el.style.opacity = '0';
+      
+      // Change word and fade in
+      setTimeout(() => {
+        i = (i + 1) % words.length;
+        el.textContent = words[i];
+        el.style.opacity = '1';
+      }, 300); // Wait for fade out to complete
+    }, 2500); // Change every 2.5 seconds
+  }
+</script>

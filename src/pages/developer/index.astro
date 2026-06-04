@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import CategoryCard from '../../components/CategoryCard.astro';
+import ToolCard from '../../components/ToolCard.astro';
+
+const tools = [
+  {
+    title: 'JSON Formatter & Validator',
+    description: 'Format, validate, and minify JSON data. Convert nested JSON structures into easy-to-read data tables.',
+    icon: '{"}',
+    href: '/developer/json-tools'
+  },
+  {
+    title: 'XML Formatter & Validator',
+    description: 'Format, validate, and minify XML documents. Parse complex XML into interactive data tables.',
+    icon: '</>',
+    href: '/developer/xml-tools'
+  },
+  {
+    title: 'Base64 Encoder & Decoder',
+    description: 'Quickly encode text to Base64 or decode Base64 back to text.',
+    icon: '🔤',
+    href: '/developer/base64-converter'
+  },
+  {
+    title: 'JWT Token Decoder',
+    description: 'Decode and inspect JSON Web Tokens (JWT) payload and header data securely.',
+    icon: '🔐',
+    href: '/developer/jwt-decoder'
+  },
+  {
+    title: 'Hash Generator',
+    description: 'Generate cryptographic hashes like SHA-256, SHA-384, and SHA-512 from any text.',
+    icon: '🔒',
+    href: '/developer/hash-generator'
+  },
+  {
+    title: 'Color Converter',
+    description: 'Convert color codes between HEX, RGB, and HSL formats instantly.',
+    icon: '🎨',
+    href: '/developer/color-converter'
+  }
+];
+---
+
+<BaseLayout
+  title="Developer Tools | SolversPro"
+  description="Free online developer tools including JSON/XML formatters, validators, and data viewers."
+>
+  <Header />
+  <div class="container mx-auto px-4 py-12 max-w-6xl">
+    <div class="mb-12">
+      <h1 class="text-4xl font-bold text-white mb-4">Developer Tools</h1>
+      <p class="text-zinc-400 text-lg max-w-3xl leading-relaxed">
+        Essential utilities for software engineers. Format data payloads, validate syntax, and visualize complex structures with our suite of client-side, privacy-first tools.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+      {tools.map(tool => (
+        <ToolCard {...tool} />
+      ))}
+    </div>
+  </div>
+  <Footer />
+</BaseLayout>

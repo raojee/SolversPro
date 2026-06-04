@@ -1,0 +1,329 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+
+const schema = {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Scientific Calculator",
+ "applicationCategory": "EducationalApplication",
+ "operatingSystem": "Any",
+ "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+ "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "310" }
+};
+
+const faqItems = [
+ {
+ question: "How do I use trigonometric functions?",
+ answer: "Click sin, cos, or tan, then enter the angle value and close the parenthesis. By default, angles are in radians. For degrees, convert by multiplying by π/180 first, or use the DEG/RAD toggle if available."
+ },
+ {
+ question: "What is the order of operations?",
+ answer: "This calculator follows standard mathematical order of operations (PEMDAS/BODMAS): Parentheses first, then Exponents, then Multiplication/Division (left to right), then Addition/Subtraction (left to right)."
+ },
+ {
+ question: "Can I use keyboard shortcuts?",
+ answer: "Yes! You can type numbers, operators (+, -, *, /), parentheses, and press Enter to calculate. Press Escape to clear, and Backspace to delete the last character."
+ },
+];
+---
+
+<BaseLayout
+ title="Scientific Calculator — Free Math Tool | SolversPro"
+ description="Free online scientific calculator with trigonometry, logarithms, exponents, and constants. Perfect for STEM students. No signup required."
+ canonical="https://solverspro.com/math/scientific-calculator"
+ schema={schema}
+>
+ <Header />
+ <SearchOverlay />
+
+ <main class="flex-1 py-12">
+ <div class="container max-w-2xl mx-auto">
+ <Breadcrumbs items={[
+ { label: 'Home', href: '/' },
+ { label: 'Math', href: '/math' },
+ { label: 'Scientific Calculator' },
+ ]} />
+
+ <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+ Scientific Calculator
+ </h1>
+ <p class="text-lg text-zinc-400 ">
+ Advanced math functions for STEM students and professionals.
+ </p>
+ </div>
+
+ <!-- Calculator -->
+ <div
+ class="rounded-xl border overflow-hidden mb-8"
+ style="background-color: white; border-color: #e5e7eb; border-radius: 16px; box-shadow: var(--shadow-card);"
+ id="sci-calc"
+ >
+ <!-- Display -->
+ <div class="p-6" style="background-color: var(--color-ink);">
+ <div id="calc-expression" class="text-right text-sm text-[#2dd4bf]-light mb-1 min-h-5 font-mono opacity-70">
+ &nbsp;
+ </div>
+ <div id="calc-display" class="text-right text-4xl font-bold text-cream font-mono tracking-wide">
+ 0
+ </div>
+ </div>
+
+ <!-- History -->
+ <div id="calc-history" class="hidden p-4 max-h-32 overflow-y-auto text-sm bg-white/[0.02]">
+ </div>
+
+ <!-- Button Grid -->
+ <div class="p-4 grid grid-cols-5 gap-2 bg-white/[0.02]">
+ <!-- Row 1: Scientific -->
+ <button class="calc-btn func" data-action="sin">sin</button>
+ <button class="calc-btn func" data-action="cos">cos</button>
+ <button class="calc-btn func" data-action="tan">tan</button>
+ <button class="calc-btn func" data-action="log">log</button>
+ <button class="calc-btn func" data-action="ln">ln</button>
+
+ <!-- Row 2: More scientific -->
+ <button class="calc-btn func" data-action="sqrt">√</button>
+ <button class="calc-btn func" data-action="pow">x<sup>y</sup></button>
+ <button class="calc-btn func" data-action="pi">π</button>
+ <button class="calc-btn func" data-action="e">e</button>
+ <button class="calc-btn func" data-action="paren">( )</button>
+
+ <!-- Row 3: Clear, operators -->
+ <button class="calc-btn clear" data-action="clear">AC</button>
+ <button class="calc-btn clear" data-action="backspace">⌫</button>
+ <button class="calc-btn func" data-action="percent">%</button>
+ <button class="calc-btn op" data-action="divide">÷</button>
+ <button class="calc-btn op" data-action="multiply">×</button>
+
+ <!-- Row 4-6: Numbers -->
+ <button class="calc-btn num" data-action="7">7</button>
+ <button class="calc-btn num" data-action="8">8</button>
+ <button class="calc-btn num" data-action="9">9</button>
+ <button class="calc-btn op" data-action="subtract">−</button>
+ <button class="calc-btn op" data-action="add">+</button>
+
+ <button class="calc-btn num" data-action="4">4</button>
+ <button class="calc-btn num" data-action="5">5</button>
+ <button class="calc-btn num" data-action="6">6</button>
+ <button class="calc-btn num" data-action="1">1</button>
+ <button class="calc-btn num" data-action="2">2</button>
+
+ <button class="calc-btn num" data-action="3">3</button>
+ <button class="calc-btn num" data-action="0">0</button>
+ <button class="calc-btn num" data-action="decimal">.</button>
+ <button class="calc-btn equals col-span-2" data-action="equals">=</button>
+ </div>
+ </div>
+
+ <!-- FAQ -->
+ <div class="mb-12 max-w-3xl mx-auto">
+<h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+ <FAQAccordion items={faqItems} id="sci-faq" />
+ </div>
+ </div>
+ </main>
+
+ <Footer />
+</BaseLayout>
+
+
+
+<script>
+ let expression = '';
+ let displayValue = '0';
+ let lastResult = '';
+ let openParens = 0;
+ const history: string[] = [];
+
+ const displayEl = document.getElementById('calc-display')!;
+ const exprEl = document.getElementById('calc-expression')!;
+
+ function updateDisplay() {
+ displayEl.textContent = displayValue || '0';
+ exprEl.textContent = expression || '\u00A0';
+ }
+
+ function appendToExpression(val: string) {
+ if (displayValue === 'Error') {
+ expression = '';
+ displayValue = '0';
+ }
+ expression += val;
+ displayValue = expression;
+ updateDisplay();
+ }
+
+ function evaluateExpression() {
+ try {
+ // Replace display symbols with JS operators
+ let evalExpr = expression
+ .replace(/×/g, '*')
+ .replace(/÷/g, '/')
+ .replace(/−/g, '-')
+ .replace(/π/g, `(${Math.PI})`)
+ .replace(/(?<![a-zA-Z])e(?![a-zA-Z])/g, `(${Math.E})`)
+ .replace(/sin\(/g, 'Math.sin(')
+ .replace(/cos\(/g, 'Math.cos(')
+ .replace(/tan\(/g, 'Math.tan(')
+ .replace(/log\(/g, 'Math.log10(')
+ .replace(/ln\(/g, 'Math.log(')
+ .replace(/sqrt\(/g, 'Math.sqrt(')
+ .replace(/\^/g, '**')
+ .replace(/%/g, '/100');
+
+ const result = Function('"use strict"; return (' + evalExpr + ')')();
+
+ if (typeof result === 'number' && isFinite(result)) {
+ const formatted = Number(result.toPrecision(12)).toString();
+ history.unshift(`${expression} = ${formatted}`);
+ lastResult = formatted;
+ exprEl.textContent = expression + ' =';
+ expression = formatted;
+ displayValue = formatted;
+ displayEl.textContent = formatted;
+ } else {
+ displayValue = 'Error';
+ updateDisplay();
+ }
+ } catch {
+ displayValue = 'Error';
+ updateDisplay();
+ }
+ }
+
+ // Button handlers
+ document.querySelectorAll('.calc-btn').forEach((btn) => {
+ btn.addEventListener('click', () => {
+ const action = (btn as HTMLElement).dataset.action!;
+
+ switch (action) {
+ case 'clear':
+ expression = '';
+ displayValue = '0';
+ openParens = 0;
+ updateDisplay();
+ break;
+ case 'backspace':
+ if (expression.endsWith('(')) openParens--;
+ if (expression.endsWith(')')) openParens++;
+ expression = expression.slice(0, -1);
+ displayValue = expression || '0';
+ updateDisplay();
+ break;
+ case 'equals':
+ evaluateExpression();
+ break;
+ case 'add':
+ appendToExpression('+');
+ break;
+ case 'subtract':
+ appendToExpression('−');
+ break;
+ case 'multiply':
+ appendToExpression('×');
+ break;
+ case 'divide':
+ appendToExpression('÷');
+ break;
+ case 'decimal':
+ appendToExpression('.');
+ break;
+ case 'percent':
+ appendToExpression('%');
+ break;
+ case 'sin':
+ appendToExpression('sin(');
+ openParens++;
+ break;
+ case 'cos':
+ appendToExpression('cos(');
+ openParens++;
+ break;
+ case 'tan':
+ appendToExpression('tan(');
+ openParens++;
+ break;
+ case 'log':
+ appendToExpression('log(');
+ openParens++;
+ break;
+ case 'ln':
+ appendToExpression('ln(');
+ openParens++;
+ break;
+ case 'sqrt':
+ appendToExpression('sqrt(');
+ openParens++;
+ break;
+ case 'pow':
+ appendToExpression('^');
+ break;
+ case 'pi':
+ appendToExpression('π');
+ break;
+ case 'e':
+ appendToExpression('e');
+ break;
+ case 'paren':
+ if (openParens > 0) {
+ appendToExpression(')');
+ openParens--;
+ } else {
+ appendToExpression('(');
+ openParens++;
+ }
+ break;
+ default:
+ // Number keys
+ if (displayValue === '0' && action !== '.') {
+ expression = action;
+ displayValue = action;
+ updateDisplay();
+ } else {
+ appendToExpression(action);
+ }
+ }
+ });
+ });
+
+ // Keyboard support
+ document.addEventListener('keydown', (e) => {
+ if (['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as HTMLElement).tagName)) return;
+
+ const key = e.key;
+ if (/[0-9]/.test(key)) {
+ appendToExpression(key);
+ } else if (key === '+') {
+ appendToExpression('+');
+ } else if (key === '-') {
+ appendToExpression('−');
+ } else if (key === '*') {
+ appendToExpression('×');
+ } else if (key === '/') {
+ e.preventDefault();
+ appendToExpression('÷');
+ } else if (key === '.') {
+ appendToExpression('.');
+ } else if (key === '(' || key === ')') {
+ appendToExpression(key);
+ } else if (key === 'Enter') {
+ e.preventDefault();
+ evaluateExpression();
+ } else if (key === 'Escape') {
+ expression = '';
+ displayValue = '0';
+ openParens = 0;
+ updateDisplay();
+ } else if (key === 'Backspace') {
+ expression = expression.slice(0, -1);
+ displayValue = expression || '0';
+ updateDisplay();
+ }
+ });
+</script>

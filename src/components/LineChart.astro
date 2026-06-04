@@ -1,0 +1,56 @@
+---
+interface Props {
+  id?: string;
+}
+
+const { id = 'line-chart' } = Astro.props;
+---
+
+<div
+  id={id}
+  class="hidden bg-white rounded-lg p-6 border"
+  style="border-radius: 16px; box-shadow: var(--shadow-card); border-color: var(--color-border);"
+>
+  <div class="flex items-center justify-between mb-4">
+    <h3 class="text-lg font-semibold text-ink dark:text-cream">Growth Chart</h3>
+    <div class="flex items-center gap-4 text-xs">
+      <span class="flex items-center gap-1.5">
+        <span class="inline-block w-3 h-0.5" style="background-color: var(--color-border);"></span>
+        Principal
+      </span>
+      <span class="flex items-center gap-1.5">
+        <span class="inline-block w-3 h-0.5" ></span>
+        Interest
+      </span>
+      <span class="flex items-center gap-1.5">
+        <span class="inline-block w-3 h-0.5" style="background-color: var(--color-ink);"></span>
+        Total
+      </span>
+    </div>
+  </div>
+  <div class="relative" style="padding-bottom: 50%;">
+    <svg
+      id={`${id}-svg`}
+      class="absolute inset-0 w-full h-full"
+      viewBox="0 0 800 400"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <!-- Chart content rendered by JS -->
+    </svg>
+  </div>
+  <!-- Tooltip -->
+  <div
+    id={`${id}-tooltip`}
+    class="hidden absolute px-3 py-2 text-sm text-white rounded-lg pointer-events-none z-10"
+    style="background-color: var(--color-ink); border-radius: 8px;"
+  >
+  </div>
+</div>
+
+<style>
+  :global(.dark) #line-chart,
+  :global(.dark) [id$="-chart"] {
+    background-color: var(--color-dark-surface);
+    border-color: var(--color-dark-border);
+  }
+</style>

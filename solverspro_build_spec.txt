@@ -1,0 +1,534 @@
+
+================================================================================
+                    SOLVERSPRO.COM — FULL BUILD SPECIFICATION
+================================================================================
+Brand: SolversPro
+Tagline: "Solve Anything. Instantly."
+Framework: Astro 5 (Static Site Generator)
+Styling: Tailwind CSS v4
+Fonts: Inter (Google Fonts) + Geist (Vercel Font)
+Color Palette: Warm Cream + Sky Blue (see design_system.json)
+
+================================================================================
+                              LOGO CONCEPT
+================================================================================
+
+CONCEPT: "The Precision Solver"
+
+Visual: An abstract geometric mark combining:
+  • A magnifying glass (represents "finding solutions")
+  • Merged with a gear/cog (represents "tools & mechanics")
+  • The negative space forms an "S" (for Solvers)
+
+Design:
+  ┌─────────┐
+  │    ●    │  ← Small circle (lens focal point)
+  │   /S\   │  ← "S" shape formed by gear teeth + lens handle
+  │  ═════  │  ← Base line (stability)
+  └─────────┘
+
+Color Usage:
+  • Primary mark: #8CC0EB (sky blue) on #FFF9D2 (cream) background
+  • Dark mode: #BFDDF0 (light blue) on #1a1a2e (dark navy)
+
+Wordmark: "SolversPro" in Inter Bold, tight letter-spacing (-0.02em)
+  • "Solvers" in #1a1a2e (dark)
+  • "Pro" in #8CC0EB (blue accent)
+
+Favicon: Simplified "S" mark inside a rounded square
+
+================================================================================
+                           GLOBAL STYLES (Tailwind)
+================================================================================
+
+tailwind.config.js:
+
+module.exports = {
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  theme: {
+    extend: {
+      colors: {
+        cream: '#FFF9D2',
+        peach: '#FFEBCC',
+        sky: '#8CC0EB',
+        'sky-deep': '#5A9FD4',
+        'sky-light': '#BFDDF0',
+        ink: '#1a1a2e',
+        'ink-light': '#4a4a5e',
+        'ink-muted': '#7a7a8e',
+        border: '#e0d5c0',
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Geist', 'Inter', 'sans-serif'],
+      },
+      borderRadius: {
+        'card': '16px',
+        'button': '12px',
+        'pill': '999px',
+      },
+      boxShadow: {
+        'card': '0 2px 8px rgba(26, 26, 46, 0.06)',
+        'card-hover': '0 8px 24px rgba(26, 26, 46, 0.1)',
+        'button': '0 2px 4px rgba(140, 192, 235, 0.3)',
+      },
+    },
+  },
+  plugins: [],
+}
+
+================================================================================
+                           GLOBAL LAYOUT COMPONENTS
+================================================================================
+
+1. HEADER (Sticky, glassmorphism)
+   ┌─────────────────────────────────────────────────────────────┐
+   │  [Logo]  SolversPro          [Search]  [ThemeToggle]  [≡]  │
+   └─────────────────────────────────────────────────────────────┘
+
+   - Background: rgba(255, 249, 210, 0.85) + backdrop-blur(12px)
+   - Border-bottom: 1px solid #e0d5c0
+   - Height: 64px
+   - Logo: 32px mark + wordmark
+   - Search: Expandable input, placeholder "What do you need to solve?"
+   - ThemeToggle: Sun/Moon icon, switches cream↔dark
+   - Mobile: Hamburger menu → slide-out drawer
+
+2. FOOTER
+   ┌─────────────────────────────────────────────────────────────┐
+   │  [Logo]                                                     │
+   │  Solve Anything. Finance · Health · Math · Trades           │
+   │                                                             │
+   │  TOOLS          RESOURCES          COMPANY                  │
+   │  Finance        Blog               About                    │
+   │  Health         Documentation      Contact                  │
+   │  Math           API (future)       Privacy                  │
+   │  Trades                          Terms                      │
+   │                                                             │
+   │  [GitHub] [X] [Discord]      © 2026 SolversPro             │
+   └─────────────────────────────────────────────────────────────┘
+
+   - Background: #FFEBCC (peach)
+   - Text: #4a4a5e
+   - Links hover: #8CC0EB
+
+3. SEARCH OVERLAY
+   - Full-screen overlay on "?" key or search icon click
+   - Background: rgba(255, 249, 210, 0.95)
+   - Centered search input: 48px font, #1a1a2e
+   - Results: Category-grouped tool cards
+   - Keyboard navigation: ↑↓ to select, Enter to open, Esc to close
+
+================================================================================
+                              HOMEPAGE
+================================================================================
+
+SECTION 1: HERO
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                                                                             │
+│                         [Animated Logo Mark]                                │
+│                                                                             │
+│                    Solve Anything. Instantly.                               │
+│                                                                             │
+│     Free problem solvers for finance, health, math, and trades.             │
+│     No signup. No ads. 100% private.                                        │
+│                                                                             │
+│     ┌─────────────────────────────────────────────────────────┐             │
+│     │  🔍  What do you need to solve?                        │             │
+│     └─────────────────────────────────────────────────────────┘             │
+│                                                                             │
+│     [Explore Finance]  [Explore Health]  [Explore Math]  [Explore Trades]    │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+- Background: #FFF9D2 (cream)
+- Headline: 48px / Inter / 700 / #1a1a2e
+- Subheadline: 18px / Inter / 400 / #4a4a5e
+- Search bar: bg-white, border-2px #e0d5c0, rounded-16px, shadow-card
+  - Focus: border-color #8CC0EB, shadow-button
+- Category pills: bg-transparent, border-2px #8CC0EB, text #8CC0EB
+  - Hover: bg #8CC0EB, text white
+
+SECTION 2: POPULAR TOOLS
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                                                                             │
+│   🔥 Popular This Week                                                      │
+│                                                                             │
+│   ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │
+│   │  💰          │  │  ❤️          │  │  🔧          │  │  📐          │   │
+│   │  Compound    │  │  TDEE        │  │  Concrete    │  │  Scientific  │   │
+│   │  Interest    │  │  Calculator  │  │  Slab        │  │  Calculator  │   │
+│   │              │  │              │  │              │  │              │   │
+│   │  See how     │  │  Calculate   │  │  How much    │  │  Advanced    │   │
+│   │  your money  │  │  daily       │  │  concrete    │  │  functions   │   │
+│   │  grows       │  │  calories    │  │  you need    │  │  for STEM    │   │
+│   │              │  │              │  │              │  │              │   │
+│   │  [Open Tool →]│  │  [Open Tool →]│  │  [Open Tool →]│  │  [Open Tool →]│   │
+│   └──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+- Cards: bg #FFEBCC, border 1px #e0d5c0, rounded-16px, shadow-card
+- Hover: shadow-card-hover, translateY(-4px)
+- Icon: 40px circle, bg #BFDDF0, icon color #1a1a2e
+- Title: 20px / Inter / 600
+- Description: 14px / Inter / 400 / #7a7a8e
+- CTA: 14px / Inter / 600 / #8CC0EB
+
+SECTION 3: BROWSE BY CATEGORY
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                                                                             │
+│   Browse by Category                                                        │
+│                                                                             │
+│   ┌────────────────────────────┐  ┌────────────────────────────┐         │
+│   │                            │  │                            │         │
+│   │   💰  Finance              │  │   ❤️  Health               │         │
+│   │                            │  │                            │         │
+│   │   3 tools                  │  │   1 tool                   │         │
+│   │   Investment, interest,    │  │   Calories, BMI, body      │         │
+│   │   returns                  │  │   composition              │         │
+│   │                            │  │                            │         │
+│   │   [Explore →]              │  │   [Explore →]              │         │
+│   │                            │  │                            │         │
+│   └────────────────────────────┘  └────────────────────────────┘         │
+│                                                                             │
+│   ┌────────────────────────────┐  ┌────────────────────────────┐         │
+│   │                            │  │                            │         │
+│   │   🔧  Trades               │  │   📐  Math                 │         │
+│   │                            │  │                            │         │
+│   │   3 tools                  │  │   5 tools                  │         │
+│   │   Construction, electrical,│  │   Algebra, calculus,       │         │
+│   │   solar sizing             │  │   statistics, matrices     │         │
+│   │                            │  │                            │         │
+│   │   [Explore →]              │  │   [Explore →]              │         │
+│   │                            │  │                            │         │
+│   └────────────────────────────┘  └────────────────────────────┘         │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+- Large cards: bg #FFEBCC, rounded-24px, padding 32px
+- Hover: bg shifts to #FFF9D2, shadow-card-hover
+- Icon: 56px, bg #BFDDF0, rounded-16px
+- Category name: 28px / Inter / 700
+- Tool count: Badge bg #BFDDF0, text #1a1a2e
+
+SECTION 4: WHY SOLVERSPRO
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                                                                             │
+│   Why SolversPro?                                                           │
+│                                                                             │
+│   ⚡ Instant          🔒 Private          🆓 Free          📱 PWA          │
+│   Zero loading time   No data stored      No paywalls      Works offline    │
+│                                                                             │
+│   🧮 Accurate         🎨 Beautiful       🌍 Global         🔄 Updated      │
+│   Verified formulas   Clean design        Any device       Always current   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+- Background: #FFEBCC (peach)
+- 6 feature blocks in 2 rows
+- Icon: 48px, #8CC0EB
+- Title: 18px / Inter / 600
+- Description: 14px / Inter / 400 / #7a7a8e
+
+================================================================================
+                           TOOL PAGE TEMPLATE
+================================================================================
+
+URL PATTERN: /{category}/{tool-slug}
+Example: /finance/compound-interest
+
+LAYOUT:
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  [Header]                                                                   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  Home > Finance > Compound Interest                                         │
+│                                                                             │
+│  Compound Interest Calculator                                               │
+│  See how your money grows over time with compound interest.                 │
+│                                                                             │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │                                                                     │   │
+│  │  Initial Investment                                                 │   │
+│  │  ┌──────────────────────────────┐                                   │   │
+│  │  │  $      10,000               │                                   │   │
+│  │  └──────────────────────────────┘                                   │   │
+│  │                                                                     │   │
+│  │  Monthly Contribution                                               │   │
+│  │  ┌──────────────────────────────┐                                   │   │
+│  │  │  $      500                  │                                   │   │
+│  │  └──────────────────────────────┘                                   │   │
+│  │                                                                     │   │
+│  │  Annual Interest Rate                                             │   │
+│  │  ┌──────────────────────────────┐                                   │   │
+│  │  │      7          %            │                                   │   │
+│  │  └──────────────────────────────┘                                   │   │
+│  │                                                                     │   │
+│  │  Years to Grow                                                      │   │
+│  │  ┌──────────────────────────────┐                                   │   │
+│  │  │      30                      │                                   │   │
+│  │  └──────────────────────────────┘                                   │   │
+│  │                                                                     │   │
+│  │  Compounding Frequency                                              │   │
+│  │  [Monthly ▼]                                                      │   │
+│  │                                                                     │   │
+│  │  ┌──────────────────────────────┐                                   │   │
+│  │  │     💰  Calculate            │                                   │   │
+│  │  └──────────────────────────────┘                                   │   │
+│  │                                                                     │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│  RESULTS (appears after Calculate)                                         │
+│                                                                             │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │                                                                     │   │
+│  │  Final Amount: $1,212,876                                           │   │
+│  │  Total Invested: $280,000                                           │   │
+│  │  Interest Earned: $932,876                                          │   │
+│  │                                                                     │   │
+│  │  [📋 Copy] [🔗 Share] [📊 Chart]                                    │   │
+│  │                                                                     │   │
+│  │  ── Year-by-Year Growth ──                                          │   │
+│  │  ┌──────┬─────────────┬─────────────┬─────────────┐               │   │
+│  │  │ Year │ Invested    │ Interest    │ Total       │               │   │
+│  │  ├──────┼─────────────┼─────────────┼─────────────┤               │   │
+│  │  │ 1    │ $16,000     │ $560        │ $16,560     │               │   │
+│  │  │ 5    │ $40,000     │ $7,800      │ $47,800     │               │   │
+│  │  │ 10   │ $70,000     │ $32,400     │ $102,400    │               │   │
+│  │  │ ...  │ ...         │ ...         │ ...         │               │   │
+│  │  │ 30   │ $280,000    │ $932,876    │ $1,212,876  │               │   │
+│  │  └──────┴─────────────┴─────────────┴─────────────┘               │   │
+│  │                                                                     │   │
+│  │  [📈 Show Growth Chart]                                            │   │
+│  │                                                                     │   │
+│  │  ┌────────────────────────────────────────────────────────────┐   │   │
+│  │  │                                                            │   │   │
+│  │  │         SVG Line Chart (Principal vs Interest over time)   │   │   │
+│  │  │                                                            │   │   │
+│  │  └────────────────────────────────────────────────────────────┘   │   │
+│  │                                                                     │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│  ── How It Works ──                                                         │
+│                                                                             │
+│  1. Enter your starting amount                                              │
+│  2. Add what you contribute monthly                                         │
+│  3. Set your expected annual return                                         │
+│  4. See your complete wealth projection                                     │
+│                                                                             │
+│  ── The Formula ──                                                          │
+│                                                                             │
+│  A = P(1 + r/n)^(nt) + PMT × [((1 + r/n)^(nt) - 1) / (r/n)]              │
+│                                                                             │
+│  Where:                                                                     │
+│  A = Final amount                                                           │
+│  P = Principal (starting amount)                                            │
+│  r = Annual interest rate (decimal)                                         │
+│  n = Compounding frequency per year                                           │
+│  t = Number of years                                                        │
+│  PMT = Monthly contribution                                                 │
+│                                                                             │
+│  ── FAQ ──                                                                  │
+│                                                                             │
+│  ❓ What is compound interest?                                              │
+│     → [Expandable answer]                                                   │
+│                                                                             │
+│  ❓ How is this different from simple interest?                             │
+│     → [Expandable answer]                                                   │
+│                                                                             │
+│  ❓ What is the Rule of 72?                                                 │
+│     → [Expandable answer + mini calculator]                                 │
+│                                                                             │
+│  ❓ Can I reach $1 million?                                                 │
+│     → [Expandable answer]                                                   │
+│                                                                             │
+│  ── Related Tools ──                                                        │
+│                                                                             │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                     │
+│  │ Cash-on-Cash │  │ Simple       │  │ Mortgage     │                     │
+│  │ Return       │  │ Interest     │  │ (Coming Soon)│                     │
+│  └──────────────┘  └──────────────┘  └──────────────┘                     │
+│                                                                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  [Footer]                                                                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+                           COMPONENT SPECS
+================================================================================
+
+INPUT FIELD:
+  - Container: relative positioning
+  - Label: 14px / Geist / 500 / uppercase / #7a7a8e / mb-8px
+  - Input: bg-white / border-2px #e0d5c0 / rounded-12px / px-16px py-12px
+  - Focus: border-color #8CC0EB / shadow-button
+  - Prefix (e.g., "$"): absolute left-16px / #7a7a8e
+  - Suffix (e.g., "%"): absolute right-16px / #7a7a8e
+  - Number inputs: hide default spinners, custom +/- steppers if needed
+
+CALCULATE BUTTON:
+  - bg #8CC0EB / text white / rounded-12px / px-24px py-14px
+  - Font: 16px / Inter / 600
+  - Hover: bg #5A9FD4 / shadow-button / translateY(-1px)
+  - Active: translateY(0) / shadow-none
+  - Loading state: spinner animation, text "Calculating..."
+
+RESULT CARD:
+  - bg #FFEBCC / border 1px #e0d5c0 / rounded-16px / p-24px
+  - Primary number: 36px / Inter / 700 / #1a1a2e
+  - Label: 14px / Geist / 500 / uppercase / #7a7a8e
+  - Accent number (interest earned): #8CC0EB
+
+UTILITY BUTTONS (Copy, Share, Chart):
+  - bg transparent / border 1px #e0d5c0 / rounded-8px / px-12px py-8px
+  - Icon + text / 14px / Inter / 500
+  - Hover: bg #BFDDF0 / border-color #8CC0EB
+
+TABLE:
+  - Header row: bg #BFDDF0 / text #1a1a2e / 14px / Geist / 600
+  - Data rows: alternate bg #FFF9D2 and white
+  - Border: 1px #e0d5c0 between rows
+  - Number alignment: right
+  - Hover row: bg #FFEBCC
+
+CHART (SVG):
+  - Container: bg white / rounded-16px / p-24px / shadow-card
+  - Lines: 2px stroke
+    - Principal line: #e0d5c0
+    - Interest line: #8CC0EB
+    - Total line: #1a1a2e
+  - Grid: dashed 1px #e0d5c0
+  - Tooltip: bg #1a1a2e / text white / rounded-8px / px-12px py-8px
+  - Axis labels: 12px / Inter / 400 / #7a7a8e
+
+FAQ ACCORDION:
+  - Question: 16px / Inter / 600 / #1a1a2e / py-16px
+  - Icon: Chevron right, rotates 90° when open
+  - Answer: 16px / Inter / 400 / #4a4a5e / pb-16px
+  - Border-bottom: 1px #e0d5c0
+  - Hover question: color #8CC0EB
+
+================================================================================
+                           DARK MODE
+================================================================================
+
+When theme toggles to dark:
+  - bg: #1a1a2e (ink)
+  - surface: #252540 (ink-light)
+  - card bg: #252540
+  - text primary: #FFF9D2 (cream)
+  - text secondary: #BFDDF0 (sky-light)
+  - text muted: #7a7a8e
+  - border: #3a3a5e
+  - input bg: #1a1a2e
+  - input border: #3a3a5e
+  - accent stays #8CC0EB
+  - shadow colors: rgba(0, 0, 0, 0.3)
+
+================================================================================
+                           SEO REQUIREMENTS
+================================================================================
+
+Every tool page MUST have:
+  1. <title>: "[Tool Name] — Free [Category] Calculator | SolversPro"
+     Example: "Compound Interest Calculator — Free Finance Tool | SolversPro"
+
+  2. <meta name="description">: 150-160 chars, keyword-rich, with CTA
+     Example: "Free compound interest calculator with yearly projections. 
+     See exactly when you'll reach $1M. No signup required. Try SolversPro."
+
+  3. <link rel="canonical" href="https://solverspro.com/finance/compound-interest">
+
+  4. Schema.org JSON-LD (SoftwareApplication):
+     {
+       "@context": "https://schema.org",
+       "@type": "SoftwareApplication",
+       "name": "Compound Interest Calculator",
+       "applicationCategory": "FinanceApplication",
+       "operatingSystem": "Any",
+       "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+       "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "150"}
+     }
+
+  5. FAQ Schema (if page has FAQ section)
+
+  6. Open Graph tags for social sharing
+
+  7. BreadcrumbList schema
+
+================================================================================
+                           FILE STRUCTURE (Astro)
+================================================================================
+
+src/
+├── layouts/
+│   └── BaseLayout.astro          # Global HTML shell, fonts, meta
+├── components/
+│   ├── Header.astro
+│   ├── Footer.astro
+│   ├── SearchOverlay.astro
+│   ├── ThemeToggle.astro
+│   ├── ToolCard.astro            # Reusable card for homepage
+│   ├── CategoryCard.astro        # Large category hub card
+│   ├── InputField.astro          # Form input with prefix/suffix
+│   ├── CalculateButton.astro
+│   ├── ResultCard.astro
+│   ├── DataTable.astro
+│   ├── LineChart.astro           # SVG chart component
+│   ├── FAQAccordion.astro
+│   ├── Breadcrumbs.astro
+│   └── CopyButton.astro
+├── pages/
+│   ├── index.astro               # Homepage
+│   ├── finance/
+│   │   └── index.astro         # Finance hub
+│   ├── health/
+│   │   └── index.astro         # Health hub
+│   ├── trades/
+│   │   └── index.astro         # Trades hub
+│   ├── math/
+│   │   └── index.astro         # Math hub
+│   └── [category]/
+│       └── [tool].astro          # Dynamic tool pages
+├── content/
+│   └── tools/                    # Tool definitions (JSON/YAML)
+│       ├── compound-interest.yaml
+│       ├── tdee-calculator.yaml
+│       └── concrete-slab.yaml
+├── styles/
+│   └── global.css                # Tailwind directives + custom
+└── scripts/
+    ├── compound-interest.js       # Calculation logic
+    ├── tdee-calculator.js
+    └── utils.js                  # Shared utilities
+
+public/
+├── favicon.svg
+├── logo.svg
+├── og-image.png                  # Social share image
+└── robots.txt
+
+================================================================================
+                           DEPLOYMENT
+================================================================================
+
+Platform: Cloudflare Pages
+Build command: astro build
+Output directory: dist
+
+Pre-deployment checklist:
+  [ ] All tool YAML files have complete metadata
+  [ ] All pages have unique <title> and <meta description>
+  [ ] Schema.org JSON-LD validates at validator.schema.org
+  [ ] robots.txt allows all, points to sitemap.xml
+  [ ] sitemap.xml includes all tool pages
+  [ ] Lighthouse score > 90 (Performance, Accessibility, SEO)
+  [ ] PWA manifest.json configured
+  [ ] Dark mode toggle works across all pages
+  [ ] Mobile responsive (320px to 1440px)
+  [ ] No console errors
+  [ ] All calculations verified against known correct values
+
+================================================================================

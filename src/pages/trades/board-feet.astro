@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import InputField from '../../components/InputField.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Board Feet Calculator",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any"
+};
+---
+
+<BaseLayout
+  title="Board Feet Calculator | SolversPro"
+  description="Calculate the total board footage for lumber and woodworking projects."
+  canonical="https://solverspro.com/trades/board-feet"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Trades', href: '/trades' },
+        { label: 'Board Feet' },
+      ]} />
+
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Board Feet Calculator</h1>
+        <p class="text-lg text-zinc-400">Easily determine the board footage (BF) of your lumber.</p>
+      </div>
+
+      <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8" id="calculator-form">
+        
+        <InputField label="Thickness (inches)" name="thickness" value={1} min={0.1} step={0.1} placeholder="1" />
+        <InputField label="Width (inches)" name="width" value={6} min={0.1} step={0.1} placeholder="6" />
+        <InputField label="Length (feet)" name="length" value={8} min={0.1} step={0.1} placeholder="8" />
+        <InputField label="Quantity (pieces)" name="quantity" value={1} min={1} step={1} placeholder="1" />
+        <InputField label="Price per Board Foot (Optional)" name="price" prefix="$" value={0} min={0} step={0.01} placeholder="0.00" />
+
+        <div class="mt-6">
+          <CalculateButton text="Calculate" icon="🪵" id="calculate-btn" />
+        </div>
+      </form>
+
+      <!-- Results -->
+      <div id="results-section" class="hidden space-y-8 mb-12 max-w-2xl mx-auto">
+        <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02]">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <p class="label mb-1 text-sm font-medium text-zinc-500 uppercase tracking-wider">Total Board Feet (BF)</p>
+              <p class="text-3xl md:text-4xl font-bold text-white" id="result-bf">0</p>
+            </div>
+            <div id="price-container">
+              <p class="label mb-1 text-sm font-medium text-zinc-500 uppercase tracking-wider">Estimated Total Cost</p>
+              <p class="text-3xl md:text-4xl font-bold text-[#2dd4bf]" id="result-cost">$0.00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  function calculate() {
+    const t = parseFloat((document.getElementById('input-thickness') as HTMLInputElement)?.value) || 0;
+    const w = parseFloat((document.getElementById('input-width') as HTMLInputElement)?.value) || 0;
+    const l = parseFloat((document.getElementById('input-length') as HTMLInputElement)?.value) || 0;
+    const q = parseFloat((document.getElementById('input-quantity') as HTMLInputElement)?.value) || 1;
+    const price = parseFloat((document.getElementById('input-price') as HTMLInputElement)?.value) || 0;
+    
+    if (t <= 0 || w <= 0 || l <= 0) return;
+
+    const btn = document.getElementById('calculate-btn');
+    btn?.setAttribute('data-loading', 'true');
+
+    setTimeout(() => {
+      // Formula: (Thickness(in) x Width(in) x Length(ft)) / 12 * Quantity
+      const bf = ((t * w * l) / 12) * q;
+      const cost = bf * price;
+
+      document.getElementById('result-bf')!.textContent = bf.toFixed(2);
+      
+      const priceContainer = document.getElementById('price-container');
+      if (price > 0) {
+        priceContainer?.classList.remove('hidden');
+        document.getElementById('result-cost')!.textContent = '$' + cost.toFixed(2);
+      } else {
+        priceContainer?.classList.add('hidden');
+      }
+
+      document.getElementById('results-section')?.classList.remove('hidden');
+      btn?.removeAttribute('data-loading');
+    }, 300);
+  }
+
+  document.getElementById('calculator-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    calculate();
+  });
+</script>

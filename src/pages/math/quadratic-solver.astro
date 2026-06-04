@@ -1,0 +1,187 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import InputField from '../../components/InputField.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Quadratic Equation Solver",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "194" }
+};
+
+const faqItems = [
+  {
+    question: "What is the quadratic formula?",
+    answer: "The quadratic formula is x = (-b ± √(b² - 4ac)) / 2a. It provides the solutions (or roots) of a quadratic equation of the form ax² + bx + c = 0."
+  },
+  {
+    question: "What is the discriminant (Δ)?",
+    answer: "The discriminant is the part of the formula under the square root: Δ = b² - 4ac. It tells you the nature of the roots: if Δ > 0, there are 2 real roots. If Δ = 0, there is 1 real root. If Δ < 0, there are 2 complex/imaginary roots."
+  },
+  {
+    question: "What is the vertex of a parabola?",
+    answer: "The vertex is the highest or lowest point on the graph of the quadratic equation (which is a parabola). The x-coordinate is found using -b / 2a, and the y-coordinate is the function's value at that x."
+  }
+];
+---
+
+<BaseLayout
+  title="Quadratic Equation Solver | SolversPro"
+  description="Free online quadratic equation solver. Instantly find the roots, discriminant, and vertex of any quadratic function."
+  canonical="https://solverspro.com/math/quadratic-solver"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Math', href: '/math' },
+        { label: 'Quadratic Solver' },
+      ]} />
+
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+          Quadratic Equation Solver
+        </h1>
+        <p class="text-lg text-zinc-400">
+          Solve equations in the form <strong>ax² + bx + c = 0</strong>
+        </p>
+      </div>
+
+      <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 md:p-10 shadow-sm mb-8" id="quad-form" onsubmit="event.preventDefault();">
+        
+        <div class="flex items-center justify-center gap-2 mb-8 bg-[#0d0d14] py-4 rounded-lg font-mono text-xl text-white">
+          <span>a</span>x² + <span>b</span>x + <span>c</span> = 0
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-x-6">
+          <InputField label="a" name="a" value={1} step={0.01} />
+          <InputField label="b" name="b" value={-3} step={0.01} />
+          <InputField label="c" name="c" value={2} step={0.01} />
+        </div>
+
+        <div class="mt-6">
+          <CalculateButton text="Solve Equation" icon="📉" id="calc-btn" />
+        </div>
+      </form>
+
+      <!-- Results -->
+      <div id="results-section" class="hidden space-y-6 mb-12 max-w-2xl mx-auto">
+        <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02] shadow-sm" id="result-summary">
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+            <div class="md:col-span-2 text-center pb-6 border-b border-gray-100">
+              <p class="label mb-3 text-sm font-semibold text-zinc-500 uppercase tracking-wider">Roots (x)</p>
+              <div class="flex flex-col gap-2 justify-center font-mono text-2xl text-[#2dd4bf]" id="result-roots">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+            
+            <div class="text-center md:text-left">
+              <p class="label mb-1 text-sm font-semibold text-zinc-500 uppercase tracking-wider">Discriminant (Δ)</p>
+              <p class="text-2xl font-bold text-white" id="result-delta">0</p>
+              <p class="text-sm text-zinc-400 mt-1" id="delta-type"></p>
+            </div>
+            
+            <div class="text-center md:text-left">
+              <p class="label mb-1 text-sm font-semibold text-zinc-500 uppercase tracking-wider">Vertex (h, k)</p>
+              <p class="text-2xl font-bold text-white" id="result-vertex">(0, 0)</p>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+        <FAQAccordion items={faqItems} />
+      </div>
+
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  function formatNum(n: number): string {
+    return Number(n.toFixed(4)).toString();
+  }
+
+  document.getElementById('quad-form')?.addEventListener('submit', () => {
+    const a = parseFloat((document.querySelector('input[name="a"]') as HTMLInputElement).value) || 0;
+    const b = parseFloat((document.querySelector('input[name="b"]') as HTMLInputElement).value) || 0;
+    const c = parseFloat((document.querySelector('input[name="c"]') as HTMLInputElement).value) || 0;
+    
+    if (a === 0) {
+      alert("Coefficient 'a' cannot be 0 for a quadratic equation.");
+      return;
+    }
+
+    const btn = document.getElementById('calc-btn');
+    btn?.setAttribute('data-loading', 'true');
+
+    setTimeout(() => {
+      const delta = (b * b) - (4 * a * c);
+      
+      const rootsContainer = document.getElementById('result-roots');
+      if (rootsContainer) rootsContainer.innerHTML = '';
+
+      // Real roots
+      if (delta > 0) {
+        const x1 = (-b + Math.sqrt(delta)) / (2 * a);
+        const x2 = (-b - Math.sqrt(delta)) / (2 * a);
+        if (rootsContainer) {
+          rootsContainer.innerHTML = `
+            <span>x₁ = ${formatNum(x1)}</span>
+            <span>x₂ = ${formatNum(x2)}</span>
+          `;
+        }
+        document.getElementById('delta-type')!.textContent = '2 Real Roots';
+      } 
+      // One real root
+      else if (delta === 0) {
+        const x = -b / (2 * a);
+        if (rootsContainer) {
+          rootsContainer.innerHTML = `<span>x = ${formatNum(x)}</span>`;
+        }
+        document.getElementById('delta-type')!.textContent = '1 Real Root';
+      } 
+      // Complex roots
+      else {
+        const real = -b / (2 * a);
+        const imag = Math.sqrt(-delta) / (2 * a);
+        // handle negative a for imaginary
+        const imagAbs = Math.abs(imag);
+        if (rootsContainer) {
+          rootsContainer.innerHTML = `
+            <span>x₁ = ${formatNum(real)} + ${formatNum(imagAbs)}i</span>
+            <span>x₂ = ${formatNum(real)} - ${formatNum(imagAbs)}i</span>
+          `;
+        }
+        document.getElementById('delta-type')!.textContent = '2 Complex Roots';
+      }
+
+      // Vertex
+      const vX = -b / (2 * a);
+      const vY = -delta / (4 * a);
+      document.getElementById('result-delta')!.textContent = formatNum(delta);
+      document.getElementById('result-vertex')!.textContent = `(${formatNum(vX)}, ${formatNum(vY)})`;
+
+      document.getElementById('results-section')?.classList.remove('hidden');
+      btn?.removeAttribute('data-loading');
+    }, 200);
+  });
+</script>

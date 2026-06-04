@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SearchOverlay from '../components/SearchOverlay.astro';
+
+const year = new Date().getFullYear();
+---
+
+<BaseLayout
+  title="Privacy Policy | SolversPro"
+  description="Privacy Policy for SolversPro."
+>
+  <Header />
+  <SearchOverlay />
+  
+  <main class="flex-1 py-16 px-6">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">Privacy Policy</h1>
+      <p class="text-sm text-zinc-500 mb-10">Effective Date: January 1, {year}</p>
+
+      <div class="prose prose-lg text-zinc-400">
+        <p>
+          At SolversPro, we take your privacy very seriously. We built this platform to be fast, free, and secure, and part of that commitment means we do not unnecessarily collect, store, or sell your personal data.
+        </p>
+
+        <h2 class="text-2xl font-bold text-white mt-8 mb-4">1. Information We Collect</h2>
+        <p>
+          We deliberately minimize the data we collect. Most of our tools (such as our calculators and developer utilities) run entirely in your web browser. This means that the calculations you perform and the data you input are processed locally on your device and are never sent to our servers.
+        </p>
+        <p>
+          <strong>Universal AI Solver & Third-Party APIs:</strong> For tools requiring artificial intelligence (such as the Universal Solver), your text prompts and uploaded images are securely transmitted to Google's Gemini API for processing. We do not store this data on our servers, and it is only used momentarily to generate your solution. Please refer to Google's Privacy Policy for information on how they handle API data.
+        </p>
+        <p>
+          When you use our website, we may collect basic, anonymous analytics data (such as pages visited and time spent on the site) to help us understand how our tools are being used and how we can improve them. This data does not personally identify you.
+        </p>
+
+        <h2 class="text-2xl font-bold text-white mt-8 mb-4">2. Use of Cookies and Local Storage</h2>
+        <p>
+          We use local storage (a feature of your web browser) to save your preferences, such as your selected currency for financial calculators. This data remains on your device and is not transmitted to us.
+        </p>
+        <p>
+          We do not use tracking cookies for targeted advertising purposes. We do not display third-party advertisements.
+        </p>
+
+        <h2 class="text-2xl font-bold text-white mt-8 mb-4">3. Data Sharing</h2>
+        <p>
+          We do not sell, rent, or trade your personal information to third parties. We do not partner with advertising networks. If you contact us via email or our contact form, we will use your provided email address solely to respond to your inquiry.
+        </p>
+
+        <h2 class="text-2xl font-bold text-white mt-8 mb-4">4. Changes to This Policy</h2>
+        <p>
+          We may update this Privacy Policy from time to time as we add new tools and features to SolversPro. We encourage you to review this page periodically for any changes.
+        </p>
+
+        <h2 class="text-2xl font-bold text-white mt-8 mb-4">5. Contact Us</h2>
+        <p>
+          If you have any questions about this Privacy Policy, please contact us via our <a href="/contact" class="text-[#2dd4bf] hover:underline">Contact Page</a>.
+        </p>
+      </div>
+    </div>
+  </main>
+  
+  <Footer />
+</BaseLayout>

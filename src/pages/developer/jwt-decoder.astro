@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "JWT Decoder",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Any"
+};
+---
+
+<BaseLayout
+  title="JWT Token Decoder | SolversPro"
+  description="Decode JSON Web Tokens (JWT) to inspect their header, payload, and signature data securely in your browser."
+  canonical="https://solverspro.com/developer/jwt-decoder"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Developer', href: '/developer' },
+        { label: 'JWT Decoder' },
+      ]} />
+
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">JWT Token Decoder</h1>
+        <p class="text-lg text-zinc-400">Decode and inspect JSON Web Tokens securely. We do not store or transmit your tokens.</p>
+      </div>
+
+      <div class="flex flex-col lg:flex-row gap-6 w-full min-h-[600px]">
+        {/* Input Side */}
+        <div class="flex-1 flex flex-col gap-4">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Encoded Token</h2>
+          </div>
+          <textarea
+            id="input-token"
+            class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#ff6b35] focus:outline-none font-mono text-sm text-zinc-300 resize-none break-all"
+            placeholder="eyJh..."
+            spellcheck="false"
+          ></textarea>
+        </div>
+
+        {/* Decoded Side */}
+        <div class="flex-1 flex flex-col gap-4">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Decoded Data</h2>
+          </div>
+          <div class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl overflow-y-auto space-y-4">
+            
+            <div id="error-msg" class="hidden p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm font-mono items-center gap-2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="flex-shrink-0"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <span>Invalid JWT format</span>
+            </div>
+
+            <div id="decoded-content" class="space-y-6">
+              <div>
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-red-400 mb-2">Header (Algorithm & Token Type)</h3>
+                <pre id="output-header" class="bg-[#0d0d14] p-3 rounded-lg border border-white/[0.05] font-mono text-sm text-zinc-300 whitespace-pre-wrap min-h-[80px]"></pre>
+              </div>
+              <div>
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-purple-400 mb-2">Payload (Data)</h3>
+                <pre id="output-payload" class="bg-[#0d0d14] p-3 rounded-lg border border-white/[0.05] font-mono text-sm text-zinc-300 whitespace-pre-wrap min-h-[150px]"></pre>
+              </div>
+              <div>
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-[#2dd4bf] mb-2">Signature</h3>
+                <pre id="output-signature" class="bg-[#0d0d14] p-3 rounded-lg border border-white/[0.05] font-mono text-sm text-zinc-300 whitespace-pre-wrap break-all min-h-[60px]"></pre>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const inputToken = document.getElementById('input-token') as HTMLTextAreaElement;
+  const errorMsg = document.getElementById('error-msg');
+  const decodedContent = document.getElementById('decoded-content');
+  const outputHeader = document.getElementById('output-header');
+  const outputPayload = document.getElementById('output-payload');
+  const outputSignature = document.getElementById('output-signature');
+
+  function decodeJWT(token: string) {
+    if (!token) {
+      errorMsg?.classList.add('hidden');
+      decodedContent?.classList.remove('opacity-50');
+      if (outputHeader) outputHeader.textContent = '';
+      if (outputPayload) outputPayload.textContent = '';
+      if (outputSignature) outputSignature.textContent = '';
+      return;
+    }
+
+    try {
+      const parts = token.split('.');
+      if (parts.length !== 3) throw new Error("Invalid JWT string");
+
+      // base64Url decode
+      const b64Decode = (str: string) => {
+        let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+        const pad = base64.length % 4;
+        if (pad) {
+          if (pad === 1) throw new Error('Invalid Base64Url string');
+          base64 += new Array(5 - pad).join('=');
+        }
+        return JSON.parse(decodeURIComponent(atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join('')));
+      };
+
+      const headerObj = b64Decode(parts[0]);
+      const payloadObj = b64Decode(parts[1]);
+
+      if (outputHeader) outputHeader.textContent = JSON.stringify(headerObj, null, 2);
+      if (outputPayload) outputPayload.textContent = JSON.stringify(payloadObj, null, 2);
+      if (outputSignature) outputSignature.textContent = parts[2];
+
+      errorMsg?.classList.add('hidden');
+      decodedContent?.classList.remove('opacity-50');
+    } catch (e) {
+      errorMsg?.classList.remove('hidden');
+      errorMsg?.classList.add('flex');
+      decodedContent?.classList.add('opacity-50');
+    }
+  }
+
+  inputToken?.addEventListener('input', (e) => {
+    decodeJWT((e.target as HTMLTextAreaElement).value.trim());
+  });
+</script>

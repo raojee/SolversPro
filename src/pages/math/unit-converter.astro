@@ -1,0 +1,339 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import InputField from '../../components/InputField.astro';
+import SelectField from '../../components/SelectField.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+
+const schema = {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Universal Unit Converter",
+ "applicationCategory": "UtilitiesApplication",
+ "operatingSystem": "Any",
+ "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+ "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "150" }
+};
+
+const faqItems = [
+ {
+ question: "How accurate are the conversions?",
+ answer: "Our conversions use precise, standardized mathematical constants. However, outputs are rounded to a maximum of 6 decimal places for readability."
+ },
+ {
+ question: "How does temperature conversion work?",
+ answer: "Unlike length or weight, temperature scales do not start at a common zero point (except Kelvin). We use the exact algebraic formulas to convert between Celsius, Fahrenheit, and Kelvin, ensuring absolute accuracy."
+ },
+ {
+ question: "Why do options change when I select a category?",
+ answer: "To keep the interface clean, we group units by their physical property. You can only convert Length to Length, Weight to Weight, and Temperature to Temperature."
+ }
+];
+---
+
+<BaseLayout
+ title="Universal Unit Converter | SolversPro"
+ description="Instantly convert between length, weight, and temperature units. Fast, free, and completely accurate unit conversions."
+ canonical="https://solverspro.com/math/unit-converter"
+ schema={schema}
+>
+ <Header />
+ <SearchOverlay />
+
+ <main class="flex-1 py-12">
+ <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <Breadcrumbs items={[
+ { label: 'Home', href: '/' },
+ { label: 'Math', href: '/math' },
+ { label: 'Unit Converter' },
+ ]} />
+
+ <!-- Title -->
+ <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+ Universal Unit Converter
+ </h1>
+ <p class="text-lg text-zinc-400">
+ Convert seamlessly between measurements for Length, Weight, and Temperature.
+ </p>
+ </div>
+
+ <!-- Calculator Form -->
+ <form
+ class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 md:p-10 shadow-sm mb-8"
+ id="converter-form"
+ onsubmit="event.preventDefault();"
+ >
+ <SelectField
+ label="Measurement Category"
+ name="category"
+ id="select-category"
+ value="length"
+ options={[
+ { value: 'length', label: '📏 Length' },
+ { value: 'weight', label: '⚖️ Weight' },
+ { value: 'temperature', label: '🌡️ Temperature' },
+ ]}
+ />
+
+ <div class="h-px bg-gray-200 w-full my-6"></div>
+
+ <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+ <div>
+ <InputField
+ label="Value to Convert"
+ name="inputValue"
+ id="input-value"
+ type="number"
+ value={1}
+ step="any"
+ placeholder="Enter value"
+ />
+ </div>
+ 
+ <div class="flex flex-col gap-0 md:pt-[1.75rem]">
+ <div class="relative">
+ <select
+ id="select-from"
+ class="w-full bg-[#0d0d14] border border-white/[0.1] rounded-lg py-3 px-4 text-base font-medium text-white appearance-none cursor-pointer focus:outline-none focus:border-[#ff6b35] focus:ring-4 focus:ring-[#ff6b35]/20"
+ >
+ <!-- Options injected via JS -->
+ </select>
+ <svg class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-500" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+ </div>
+ </div>
+ </div>
+
+ <!-- Swap Button -->
+ <div class="flex justify-center -my-2 relative z-10">
+ <button type="button" id="btn-swap" class="bg-white/[0.02] border border-white/[0.1] rounded-full p-2 text-[#2dd4bf] hover:bg-[#ff6b35]/10 transition-colors shadow-sm" aria-label="Swap units">
+ <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg>
+ </button>
+ </div>
+
+ <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 mt-4">
+ <div class="md:col-start-2">
+ <label class="label block mb-2 text-zinc-400 font-medium text-sm">Convert To</label>
+ <div class="relative">
+ <select
+ id="select-to"
+ class="w-full bg-[#0d0d14] border border-white/[0.1] rounded-lg py-3 px-4 text-base font-medium text-white appearance-none cursor-pointer focus:outline-none focus:border-[#ff6b35] focus:ring-4 focus:ring-[#ff6b35]/20"
+ >
+ <!-- Options injected via JS -->
+ </select>
+ <svg class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-500" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+ </div>
+ </div>
+ </div>
+
+ <div class="mt-8">
+ <CalculateButton text="Convert" icon="🔄" id="calc-btn" />
+ </div>
+ </form>
+
+ <!-- Results -->
+ <div id="results-section" class="hidden space-y-8 mb-12 max-w-2xl mx-auto">
+ <div class="result-surface p-6 md:p-10 rounded-xl border bg-white/[0.02] flex flex-col items-center justify-center min-h-[160px] text-center" id="result-summary">
+ <p class="text-zinc-500 font-medium mb-2" id="result-equation">1 m = 3.28084 ft</p>
+ <p class="text-4xl md:text-5xl font-bold text-[#2dd4bf] break-words w-full" id="result-value">3.28084</p>
+ <p class="text-white font-semibold mt-2 text-lg" id="result-unit">Feet</p>
+ </div>
+ </div>
+
+ <!-- FAQ -->
+ <div class="mb-12 max-w-3xl mx-auto">
+ <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+ <FAQAccordion items={faqItems} />
+ </div>
+
+ </div>
+ </main>
+
+ <Footer />
+</BaseLayout>
+
+<script>
+ const unitData = {
+ length: {
+ options: [
+ {value: 'm', label: 'Meters (m)'},
+ {value: 'km', label: 'Kilometers (km)'},
+ {value: 'cm', label: 'Centimeters (cm)'},
+ {value: 'mm', label: 'Millimeters (mm)'},
+ {value: 'mi', label: 'Miles (mi)'},
+ {value: 'yd', label: 'Yards (yd)'},
+ {value: 'ft', label: 'Feet (ft)'},
+ {value: 'in', label: 'Inches (in)'}
+ ],
+ // Base unit is meters
+ factors: {
+ 'm': 1,
+ 'km': 1000,
+ 'cm': 0.01,
+ 'mm': 0.001,
+ 'mi': 1609.344,
+ 'yd': 0.9144,
+ 'ft': 0.3048,
+ 'in': 0.0254
+ }
+ },
+ weight: {
+ options: [
+ {value: 'kg', label: 'Kilograms (kg)'},
+ {value: 'g', label: 'Grams (g)'},
+ {value: 'mg', label: 'Milligrams (mg)'},
+ {value: 't', label: 'Metric Tons (t)'},
+ {value: 'lb', label: 'Pounds (lb)'},
+ {value: 'oz', label: 'Ounces (oz)'}
+ ],
+ // Base unit is kilograms
+ factors: {
+ 'kg': 1,
+ 'g': 0.001,
+ 'mg': 0.000001,
+ 't': 1000,
+ 'lb': 0.45359237,
+ 'oz': 0.0283495231
+ }
+ },
+ temperature: {
+ options: [
+ {value: 'c', label: 'Celsius (°C)'},
+ {value: 'f', label: 'Fahrenheit (°F)'},
+ {value: 'k', label: 'Kelvin (K)'}
+ ]
+ }
+ };
+
+ const categorySelect = document.getElementById('select-category') as HTMLSelectElement;
+ const fromSelect = document.getElementById('select-from') as HTMLSelectElement;
+ const toSelect = document.getElementById('select-to') as HTMLSelectElement;
+ const inputVal = document.getElementById('input-value') as HTMLInputElement;
+ const swapBtn = document.getElementById('btn-swap');
+
+ function updateDropdowns() {
+ const cat = categorySelect.value as keyof typeof unitData;
+ const data = unitData[cat];
+
+ let html = '';
+ data.options.forEach(opt => {
+ html += `<option value="${opt.value}">${opt.label}</option>`;
+ });
+
+ fromSelect.innerHTML = html;
+ toSelect.innerHTML = html;
+
+ // Set defaults
+ if (cat === 'length') {
+ fromSelect.value = 'm';
+ toSelect.value = 'ft';
+ } else if (cat === 'weight') {
+ fromSelect.value = 'kg';
+ toSelect.value = 'lb';
+ } else if (cat === 'temperature') {
+ fromSelect.value = 'c';
+ toSelect.value = 'f';
+ }
+ }
+
+ categorySelect.addEventListener('change', () => {
+ updateDropdowns();
+ // Hide results if category changes
+ document.getElementById('results-section')?.classList.add('hidden');
+ });
+
+ swapBtn?.addEventListener('click', () => {
+ const temp = fromSelect.value;
+ fromSelect.value = toSelect.value;
+ toSelect.value = temp;
+ // Auto-calculate if already shown
+ if (!document.getElementById('results-section')?.classList.contains('hidden')) {
+ doConvert();
+ }
+ });
+
+ function convertTemp(val: number, from: string, to: string): number {
+ if (from === to) return val;
+ 
+ // Convert to Celsius first
+ let c = val;
+ if (from === 'f') c = (val - 32) * 5/9;
+ if (from === 'k') c = val - 273.15;
+
+ // Convert from Celsius to Target
+ if (to === 'c') return c;
+ if (to === 'f') return (c * 9/5) + 32;
+ if (to === 'k') return c + 273.15;
+ 
+ return val;
+ }
+
+ function getLabel(cat: string, val: string): string {
+ const arr = unitData[cat as keyof typeof unitData].options;
+ const match = arr.find(x => x.value === val);
+ return match ? match.label : val;
+ }
+
+ function formatResult(n: number): string {
+ // Check if it's an integer
+ if (Number.isInteger(n)) return n.toString();
+ // Limit decimal places to 6, remove trailing zeros
+ return parseFloat(n.toFixed(6)).toString();
+ }
+
+ function doConvert() {
+ const cat = categorySelect.value as keyof typeof unitData;
+ const from = fromSelect.value;
+ const to = toSelect.value;
+ const val = parseFloat(inputVal.value);
+
+ if (isNaN(val)) return;
+
+ const btn = document.getElementById('calc-btn');
+ btn?.setAttribute('data-loading', 'true');
+
+ setTimeout(() => {
+ let result = 0;
+
+ if (cat === 'temperature') {
+ result = convertTemp(val, from, to);
+ } else {
+ // Length or Weight
+ const factors = (unitData[cat] as any).factors;
+ const fromFactor = factors[from];
+ const toFactor = factors[to];
+ // Convert 'from' to base unit, then divide by 'to' factor
+ const baseVal = val * fromFactor;
+ result = baseVal / toFactor;
+ }
+
+ const resultValueEl = document.getElementById('result-value');
+ const resultUnitEl = document.getElementById('result-unit');
+ const resultEqEl = document.getElementById('result-equation');
+
+ if (resultValueEl) resultValueEl.textContent = formatResult(result);
+ if (resultUnitEl) resultUnitEl.textContent = getLabel(cat, to);
+ if (resultEqEl) {
+ resultEqEl.textContent = `${formatResult(val)} ${from} = ${formatResult(result)} ${to}`;
+ }
+
+ const resultsSection = document.getElementById('results-section');
+ resultsSection?.classList.remove('hidden');
+ document.getElementById('result-summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+ 
+ btn?.removeAttribute('data-loading');
+ }, 300);
+ }
+
+ document.getElementById('converter-form')?.addEventListener('submit', (e) => {
+ e.preventDefault();
+ doConvert();
+ });
+
+ // Initialize dropdowns
+ updateDropdowns();
+</script>

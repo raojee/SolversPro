@@ -1,0 +1,281 @@
+@import "tailwindcss";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+@import "@fontsource/jetbrains-mono/600.css";
+@import "@fontsource/jetbrains-mono/700.css";
+
+/* ========================================================================
+   SolversPro Design System — Sci-Fi Dark Theme
+   ======================================================================== */
+
+@theme {
+  --color-page-bg: #0a0a0f;
+  --color-nav-bg: #0d0d14;
+  --color-card-bg: rgba(255, 255, 255, 0.03);
+  --color-highlight: rgba(255, 107, 53, 0.08);
+  --color-header-cta: #ff6b35;
+
+  --color-text-heading: #ffffff;
+  --color-text-body: #a1a1aa;
+  --color-text-muted: #71717a;
+  --color-link: #2dd4bf;
+  --color-link-hover: #5eead4;
+
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-divider: rgba(255, 255, 255, 0.05);
+
+  --color-primary: #ff6b35;
+  --color-primary-hover: #ff8c5a;
+  --color-accent: #2dd4bf;
+  --color-accent-hover: #5eead4;
+  --color-badge-bg: rgba(255, 107, 53, 0.12);
+  --color-badge-text: #ff6b35;
+
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-card-hover: 0 0 0 1px rgba(255, 107, 53, 0.3), 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 20px rgba(255, 107, 53, 0.15);
+}
+
+:root {
+  --color-page-bg: #0a0a0f;
+  --color-nav-bg: #0d0d14;
+  --color-card-bg: rgba(255, 255, 255, 0.03);
+  --color-highlight: rgba(255, 107, 53, 0.08);
+
+  --color-text-heading: #ffffff;
+  --color-text-body: #a1a1aa;
+  --color-text-muted: #71717a;
+  --color-link: #2dd4bf;
+  --color-link-hover: #5eead4;
+
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-divider: rgba(255, 255, 255, 0.05);
+
+  --color-primary: #ff6b35;
+  --color-primary-hover: #ff8c5a;
+  --color-accent: #2dd4bf;
+  --color-accent-hover: #5eead4;
+  --color-badge-bg: rgba(255, 107, 53, 0.12);
+  --color-badge-text: #ff6b35;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-card-hover: 0 0 0 1px rgba(255, 107, 53, 0.3), 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 20px rgba(255, 107, 53, 0.15);
+}
+
+/* ========================================================================
+   Base Styles
+   ======================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text-body);
+  background-color: var(--color-page-bg);
+  line-height: 1.6;
+  margin: 0;
+  /* Subtle circuit-board grid texture */
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ========================================================================
+   Inputs & Forms — Sci-Fi
+   ======================================================================== */
+
+input, select, textarea {
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff !important;
+  transition: all 0.2s;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-family: var(--font-sans);
+}
+
+input::placeholder, select::placeholder, textarea::placeholder {
+  color: #52525b !important;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #ff6b35 !important;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15), 0 0 15px rgba(255, 107, 53, 0.1) !important;
+}
+
+select option {
+  background-color: #18181b;
+  color: #ffffff;
+}
+
+/* ========================================================================
+   Typography — Sci-Fi Monospace Headings
+   ======================================================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--color-text-heading);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: 48px; font-weight: 700; }
+h2 { font-size: 36px; font-weight: 600; letter-spacing: -0.01em; }
+h3 { font-size: 24px; font-weight: 600; }
+h4 { font-size: 18px; font-weight: 600; }
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ========================================================================
+   Sci-Fi Badge — Orange bordered pill
+   ======================================================================== */
+
+.scifi-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border: 1px solid rgba(255, 107, 53, 0.4);
+  border-radius: 4px;
+  background: rgba(255, 107, 53, 0.08);
+  color: #ff6b35;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* ========================================================================
+   Scrollbar & Spinners
+   ======================================================================== */
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 107, 53, 0.3);
+}
+
+::selection {
+  background-color: rgba(255, 107, 53, 0.3);
+  color: #ffffff;
+}
+
+/* ========================================================================
+   Utility Classes
+   ======================================================================== */
+
+.card-hover-fx {
+  transition: all 0.3s ease;
+}
+.card-hover-fx:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(255, 107, 53, 0.3);
+}
+
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #ff6b35;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Glow line separator */
+.glow-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.3), transparent);
+}
+
+/* ========================================================================
+   Prose Override — Sci-Fi
+   ======================================================================== */
+.prose {
+  color: #a1a1aa;
+}
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  color: #ffffff;
+  font-family: var(--font-display);
+}
+.prose p {
+  color: #a1a1aa;
+}
+.prose strong {
+  color: #e4e4e7;
+}
+.prose a {
+  color: #2dd4bf;
+}

@@ -1,0 +1,157 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import InputField from '../../components/InputField.astro';
+import SelectField from '../../components/SelectField.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "BMI Calculator",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "Any"
+};
+---
+
+<BaseLayout
+  title="BMI Calculator | SolversPro"
+  description="Calculate your Body Mass Index (BMI) instantly."
+  canonical="https://solverspro.com/health/bmi-calculator"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Health', href: '/health' },
+        { label: 'BMI Calculator' },
+      ]} />
+
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">BMI Calculator</h1>
+        <p class="text-lg text-zinc-400">Calculate your Body Mass Index based on weight and height.</p>
+      </div>
+
+      <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8" id="calculator-form">
+        <SelectField
+          label="Unit System"
+          name="unitSystem"
+          id="select-unit"
+          value="metric"
+          options={[
+            { value: 'metric', label: 'Metric (kg, cm)' },
+            { value: 'imperial', label: 'Imperial (lbs, inches)' }
+          ]}
+        />
+        
+        <div id="inputs-metric">
+          <InputField label="Weight (kg)" name="weightKg" value={70} min={1} step={0.1} />
+          <InputField label="Height (cm)" name="heightCm" value={175} min={10} step={0.1} />
+        </div>
+        
+        <div id="inputs-imperial" class="hidden">
+          <InputField label="Weight (lbs)" name="weightLbs" value={150} min={1} step={0.1} />
+          <InputField label="Height (inches)" name="heightIn" value={70} min={10} step={0.1} />
+        </div>
+
+        <div class="mt-6">
+          <CalculateButton text="Calculate BMI" icon="⚖️" id="calculate-btn" />
+        </div>
+      </form>
+
+      <!-- Results -->
+      <div id="results-section" class="hidden space-y-8 mb-12 max-w-2xl mx-auto">
+        <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02] text-center" id="result-summary">
+          <p class="label mb-2 text-sm font-medium text-zinc-500 uppercase tracking-wider">Your BMI Is</p>
+          <p class="text-6xl font-bold text-white mb-4" id="result-bmi">0</p>
+          <div class="inline-block px-4 py-2 rounded-full font-bold text-sm tracking-wide" id="result-category">
+            CATEGORY
+          </div>
+          
+          <div class="mt-8 pt-8 border-t border-white/[0.05]">
+             <p class="text-zinc-400 text-sm mb-4">BMI Categories:</p>
+             <div class="flex justify-between text-xs font-mono text-zinc-500 gap-2">
+                <div class="flex-1 text-blue-400">Underweight<br/>&lt; 18.5</div>
+                <div class="flex-1 text-green-400">Normal<br/>18.5 - 24.9</div>
+                <div class="flex-1 text-orange-400">Overweight<br/>25 - 29.9</div>
+                <div class="flex-1 text-red-400">Obese<br/>&gt; 30</div>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const unitSelect = document.getElementById('select-unit') as HTMLSelectElement;
+  
+  unitSelect?.addEventListener('change', (e) => {
+    document.getElementById('inputs-metric')?.classList.add('hidden');
+    document.getElementById('inputs-imperial')?.classList.add('hidden');
+    const unit = (e.target as HTMLSelectElement).value;
+    document.getElementById(`inputs-${unit}`)?.classList.remove('hidden');
+    document.getElementById('results-section')?.classList.add('hidden');
+  });
+
+  function calculate() {
+    const unit = unitSelect?.value;
+    const btn = document.getElementById('calculate-btn');
+    btn?.setAttribute('data-loading', 'true');
+
+    setTimeout(() => {
+      let bmi = 0;
+      if (unit === 'metric') {
+        const kg = parseFloat((document.getElementById('input-weightKg') as HTMLInputElement)?.value) || 0;
+        const cm = parseFloat((document.getElementById('input-heightCm') as HTMLInputElement)?.value) || 0;
+        const m = cm / 100;
+        if (m > 0 && kg > 0) {
+          bmi = kg / (m * m);
+        }
+      } else {
+        const lbs = parseFloat((document.getElementById('input-weightLbs') as HTMLInputElement)?.value) || 0;
+        const inc = parseFloat((document.getElementById('input-heightIn') as HTMLInputElement)?.value) || 0;
+        if (inc > 0 && lbs > 0) {
+          bmi = 703 * (lbs / (inc * inc));
+        }
+      }
+
+      if (bmi > 0) {
+        document.getElementById('result-bmi')!.textContent = bmi.toFixed(1);
+        const categoryEl = document.getElementById('result-category');
+        if (categoryEl) {
+          categoryEl.classList.remove('bg-blue-500/20', 'text-blue-400', 'bg-green-500/20', 'text-green-400', 'bg-orange-500/20', 'text-orange-400', 'bg-red-500/20', 'text-red-400');
+          if (bmi < 18.5) {
+            categoryEl.textContent = "UNDERWEIGHT";
+            categoryEl.classList.add('bg-blue-500/20', 'text-blue-400');
+          } else if (bmi < 25) {
+            categoryEl.textContent = "NORMAL WEIGHT";
+            categoryEl.classList.add('bg-green-500/20', 'text-green-400');
+          } else if (bmi < 30) {
+            categoryEl.textContent = "OVERWEIGHT";
+            categoryEl.classList.add('bg-orange-500/20', 'text-orange-400');
+          } else {
+            categoryEl.textContent = "OBESE";
+            categoryEl.classList.add('bg-red-500/20', 'text-red-400');
+          }
+        }
+        document.getElementById('results-section')?.classList.remove('hidden');
+      }
+      
+      btn?.removeAttribute('data-loading');
+    }, 300);
+  }
+
+  document.getElementById('calculator-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    calculate();
+  });
+</script>
