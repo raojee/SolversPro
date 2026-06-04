@@ -6,12 +6,17 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
       <!-- Brand -->
       <div class="lg:col-span-1">
-        <a href="/" class="flex items-center gap-2.5 no-underline mb-4">
-          <div class="w-7 h-7 rounded-lg flex items-center justify-center bg-[#ff6b35]/15 border border-[#ff6b35]/30">
-            <span class="text-xs font-bold text-[#ff6b35]" style="font-family: 'JetBrains Mono', monospace;">SP</span>
+        <a href="/" class="flex items-center gap-3 no-underline mb-4 group">
+          <div class="relative flex items-center justify-center w-8 h-8 border border-white/[0.15] bg-[#0d0d14] overflow-hidden shadow-[0_0_15px_rgba(255,107,53,0.1)] group-hover:border-[#ff6b35]/60 group-hover:shadow-[0_0_20px_rgba(255,107,53,0.3)] transition-all duration-300" style="clip-path: polygon(25% 0, 100% 0, 100% 75%, 75% 100%, 0 100%, 0 25%);">
+            <div class="absolute inset-0 bg-gradient-to-br from-[#ff6b35]/10 to-transparent"></div>
+            <span class="text-[11px] font-bold tracking-widest relative z-10 translate-x-[1px]" style="font-family: 'JetBrains Mono', monospace;">
+              <span class="text-white drop-shadow-[0_0_2px_rgba(255,255,255,0.5)]">S</span><span class="text-[#ff6b35] drop-shadow-[0_0_5px_rgba(255,107,53,0.5)]">P</span>
+            </span>
           </div>
-          <span class="text-lg font-bold tracking-tight text-white" style="font-family: 'JetBrains Mono', monospace; letter-spacing: -0.02em;">
-            Solvers<span class="text-[#ff6b35]">Pro</span>
+          <span class="text-lg font-bold tracking-tight flex items-center gap-px text-white" style="font-family: 'JetBrains Mono', monospace; letter-spacing: -0.02em;">
+            <span class="text-zinc-600 font-light mr-1 opacity-50 group-hover:opacity-100 transition-opacity">[</span>
+            <span class="text-white group-hover:text-zinc-200 transition-colors">Solvers</span><span class="text-[#ff6b35]">Pro</span>
+            <span class="text-zinc-600 font-light ml-1 opacity-50 group-hover:opacity-100 transition-opacity">]</span>
           </span>
         </a>
         <p class="text-sm leading-relaxed text-zinc-500" style="font-family: 'JetBrains Mono', monospace; font-size: 12px;">

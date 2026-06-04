@@ -3,8 +3,7 @@
 
 <div
   id="search-overlay"
-  class="search-overlay-bg hidden fixed inset-0 z-[100] flex items-start justify-center pt-[15vh] bg-[#0a0a0f]/95"
-  style="backdrop-filter: blur(8px);"
+  class="search-overlay-bg hidden fixed inset-0 z-[100] flex items-start justify-center pt-[15vh] bg-[#0d0d14]/80 backdrop-blur-sm"
   role="dialog"
   aria-modal="true"
   aria-label="Search tools"
@@ -19,8 +18,8 @@
 
     <!-- Search Input -->
     <div class="relative mb-8 group">
-      <div class="absolute inset-0 bg-[#ff6b35]/20 blur-xl rounded-full opacity-0 group-focus-within:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-      <svg class="absolute left-6 top-1/2 -translate-y-1/2 text-[#ff6b35]" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <div class="absolute inset-0 bg-[#06b6d4]/20 blur-xl rounded-full opacity-0 group-focus-within:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+      <svg class="absolute left-6 top-1/2 -translate-y-1/2 text-[#06b6d4]" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"/>
         <line x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
@@ -28,7 +27,7 @@
         id="search-input"
         type="text"
         placeholder="SEARCH_TOOLS..."
-        class="w-full pl-16 pr-6 py-5 text-2xl md:text-3xl font-medium bg-[#0d0d14] border border-white/[0.1] rounded-xl text-white focus:outline-none focus:border-[#ff6b35] transition-all shadow-2xl placeholder-zinc-600"
+        class="w-full pl-16 pr-6 py-5 text-2xl md:text-3xl font-medium bg-[#1a1a2e] border border-slate-700 rounded-xl text-white focus:outline-none focus:border-[#06b6d4] transition-all shadow-2xl placeholder-zinc-500"
         autocomplete="off"
         style="font-family: 'JetBrains Mono', monospace;"
       />
@@ -42,49 +41,44 @@
 </div>
 
 <script>
-  const tools = [
-    {
-      title: 'Compound Interest',
-      url: '/finance/compound-interest',
-      category: 'Finance',
-      keywords: ['investing', 'growth', 'savings', 'interest', 'wealth', 'money', 'finance', 'compound'],
-      icon: '📈'
-    },
-    {
-      title: 'TDEE Calculator',
-      url: '/health/tdee-calculator',
-      category: 'Health',
-      keywords: ['calories', 'diet', 'weight loss', 'maintenance', 'bmr', 'energy', 'health', 'fitness'],
-      icon: '⚡'
-    },
-    {
-      title: 'Concrete Slab',
-      url: '/trades/concrete-slab',
-      category: 'Trades',
-      keywords: ['construction', 'concrete', 'volume', 'bags', 'building', 'slab', 'patio', 'driveway'],
-      icon: '🏗️'
-    },
-    {
-      title: 'Scientific Calculator',
-      url: '/math/scientific-calculator',
-      category: 'Math',
-      keywords: ['math', 'trigonometry', 'logarithm', 'pi', 'equations', 'calc', 'scientific'],
-      icon: '📐'
-    },
-    {
-      title: 'Simple Interest',
-      url: '/finance/simple-interest',
-      category: 'Finance',
-      keywords: ['loans', 'borrowing', 'interest', 'simple', 'finance', 'money', 'principal'],
-      icon: '📊'
-    },
-    {
-      title: 'Cash-on-Cash Return',
-      url: '/finance/cash-on-cash-return',
-      category: 'Finance',
-      keywords: ['real estate', 'property', 'investing', 'roi', 'cash flow', 'yield', 'finance'],
-      icon: '🏠'
-    }
+  const toolsIndex = [
+    { title: 'Universal AI Solver', url: '/solve', category: 'AI Tools', keywords: ['ai', 'solve', 'gemini', 'math', 'chemistry', 'physics', 'engineering', 'logic', 'multimodal', 'image'], icon: '🧠' },
+    { title: 'PDF Merger Tool', url: '/tools/pdf-merger', category: 'Utilities', keywords: ['pdf', 'merge', 'combine', 'join', 'document'], icon: '📄' },
+    
+    // Developer Tools
+    { title: 'JSON Formatter & Validator', url: '/developer/json-tools', category: 'Developer Tools', keywords: ['json', 'format', 'beautify', 'minify', 'validate', 'parse'], icon: '{"}' },
+    { title: 'XML Formatter & Validator', url: '/developer/xml-tools', category: 'Developer Tools', keywords: ['xml', 'format', 'beautify', 'minify', 'validate', 'parse'], icon: '</>' },
+    { title: 'Base64 Encoder & Decoder', url: '/developer/base64-converter', category: 'Developer Tools', keywords: ['base64', 'encode', 'decode', 'text', 'string'], icon: '🔤' },
+    { title: 'JWT Token Decoder', url: '/developer/jwt-decoder', category: 'Developer Tools', keywords: ['jwt', 'json', 'web', 'token', 'auth', 'security', 'decode'], icon: '🔐' },
+    { title: 'Hash Generator', url: '/developer/hash-generator', category: 'Developer Tools', keywords: ['hash', 'md5', 'sha1', 'sha256', 'sha512', 'crypto', 'security'], icon: '🔒' },
+    { title: 'Color Converter', url: '/developer/color-converter', category: 'Developer Tools', keywords: ['color', 'hex', 'rgb', 'hsl', 'css', 'picker', 'convert'], icon: '🎨' },
+    
+    // Finance
+    { title: 'Compound Interest', url: '/finance/compound-interest', category: 'Finance', keywords: ['investing', 'growth', 'savings', 'interest', 'wealth', 'money', 'finance', 'compound'], icon: '📈' },
+    { title: 'Simple Interest', url: '/finance/simple-interest', category: 'Finance', keywords: ['loans', 'borrowing', 'interest', 'simple', 'finance', 'money', 'principal'], icon: '📊' },
+    { title: 'Cash-on-Cash Return', url: '/finance/cash-on-cash-return', category: 'Finance', keywords: ['real estate', 'property', 'investing', 'roi', 'cash flow', 'yield', 'finance'], icon: '🏠' },
+    { title: 'ROI Calculator', url: '/finance/roi-calculator', category: 'Finance', keywords: ['roi', 'return', 'investment', 'profit', 'margin', 'finance'], icon: '💰' },
+    { title: 'Mortgage Calculator', url: '/finance/mortgage-calculator', category: 'Finance', keywords: ['mortgage', 'loan', 'home', 'house', 'payment', 'interest', 'amortization'], icon: '🏦' },
+    
+    // Health
+    { title: 'TDEE Calculator', url: '/health/tdee-calculator', category: 'Health', keywords: ['calories', 'diet', 'weight loss', 'maintenance', 'bmr', 'energy', 'health', 'fitness'], icon: '⚡' },
+    { title: 'BMI Calculator', url: '/health/bmi-calculator', category: 'Health', keywords: ['bmi', 'body mass index', 'weight', 'health', 'fitness', 'obesity'], icon: '⚖️' },
+    
+    // Trades
+    { title: 'Concrete Slab', url: '/trades/concrete-slab', category: 'Trades', keywords: ['construction', 'concrete', 'volume', 'bags', 'building', 'slab', 'patio', 'driveway'], icon: '🏗️' },
+    { title: 'Solar Panel Size', url: '/trades/solar-panel', category: 'Trades', keywords: ['solar', 'panel', 'energy', 'power', 'watt', 'electricity', 'off-grid'], icon: '☀️' },
+    { title: 'Wire Size Calculator', url: '/trades/wire-size', category: 'Trades', keywords: ['wire', 'size', 'gauge', 'awg', 'electrical', 'voltage', 'drop', 'current'], icon: '🔌' },
+    { title: 'Board Feet Calculator', url: '/trades/board-feet', category: 'Trades', keywords: ['wood', 'lumber', 'timber', 'board', 'feet', 'carpentry', 'woodworking'], icon: '🪵' },
+    { title: 'Paint Calculator', url: '/trades/paint-calculator', category: 'Trades', keywords: ['paint', 'coverage', 'gallon', 'room', 'wall', 'painting'], icon: '🖌️' },
+    
+    // Math
+    { title: 'Scientific Calculator', url: '/math/scientific-calculator', category: 'Math', keywords: ['math', 'trigonometry', 'logarithm', 'pi', 'equations', 'calc', 'scientific'], icon: '📐' },
+    { title: 'Geometry Calculator', url: '/math/geometry-calculator', category: 'Math', keywords: ['geometry', 'area', 'volume', 'perimeter', 'circle', 'triangle', 'rectangle'], icon: '🔺' },
+    { title: 'Matrix Calculator', url: '/math/matrix-calculator', category: 'Math', keywords: ['matrix', 'determinant', 'inverse', 'multiply', 'algebra', 'math'], icon: '🔢' },
+    { title: 'Percentage Calculator', url: '/math/percentage-calculator', category: 'Math', keywords: ['percent', 'percentage', 'fraction', 'ratio', 'math'], icon: '٪' },
+    { title: 'Quadratic Solver', url: '/math/quadratic-solver', category: 'Math', keywords: ['quadratic', 'equation', 'roots', 'algebra', 'math', 'solver'], icon: '➗' },
+    { title: 'Statistics Calculator', url: '/math/statistics-calculator', category: 'Math', keywords: ['statistics', 'mean', 'median', 'mode', 'standard deviation', 'variance'], icon: '📊' },
+    { title: 'Unit Converter', url: '/math/unit-converter', category: 'Math', keywords: ['unit', 'convert', 'length', 'weight', 'volume', 'temperature', 'metric', 'imperial'], icon: '📏' }
   ];
 
   const overlay = document.getElementById('search-overlay');
@@ -96,26 +90,26 @@
     const q = query.toLowerCase().trim();
     
     const filtered = q
-      ? tools.filter(t => 
+      ? toolsIndex.filter(t => 
           t.title.toLowerCase().includes(q) || 
           t.keywords.some(k => k.toLowerCase().includes(q))
         )
-      : tools;
+      : toolsIndex;
 
     if (!resultsContainer) return;
 
     if (filtered.length === 0 && q) {
       resultsContainer.innerHTML = `
-        <li class="text-center py-12 text-zinc-500 font-mono">
-          <p class="text-lg mb-2">ERR_NO_MATCH</p>
-          <p class="text-sm">Query "${query}" returned 0 results.</p>
+        <li class="text-center py-12 font-mono">
+          <p class="text-lg mb-2 text-white">No tools found for '${query}'</p>
+          <p class="text-sm text-zinc-500">Try checking your spelling or use fewer keywords.</p>
         </li>
       `;
       return;
     }
 
     // Group by category
-    const groups: Record<string, typeof tools> = {};
+    const groups: Record<string, typeof toolsIndex> = {};
     filtered.forEach(t => {
       if (!groups[t.category]) groups[t.category] = [];
       groups[t.category].push(t);
@@ -125,16 +119,16 @@
     let idx = 0;
     for (const [category, categoryTools] of Object.entries(groups)) {
       html += `<li class="mb-6">
-        <h3 class="text-xs font-bold uppercase tracking-widest text-[#ff6b35] mb-3 px-3 font-mono border-b border-[#ff6b35]/20 pb-1 inline-block">${category}</h3>
+        <h3 class="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-3 px-3 font-mono border-b border-zinc-800 pb-1 inline-block">${category}</h3>
         <ul class="space-y-2">`;
       for (const tool of categoryTools) {
         html += `
           <li>
-            <a href="${tool.url}" class="search-result flex items-center gap-4 px-4 py-3 rounded-lg border border-transparent transition-all duration-200 hover:bg-white/[0.03] hover:border-white/[0.08]" data-index="${idx}">
+            <a href="${tool.url}" class="search-result flex items-center gap-4 px-4 py-3 rounded-lg border border-transparent transition-all duration-200 text-white" data-index="${idx}">
               <span class="text-xl bg-white/[0.05] p-2 rounded">${tool.icon}</span>
               <div class="flex flex-col">
-                <span class="font-medium text-white font-mono">${tool.title}</span>
-                <span class="text-xs text-zinc-500 font-mono hidden sm:block">${tool.url}</span>
+                <span class="font-medium font-mono title-text">${tool.title}</span>
+                <span class="text-xs text-zinc-500 font-mono hidden sm:block url-text">${tool.url}</span>
               </div>
             </a>
           </li>`;
@@ -150,11 +144,24 @@
     const items = resultsContainer?.querySelectorAll('.search-result') || [];
     items.forEach((el, i) => {
       if (i === selectedIndex) {
-        el.classList.add('bg-white/[0.05]', 'border-white/[0.1]');
-        el.classList.remove('border-transparent');
+        el.classList.add('bg-[#06b6d4]/10', 'border-[#06b6d4]/30', 'text-[#06b6d4]');
+        el.classList.remove('border-transparent', 'text-white');
+        
+        // Update nested text elements for highlight effect
+        el.querySelector('.title-text')?.classList.add('text-[#06b6d4]');
+        el.querySelector('.url-text')?.classList.add('text-[#06b6d4]/70');
+        el.querySelector('.url-text')?.classList.remove('text-zinc-500');
+        
+        // Auto-scroll to selected item
+        el.scrollIntoView({ block: 'nearest' });
       } else {
-        el.classList.remove('bg-white/[0.05]', 'border-white/[0.1]');
-        el.classList.add('border-transparent');
+        el.classList.remove('bg-[#06b6d4]/10', 'border-[#06b6d4]/30', 'text-[#06b6d4]');
+        el.classList.add('border-transparent', 'text-white');
+        
+        // Restore nested text elements
+        el.querySelector('.title-text')?.classList.remove('text-[#06b6d4]');
+        el.querySelector('.url-text')?.classList.remove('text-[#06b6d4]/70');
+        el.querySelector('.url-text')?.classList.add('text-zinc-500');
       }
     });
   }
@@ -197,9 +204,14 @@
     }
   });
 
-  // Global Ctrl+K / Cmd+K handler
+  // Global Ctrl+K / Cmd+K / Ctrl+/ handler
   document.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    const isCmdK = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k';
+    const isCtrlSlash = (e.ctrlKey || e.metaKey) && e.key === '/';
+    const activeTag = document.activeElement ? document.activeElement.tagName : '';
+    const isSlash = e.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(activeTag);
+
+    if (isCmdK || isCtrlSlash || isSlash) {
       e.preventDefault();
       if (overlay?.classList.contains('hidden')) {
         openSearch();

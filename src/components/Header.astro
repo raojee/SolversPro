@@ -4,12 +4,17 @@
 <header class="sticky top-0 z-50 w-full bg-[#0d0d14]/90 border-b border-white/[0.06] transition-all duration-300" style="backdrop-filter: blur(12px);" id="main-header">
   <div class="container mx-auto px-4 h-16 flex items-center justify-between">
     <!-- Logo -->
-    <a href="/" class="flex items-center gap-2.5 no-underline" id="header-logo">
-      <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-[#ff6b35]/15 border border-[#ff6b35]/30">
-        <span class="text-sm font-bold text-[#ff6b35]" style="font-family: 'JetBrains Mono', monospace;">SP</span>
+    <a href="/" class="flex items-center gap-3 no-underline group" id="header-logo">
+      <div class="relative flex items-center justify-center w-9 h-9 border border-white/[0.15] bg-[#0d0d14] overflow-hidden shadow-[0_0_15px_rgba(255,107,53,0.1)] group-hover:border-[#ff6b35]/60 group-hover:shadow-[0_0_20px_rgba(255,107,53,0.3)] transition-all duration-300" style="clip-path: polygon(25% 0, 100% 0, 100% 75%, 75% 100%, 0 100%, 0 25%);">
+        <div class="absolute inset-0 bg-gradient-to-br from-[#ff6b35]/10 to-transparent"></div>
+        <span class="text-[13px] font-bold tracking-widest relative z-10 translate-x-[1px]" style="font-family: 'JetBrains Mono', monospace;">
+          <span class="text-white drop-shadow-[0_0_2px_rgba(255,255,255,0.5)]">S</span><span class="text-[#ff6b35] drop-shadow-[0_0_5px_rgba(255,107,53,0.5)]">P</span>
+        </span>
       </div>
-      <span class="text-lg font-bold tracking-tight" style="font-family: 'JetBrains Mono', monospace; letter-spacing: -0.02em;">
-        <span class="text-white">Solvers</span><span class="text-[#ff6b35]">Pro</span>
+      <span class="text-lg font-bold tracking-tight flex items-center gap-px" style="font-family: 'JetBrains Mono', monospace; letter-spacing: -0.02em;">
+        <span class="text-zinc-600 font-light mr-1 opacity-50 group-hover:opacity-100 transition-opacity">[</span>
+        <span class="text-white group-hover:text-zinc-200 transition-colors">Solvers</span><span class="text-[#ff6b35]">Pro</span>
+        <span class="text-zinc-600 font-light ml-1 opacity-50 group-hover:opacity-100 transition-opacity">]</span>
       </span>
     </a>
 
@@ -38,6 +43,9 @@
           <line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
         <span class="hidden sm:inline">Search</span>
+        <kbd class="hidden md:inline-flex ml-1 items-center px-1.5 py-0.5 rounded border border-white/[0.1] bg-white/[0.03] text-[10px] text-zinc-500 font-sans">
+          /
+        </kbd>
       </button>
 
       <!-- Get Started CTA -->

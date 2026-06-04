@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
@@ -24,16 +25,15 @@ const schema = {
   <SearchOverlay />
 
   <main class="flex-1 py-12">
-    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="container mx-auto px-4 py-12 max-w-5xl">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'Developer', href: '/developer' },
-        { label: 'JWT Decoder' },
+        { label: 'Developer Tools', href: '/developer' },
+        { label: 'JWT Token Decoder' },
       ]} />
-
-      <div class="mb-8 max-w-3xl mx-auto text-center">
-        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">JWT Token Decoder</h1>
-        <p class="text-lg text-zinc-400">Decode and inspect JSON Web Tokens securely. We do not store or transmit your tokens.</p>
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">JWT Token Decoder</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Decode and inspect JSON Web Tokens securely. We do not store or transmit your tokens.</p>
       </div>
 
       <div class="flex flex-col lg:flex-row gap-6 w-full min-h-[600px]">

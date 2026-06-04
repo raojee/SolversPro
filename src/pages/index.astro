@@ -1,5 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SearchOverlay from '../components/SearchOverlay.astro';
 import ToolCard from '../components/ToolCard.astro';
 import CategoryCard from '../components/CategoryCard.astro';
 
@@ -68,9 +71,11 @@ const testimonials = [
 ---
 
 <BaseLayout
-  title="SolversPro | Master Math with Intelligence"
+  title="SolversPro | Solve Anything. Instantly."
   description="Free, lightning-fast, client-side calculation engines for engineering, finance, and health. All running at the speed of light, right in your browser."
 >
+  <Header />
+
   <!-- Hero Section -->
   <section class="relative pt-24 pb-32 overflow-hidden border-b border-white/[0.06]">
     <!-- Abstract Background Element -->
@@ -227,6 +232,9 @@ const testimonials = [
       </div>
     </div>
   </section>
+
+  <Footer />
+  <SearchOverlay />
 </BaseLayout>
 
 <script>

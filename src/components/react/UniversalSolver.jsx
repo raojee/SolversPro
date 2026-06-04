@@ -229,7 +229,7 @@ export default function UniversalSolver() {
                 remarkPlugins={[remarkMath]}
                 rehypePlugins={[rehypeKatex]}
               >
-                {response}
+                {response.replace(/\$\$/g, '\n$$$$\n')}
               </ReactMarkdown>
               {isLoading && (
                 <span className="inline-block w-2.5 h-4 ml-1 bg-[#ff6b35] animate-pulse align-middle"></span>

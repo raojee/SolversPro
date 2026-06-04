@@ -1,10 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="160" height="40" viewBox="0 0 160 40">
-  <!-- Logo Mark -->
-  <rect x="4" y="4" width="32" height="32" rx="8" fill="#8CC0EB"/>
-  <text x="20" y="26" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="18" fill="white">S</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="40" viewBox="0 0 220 40">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff6b35" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ff6b35" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glowS">
+      <feGaussianBlur stdDeviation="0.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glowP">
+      <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <g transform="translate(4,4)">
+    <polygon points="8,0 32,0 32,24 24,32 0,32 0,8" fill="#0d0d14" stroke="#ffffff" stroke-opacity="0.15" stroke-width="1.5" />
+    <polygon points="8,0 32,0 32,24 24,32 0,32 0,8" fill="url(#bgGrad)" />
+    
+    <text x="16.2" y="22" text-anchor="end" font-family="'JetBrains Mono', monospace, sans-serif" font-weight="bold" font-size="14" fill="#ffffff" filter="url(#glowS)">S</text>
+    <text x="16.5" y="22" text-anchor="start" font-family="'JetBrains Mono', monospace, sans-serif" font-weight="bold" font-size="14" fill="#ff6b35" filter="url(#glowP)">P</text>
+  </g>
 
   <!-- Wordmark -->
-  <text x="44" y="27" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="20" letter-spacing="-0.02em">
-    <tspan fill="#1a1a2e">Solvers</tspan><tspan fill="#8CC0EB">Pro</tspan>
+  <text x="44" y="26" font-family="'JetBrains Mono', monospace, sans-serif" font-weight="bold" font-size="18" letter-spacing="-0.02em">
+    <tspan fill="#71717a" font-weight="300">[ </tspan>
+    <tspan fill="#ffffff">Solvers</tspan><tspan fill="#ff6b35">Pro</tspan>
+    <tspan fill="#71717a" font-weight="300"> ]</tspan>
   </text>
 </svg>
