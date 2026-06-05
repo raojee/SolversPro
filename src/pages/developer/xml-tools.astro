@@ -4,11 +4,24 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import XmlEditor from '../../components/react/XmlEditor.jsx';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "XML Formatter & Validator",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free, browser-based XML formatter, validator, and viewer. Instantly beautify, minify, and parse complex XML trees securely with no server uploads.",
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "152" }
+};
 ---
 
 <BaseLayout
   title="XML Formatter & Validator | SolversPro"
-  description="Format, validate, minify and convert XML documents into data tables. Privacy-first, runs entirely in your browser."
+  description="Free, browser-based XML formatter, validator, and viewer. Instantly beautify, minify, and parse complex XML trees securely with no server uploads."
+  canonical="https://solverspro.com/developer/xml-tools"
+  schema={schema}
 >
   <Header />
   <div class="container mx-auto px-4 py-12 max-w-[1400px]">

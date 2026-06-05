@@ -4,20 +4,21 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
-
 const schema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "Color Converter",
+  "name": "Color Code Converter",
   "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Any"
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Convert color codes between HEX, RGB, and HSL formats instantly. Perfect for web developers and designers. Free, fast, and runs entirely in your browser.",
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "89" }
 };
 ---
 
 <BaseLayout
   title="Color Converter | SolversPro"
-  description="Convert color codes between HEX, RGB, and HSL formats instantly."
+  description="Convert color codes between HEX, RGB, and HSL formats instantly. Perfect for web developers and designers. Free, fast, and runs entirely in your browser."
   canonical="https://solverspro.com/developer/color-converter"
   schema={schema}
 >

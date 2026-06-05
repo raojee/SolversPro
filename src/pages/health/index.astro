@@ -7,18 +7,24 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ToolCard from '../../components/ToolCard.astro';
 
 const tools = [
- {
- title: 'TDEE Calculator',
- description: 'Calculate your Total Daily Energy Expenditure based on your activity level.',
- icon: '🔥',
- href: '/health/tdee-calculator',
- },
+  {
+  title: 'TDEE Calculator',
+  description: 'Calculate your Total Daily Energy Expenditure based on your activity level.',
+  icon: '🔥',
+  href: '/health/tdee-calculator',
+  },
+  {
+  title: 'BMI Calculator',
+  description: 'Calculate your Body Mass Index (BMI) and check your weight category.',
+  icon: '⚖️',
+  href: '/health/bmi-calculator',
+  },
 ];
 ---
 
 <BaseLayout
  title="Health Calculators — Free Nutrition & Fitness Tools | SolversPro"
- description="Free health calculators for TDEE, BMI, calories, and body composition. No signup required."
+ description="Free online health and fitness calculators. Calculate your TDEE, BMI, daily calories, and track body composition to hit your nutrition goals safely."
 >
  <Header />
  <SearchOverlay />
@@ -41,6 +47,21 @@ const tools = [
  </div>
  </div>
  </div>
+
+  <div class="prose prose-invert max-w-none mb-12 text-zinc-300">
+    <h2>Health & Fitness Calculators</h2>
+    <p>Welcome to the SolversPro Health Hub. Achieving your physical goals—whether that's losing weight, building muscle, or maintaining a healthy lifestyle—starts with accurate data. Our collection of free online health and fitness calculators gives you the precise metrics you need to tailor your diet and exercise routines.</p>
+    <p>Health data is deeply personal. That's why our tools are designed to be 100% private. All calculations happen entirely on your device in your web browser. We do not track, store, or transmit your body measurements, ensuring your privacy is never compromised.</p>
+    
+    <h3>Tools Available in this Category</h3>
+    <ul class="list-disc pl-5 space-y-2 mt-4 mb-6">
+      <li><strong>TDEE Calculator:</strong> Your Total Daily Energy Expenditure is the cornerstone of any nutritional plan. Discover exactly how many calories your body burns in a day based on your basal metabolic rate and physical activity levels.</li>
+      <li><strong>BMI Calculator:</strong> Quickly assess your Body Mass Index to see if you fall within a healthy weight range based on your height. Includes detailed categorizations and healthy weight targets.</li>
+      <li><strong>Macronutrient Calculator (Coming Soon):</strong> Once you know your TDEE, use this tool to split your daily calories into optimal ratios of protein, fats, and carbohydrates tailored to your specific fitness goals.</li>
+      <li><strong>1RM Calculator (Coming Soon):</strong> Maximize your strength training. Estimate your One Rep Max safely without having to test it under a dangerously heavy barbell.</li>
+    </ul>
+    <p>Don't guess when it comes to your health. Use our scientifically-backed formulas to plan your fitness journey with confidence. Select a calculator below to get started.</p>
+  </div>
 
  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
  {tools.map((tool) => (

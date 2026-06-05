@@ -19,18 +19,30 @@ const tools = [
  icon: '⚡',
  href: '/trades/wire-size',
  },
- {
- title: 'Solar Panel Calculator',
- description: 'Size your solar array based on energy usage and location.',
- icon: '☀️',
- href: '/trades/solar-panel',
- },
+  {
+  title: 'Solar Panel Calculator',
+  description: 'Size your solar array based on energy usage and location.',
+  icon: '☀️',
+  href: '/trades/solar-panel',
+  },
+  {
+  title: 'Board Feet Calculator',
+  description: 'Calculate hardwood lumber volume in board feet.',
+  icon: '🪵',
+  href: '/trades/board-feet',
+  },
+  {
+  title: 'Paint Calculator',
+  description: 'Determine exactly how many gallons of paint your project needs.',
+  icon: '🎨',
+  href: '/trades/paint-calculator',
+  },
 ];
 ---
 
 <BaseLayout
  title="Trades Calculators — Free Construction & Electrical Tools | SolversPro"
- description="Free trades calculators for concrete, electrical wiring, and solar panel sizing. No signup required."
+ description="Free online construction and trade calculators. Estimate concrete volume, calculate wire size gauge, measure board feet, and size solar panels instantly."
 >
  <Header />
  <SearchOverlay />
@@ -53,6 +65,22 @@ const tools = [
  </div>
  </div>
  </div>
+
+  <div class="prose prose-invert max-w-none mb-12 text-zinc-300">
+    <h2>Construction & Trade Calculators</h2>
+    <p>Welcome to the SolversPro Trades Hub. Whether you're an electrician wiring a new circuit, a contractor pouring a foundation, or a woodworker planning a project, precision is everything. Our suite of free online construction calculators is built to save you time and prevent expensive material waste on the job site.</p>
+    <p>We know that connectivity can be spotty on construction sites, which is why our calculators are lightweight and run directly in your mobile browser without requiring app downloads. They load instantly, require no sign-ups, and process everything locally on your device for absolute privacy.</p>
+    
+    <h3>Tools Available in this Category</h3>
+    <ul class="list-disc pl-5 space-y-2 mt-4 mb-6">
+      <li><strong>Concrete Slab Calculator:</strong> Never over-order concrete again. Calculate exactly how many cubic yards and premixed bags you need for slabs, footings, and walls. Includes built-in waste margin estimations.</li>
+      <li><strong>Wire Size Calculator:</strong> Prevent voltage drop and adhere to electrical safety standards. Determine the correct AWG wire gauge for your circuit based on amperage, voltage, distance, and phase.</li>
+      <li><strong>Board Feet Calculator:</strong> Essential for woodworkers and carpenters purchasing hardwood lumber. Quickly calculate the total board footage and estimate project costs.</li>
+      <li><strong>Solar Panel Calculator:</strong> Plan your renewable energy system. Size your solar array and battery bank based on your daily energy consumption and peak sun hours.</li>
+      <li><strong>Paint Calculator:</strong> Ensure you buy exactly the right amount of paint. Calculate surface area and determine how many gallons you need based on the number of coats required.</li>
+    </ul>
+    <p>Eliminate the guesswork from your next project. Select a tool below to generate accurate material estimates instantly.</p>
+  </div>
 
  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
  {tools.map((tool) => (

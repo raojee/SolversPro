@@ -48,7 +48,7 @@ const tools = [
 
 <BaseLayout
   title="Developer Tools | SolversPro"
-  description="Free online developer tools including JSON/XML formatters, validators, and data viewers."
+  description="Free online web developer tools and formatters. Format JSON/XML, decode JWTs, generate hashes, and convert Base64 or colors securely in your browser."
 >
   <Header />
   <div class="container mx-auto px-4 py-12 max-w-6xl">
@@ -58,9 +58,23 @@ const tools = [
     ]} />
     <div class="mb-12 mt-4">
       <h1 class="text-4xl font-bold text-white mb-4">Developer Tools</h1>
-      <p class="text-zinc-400 text-lg max-w-3xl leading-relaxed">
-        Essential utilities for software engineers. Format data payloads, validate syntax, and visualize complex structures with our suite of client-side, privacy-first tools.
-      </p>
+      
+      <div class="prose prose-invert max-w-none text-zinc-300">
+        <h2>Web Developer Tools & Data Formatters</h2>
+        <p>Welcome to the SolversPro Developer Hub. When you're deep in the code, the last thing you need is a clunky utility that forces you to upload your sensitive API payloads to a third-party server. Our suite of free online developer tools is built by engineers, for engineers.</p>
+        <p><strong>Privacy is our primary feature.</strong> Every single tool in this category—from our JSON formatter to our JWT decoder—runs entirely locally in your web browser using client-side JavaScript. Your data never touches our servers. You can safely paste production API keys, sensitive customer JSON, or proprietary XML schemas knowing that they are secure.</p>
+        
+        <h3>Tools Available in this Category</h3>
+        <ul class="list-disc pl-5 space-y-2 mt-4 mb-6">
+          <li><strong>JSON Formatter & Validator:</strong> Paste minified, unreadable JSON and instantly format it into a beautifully indented, syntax-highlighted tree. Validate against structural errors before pushing code.</li>
+          <li><strong>XML Formatter & Validator:</strong> Tackle legacy systems and SOAP APIs with ease. Beautify dense XML strings and convert them into readable formats instantly.</li>
+          <li><strong>Base64 Encoder & Decoder:</strong> A daily necessity for front-end developers. Safely encode text strings or decode Base64 data back into readable text for debugging.</li>
+          <li><strong>JWT Token Decoder:</strong> Inspect the header and payload of your JSON Web Tokens. Verify claims, expiration dates, and algorithms without compromising your token's security.</li>
+          <li><strong>Cryptographic Hash Generator:</strong> Securely generate SHA-1, SHA-256, SHA-384, and SHA-512 hashes from any text input. Perfect for verifying data integrity and password hashing checks.</li>
+          <li><strong>Color Code Converter:</strong> Streamline your CSS workflows. Instantly translate color values back and forth between HEX, RGB, and HSL formats with a visual preview.</li>
+        </ul>
+        <p>Stop wasting time searching for safe utilities. Bookmark our developer hub and process your data locally, instantly, and securely. Choose a tool below to get started.</p>
+      </div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
