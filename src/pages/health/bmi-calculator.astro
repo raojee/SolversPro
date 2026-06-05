@@ -7,13 +7,15 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import InputField from '../../components/InputField.astro';
 import SelectField from '../../components/SelectField.astro';
 import CalculateButton from '../../components/CalculateButton.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "BMI Calculator",
   "applicationCategory": "HealthApplication",
-  "operatingSystem": "Any"
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript"
 };
 ---
 
@@ -84,6 +86,10 @@ const schema = {
                 <div class="flex-1 text-red-400">Obese<br/>&gt; 30</div>
              </div>
           </div>
+          
+          <div class="mt-8 flex justify-center">
+             <SaveResultButton id="save-bmi-btn" />
+           </div>
         </div>
       </div>
     </div>
@@ -93,6 +99,17 @@ const schema = {
 
 <script>
   const unitSelect = document.getElementById('select-unit') as HTMLSelectElement;
+  
+  // Init Measurement System
+  try {
+    const prefs = JSON.parse(localStorage.getItem('solvers_preferences') || '{}');
+    if (prefs.measurementSystem && unitSelect) {
+      unitSelect.value = prefs.measurementSystem;
+      document.getElementById('inputs-metric')?.classList.add('hidden');
+      document.getElementById('inputs-imperial')?.classList.add('hidden');
+      document.getElementById(`inputs-${prefs.measurementSystem}`)?.classList.remove('hidden');
+    }
+  } catch(e) {}
   
   unitSelect?.addEventListener('change', (e) => {
     document.getElementById('inputs-metric')?.classList.add('hidden');
@@ -125,25 +142,68 @@ const schema = {
       }
 
       if (bmi > 0) {
-        document.getElementById('result-bmi')!.textContent = bmi.toFixed(1);
+        const bmiFormatted = bmi.toFixed(1);
+        document.getElementById('result-bmi')!.textContent = bmiFormatted;
         const categoryEl = document.getElementById('result-category');
+        let categoryText = "UNKNOWN";
+        
         if (categoryEl) {
           categoryEl.classList.remove('bg-blue-500/20', 'text-blue-400', 'bg-green-500/20', 'text-green-400', 'bg-orange-500/20', 'text-orange-400', 'bg-red-500/20', 'text-red-400');
           if (bmi < 18.5) {
-            categoryEl.textContent = "UNDERWEIGHT";
+            categoryText = "UNDERWEIGHT";
             categoryEl.classList.add('bg-blue-500/20', 'text-blue-400');
           } else if (bmi < 25) {
-            categoryEl.textContent = "NORMAL WEIGHT";
+            categoryText = "NORMAL WEIGHT";
             categoryEl.classList.add('bg-green-500/20', 'text-green-400');
           } else if (bmi < 30) {
-            categoryEl.textContent = "OVERWEIGHT";
+            categoryText = "OVERWEIGHT";
             categoryEl.classList.add('bg-orange-500/20', 'text-orange-400');
           } else {
-            categoryEl.textContent = "OBESE";
+            categoryText = "OBESE";
             categoryEl.classList.add('bg-red-500/20', 'text-red-400');
           }
+          categoryEl.textContent = categoryText;
         }
         document.getElementById('results-section')?.classList.remove('hidden');
+        
+        // Show save button
+        const saveBtn = document.getElementById('save-bmi-btn');
+        if (saveBtn) {
+          saveBtn.classList.remove('hidden');
+          // Update click handler to save latest data
+          saveBtn.onclick = () => {
+            if (typeof window.saveToDashboard === 'function') {
+              const success = window.saveToDashboard('BMI Calculator', '/health/bmi-calculator', {
+                type: 'key-value',
+                data: {
+                  'Your BMI': bmiFormatted,
+                  'Category': categoryText
+                }
+              });
+              
+              if (success) {
+                const textEl = saveBtn.querySelector('.btn-text');
+                const iconSave = saveBtn.querySelector('.icon-save');
+                const iconCheck = saveBtn.querySelector('.icon-check');
+                
+                if (textEl) textEl.textContent = 'Saved!';
+                if (iconSave) iconSave.classList.add('hidden');
+                if (iconCheck) iconCheck.classList.remove('hidden');
+                
+                saveBtn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+                saveBtn.classList.remove('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+                
+                setTimeout(() => {
+                  if (textEl) textEl.textContent = 'Save Result';
+                  if (iconSave) iconSave.classList.remove('hidden');
+                  if (iconCheck) iconCheck.classList.add('hidden');
+                  saveBtn.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+                  saveBtn.classList.add('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+                }, 2000);
+              }
+            }
+          };
+        }
       }
       
       btn?.removeAttribute('data-loading');

@@ -7,13 +7,15 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import InputField from '../../components/InputField.astro';
 import SelectField from '../../components/SelectField.astro';
 import CalculateButton from '../../components/CalculateButton.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "Geometry Calculator",
   "applicationCategory": "EducationalApplication",
-  "operatingSystem": "Any"
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript"
 };
 ---
 
@@ -85,8 +87,12 @@ const schema = {
       <!-- Results -->
       <div id="results-section" class="hidden space-y-8 mb-12 max-w-2xl mx-auto">
         <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02]" id="result-summary">
-          <div class="grid grid-cols-1 gap-6" id="result-grid">
+          <div class="grid grid-cols-1 gap-6 mb-6" id="result-grid">
             <!-- Dynamic results injected here -->
+          </div>
+          
+          <div class="flex justify-end pt-4 border-t border-white/[0.05]">
+            <SaveResultButton id="save-geometry-btn" />
           </div>
         </div>
       </div>
@@ -149,6 +155,42 @@ const schema = {
 
       document.getElementById('results-section')?.classList.remove('hidden');
       btn?.removeAttribute('data-loading');
+      
+      const saveBtn = document.getElementById('save-geometry-btn');
+      if (saveBtn) {
+        saveBtn.classList.remove('hidden');
+        saveBtn.onclick = () => {
+          if (typeof window.saveToDashboard === 'function') {
+            const dataToSave: Record<string, string> = {
+              'Shape': shape.charAt(0).toUpperCase() + shape.slice(1)
+            };
+            results.forEach(r => {
+              dataToSave[r.label.split(' ')[0]] = r.value;
+            });
+            const success = window.saveToDashboard('Geometry Calculator', '/math/geometry-calculator', {
+              type: 'key-value',
+              data: dataToSave
+            });
+            if (success) {
+              const textEl = saveBtn.querySelector('.btn-text');
+              const iconSave = saveBtn.querySelector('.icon-save');
+              const iconCheck = saveBtn.querySelector('.icon-check');
+              if (textEl) textEl.textContent = 'Saved!';
+              if (iconSave) iconSave.classList.add('hidden');
+              if (iconCheck) iconCheck.classList.remove('hidden');
+              saveBtn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+              saveBtn.classList.remove('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+              setTimeout(() => {
+                if (textEl) textEl.textContent = 'Save Result';
+                if (iconSave) iconSave.classList.remove('hidden');
+                if (iconCheck) iconCheck.classList.add('hidden');
+                saveBtn.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+                saveBtn.classList.add('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+              }, 2000);
+            }
+          }
+        };
+      }
     }, 300);
   }
 

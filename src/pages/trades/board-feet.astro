@@ -99,7 +99,17 @@ const schema = {
       const priceContainer = document.getElementById('price-container');
       if (price > 0) {
         priceContainer?.classList.remove('hidden');
-        document.getElementById('result-cost')!.textContent = '$' + cost.toFixed(2);
+        
+        let symbol = '$';
+        try {
+          const prefs = JSON.parse(localStorage.getItem('solvers_preferences') || '{}');
+          if (prefs.defaultCurrency) {
+            const CURRENCIES: Record<string, string> = { USD: '$', EUR: '€', GBP: '£', INR: '₹', PKR: '₨', JPY: '¥', CAD: '$', AUD: '$' };
+            symbol = CURRENCIES[prefs.defaultCurrency] || '$';
+          }
+        } catch(e) {}
+        
+        document.getElementById('result-cost')!.textContent = symbol + cost.toFixed(2);
       } else {
         priceContainer?.classList.add('hidden');
       }
@@ -116,7 +126,15 @@ const schema = {
               'Board Feet': bf.toFixed(2)
             };
             if (price > 0) {
-              data['Total Cost'] = '$' + cost.toFixed(2);
+              let symbol = '$';
+              try {
+                const prefs = JSON.parse(localStorage.getItem('solvers_preferences') || '{}');
+                if (prefs.defaultCurrency) {
+                  const CURRENCIES: Record<string, string> = { USD: '$', EUR: '€', GBP: '£', INR: '₹', PKR: '₨', JPY: '¥', CAD: '$', AUD: '$' };
+                  symbol = CURRENCIES[prefs.defaultCurrency] || '$';
+                }
+              } catch(e) {}
+              data['Total Cost'] = symbol + cost.toFixed(2);
             }
             const success = window.saveToDashboard('Board Feet Calculator', '/trades/board-feet', {
               type: 'key-value',
@@ -149,4 +167,21 @@ const schema = {
     e.preventDefault();
     calculate();
   });
+
+  // Init Currency
+  try {
+    const prefs = JSON.parse(localStorage.getItem('solvers_preferences') || '{}');
+    if (prefs.defaultCurrency) {
+      const CURRENCIES: Record<string, string> = { USD: '$', EUR: '€', GBP: '£', INR: '₹', PKR: '₨', JPY: '¥', CAD: '$', AUD: '$' };
+      const symbol = CURRENCIES[prefs.defaultCurrency] || '$';
+      const priceInput = document.getElementById('input-price');
+      if (priceInput) {
+        const wrapper = priceInput.closest('.relative');
+        if (wrapper) {
+            const prefix = wrapper.querySelector('.prefix-el');
+            if (prefix) prefix.textContent = symbol;
+        }
+      }
+    }
+  } catch(e) {}
 </script>

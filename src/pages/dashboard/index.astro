@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import DashboardCore from '../../components/react/DashboardCore.jsx';
+---
+
+<BaseLayout
+  title="My Dashboard | SolversPro"
+  description="Manage your recent calculations, saved results, and favorite tools all in one place. Your private SolversPro dashboard."
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Dashboard' }
+      ]} />
+
+      <div class="mb-12">
+        <h1 class="text-4xl font-bold text-white mb-4">User Dashboard</h1>
+        <p class="text-zinc-400 text-lg max-w-3xl leading-relaxed">
+          Welcome back. Access your calculation history, saved configurations, and favorite solvers right from your browser. 
+          Everything is stored locally on your device for absolute privacy.
+        </p>
+      </div>
+
+      <DashboardCore client:load />
+
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

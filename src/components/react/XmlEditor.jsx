@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import SaveResultReact from './SaveResultReact';
 
 // Basic XML to JSON parser for table display
 const xmlToJson = (xml) => {
@@ -276,6 +277,19 @@ export default function XmlEditor() {
              <pre className="font-mono text-sm text-zinc-300 whitespace-pre-wrap">{input}</pre>
           ) : (
             renderTable(parsedData)
+          )}
+          
+          {!error && parsedData && (
+            <div className="mt-6 flex justify-end">
+              <SaveResultReact
+                toolName="XML Formatter & Validator"
+                toolPath="/developer/xml-tools"
+                payloadGenerator={() => ({
+                  type: 'text',
+                  data: `Valid XML formatted.\n\n${input.slice(0, 150)}${input.length > 150 ? '...' : ''}`
+                })}
+              />
+            </div>
           )}
         </div>
       </div>

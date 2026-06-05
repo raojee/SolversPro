@@ -9,15 +9,15 @@ import SelectField from '../../components/SelectField.astro';
 import CalculateButton from '../../components/CalculateButton.astro';
 import FAQAccordion from '../../components/FAQAccordion.astro';
 import ToolCard from '../../components/ToolCard.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "TDEE Calculator",
- "applicationCategory": "HealthApplication",
- "operatingSystem": "Any",
- "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
- "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "230" }
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "TDEE Calculator",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript"
 };
 
 const faqItems = [
@@ -137,6 +137,10 @@ const faqItems = [
  <p class="text-xs text-zinc-500">+500 cal surplus</p>
  </div>
  </div>
+ 
+ <div class="w-full flex justify-end mt-8 border-t border-white/[0.05] pt-4">
+   <SaveResultButton id="save-tdee-btn" />
+ </div>
  </div>
  </div>
 
@@ -182,11 +186,23 @@ const faqItems = [
 
 <script>
  function calculateTDEE() {
- const age = parseFloat((document.getElementById('input-age') as HTMLInputElement)?.value) || 0;
- const gender = (document.getElementById('select-gender') as HTMLSelectElement)?.value || 'male';
- const weightLbs = parseFloat((document.getElementById('input-weight') as HTMLInputElement)?.value) || 0;
- const heightIn = parseFloat((document.getElementById('input-height') as HTMLInputElement)?.value) || 0;
- const activityMultiplier = parseFloat((document.getElementById('select-activityLevel') as HTMLSelectElement)?.value) || 1.55;
+  const age = parseFloat((document.getElementById('input-age') as HTMLInputElement)?.value) || 0;
+  const gender = (document.getElementById('select-gender') as HTMLSelectElement)?.value || 'male';
+  let weightLbs = parseFloat((document.getElementById('input-weight') as HTMLInputElement)?.value) || 0;
+  let heightIn = parseFloat((document.getElementById('input-height') as HTMLInputElement)?.value) || 0;
+  const activityMultiplier = parseFloat((document.getElementById('select-activityLevel') as HTMLSelectElement)?.value) || 1.55;
+
+  let unitSystem = 'imperial';
+  try {
+    const prefs = JSON.parse(localStorage.getItem('solvers_preferences') || '{}');
+    if (prefs.measurementSystem) unitSystem = prefs.measurementSystem;
+  } catch(e) {}
+
+  // If metric, the input is actually kg and cm
+  if (unitSystem === 'metric') {
+    weightLbs = weightLbs * 2.20462;
+    heightIn = heightIn / 2.54;
+  }
 
  // Convert to metric
  const weightKg = weightLbs * 0.453592;
@@ -218,11 +234,76 @@ const faqItems = [
  document.getElementById('tdee-summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
  btn?.removeAttribute('data-loading');
- }, 300);
+  
+  const saveBtn = document.getElementById('save-tdee-btn');
+  if (saveBtn) {
+    saveBtn.classList.remove('hidden');
+    saveBtn.onclick = () => {
+      if (typeof window.saveToDashboard === 'function') {
+        const success = window.saveToDashboard('TDEE Calculator', '/health/tdee-calculator', {
+          type: 'key-value',
+          data: {
+            'BMR': bmr.toLocaleString() + ' cal',
+            'TDEE': tdee.toLocaleString() + ' cal',
+            'Maintenance': tdee.toLocaleString() + ' cal',
+            'Weight Loss': (tdee - 500).toLocaleString() + ' cal'
+          }
+        });
+        if (success) {
+          const textEl = saveBtn.querySelector('.btn-text');
+          const iconSave = saveBtn.querySelector('.icon-save');
+          const iconCheck = saveBtn.querySelector('.icon-check');
+          if (textEl) textEl.textContent = 'Saved!';
+          if (iconSave) iconSave.classList.add('hidden');
+          if (iconCheck) iconCheck.classList.remove('hidden');
+          saveBtn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+          saveBtn.classList.remove('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+          setTimeout(() => {
+            if (textEl) textEl.textContent = 'Save Result';
+            if (iconSave) iconSave.classList.remove('hidden');
+            if (iconCheck) iconCheck.classList.add('hidden');
+            saveBtn.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+            saveBtn.classList.add('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+          }, 2000);
+        }
+      }
+    };
+  }
+  }, 300);
  }
 
  document.getElementById('tdee-form')?.addEventListener('submit', (e) => {
  e.preventDefault();
  calculateTDEE();
  });
+
+  // Init Measurement System
+  try {
+    const prefs = JSON.parse(localStorage.getItem('solvers_preferences') || '{}');
+    if (prefs.measurementSystem === 'metric') {
+      const weightLabel = document.querySelector('label[for="input-weight"]');
+      const heightLabel = document.querySelector('label[for="input-height"]');
+      if (weightLabel) weightLabel.innerHTML = 'Weight <span class="text-[#ff6b35]">*</span>';
+      if (heightLabel) heightLabel.innerHTML = 'Height <span class="text-[#ff6b35]">*</span>';
+      
+      const weightInput = document.getElementById('input-weight') as HTMLInputElement;
+      const heightInput = document.getElementById('input-height') as HTMLInputElement;
+      if (weightInput) {
+        weightInput.value = '77';
+        const wrapper = weightInput.closest('.relative');
+        if (wrapper) {
+            const suffix = wrapper.querySelector('span.absolute.right-4');
+            if (suffix) suffix.textContent = 'kg';
+        }
+      }
+      if (heightInput) {
+        heightInput.value = '175';
+        const wrapper = heightInput.closest('.relative');
+        if (wrapper) {
+            const suffix = wrapper.querySelector('span.absolute.right-4');
+            if (suffix) suffix.textContent = 'cm';
+        }
+      }
+    }
+  } catch(e) {}
 </script>

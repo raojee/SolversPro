@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import SaveResultReact from './SaveResultReact';
 
 // Helper to flatten nested objects for tabular view
 const flattenObject = (obj, prefix = '') => {
@@ -153,6 +154,19 @@ export default function JsonEditor() {
              <pre className="font-mono text-sm text-zinc-300 whitespace-pre-wrap">{input}</pre>
           ) : (
             renderTable(parsedData)
+          )}
+          
+          {!error && parsedData && (
+            <div className="mt-6 flex justify-end">
+              <SaveResultReact
+                toolName="JSON Formatter & Validator"
+                toolPath="/developer/json-tools"
+                payloadGenerator={() => ({
+                  type: 'text',
+                  data: `Valid JSON formatted.\n\n${input.slice(0, 150)}${input.length > 150 ? '...' : ''}`
+                })}
+              />
+            </div>
           )}
         </div>
       </div>

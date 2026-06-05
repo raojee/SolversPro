@@ -1,0 +1,76 @@
+---
+// This component runs a client-side script to track recently visited tools.
+// It silently pushes the current page title and URL to a 'solversPro_recent' array in localStorage.
+---
+
+<script>
+  function trackActivity() {
+    try {
+      const path = window.location.pathname;
+      
+      // Only track actual tool categories, skip static pages like /about, /contact, or /dashboard itself
+      const validPrefixes = ['/math/', '/finance/', '/health/', '/trades/', '/developer/', '/tools/'];
+      if (!validPrefixes.some(prefix => path.startsWith(prefix))) return;
+
+      // Clean up the title (remove " | SolversPro")
+      const fullTitle = document.title;
+      const title = fullTitle.split(' | ')[0];
+
+      // Build activity object
+      const newActivity = {
+        title,
+        path,
+        timestamp: new Date().toISOString()
+      };
+
+      // Retrieve existing activity from localStorage
+      const storageKey = 'solversPro_recent';
+      const existingData = localStorage.getItem(storageKey);
+      let recent = existingData ? JSON.parse(existingData) : [];
+
+      // Remove this exact path if it already exists (so we can move it to the front)
+      recent = recent.filter((item: any) => item.path !== path);
+
+      // Add to the front of the array
+      recent.unshift(newActivity);
+
+      // Enforce limit of 10 items
+      if (recent.length > 10) {
+        recent = recent.slice(0, 10);
+      }
+
+      // Save back to localStorage
+      localStorage.setItem(storageKey, JSON.stringify(recent));
+
+    } catch (e) {
+      console.error('Failed to track activity:', e);
+    }
+  }
+
+  // Global save utility for tools
+  window.saveToDashboard = function(title, path, payload) {
+    try {
+      const newItem = {
+        id: crypto.randomUUID(),
+        title,
+        path,
+        timestamp: new Date().toISOString(),
+        payload // { type: 'key-value' | 'text', data: {...} }
+      };
+
+      const storageKey = 'solversPro_saved';
+      const existingData = localStorage.getItem(storageKey);
+      let saved = existingData ? JSON.parse(existingData) : [];
+
+      saved.unshift(newItem);
+      localStorage.setItem(storageKey, JSON.stringify(saved));
+      return true;
+    } catch (e) {
+      console.error('Failed to save to dashboard:', e);
+      return false;
+    }
+  };
+
+  // Run on load
+  trackActivity();
+</script>

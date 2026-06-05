@@ -7,15 +7,15 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SelectField from '../../components/SelectField.astro';
 import CalculateButton from '../../components/CalculateButton.astro';
 import FAQAccordion from '../../components/FAQAccordion.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "3x3 Matrix Calculator",
- "applicationCategory": "EducationalApplication",
- "operatingSystem": "Any",
- "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
- "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "84" }
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "3x3 Matrix Calculator",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript"
 };
 
 const faqItems = [
@@ -136,6 +136,11 @@ const faqItems = [
  <div class="text-center font-bold text-xl text-white" id="rm21">0</div>
  <div class="text-center font-bold text-xl text-white" id="rm22">0</div>
  </div>
+ </div>
+ </div>
+ 
+ <div class="w-full flex justify-end mt-8 border-t border-white/[0.05] pt-4">
+   <SaveResultButton id="save-matrix-btn" />
  </div>
  </div>
  </div>
@@ -270,6 +275,48 @@ const faqItems = [
  resultsSection?.classList.remove('hidden');
  document.getElementById('result-summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
  btn?.removeAttribute('data-loading');
+ 
+ const saveBtn = document.getElementById('save-matrix-btn');
+ if (saveBtn) {
+   saveBtn.classList.remove('hidden');
+   saveBtn.onclick = () => {
+     if (typeof window.saveToDashboard === 'function') {
+       let resultData: Record<string, string> = {
+         'Operation': op.charAt(0).toUpperCase() + op.slice(1)
+       };
+       if (op === 'determinant') {
+         resultData['Determinant'] = document.getElementById('det-value')?.textContent || '';
+       } else if (op === 'inverse' || op === 'transpose') {
+         if (Math.abs(calcDeterminant(m)) < 1e-10 && op === 'inverse') {
+           resultData['Error'] = 'Singular Matrix';
+         } else {
+           resultData['Result Matrix'] = `[${document.getElementById('rm00')?.textContent}, ${document.getElementById('rm01')?.textContent}, ${document.getElementById('rm02')?.textContent}] ...`;
+         }
+       }
+       const success = window.saveToDashboard('3x3 Matrix Calculator', '/math/matrix-calculator', {
+         type: 'key-value',
+         data: resultData
+       });
+       if (success) {
+         const textEl = saveBtn.querySelector('.btn-text');
+         const iconSave = saveBtn.querySelector('.icon-save');
+         const iconCheck = saveBtn.querySelector('.icon-check');
+         if (textEl) textEl.textContent = 'Saved!';
+         if (iconSave) iconSave.classList.add('hidden');
+         if (iconCheck) iconCheck.classList.remove('hidden');
+         saveBtn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+         saveBtn.classList.remove('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+         setTimeout(() => {
+           if (textEl) textEl.textContent = 'Save Result';
+           if (iconSave) iconSave.classList.remove('hidden');
+           if (iconCheck) iconCheck.classList.add('hidden');
+           saveBtn.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+           saveBtn.classList.add('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+         }, 2000);
+       }
+     }
+   };
+ }
  }, 300);
  }
 

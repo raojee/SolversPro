@@ -18,6 +18,7 @@ const {
 const canonicalUrl = canonical || Astro.url.href;
 
 import '../styles/global.css';
+import ActivityTracker from '../components/ActivityTracker.astro';
 ---
 
 <!DOCTYPE html>
@@ -82,5 +83,6 @@ import '../styles/global.css';
 </head>
 <body class="min-h-screen flex flex-col bg-[#0a0a0f] text-zinc-400">
   <slot />
+  <ActivityTracker />
 </body>
 </html>

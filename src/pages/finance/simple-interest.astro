@@ -8,15 +8,15 @@ import InputField from '../../components/InputField.astro';
 import SelectField from '../../components/SelectField.astro';
 import CalculateButton from '../../components/CalculateButton.astro';
 import FAQAccordion from '../../components/FAQAccordion.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "Simple Interest Calculator",
- "applicationCategory": "FinanceApplication",
- "operatingSystem": "Any",
- "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
- "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.7", "ratingCount": "98" }
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Simple Interest Calculator",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript"
 };
 
 const faqItems = [
@@ -132,6 +132,9 @@ const faqItems = [
  <p class="label mb-1 text-sm font-medium text-zinc-500 uppercase tracking-wider">Total Principal + Interest</p>
  <p class="text-3xl md:text-4xl font-bold text-white" id="result-total">$0</p>
  </div>
+ <div class="w-full flex justify-end mt-8 border-t border-white/[0.05] pt-4">
+   <SaveResultButton id="save-simple-btn" />
+ </div>
  </div>
  </div>
  </div>
@@ -231,6 +234,39 @@ const faqItems = [
  document.getElementById('result-summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
  btn?.removeAttribute('data-loading');
+
+ const saveBtn = document.getElementById('save-simple-btn');
+ if (saveBtn) {
+   saveBtn.classList.remove('hidden');
+   saveBtn.onclick = () => {
+     if (typeof window.saveToDashboard === 'function') {
+       const success = window.saveToDashboard('Simple Interest Calculator', '/finance/simple-interest', {
+         type: 'key-value',
+         data: {
+           'Total Interest': formatCurrency(interest),
+           'Total Amount': formatCurrency(total)
+         }
+       });
+       if (success) {
+         const textEl = saveBtn.querySelector('.btn-text');
+         const iconSave = saveBtn.querySelector('.icon-save');
+         const iconCheck = saveBtn.querySelector('.icon-check');
+         if (textEl) textEl.textContent = 'Saved!';
+         if (iconSave) iconSave.classList.add('hidden');
+         if (iconCheck) iconCheck.classList.remove('hidden');
+         saveBtn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+         saveBtn.classList.remove('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+         setTimeout(() => {
+           if (textEl) textEl.textContent = 'Save Result';
+           if (iconSave) iconSave.classList.remove('hidden');
+           if (iconCheck) iconCheck.classList.add('hidden');
+           saveBtn.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+           saveBtn.classList.add('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+         }, 2000);
+       }
+     }
+   };
+ }
  }, 300);
  }
 
@@ -240,7 +276,13 @@ const faqItems = [
  });
 
  // Init Currency Selection
- const savedCurrency = localStorage.getItem('preferredCurrency');
+ let savedCurrency = localStorage.getItem('preferredCurrency');
+ if (!savedCurrency) {
+   try {
+     const prefs = JSON.parse(localStorage.getItem('solvers_preferences') || '{}');
+     if (prefs.defaultCurrency) savedCurrency = prefs.defaultCurrency;
+   } catch(e) {}
+ }
  const currencySelect = document.getElementById('select-currency') as HTMLSelectElement;
  if (savedCurrency && currencySelect) {
  currencySelect.value = savedCurrency;

@@ -7,15 +7,15 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import InputField from '../../components/InputField.astro';
 import CalculateButton from '../../components/CalculateButton.astro';
 import FAQAccordion from '../../components/FAQAccordion.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "Quadratic Equation Solver",
   "applicationCategory": "EducationalApplication",
-  "operatingSystem": "Any",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "194" }
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript"
 };
 
 const faqItems = [
@@ -101,6 +101,10 @@ const faqItems = [
             </div>
           </div>
           
+          <div class="flex justify-end pt-4 border-t border-white/[0.05]">
+            <SaveResultButton id="save-quadratic-btn" />
+          </div>
+          
         </div>
       </div>
 
@@ -182,6 +186,43 @@ const faqItems = [
 
       document.getElementById('results-section')?.classList.remove('hidden');
       btn?.removeAttribute('data-loading');
+      
+      const saveBtn = document.getElementById('save-quadratic-btn');
+      if (saveBtn) {
+        saveBtn.classList.remove('hidden');
+        saveBtn.onclick = () => {
+          if (typeof window.saveToDashboard === 'function') {
+            const rootSpans = Array.from(rootsContainer?.querySelectorAll('span') || []);
+            const rootText = rootSpans.map(s => s.textContent).join(', ');
+            const success = window.saveToDashboard('Quadratic Solver', '/math/quadratic-solver', {
+              type: 'key-value',
+              data: {
+                'Equation': `${a}x² ${b>=0?'+':''} ${b}x ${c>=0?'+':''} ${c} = 0`,
+                'Roots': rootText,
+                'Discriminant': document.getElementById('result-delta')?.textContent || '',
+                'Vertex': document.getElementById('result-vertex')?.textContent || ''
+              }
+            });
+            if (success) {
+              const textEl = saveBtn.querySelector('.btn-text');
+              const iconSave = saveBtn.querySelector('.icon-save');
+              const iconCheck = saveBtn.querySelector('.icon-check');
+              if (textEl) textEl.textContent = 'Saved!';
+              if (iconSave) iconSave.classList.add('hidden');
+              if (iconCheck) iconCheck.classList.remove('hidden');
+              saveBtn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+              saveBtn.classList.remove('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+              setTimeout(() => {
+                if (textEl) textEl.textContent = 'Save Result';
+                if (iconSave) iconSave.classList.remove('hidden');
+                if (iconCheck) iconCheck.classList.add('hidden');
+                saveBtn.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+                saveBtn.classList.add('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+              }, 2000);
+            }
+          }
+        };
+      }
     }, 200);
   });
 </script>

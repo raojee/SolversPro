@@ -11,15 +11,15 @@ import DataTable from '../../components/DataTable.astro';
 import LineChart from '../../components/LineChart.astro';
 import FAQAccordion from '../../components/FAQAccordion.astro';
 import ToolCard from '../../components/ToolCard.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "Compound Interest Calculator",
- "applicationCategory": "FinanceApplication",
- "operatingSystem": "Any",
- "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
- "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "150" }
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Compound Interest Calculator",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript"
 };
 
 const faqItems = [
@@ -212,6 +212,7 @@ const relatedTools = [
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
  <span>Chart</span>
  </button>
+ <SaveResultButton id="save-ci-btn" />
  </div>
  </div>
 
@@ -408,9 +409,46 @@ const relatedTools = [
  // Smooth scroll
  document.getElementById('result-summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
- // Remove loading
- btn?.removeAttribute('data-loading');
- }, 300);
+  // Remove loading
+  btn?.removeAttribute('data-loading');
+  
+  const saveBtn = document.getElementById('save-ci-btn');
+  if (saveBtn) {
+    saveBtn.classList.remove('hidden');
+    saveBtn.onclick = () => {
+      if (typeof window.saveToDashboard === 'function') {
+        const currencyCode = (document.getElementById('select-currency') as HTMLSelectElement)?.value || 'USD';
+        // Assume simple prefix handling, could be enhanced
+        const prefix = '$'; 
+        const success = window.saveToDashboard('Compound Interest', '/finance/compound-interest', {
+          type: 'key-value',
+          data: {
+            'Final Amount': formatCurrency(final.total),
+            'Total Invested': formatCurrency(final.invested),
+            'Interest Earned': formatCurrency(final.interest)
+          }
+        });
+        if (success) {
+          const textEl = saveBtn.querySelector('.btn-text');
+          const iconSave = saveBtn.querySelector('.icon-save');
+          const iconCheck = saveBtn.querySelector('.icon-check');
+          if (textEl) textEl.textContent = 'Saved!';
+          if (iconSave) iconSave.classList.add('hidden');
+          if (iconCheck) iconCheck.classList.remove('hidden');
+          saveBtn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+          saveBtn.classList.remove('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+          setTimeout(() => {
+            if (textEl) textEl.textContent = 'Save Result';
+            if (iconSave) iconSave.classList.remove('hidden');
+            if (iconCheck) iconCheck.classList.add('hidden');
+            saveBtn.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+            saveBtn.classList.add('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+          }, 2000);
+        }
+      }
+    };
+  }
+  }, 300);
  }
 
   document.getElementById('calculator-form')?.addEventListener('submit', (e) => {
@@ -561,7 +599,13 @@ const relatedTools = [
   }
 
   // Init Currency Selection
-  const savedCurrency = localStorage.getItem('preferredCurrency');
+ let savedCurrency = localStorage.getItem('preferredCurrency');
+ if (!savedCurrency) {
+   try {
+     const prefs = JSON.parse(localStorage.getItem('solvers_preferences') || '{}');
+     if (prefs.defaultCurrency) savedCurrency = prefs.defaultCurrency;
+   } catch(e) {}
+ }
   const currencySelect = document.getElementById('select-currency') as HTMLSelectElement;
   if (savedCurrency && currencySelect) {
     currencySelect.value = savedCurrency;

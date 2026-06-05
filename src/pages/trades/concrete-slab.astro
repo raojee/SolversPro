@@ -242,14 +242,24 @@ const faqItems = [
  // Unit system toggle
  document.getElementById('select-unitSystem')?.addEventListener('change', (e) => {
  const isMetric = (e.target as HTMLSelectElement).value === 'metric';
- const lengthSuffix = document.querySelector('#input-length')?.parentElement?.querySelector('span:last-child');
- const widthSuffix = document.querySelector('#input-width')?.parentElement?.querySelector('span:last-child');
- const thicknessSuffix = document.querySelector('#input-thickness')?.parentElement?.querySelector('span:last-child');
+ const lengthSuffix = document.getElementById('input-length')?.closest('.relative')?.querySelector('span.absolute.right-4');
+ const widthSuffix = document.getElementById('input-width')?.closest('.relative')?.querySelector('span.absolute.right-4');
+ const thicknessSuffix = document.getElementById('input-thickness')?.closest('.relative')?.querySelector('span.absolute.right-4');
 
  if (lengthSuffix) lengthSuffix.textContent = isMetric ? 'm' : 'ft';
  if (widthSuffix) widthSuffix.textContent = isMetric ? 'm' : 'ft';
  if (thicknessSuffix) thicknessSuffix.textContent = isMetric ? 'cm' : 'in';
  });
+
+  // Init Measurement System
+  try {
+    const prefs = JSON.parse(localStorage.getItem('solvers_preferences') || '{}');
+    if (prefs.measurementSystem) {
+      const unitSelect = document.getElementById('select-unitSystem') as HTMLSelectElement;
+      if (unitSelect) {
+        unitSelect.value = prefs.measurementSystem;
+        unitSelect.dispatchEvent(new Event('change'));
+      }
+    }
+  } catch(e) {}
 </script>
-
-
