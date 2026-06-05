@@ -8,15 +8,15 @@ import InputField from '../../components/InputField.astro';
 import SelectField from '../../components/SelectField.astro';
 import CalculateButton from '../../components/CalculateButton.astro';
 import FAQAccordion from '../../components/FAQAccordion.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "Concrete Slab Calculator",
- "applicationCategory": "UtilitiesApplication",
- "operatingSystem": "Any",
- "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
- "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.7", "ratingCount": "89" }
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Concrete Slab Calculator",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript"
 };
 
 const faqItems = [
@@ -126,6 +126,10 @@ const faqItems = [
  <p class="mt-4 text-sm text-zinc-500">
  💡 Tip: Order 10% extra to account for spillage and uneven surfaces.
  </p>
+ 
+ <div class="w-full flex justify-end mt-8 border-t border-white/[0.05] pt-4">
+   <SaveResultButton id="save-concrete-btn" />
+ </div>
  </div>
  </div>
 
@@ -193,6 +197,40 @@ const faqItems = [
  document.getElementById('concrete-summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
  btn?.removeAttribute('data-loading');
+
+  const saveBtn = document.getElementById('save-concrete-btn');
+  if (saveBtn) {
+    saveBtn.classList.remove('hidden');
+    saveBtn.onclick = () => {
+      if (typeof window.saveToDashboard === 'function') {
+        const success = window.saveToDashboard('Concrete Slab Calculator', '/trades/concrete-slab', {
+          type: 'key-value',
+          data: {
+            'Volume': `${volume.toFixed(2)} ${volumeLabel}`,
+            'Cubic Feet': `${cubicFeet.toFixed(1)} ft³`,
+            '80 lb Bags': bags80.toString()
+          }
+        });
+        if (success) {
+          const textEl = saveBtn.querySelector('.btn-text');
+          const iconSave = saveBtn.querySelector('.icon-save');
+          const iconCheck = saveBtn.querySelector('.icon-check');
+          if (textEl) textEl.textContent = 'Saved!';
+          if (iconSave) iconSave.classList.add('hidden');
+          if (iconCheck) iconCheck.classList.remove('hidden');
+          saveBtn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+          saveBtn.classList.remove('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+          setTimeout(() => {
+            if (textEl) textEl.textContent = 'Save Result';
+            if (iconSave) iconSave.classList.remove('hidden');
+            if (iconCheck) iconCheck.classList.add('hidden');
+            saveBtn.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+            saveBtn.classList.add('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+          }, 2000);
+        }
+      }
+    };
+  }
  }, 300);
  }
 

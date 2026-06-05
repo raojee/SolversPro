@@ -4,15 +4,15 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
 const schema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "Cryptographic Hash Generator",
   "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Any",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "description": "Securely generate cryptographic hashes like SHA-1, SHA-256, SHA-384, and SHA-512 instantly from any text. 100% free and runs locally in your browser.",
-  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "74" }
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Securely generate cryptographic hashes like SHA-1, SHA-256, SHA-384, and SHA-512 instantly from any text. 100% free and runs locally in your browser."
 };
 ---
 
@@ -90,6 +90,10 @@ const schema = {
               <input type="text" id="hash-sha512" readonly class="w-full bg-[#0d0d14] p-3 rounded-lg border border-white/[0.05] font-mono text-sm text-zinc-300 focus:outline-none focus:ring-1 focus:ring-purple-500" />
             </div>
 
+            <div class="mt-6 flex justify-end">
+              <SaveResultButton id="save-hash-btn" />
+            </div>
+
           </div>
         </div>
       </div>
@@ -125,6 +129,42 @@ const schema = {
       } catch(e) {
         els[alg as keyof typeof els].value = 'Error generating hash';
       }
+    }
+    
+    const saveBtn = document.getElementById('save-hash-btn');
+    if (saveBtn) {
+      saveBtn.classList.remove('hidden');
+      saveBtn.onclick = () => {
+        if (typeof window.saveToDashboard === 'function') {
+          const success = window.saveToDashboard('Hash Generator', '/developer/hash-generator', {
+            type: 'key-value',
+            data: {
+              'Input': text.length > 20 ? text.substring(0, 20) + '...' : text,
+              'SHA-1': els['SHA-1'].value,
+              'SHA-256': els['SHA-256'].value,
+              'SHA-384': els['SHA-384'].value,
+              'SHA-512': els['SHA-512'].value,
+            }
+          });
+          if (success) {
+            const textEl = saveBtn.querySelector('.btn-text');
+            const iconSave = saveBtn.querySelector('.icon-save');
+            const iconCheck = saveBtn.querySelector('.icon-check');
+            if (textEl) textEl.textContent = 'Saved!';
+            if (iconSave) iconSave.classList.add('hidden');
+            if (iconCheck) iconCheck.classList.remove('hidden');
+            saveBtn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+            saveBtn.classList.remove('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+            setTimeout(() => {
+              if (textEl) textEl.textContent = 'Save Result';
+              if (iconSave) iconSave.classList.remove('hidden');
+              if (iconCheck) iconCheck.classList.add('hidden');
+              saveBtn.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+              saveBtn.classList.add('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+            }, 2000);
+          }
+        }
+      };
     }
   }
 

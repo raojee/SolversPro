@@ -4,15 +4,15 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
 const schema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "Base64 Encoder and Decoder",
   "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Any",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "description": "Securely encode text to Base64 or decode Base64 strings back to readable text instantly. Free, fast, and runs entirely in your browser for privacy.",
-  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "112" }
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Securely encode text to Base64 or decode Base64 strings back to readable text instantly. Free, fast, and runs entirely in your browser for privacy."
 };
 ---
 
@@ -67,6 +67,10 @@ const schema = {
         </div>
       </div>
 
+      <div class="mt-6 flex justify-center">
+        <SaveResultButton id="save-base64-btn" />
+      </div>
+
     </div>
   </main>
   <Footer />
@@ -88,6 +92,7 @@ const schema = {
       base64Input.value = btoa(binaryString);
       base64Input.classList.add('ring-2', 'ring-[#2dd4bf]', 'border-[#2dd4bf]');
       setTimeout(() => base64Input.classList.remove('ring-2', 'ring-[#2dd4bf]', 'border-[#2dd4bf]'), 500);
+      showSaveBtn();
     } catch (e) {
       alert("Error encoding text.");
     }
@@ -105,8 +110,44 @@ const schema = {
       textInput.value = new TextDecoder('utf-8').decode(bytes);
       textInput.classList.add('ring-2', 'ring-[#ff6b35]', 'border-[#ff6b35]');
       setTimeout(() => textInput.classList.remove('ring-2', 'ring-[#ff6b35]', 'border-[#ff6b35]'), 500);
+      showSaveBtn();
     } catch (e) {
       alert("Invalid Base64 string.");
     }
   });
+
+  function showSaveBtn() {
+    const saveBtn = document.getElementById('save-base64-btn');
+    if (saveBtn) {
+      saveBtn.classList.remove('hidden');
+      saveBtn.onclick = () => {
+        if (typeof window.saveToDashboard === 'function') {
+          const success = window.saveToDashboard('Base64 Converter', '/developer/base64-converter', {
+            type: 'key-value',
+            data: {
+              'Text': textInput.value.length > 50 ? textInput.value.substring(0, 50) + '...' : textInput.value,
+              'Base64': base64Input.value.length > 50 ? base64Input.value.substring(0, 50) + '...' : base64Input.value
+            }
+          });
+          if (success) {
+            const textEl = saveBtn.querySelector('.btn-text');
+            const iconSave = saveBtn.querySelector('.icon-save');
+            const iconCheck = saveBtn.querySelector('.icon-check');
+            if (textEl) textEl.textContent = 'Saved!';
+            if (iconSave) iconSave.classList.add('hidden');
+            if (iconCheck) iconCheck.classList.remove('hidden');
+            saveBtn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+            saveBtn.classList.remove('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+            setTimeout(() => {
+              if (textEl) textEl.textContent = 'Save Result';
+              if (iconSave) iconSave.classList.remove('hidden');
+              if (iconCheck) iconCheck.classList.add('hidden');
+              saveBtn.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+              saveBtn.classList.add('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+            }, 2000);
+          }
+        }
+      };
+    }
+  }
 </script>

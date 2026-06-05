@@ -6,13 +6,15 @@ import SearchOverlay from '../../components/SearchOverlay.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import InputField from '../../components/InputField.astro';
 import CalculateButton from '../../components/CalculateButton.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "Board Feet Calculator",
   "applicationCategory": "BusinessApplication",
-  "operatingSystem": "Any"
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript"
 };
 ---
 
@@ -64,6 +66,9 @@ const schema = {
               <p class="text-3xl md:text-4xl font-bold text-[#2dd4bf]" id="result-cost">$0.00</p>
             </div>
           </div>
+          <div class="w-full flex justify-end mt-8 border-t border-white/[0.05] pt-4">
+            <SaveResultButton id="save-boardfeet-btn" />
+          </div>
         </div>
       </div>
     </div>
@@ -101,6 +106,42 @@ const schema = {
 
       document.getElementById('results-section')?.classList.remove('hidden');
       btn?.removeAttribute('data-loading');
+      
+      const saveBtn = document.getElementById('save-boardfeet-btn');
+      if (saveBtn) {
+        saveBtn.classList.remove('hidden');
+        saveBtn.onclick = () => {
+          if (typeof window.saveToDashboard === 'function') {
+            const data: Record<string, string> = {
+              'Board Feet': bf.toFixed(2)
+            };
+            if (price > 0) {
+              data['Total Cost'] = '$' + cost.toFixed(2);
+            }
+            const success = window.saveToDashboard('Board Feet Calculator', '/trades/board-feet', {
+              type: 'key-value',
+              data: data
+            });
+            if (success) {
+              const textEl = saveBtn.querySelector('.btn-text');
+              const iconSave = saveBtn.querySelector('.icon-save');
+              const iconCheck = saveBtn.querySelector('.icon-check');
+              if (textEl) textEl.textContent = 'Saved!';
+              if (iconSave) iconSave.classList.add('hidden');
+              if (iconCheck) iconCheck.classList.remove('hidden');
+              saveBtn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+              saveBtn.classList.remove('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+              setTimeout(() => {
+                if (textEl) textEl.textContent = 'Save Result';
+                if (iconSave) iconSave.classList.remove('hidden');
+                if (iconCheck) iconCheck.classList.add('hidden');
+                saveBtn.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+                saveBtn.classList.add('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+              }, 2000);
+            }
+          }
+        };
+      }
     }, 300);
   }
 

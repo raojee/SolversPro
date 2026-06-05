@@ -4,15 +4,15 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
 const schema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "JWT Token Decoder",
   "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Any",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "description": "Decode JSON Web Tokens (JWT) to securely inspect their header, payload, and signature data directly in your browser. No server uploads required.",
-  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "98" }
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Decode JSON Web Tokens (JWT) to securely inspect their header, payload, and signature data directly in your browser. No server uploads required."
 };
 ---
 
@@ -78,6 +78,10 @@ const schema = {
               </div>
             </div>
 
+            <div class="mt-6 flex justify-end">
+              <SaveResultButton id="save-jwt-btn" />
+            </div>
+
           </div>
         </div>
       </div>
@@ -131,10 +135,45 @@ const schema = {
 
       errorMsg?.classList.add('hidden');
       decodedContent?.classList.remove('opacity-50');
+      
+      const saveBtn = document.getElementById('save-jwt-btn');
+      if (saveBtn) {
+        saveBtn.classList.remove('hidden');
+        saveBtn.onclick = () => {
+          if (typeof window.saveToDashboard === 'function') {
+            const success = window.saveToDashboard('JWT Token Decoder', '/developer/jwt-decoder', {
+              type: 'key-value',
+              data: {
+                'Header': JSON.stringify(headerObj),
+                'Payload': JSON.stringify(payloadObj)
+              }
+            });
+            if (success) {
+              const textEl = saveBtn.querySelector('.btn-text');
+              const iconSave = saveBtn.querySelector('.icon-save');
+              const iconCheck = saveBtn.querySelector('.icon-check');
+              if (textEl) textEl.textContent = 'Saved!';
+              if (iconSave) iconSave.classList.add('hidden');
+              if (iconCheck) iconCheck.classList.remove('hidden');
+              saveBtn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+              saveBtn.classList.remove('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+              setTimeout(() => {
+                if (textEl) textEl.textContent = 'Save Result';
+                if (iconSave) iconSave.classList.remove('hidden');
+                if (iconCheck) iconCheck.classList.add('hidden');
+                saveBtn.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+                saveBtn.classList.add('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+              }, 2000);
+            }
+          }
+        };
+      }
+      
     } catch (e) {
       errorMsg?.classList.remove('hidden');
       errorMsg?.classList.add('flex');
       decodedContent?.classList.add('opacity-50');
+      document.getElementById('save-jwt-btn')?.classList.add('hidden');
     }
   }
 

@@ -4,15 +4,15 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
 const schema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "Color Code Converter",
   "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Any",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "description": "Convert color codes between HEX, RGB, and HSL formats instantly. Perfect for web developers and designers. Free, fast, and runs entirely in your browser.",
-  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "89" }
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Convert color codes between HEX, RGB, and HSL formats instantly. Perfect for web developers and designers. Free, fast, and runs entirely in your browser."
 };
 ---
 
@@ -61,9 +61,11 @@ const schema = {
           </div>
         </div>
 
-        <div class="mt-8 pt-6 border-t border-white/[0.06] text-center">
+        <div class="mt-8 pt-6 border-t border-white/[0.06] text-center flex flex-col items-center">
           <input type="color" id="color-picker" value="#ff6b35" class="w-16 h-16 rounded cursor-pointer bg-transparent border-0 p-0" />
-          <p class="text-xs text-zinc-500 mt-2">Or use the color picker</p>
+          <p class="text-xs text-zinc-500 mt-2 mb-6">Or use the color picker</p>
+          
+          <SaveResultButton id="save-color-btn" />
         </div>
 
       </div>
@@ -158,9 +160,45 @@ const schema = {
   }
 
   function updatePreview(hex: string) {
-    const fullHex = `#${hex}`;
-    if (preview) preview.style.backgroundColor = fullHex;
-    if (picker && activeInput !== 'picker') picker.value = fullHex;
+    if (preview) preview.style.backgroundColor = `#${hex}`;
+    if (picker && activeInput !== 'picker') picker.value = `#${hex}`;
+    showSaveBtn();
+  }
+
+  function showSaveBtn() {
+    const saveBtn = document.getElementById('save-color-btn');
+    if (saveBtn) {
+      saveBtn.classList.remove('hidden');
+      saveBtn.onclick = () => {
+        if (typeof window.saveToDashboard === 'function') {
+          const success = window.saveToDashboard('Color Converter', '/developer/color-converter', {
+            type: 'key-value',
+            data: {
+              'HEX': `#${hexInput.value.replace(/^#/, '')}`,
+              'RGB': rgbInput.value,
+              'HSL': hslInput.value
+            }
+          });
+          if (success) {
+            const textEl = saveBtn.querySelector('.btn-text');
+            const iconSave = saveBtn.querySelector('.icon-save');
+            const iconCheck = saveBtn.querySelector('.icon-check');
+            if (textEl) textEl.textContent = 'Saved!';
+            if (iconSave) iconSave.classList.add('hidden');
+            if (iconCheck) iconCheck.classList.remove('hidden');
+            saveBtn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+            saveBtn.classList.remove('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+            setTimeout(() => {
+              if (textEl) textEl.textContent = 'Save Result';
+              if (iconSave) iconSave.classList.remove('hidden');
+              if (iconCheck) iconCheck.classList.add('hidden');
+              saveBtn.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+              saveBtn.classList.add('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+            }, 2000);
+          }
+        }
+      };
+    }
   }
 
   hexInput?.addEventListener('input', (e) => {
