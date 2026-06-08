@@ -5,32 +5,78 @@ import Footer from '../components/Footer.astro';
 import SearchOverlay from '../components/SearchOverlay.astro';
 
 const faqs = [
+  // --- General ---
   {
     question: "What is SolversPro?",
-    answer: "SolversPro is a comprehensive suite of free, lightning-fast utilities and calculators for professionals, students, and everyday use. We cover everything from finance and health metrics to complex engineering calculations and developer tools."
+    answer: "SolversPro is a comprehensive suite of free, lightning-fast online calculators and utilities for professionals, students, and everyday use. We cover everything from finance and health metrics to complex engineering calculations, developer tools, and an AI-powered universal solver."
   },
   {
-    question: "Are the tools really 100% free?",
-    answer: "Yes! We believe that essential calculation tools shouldn't be locked behind paywalls. All of our standard calculators and converters are completely free to use."
+    question: "Are the tools really 100% free to use?",
+    answer: "Yes! All of our standard calculators, converters, and developer utilities are completely free with no hidden costs. We believe essential calculation tools should be accessible to everyone without paywalls or mandatory sign-ups."
   },
   {
-    question: "Do you store my data?",
-    answer: "No. The vast majority of our tools run entirely client-side in your browser. If you use the Dashboard to save results, that data is stored locally on your device using your browser's localStorage. We do not transmit or store your personal calculation data on our servers."
+    question: "Do I need to create an account to use the calculators?",
+    answer: "No account or registration is required. You can start using any calculator on SolversPro instantly — just visit the page and begin. The optional Dashboard feature uses your browser's local storage, so it works without an account too."
+  },
+  // --- Privacy & Security ---
+  {
+    question: "Is my data safe on SolversPro?",
+    answer: "Absolutely. The vast majority of our tools run entirely client-side in your browser — your inputs never leave your device. If you use the Dashboard to save results, that data is stored locally using your browser's localStorage. We do not collect, transmit, or store your personal calculation data on our servers."
   },
   {
-    question: "Do I need to create an account?",
-    answer: "No account is required to use any of our calculators. You can start calculating instantly without signing up."
+    question: "Does SolversPro use cookies or track me?",
+    answer: "We use Google Analytics to understand aggregate site traffic (e.g., which pages are most popular). We do not use tracking cookies for advertising or sell any user data. You can read more in our Privacy Policy."
+  },
+  // --- Calculators & Tools ---
+  {
+    question: "What types of calculators does SolversPro offer?",
+    answer: "We offer 25+ tools across five major categories: Finance (compound interest, ROI, loan amortization, mortgage, cash-on-cash return), Health (BMI, calorie, body fat, macro), Math (scientific calculator, quadratic solver, statistics, percentage, unit converter, matrix), Trades & Engineering (concrete slab, wire size, board feet, paint, solar panel), and Developer Tools (JSON formatter, XML tools, Base64 converter, JWT decoder, hash generator, color converter)."
   },
   {
-    question: "How do I request a new tool or calculator?",
-    answer: "We are constantly expanding our library! If you have a specific tool you'd like to see, please head over to our Contact page and send us a message."
+    question: "How accurate are the calculations?",
+    answer: "Our calculators use industry-standard formulas and are built for professional-grade accuracy. All computations run in real-time using JavaScript's IEEE 754 double-precision floating-point arithmetic, which provides up to 15–17 significant digits of precision."
+  },
+  {
+    question: "Can I use these calculators on my phone or tablet?",
+    answer: "Yes. SolversPro is fully responsive and works on any modern device — desktop, tablet, or smartphone. You can even install it as a Progressive Web App (PWA) on your home screen for instant access without downloading anything from an app store."
+  },
+  {
+    question: "Do the calculators work offline?",
+    answer: "Most of our standard calculators run entirely in your browser and will continue to work with limited or no internet connectivity once the page has loaded. The AI Solver feature requires an active internet connection to process your queries."
+  },
+  // --- AI Solver ---
+  {
+    question: "What is the Universal AI Solver?",
+    answer: "The Universal AI Solver is our Gemini-powered assistant that can answer complex math, engineering, physics, and logic questions with detailed step-by-step explanations. Simply type your problem in natural language and get an instant breakdown of the solution."
+  },
+  {
+    question: "Is the AI Solver free as well?",
+    answer: "Yes, the AI Solver is currently free to use. Because it relies on a cloud-based AI model, there may be usage limits during periods of high demand to ensure quality of service for all users."
+  },
+  // --- Dashboard ---
+  {
+    question: "What is the SolversPro Dashboard?",
+    answer: "The Dashboard is your personal command center. It lets you save calculation results from any tool, set global preferences (like default currency and measurement system), and export or import your saved data as a JSON file for backup or portability — all stored locally in your browser."
+  },
+  {
+    question: "Can I export my saved calculations?",
+    answer: "Yes! The Dashboard includes a full Data Management section. You can export all of your saved results and preferences as a single JSON file, and import them back on any device or browser. This makes it easy to back up your data or move between devices."
+  },
+  // --- Technical ---
+  {
+    question: "What browsers are supported?",
+    answer: "SolversPro works on all modern browsers including Google Chrome, Mozilla Firefox, Microsoft Edge, Safari, and Brave. We recommend keeping your browser updated to the latest version for the best experience."
+  },
+  {
+    question: "How do I request a new tool or report a bug?",
+    answer: "We are constantly expanding our library! If you have a tool request, feature suggestion, or want to report a bug, please visit our Contact page and send us a message. You can also reach out on X (Twitter) @solverspro_com or open an issue on our GitHub repository."
   }
 ];
 ---
 
 <BaseLayout
-  title="Frequently Asked Questions | SolversPro"
-  description="Find answers to common questions about SolversPro's free, client-side calculation engines."
+  title="Frequently Asked Questions | SolversPro – Free Online Calculators"
+  description="Get answers to common questions about SolversPro's free online calculators, AI solver, data privacy, browser support, and more."
 >
   <Header />
   <SearchOverlay />
@@ -43,34 +89,53 @@ const faqs = [
           SUPPORT
         </span>
         <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">Frequently Asked Questions</h1>
-        <p class="text-lg text-zinc-400">Everything you need to know about the platform and how it works.</p>
+        <p class="text-lg text-zinc-400 max-w-2xl">Everything you need to know about SolversPro — our free online calculators, AI solver, data privacy, and more.</p>
       </div>
 
-      <div class="space-y-6">
+      <div class="space-y-4">
         {faqs.map((faq) => (
-          <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm transition-all hover:border-white/[0.1]">
-            <h3 class="text-lg font-semibold text-white mb-3 flex items-start gap-3">
-              <span class="text-[#ff6b35] mt-1">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          <details class="group bg-white/[0.02] border border-white/[0.06] rounded-xl shadow-sm transition-all hover:border-white/[0.12] open:border-[#ff6b35]/30">
+            <summary class="cursor-pointer list-none p-6 flex items-center justify-between gap-4">
+              <h2 class="text-lg font-semibold text-white group-open:text-[#ff6b35] transition-colors">
+                {faq.question}
+              </h2>
+              <span class="text-[#ff6b35] shrink-0 transition-transform duration-200 group-open:rotate-90">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
               </span>
-              {faq.question}
-            </h3>
-            <p class="text-zinc-400 ml-7 leading-relaxed">
-              {faq.answer}
-            </p>
-          </div>
+            </summary>
+            <div class="px-6 pb-6 -mt-2">
+              <p class="text-zinc-400 leading-relaxed">
+                {faq.answer}
+              </p>
+            </div>
+          </details>
         ))}
       </div>
       
-      <div class="mt-12 p-6 bg-[#ff6b35]/10 border border-[#ff6b35]/20 rounded-xl text-center">
-        <h3 class="text-white font-semibold mb-2">Still have questions?</h3>
-        <p class="text-zinc-400 mb-4">We're here to help. Reach out to our team directly.</p>
+      <div class="mt-16 p-8 bg-[#ff6b35]/10 border border-[#ff6b35]/20 rounded-xl text-center">
+        <h2 class="text-xl text-white font-semibold mb-2">Still have questions?</h2>
+        <p class="text-zinc-400 mb-5">We're here to help. Reach out to our team directly.</p>
         <a href="/contact" class="inline-flex items-center gap-2 px-6 py-2.5 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white rounded font-semibold text-sm transition-colors shadow-[0_0_15px_rgba(255,107,53,0.3)]">
           Contact Us
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
     </div>
   </main>
+
+  <!-- FAQPage JSON-LD Structured Data for Google Rich Results -->
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  })} />
   
   <Footer />
 </BaseLayout>
