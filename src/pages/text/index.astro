@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const tools = [
+  {
+    title: 'Word Counter',
+    description: 'Real-time word, character, sentence, and paragraph counter with reading time estimate and keyword density.',
+    icon: '📝',
+    href: '/text/word-counter'
+  },
+  {
+    title: 'Morse Code Translator',
+    description: 'Translate text to Morse code and back. Includes audio playback with adjustable speed.',
+    icon: '📡',
+    href: '/text/morse-code'
+  },
+];
+---
+<BaseLayout
+  title="Text Tools | SolversPro"
+  description="Free online text tools. Count words, translate Morse code, and more. 100% private — runs in your browser."
+>
+  <Header />
+  <div class="container mx-auto px-4 py-12 max-w-6xl">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Text Tools' }]} />
+    <div class="mb-12 mt-4">
+      <h1 class="text-4xl font-bold text-white mb-4">Text Tools</h1>
+      <p class="text-zinc-400 text-lg max-w-2xl">Handy text utilities for writers, developers, and communicators. All tools run locally in your browser.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+      {tools.map(tool => <ToolCard {...tool} />)}
+    </div>
+  </div>
+  <Footer />
+</BaseLayout>

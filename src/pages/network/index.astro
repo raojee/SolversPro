@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const tools = [
+  {
+    title: 'IP Subnet Calculator',
+    description: 'Calculate network address, broadcast, subnet mask, host range, and usable hosts for any IPv4 subnet using CIDR notation.',
+    icon: '🌐',
+    href: '/network/ip-subnet-calculator'
+  },
+  {
+    title: 'My IP Checker',
+    description: 'Instantly find your public IP address with location, ISP, timezone, and coordinates.',
+    icon: '🔍',
+    href: '/network/my-ip'
+  },
+];
+---
+<BaseLayout
+  title="Network Tools | SolversPro"
+  description="Free online network tools. Calculate subnets, check your IP address, convert IPv4/IPv6, and more. Runs in your browser."
+>
+  <Header />
+  <div class="container mx-auto px-4 py-12 max-w-6xl">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Network Tools' }]} />
+    <div class="mb-12 mt-4">
+      <h1 class="text-4xl font-bold text-white mb-4">Network Tools</h1>
+      <p class="text-zinc-400 text-lg max-w-2xl">Essential networking utilities for sysadmins, developers, and curious users. Subnet calculators, IP checkers, and more.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+      {tools.map(tool => <ToolCard {...tool} />)}
+    </div>
+  </div>
+  <Footer />
+</BaseLayout>

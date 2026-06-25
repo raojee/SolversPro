@@ -1,0 +1,280 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Morse Code Translator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Translate text to Morse code and Morse code back to text instantly. Includes audio playback. 100% client-side and private."
+};
+---
+
+<BaseLayout
+  title="Morse Code Translator | SolversPro"
+  description="Translate text to Morse code and Morse code back to text instantly. Includes audio playback using Web Audio API. Free and 100% private."
+  canonical="https://solverspro.com/text/morse-code"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Text Tools', href: '/text' },
+        { label: 'Morse Code Translator' },
+      ]} />
+
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">📡 Morse Code Translator</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Instantly convert text to Morse code and Morse code back to text. Play the audio, adjust speed, and copy your result.</p>
+      </div>
+
+      <!-- Main Translation Panels -->
+      <div class="flex flex-col lg:flex-row gap-6 w-full">
+        <!-- Text Side -->
+        <div class="flex-1 flex flex-col gap-0">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Plain Text</h2>
+            <button id="btn-to-morse"
+              class="px-3 py-1.5 text-xs font-semibold bg-[#2dd4bf]/20 hover:bg-[#2dd4bf]/30 text-[#2dd4bf] rounded transition-colors border border-[#2dd4bf]/30"
+            >To Morse →</button>
+          </div>
+          <textarea
+            id="text-input"
+            class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none text-sm text-zinc-300 resize-none min-h-[280px] leading-relaxed"
+            placeholder="Type your message here...&#10;&#10;Example: Hello World"
+            spellcheck="false"
+          ></textarea>
+        </div>
+
+        <!-- Morse Side -->
+        <div class="flex-1 flex flex-col gap-0">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <button id="btn-to-text"
+              class="px-3 py-1.5 text-xs font-semibold bg-[#ff6b35]/20 hover:bg-[#ff6b35]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30"
+            >← To Text</button>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Morse Code</h2>
+          </div>
+          <textarea
+            id="morse-output"
+            class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#ff6b35] focus:outline-none font-mono text-base text-[#2dd4bf] resize-none min-h-[280px] leading-loose tracking-widest"
+            placeholder="Morse code will appear here...&#10;&#10;Use . (dot) and - (dash)&#10;Space between letters, / between words"
+            spellcheck="false"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="mt-6 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 flex flex-wrap gap-4 items-center justify-between">
+        <div class="flex items-center gap-4">
+          <button id="btn-play"
+            class="flex items-center gap-2 px-5 py-2.5 bg-[#ff6b35]/20 hover:bg-[#ff6b35]/30 text-[#ff6b35] font-semibold rounded-lg transition-all border border-[#ff6b35]/30 text-sm"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            Play Audio
+          </button>
+          <button id="btn-stop"
+            class="hidden flex items-center gap-2 px-5 py-2.5 bg-red-500/20 hover:bg-red-500/30 text-red-400 font-semibold rounded-lg transition-all border border-red-500/30 text-sm"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12"/></svg>
+            Stop
+          </button>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <label class="text-xs text-zinc-500 uppercase tracking-wider">Speed</label>
+          <input id="speed-slider" type="range" min="1" max="5" value="3" class="w-24 accent-[#2dd4bf]" />
+          <span id="speed-label" class="text-xs text-[#2dd4bf] font-semibold w-12">Normal</span>
+        </div>
+
+        <button id="btn-copy-morse"
+          class="px-4 py-2.5 text-xs font-semibold bg-white/[0.05] hover:bg-white/10 text-zinc-400 hover:text-white rounded-lg transition-colors border border-white/[0.08]"
+        >Copy Morse</button>
+      </div>
+
+      <!-- Morse Reference Table -->
+      <details class="mt-6 bg-[#0d0d14] border border-white/[0.06] rounded-xl overflow-hidden">
+        <summary class="px-5 py-4 text-sm font-semibold text-zinc-400 uppercase tracking-wider cursor-pointer hover:text-white transition-colors select-none">
+          📋 Morse Code Reference Chart
+        </summary>
+        <div id="reference-grid" class="p-5 grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2"></div>
+      </details>
+
+      <div class="mt-6 flex justify-center">
+        <SaveResultButton id="save-morse-btn" />
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const MORSE: Record<string, string> = {
+    'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....','I':'..','J':'.---',
+    'K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.','Q':'--.-','R':'.-.','S':'...','T':'-',
+    'U':'..-','V':'...-','W':'.--','X':'-..-','Y':'-.--','Z':'--..',
+    '0':'-----','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.',
+    '.':'.-.-.-',',':'--..--','?':'..--..','!':'-.-.--','/':'-..-.','(':'-.--.',')':'-.--.-',
+    '&':'.-...', ':':'---...', ';':'-.-.-.', '=':'-...-', '+':'.-.-.', '-':'-....-', '_':'..--.-',
+    '"':'.-..-.','@':'.--.-.',
+  };
+
+  const REVERSE_MORSE: Record<string, string> = {};
+  for (const [ch, code] of Object.entries(MORSE)) REVERSE_MORSE[code] = ch;
+
+  function textToMorse(text: string): string {
+    return text.toUpperCase().split('').map(ch => {
+      if (ch === ' ') return '/';
+      return MORSE[ch] || ch;
+    }).join(' ');
+  }
+
+  function morseToText(morse: string): string {
+    return morse.trim().split(' / ').map(word =>
+      word.split(' ').map(code => REVERSE_MORSE[code.trim()] || code).join('')
+    ).join(' ');
+  }
+
+  const textInput = document.getElementById('text-input') as HTMLTextAreaElement;
+  const morseOutput = document.getElementById('morse-output') as HTMLTextAreaElement;
+
+  document.getElementById('btn-to-morse')?.addEventListener('click', () => {
+    const result = textToMorse(textInput.value);
+    morseOutput.value = result;
+    showSaveBtn();
+  });
+
+  document.getElementById('btn-to-text')?.addEventListener('click', () => {
+    textInput.value = morseToText(morseOutput.value);
+    showSaveBtn();
+  });
+
+  // Auto convert on type
+  textInput.addEventListener('input', () => {
+    morseOutput.value = textToMorse(textInput.value);
+    showSaveBtn();
+  });
+
+  // Copy morse
+  document.getElementById('btn-copy-morse')?.addEventListener('click', () => {
+    if (morseOutput.value) navigator.clipboard.writeText(morseOutput.value);
+  });
+
+  // Speed labels
+  const speedLabels = ['Very Slow', 'Slow', 'Normal', 'Fast', 'Very Fast'];
+  const speedSlider = document.getElementById('speed-slider') as HTMLInputElement;
+  const speedLabel = document.getElementById('speed-label') as HTMLSpanElement;
+  speedSlider.addEventListener('input', () => {
+    speedLabel.textContent = speedLabels[parseInt(speedSlider.value) - 1];
+  });
+
+  // Audio playback
+  let audioCtx: AudioContext | null = null;
+  let stopAudio = false;
+
+  const speedWpm = [5, 10, 18, 25, 35]; // WPM by speed level
+
+  async function playMorse(morse: string) {
+    audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const speed = parseInt(speedSlider.value);
+    const wpm = speedWpm[speed - 1];
+    // PARIS standard: 1 dot = 1200/wpm ms
+    const dotMs = 1200 / wpm;
+
+    const playBtn = document.getElementById('btn-play') as HTMLButtonElement;
+    const stopBtn = document.getElementById('btn-stop') as HTMLButtonElement;
+    playBtn.classList.add('hidden');
+    stopBtn.classList.remove('hidden');
+    stopAudio = false;
+
+    const tokens = morse.trim().split('');
+    let t = audioCtx.currentTime;
+
+    for (let i = 0; i < morse.length; i++) {
+      if (stopAudio) break;
+      const ch = morse[i];
+      if (ch === '.') {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.frequency.value = 600;
+        gain.gain.setValueAtTime(0.5, t);
+        osc.start(t); osc.stop(t + dotMs / 1000);
+        t += (dotMs + dotMs) / 1000;
+      } else if (ch === '-') {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.frequency.value = 600;
+        gain.gain.setValueAtTime(0.5, t);
+        osc.start(t); osc.stop(t + (dotMs * 3) / 1000);
+        t += (dotMs * 3 + dotMs) / 1000;
+      } else if (ch === ' ') {
+        // Next might be '/' for word space, handled below
+        if (morse[i + 1] === '/') {
+          t += (dotMs * 7) / 1000; i++;
+        } else {
+          t += (dotMs * 3) / 1000;
+        }
+      }
+    }
+
+    // Wait for all sounds to finish
+    const totalMs = (t - audioCtx.currentTime) * 1000 + 100;
+    await new Promise(res => setTimeout(res, totalMs));
+
+    playBtn.classList.remove('hidden');
+    stopBtn.classList.add('hidden');
+  }
+
+  document.getElementById('btn-play')?.addEventListener('click', () => {
+    const morse = morseOutput.value.trim();
+    if (!morse) return;
+    playMorse(morse);
+  });
+
+  document.getElementById('btn-stop')?.addEventListener('click', () => {
+    stopAudio = true;
+    audioCtx?.close();
+    document.getElementById('btn-play')?.classList.remove('hidden');
+    document.getElementById('btn-stop')?.classList.add('hidden');
+  });
+
+  // Reference chart
+  const grid = document.getElementById('reference-grid') as HTMLElement;
+  const refEntries = [...Object.entries(MORSE)].slice(0, 40);
+  grid.innerHTML = refEntries.map(([ch, code]) =>
+    `<div class="bg-[#1a1a24] rounded-lg p-2 text-center border border-white/[0.04]">
+      <div class="text-white font-bold text-lg">${ch}</div>
+      <div class="text-[#2dd4bf] font-mono text-xs mt-0.5 tracking-widest">${code}</div>
+    </div>`
+  ).join('');
+
+  function showSaveBtn() {
+    const saveBtn = document.getElementById('save-morse-btn');
+    if (saveBtn) {
+      saveBtn.classList.remove('hidden');
+      saveBtn.onclick = () => {
+        if (typeof (window as any).saveToDashboard === 'function') {
+          (window as any).saveToDashboard('Morse Code Translator', '/text/morse-code', {
+            type: 'key-value',
+            data: {
+              'Text': textInput.value.substring(0, 40),
+              'Morse': morseOutput.value.substring(0, 40)
+            }
+          });
+        }
+      };
+    }
+  }
+</script>

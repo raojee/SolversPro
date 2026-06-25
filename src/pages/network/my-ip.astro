@@ -1,0 +1,238 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "My IP Checker",
+  "applicationCategory": "NetworkApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Instantly find your public IP address along with location, ISP, timezone, and more. Free tool that fetches your IP details securely."
+};
+---
+
+<BaseLayout
+  title="My IP Checker — What Is My IP? | SolversPro"
+  description="Find your public IP address instantly. See your IP location, ISP, country, city, timezone, and more. Free, fast, and secure."
+  canonical="https://solverspro.com/network/my-ip"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-3xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Network Tools', href: '/network' },
+        { label: 'My IP Checker' },
+      ]} />
+
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">🔍 What Is My IP Address?</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Your public IP address and location details are loaded automatically below. This is the address websites and services see when you connect to the internet.</p>
+      </div>
+
+      <!-- Main IP Card -->
+      <div id="ip-loading" class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-10 mb-6 flex flex-col items-center justify-center gap-4 min-h-[200px]">
+        <div class="w-10 h-10 border-2 border-[#2dd4bf]/30 border-t-[#2dd4bf] rounded-full animate-spin"></div>
+        <p class="text-zinc-500 text-sm">Detecting your IP address...</p>
+      </div>
+
+      <div id="ip-card" class="hidden bg-gradient-to-br from-[#0d0d14] to-[#111122] border border-[#2dd4bf]/20 rounded-2xl p-8 mb-6 text-center shadow-xl shadow-[#2dd4bf]/5">
+        <div class="text-xs text-zinc-500 uppercase tracking-widest font-semibold mb-3">Your Public IP Address</div>
+        <div class="flex items-center justify-center gap-3 mb-6">
+          <div id="ip-address" class="text-4xl sm:text-5xl font-bold font-mono text-white tracking-wider">—</div>
+          <button id="btn-copy-ip"
+            class="p-2.5 bg-[#2dd4bf]/10 hover:bg-[#2dd4bf]/25 text-[#2dd4bf] rounded-lg border border-[#2dd4bf]/20 transition-all hover:scale-105"
+            title="Copy IP"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          </button>
+        </div>
+
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-[#2dd4bf]/10 border border-[#2dd4bf]/20 rounded-full">
+          <div class="w-2 h-2 rounded-full bg-[#2dd4bf] animate-pulse"></div>
+          <span id="ip-type" class="text-[#2dd4bf] text-sm font-semibold">Detecting...</span>
+        </div>
+      </div>
+
+      <!-- Details Grid -->
+      <div id="details-grid" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        {[
+          { id: 'd-country', icon: '🌍', label: 'Country' },
+          { id: 'd-region', icon: '🗺️', label: 'Region / State' },
+          { id: 'd-city', icon: '🏙️', label: 'City' },
+          { id: 'd-isp', icon: '📡', label: 'ISP / Organization' },
+          { id: 'd-timezone', icon: '🕐', label: 'Timezone' },
+          { id: 'd-coords', icon: '📍', label: 'Coordinates' },
+        ].map(d => (
+          <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl px-5 py-4 flex items-center gap-4 hover:border-white/[0.12] transition-colors">
+            <span class="text-2xl">{d.icon}</span>
+            <div class="min-w-0">
+              <div class="text-xs text-zinc-500 uppercase tracking-wider mb-1">{d.label}</div>
+              <div id={d.id} class="text-white font-semibold truncate">—</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- IPv6 Card -->
+      <div id="ipv6-card" class="hidden bg-[#0d0d14] border border-white/[0.06] rounded-xl px-5 py-4 mb-6">
+        <div class="text-xs text-zinc-500 uppercase tracking-wider mb-2">IPv6 Address</div>
+        <div id="ipv6-address" class="font-mono text-sm text-[#a78bfa] break-all">Checking...</div>
+      </div>
+
+      <!-- Error Card -->
+      <div id="ip-error" class="hidden bg-red-500/10 border border-red-500/20 rounded-xl p-6 mb-6 text-center">
+        <div class="text-red-400 text-lg font-semibold mb-2">⚠️ Could not detect IP</div>
+        <p class="text-zinc-500 text-sm">Please check your internet connection and try again.</p>
+        <button id="btn-retry" class="mt-4 px-6 py-2 bg-[#ff6b35] hover:bg-[#ff8555] text-white font-semibold rounded-lg text-sm transition-colors">
+          Retry
+        </button>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap gap-3 justify-center mb-6">
+        <button id="btn-refresh"
+          class="flex items-center gap-2 px-5 py-2.5 bg-white/[0.05] hover:bg-white/10 text-zinc-300 hover:text-white font-semibold rounded-lg transition-colors border border-white/[0.08] text-sm"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          Refresh
+        </button>
+        <SaveResultButton id="save-ip-btn" />
+      </div>
+
+      <!-- Info Note -->
+      <div class="bg-[#0d0d14] border border-white/[0.04] rounded-xl p-4 text-xs text-zinc-600 text-center">
+        🔒 Your IP is fetched using a public API (ipify.org + ipapi.co). We do not store or log your IP address.
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  interface IpData {
+    ip: string;
+    country_name?: string;
+    region?: string;
+    city?: string;
+    org?: string;
+    timezone?: string;
+    latitude?: number;
+    longitude?: number;
+  }
+
+  let currentIp = '';
+
+  async function detectIP() {
+    const loadingEl = document.getElementById('ip-loading') as HTMLElement;
+    const ipCard = document.getElementById('ip-card') as HTMLElement;
+    const detailsGrid = document.getElementById('details-grid') as HTMLElement;
+    const ipv6Card = document.getElementById('ipv6-card') as HTMLElement;
+    const errorCard = document.getElementById('ip-error') as HTMLElement;
+
+    loadingEl.classList.remove('hidden');
+    ipCard.classList.add('hidden');
+    detailsGrid.classList.add('hidden');
+    ipv6Card.classList.add('hidden');
+    errorCard.classList.add('hidden');
+
+    try {
+      // Get public IPv4
+      const ipRes = await fetch('https://api.ipify.org?format=json');
+      const ipData = await ipRes.json();
+      currentIp = ipData.ip;
+
+      (document.getElementById('ip-address') as HTMLElement).textContent = currentIp;
+      (document.getElementById('ip-type') as HTMLElement).textContent = currentIp.includes(':') ? 'IPv6' : 'IPv4 — Public Address';
+
+      loadingEl.classList.add('hidden');
+      ipCard.classList.remove('hidden');
+
+      // Get geo details
+      try {
+        const geoRes = await fetch(`https://ipapi.co/${currentIp}/json/`);
+        const geo: IpData = await geoRes.json();
+
+        const set = (id: string, val: string) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = val || '—';
+        };
+
+        set('d-country', `${geo.country_name || '—'}`);
+        set('d-region', geo.region || '—');
+        set('d-city', geo.city || '—');
+        set('d-isp', geo.org || '—');
+        set('d-timezone', geo.timezone || '—');
+        set('d-coords', geo.latitude && geo.longitude
+          ? `${geo.latitude.toFixed(4)}° N, ${geo.longitude.toFixed(4)}° E`
+          : '—');
+
+        detailsGrid.classList.remove('hidden');
+
+        // Show save button
+        const saveBtn = document.getElementById('save-ip-btn');
+        if (saveBtn) {
+          saveBtn.classList.remove('hidden');
+          saveBtn.onclick = () => {
+            if (typeof (window as any).saveToDashboard === 'function') {
+              (window as any).saveToDashboard('My IP Checker', '/network/my-ip', {
+                type: 'key-value',
+                data: {
+                  'IP Address': currentIp,
+                  'Country': geo.country_name || '—',
+                  'City': geo.city || '—',
+                  'ISP': geo.org || '—'
+                }
+              });
+            }
+          };
+        }
+      } catch {
+        // Geo failed, still show IP
+        detailsGrid.classList.remove('hidden');
+      }
+
+      // Try IPv6
+      try {
+        const ipv6Res = await fetch('https://api6.ipify.org?format=json');
+        const ipv6Data = await ipv6Res.json();
+        if (ipv6Data.ip && ipv6Data.ip !== currentIp) {
+          (document.getElementById('ipv6-address') as HTMLElement).textContent = ipv6Data.ip;
+          ipv6Card.classList.remove('hidden');
+        }
+      } catch {
+        // IPv6 not available, skip
+      }
+
+    } catch {
+      loadingEl.classList.add('hidden');
+      errorCard.classList.remove('hidden');
+    }
+  }
+
+  document.getElementById('btn-copy-ip')?.addEventListener('click', () => {
+    if (currentIp) {
+      navigator.clipboard.writeText(currentIp).then(() => {
+        const btn = document.getElementById('btn-copy-ip') as HTMLButtonElement;
+        btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>`;
+        setTimeout(() => {
+          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>`;
+        }, 1500);
+      });
+    }
+  });
+
+  document.getElementById('btn-refresh')?.addEventListener('click', detectIP);
+  document.getElementById('btn-retry')?.addEventListener('click', detectIP);
+
+  detectIP();
+</script>

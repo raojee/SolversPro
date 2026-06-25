@@ -1,0 +1,217 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Word Counter",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Count words, characters, sentences, paragraphs, and estimate reading time instantly. Free online word counter that runs entirely in your browser."
+};
+---
+
+<BaseLayout
+  title="Word Counter | SolversPro"
+  description="Count words, characters, sentences, paragraphs, and estimate reading time instantly. Free online word counter — 100% private, runs in your browser."
+  canonical="https://solverspro.com/text/word-counter"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Text Tools', href: '/text' },
+        { label: 'Word Counter' },
+      ]} />
+
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">📝 Word Counter</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Real-time word, character, sentence, and paragraph counter. Also estimates reading and speaking time. Paste your text below.</p>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+        {[
+          { id: 'stat-words', label: 'Words', val: '0', color: '#2dd4bf' },
+          { id: 'stat-chars', label: 'Characters', val: '0', color: '#ff6b35' },
+          { id: 'stat-chars-ns', label: 'Chars (no spaces)', val: '0', color: '#a78bfa' },
+          { id: 'stat-sentences', label: 'Sentences', val: '0', color: '#34d399' },
+          { id: 'stat-paragraphs', label: 'Paragraphs', val: '0', color: '#f472b6' },
+          { id: 'stat-lines', label: 'Lines', val: '0', color: '#fbbf24' },
+        ].map(s => (
+          <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-4 text-center">
+            <div id={s.id} class="text-3xl font-bold tabular-nums" style={`color: ${s.color}`}>0</div>
+            <div class="text-xs text-zinc-500 mt-1 uppercase tracking-wider">{s.label}</div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Reading / Speaking Time -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl px-5 py-4 flex items-center gap-4">
+          <span class="text-2xl">📖</span>
+          <div>
+            <div class="text-xs text-zinc-500 uppercase tracking-wider mb-1">Reading Time</div>
+            <div id="stat-read-time" class="text-white font-bold text-lg">—</div>
+          </div>
+        </div>
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl px-5 py-4 flex items-center gap-4">
+          <span class="text-2xl">🎙️</span>
+          <div>
+            <div class="text-xs text-zinc-500 uppercase tracking-wider mb-1">Speaking Time</div>
+            <div id="stat-speak-time" class="text-white font-bold text-lg">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text Area -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
+          <h2 class="text-sm font-semibold text-zinc-400 uppercase tracking-wider">Your Text</h2>
+          <div class="flex gap-2">
+            <button id="btn-clear"
+              class="px-3 py-1.5 text-xs font-semibold bg-white/[0.05] hover:bg-white/10 text-zinc-400 hover:text-white rounded transition-colors"
+            >Clear</button>
+            <button id="btn-copy-text"
+              class="px-3 py-1.5 text-xs font-semibold bg-[#2dd4bf]/10 hover:bg-[#2dd4bf]/20 text-[#2dd4bf] rounded transition-colors border border-[#2dd4bf]/20"
+            >Copy</button>
+          </div>
+        </div>
+        <textarea
+          id="main-textarea"
+          class="w-full p-5 bg-[#1a1a24] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[360px] leading-relaxed"
+          placeholder="Start typing or paste your text here to see real-time statistics..."
+          spellcheck="true"
+        ></textarea>
+      </div>
+
+      <!-- Keyword Density -->
+      <div class="mt-6 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
+        <h3 class="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-4">Top Keywords</h3>
+        <div id="keyword-list" class="text-zinc-500 text-sm italic">Start typing to see keyword frequency...</div>
+      </div>
+
+      <div class="mt-6 flex justify-center">
+        <SaveResultButton id="save-wc-btn" />
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const textarea = document.getElementById('main-textarea') as HTMLTextAreaElement;
+
+  function formatTime(minutes: number): string {
+    if (minutes < 1) return '< 1 min';
+    if (minutes < 60) return `${Math.ceil(minutes)} min`;
+    const h = Math.floor(minutes / 60);
+    const m = Math.round(minutes % 60);
+    return `${h}h ${m}m`;
+  }
+
+  function getTopKeywords(text: string): { word: string; count: number }[] {
+    const stopWords = new Set(['the','a','an','and','or','but','in','on','at','to','for','of','with','by','is','are','was','were','it','this','that','i','you','he','she','we','they','be','have','has','had','do','does','did','not','from','as','if','so','up','out','then','there','what','when','how','all','its','his','her','my','our','your','their','these','those','which']);
+    const words = text.toLowerCase().match(/\b[a-zA-Z]{3,}\b/g) || [];
+    const freq: Record<string, number> = {};
+    words.forEach(w => {
+      if (!stopWords.has(w)) freq[w] = (freq[w] || 0) + 1;
+    });
+    return Object.entries(freq)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10)
+      .map(([word, count]) => ({ word, count }));
+  }
+
+  function update() {
+    const text = textarea.value;
+
+    // Words
+    const words = text.trim() === '' ? 0 : (text.trim().match(/\S+/g) || []).length;
+
+    // Chars
+    const chars = text.length;
+    const charsNoSpaces = text.replace(/\s/g, '').length;
+
+    // Sentences
+    const sentences = text === '' ? 0 : (text.match(/[^.!?]*[.!?]+/g) || []).filter(s => s.trim().length > 0).length;
+
+    // Paragraphs
+    const paragraphs = text === '' ? 0 : text.split(/\n\s*\n/).filter(p => p.trim().length > 0).length;
+
+    // Lines
+    const lines = text === '' ? 0 : text.split('\n').length;
+
+    // Times (avg 238 wpm reading, 130 wpm speaking)
+    const readMin = words / 238;
+    const speakMin = words / 130;
+
+    (document.getElementById('stat-words') as HTMLElement).textContent = words.toLocaleString();
+    (document.getElementById('stat-chars') as HTMLElement).textContent = chars.toLocaleString();
+    (document.getElementById('stat-chars-ns') as HTMLElement).textContent = charsNoSpaces.toLocaleString();
+    (document.getElementById('stat-sentences') as HTMLElement).textContent = sentences.toLocaleString();
+    (document.getElementById('stat-paragraphs') as HTMLElement).textContent = paragraphs.toLocaleString();
+    (document.getElementById('stat-lines') as HTMLElement).textContent = lines.toLocaleString();
+    (document.getElementById('stat-read-time') as HTMLElement).textContent = words === 0 ? '—' : formatTime(readMin);
+    (document.getElementById('stat-speak-time') as HTMLElement).textContent = words === 0 ? '—' : formatTime(speakMin);
+
+    // Keywords
+    const kwEl = document.getElementById('keyword-list') as HTMLElement;
+    if (words === 0) {
+      kwEl.innerHTML = '<span class="italic">Start typing to see keyword frequency...</span>';
+    } else {
+      const kws = getTopKeywords(text);
+      if (kws.length === 0) {
+        kwEl.innerHTML = '<span class="italic">No significant keywords found.</span>';
+      } else {
+        kwEl.innerHTML = kws.map(({ word, count }) => {
+          const pct = Math.round((count / words) * 100 * 10) / 10;
+          return `<div class="flex items-center gap-3 py-1.5 border-b border-white/[0.04] last:border-0">
+            <span class="text-zinc-300 font-medium w-32 truncate capitalize">${word}</span>
+            <div class="flex-1 h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
+              <div class="h-full rounded-full bg-[#2dd4bf]" style="width:${Math.min(pct * 10, 100)}%"></div>
+            </div>
+            <span class="text-zinc-500 text-xs w-16 text-right">${count}× (${pct}%)</span>
+          </div>`;
+        }).join('');
+      }
+    }
+
+    // Save button
+    if (words > 0) {
+      const saveBtn = document.getElementById('save-wc-btn');
+      if (saveBtn) {
+        saveBtn.classList.remove('hidden');
+        saveBtn.onclick = () => {
+          if (typeof (window as any).saveToDashboard === 'function') {
+            (window as any).saveToDashboard('Word Counter', '/text/word-counter', {
+              type: 'key-value',
+              data: { 'Words': words.toString(), 'Characters': chars.toString(), 'Reading Time': formatTime(readMin) }
+            });
+          }
+        };
+      }
+    }
+  }
+
+  textarea.addEventListener('input', update);
+
+  document.getElementById('btn-clear')?.addEventListener('click', () => {
+    textarea.value = '';
+    update();
+  });
+
+  document.getElementById('btn-copy-text')?.addEventListener('click', () => {
+    if (textarea.value) navigator.clipboard.writeText(textarea.value);
+  });
+</script>

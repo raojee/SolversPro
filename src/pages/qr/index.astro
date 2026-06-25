@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const tools = [
+  {
+    title: 'QR Code Generator',
+    description: 'Generate QR codes for URLs, text, email, phone numbers, and WiFi. Customize colors and size. Download as PNG.',
+    icon: '📱',
+    href: '/qr/qr-generator'
+  },
+];
+---
+<BaseLayout
+  title="QR Code Tools | SolversPro"
+  description="Free online QR code tools. Generate QR codes for URLs, text, email, phone, and WiFi. Customize and download as PNG. 100% free."
+>
+  <Header />
+  <div class="container mx-auto px-4 py-12 max-w-6xl">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'QR Code Tools' }]} />
+    <div class="mb-12 mt-4">
+      <h1 class="text-4xl font-bold text-white mb-4">QR Code Tools</h1>
+      <p class="text-zinc-400 text-lg max-w-2xl">Generate and scan QR codes for any content. Fast, free, and runs entirely in your browser.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+      {tools.map(tool => <ToolCard {...tool} />)}
+    </div>
+  </div>
+  <Footer />
+</BaseLayout>
