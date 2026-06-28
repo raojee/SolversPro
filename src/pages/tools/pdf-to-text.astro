@@ -113,7 +113,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
   fileInput.addEventListener('change', async () => { if(fileInput.files?.[0]) await extractText(fileInput.files[0]); });
 
   document.getElementById('copy-btn').addEventListener('click', () => {
-    navigator.clipboard.writeText(textOutput.value);
+    copyToClipboard(textOutput.value);
     document.getElementById('copy-btn').textContent = '✅ Copied!';
     setTimeout(() => { document.getElementById('copy-btn').textContent = '📋 Copy'; }, 2000);
   });

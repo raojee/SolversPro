@@ -155,6 +155,7 @@ const schema = {
 </BaseLayout>
 
 <script>
+  import { copyToClipboard } from '../../utils/clipboard';
   const inputs: Record<string, HTMLInputElement> = {
     dec: document.getElementById('inp-dec') as HTMLInputElement,
     hex: document.getElementById('inp-hex') as HTMLInputElement,
@@ -203,7 +204,7 @@ const schema = {
       const target = (btn as HTMLElement).dataset.target!;
       const val = inputs[target]?.value;
       if (!val) return;
-      navigator.clipboard.writeText(val);
+      copyToClipboard(val);
       const original = btn.textContent;
       btn.textContent = 'Copied!';
       setTimeout(() => btn.textContent = original, 1500);

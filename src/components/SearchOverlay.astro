@@ -41,10 +41,25 @@
 </div>
 
 <script>
+  import Fuse from 'fuse.js';
+
   const toolsIndex = [
     { title: 'Universal AI Solver', url: '/solve', category: 'AI Tools', keywords: ['ai', 'solve', 'gemini', 'math', 'chemistry', 'physics', 'engineering', 'logic', 'multimodal', 'image'], icon: '🧠' },
-    { title: 'PDF Merger Tool', url: '/tools/pdf-merger', category: 'Utilities', keywords: ['pdf', 'merge', 'combine', 'join', 'document'], icon: '📄' },
     
+    // PDF Tools
+    { title: 'Merge PDF', url: '/tools/pdf-merger', category: 'PDF Tools', keywords: ['pdf', 'merge', 'combine', 'join', 'document'], icon: '🔗' },
+    { title: 'Split PDF By Range', url: '/tools/pdf-split-range', category: 'PDF Tools', keywords: ['pdf', 'split', 'extract', 'range', 'cut'], icon: '✂️' },
+    { title: 'Split PDF To Pages', url: '/tools/pdf-split-pages', category: 'PDF Tools', keywords: ['pdf', 'split', 'pages', 'burst', 'separate'], icon: '📑' },
+    { title: 'Protect PDF', url: '/tools/pdf-protect', category: 'PDF Tools', keywords: ['pdf', 'protect', 'encrypt', 'password', 'lock', 'secure'], icon: '🔒' },
+    { title: 'Remove PDF Password', url: '/tools/pdf-remove-password', category: 'PDF Tools', keywords: ['pdf', 'unlock', 'remove', 'password', 'decrypt'], icon: '🔓' },
+    { title: 'Flatten PDF', url: '/tools/pdf-flatten', category: 'PDF Tools', keywords: ['pdf', 'flatten', 'form', 'static', 'annotations'], icon: '📄' },
+    { title: 'Preflight PDF', url: '/tools/pdf-preflight', category: 'PDF Tools', keywords: ['pdf', 'preflight', 'metadata', 'inspect', 'validate', 'dimensions'], icon: '🔍' },
+    { title: 'PDF to Text', url: '/tools/pdf-to-text', category: 'PDF Tools', keywords: ['pdf', 'text', 'extract', 'convert'], icon: '📝' },
+    { title: 'PDF to Images', url: '/tools/pdf-to-images', category: 'PDF Tools', keywords: ['pdf', 'image', 'png', 'convert', 'extract'], icon: '🖼️' },
+    { title: 'PDF to HTML', url: '/tools/pdf-to-html', category: 'PDF Tools', keywords: ['pdf', 'html', 'convert', 'web'], icon: '🌐' },
+    { title: 'Images to PDF', url: '/tools/images-to-pdf', category: 'PDF Tools', keywords: ['pdf', 'image', 'png', 'jpg', 'combine', 'convert'], icon: '🗂️' },
+    { title: 'Compose PDF', url: '/tools/pdf-compose', category: 'PDF Tools', keywords: ['pdf', 'create', 'compose', 'write', 'editor', 'markdown'], icon: '✍️' },
+
     // Developer Tools
     { title: 'JSON Formatter & Validator', url: '/developer/json-tools', category: 'Developer Tools', keywords: ['json', 'format', 'beautify', 'minify', 'validate', 'parse'], icon: '{"}' },
     { title: 'XML Formatter & Validator', url: '/developer/xml-tools', category: 'Developer Tools', keywords: ['xml', 'format', 'beautify', 'minify', 'validate', 'parse'], icon: '</>' },
@@ -52,7 +67,27 @@
     { title: 'JWT Token Decoder', url: '/developer/jwt-decoder', category: 'Developer Tools', keywords: ['jwt', 'json', 'web', 'token', 'auth', 'security', 'decode'], icon: '🔐' },
     { title: 'Hash Generator', url: '/developer/hash-generator', category: 'Developer Tools', keywords: ['hash', 'md5', 'sha1', 'sha256', 'sha512', 'crypto', 'security'], icon: '🔒' },
     { title: 'Color Converter', url: '/developer/color-converter', category: 'Developer Tools', keywords: ['color', 'hex', 'rgb', 'hsl', 'css', 'picker', 'convert'], icon: '🎨' },
+    { title: 'Number Base Converter', url: '/developer/number-base', category: 'Developer Tools', keywords: ['number', 'binary', 'hex', 'octal', 'decimal', 'base', 'convert'], icon: '🔢' },
+    { title: 'Regex Tester & Debugger', url: '/developer/regex-tester', category: 'Developer Tools', keywords: ['regex', 'regular expression', 'test', 'match', 'debug'], icon: '⚡' },
+    { title: 'Unix Timestamp Converter', url: '/developer/timestamp-converter', category: 'Developer Tools', keywords: ['time', 'date', 'unix', 'epoch', 'timestamp', 'convert'], icon: '🕐' },
     
+    // Network Tools
+    { title: 'IP Subnet Calculator', url: '/network/ip-subnet-calculator', category: 'Network Tools', keywords: ['ip', 'subnet', 'calculator', 'cidr', 'network', 'mask', 'ipv4'], icon: '🌐' },
+    { title: 'My IP Checker', url: '/network/my-ip', category: 'Network Tools', keywords: ['ip', 'address', 'checker', 'location', 'isp', 'myip'], icon: '🔍' },
+    
+    // Security Tools
+    { title: 'Random Password Generator', url: '/security/password-generator', category: 'Security Tools', keywords: ['password', 'generator', 'random', 'secure', 'strong', 'hash'], icon: '🔐' },
+
+    // Text Tools
+    { title: 'Word Counter', url: '/text/word-counter', category: 'Text Tools', keywords: ['word', 'character', 'count', 'text', 'length'], icon: '📝' },
+    { title: 'Morse Code Translator', url: '/text/morse-code', category: 'Text Tools', keywords: ['morse', 'code', 'translate', 'audio', 'text'], icon: '📡' },
+    { title: 'URL Encoder & Decoder', url: '/text/url-encoder', category: 'Text Tools', keywords: ['url', 'encode', 'decode', 'uri', 'link'], icon: '🔗' },
+    { title: 'Text Case Converter', url: '/text/case-converter', category: 'Text Tools', keywords: ['text', 'case', 'upper', 'lower', 'title', 'camel', 'snake', 'convert'], icon: '🔡' },
+    { title: 'Lorem Ipsum Generator', url: '/text/lorem-ipsum', category: 'Text Tools', keywords: ['lorem', 'ipsum', 'generator', 'placeholder', 'text', 'dummy'], icon: '📄' },
+
+    // QR Code Tools
+    { title: 'QR Code Generator', url: '/qr/qr-generator', category: 'QR Code', keywords: ['qr', 'code', 'generator', 'create', 'barcode', 'scan'], icon: '📱' },
+
     // Finance
     { title: 'Compound Interest', url: '/finance/compound-interest', category: 'Finance', keywords: ['investing', 'growth', 'savings', 'interest', 'wealth', 'money', 'finance', 'compound'], icon: '📈' },
     { title: 'Simple Interest', url: '/finance/simple-interest', category: 'Finance', keywords: ['loans', 'borrowing', 'interest', 'simple', 'finance', 'money', 'principal'], icon: '📊' },
@@ -81,20 +116,24 @@
     { title: 'Unit Converter', url: '/math/unit-converter', category: 'Math', keywords: ['unit', 'convert', 'length', 'weight', 'volume', 'temperature', 'metric', 'imperial'], icon: '📏' }
   ];
 
+  const fuse = new Fuse(toolsIndex, {
+    keys: ['title', 'keywords', 'category'],
+    threshold: 0.4,
+    distance: 100,
+    ignoreLocation: true
+  });
+
   const overlay = document.getElementById('search-overlay');
   const searchInput = document.getElementById('search-input') as HTMLInputElement;
   const resultsContainer = document.getElementById('search-results');
   let selectedIndex = -1;
+  let activeResults: typeof toolsIndex = [];
 
   function renderResults(query: string) {
-    const q = query.toLowerCase().trim();
+    const q = query.trim();
     
-    const filtered = q
-      ? toolsIndex.filter(t => 
-          t.title.toLowerCase().includes(q) || 
-          t.keywords.some(k => k.toLowerCase().includes(q))
-        )
-      : toolsIndex;
+    const filtered = q ? fuse.search(q).map(result => result.item) : toolsIndex;
+    activeResults = filtered;
 
     if (!resultsContainer) return;
 
@@ -146,19 +185,13 @@
       if (i === selectedIndex) {
         el.classList.add('bg-[#06b6d4]/10', 'border-[#06b6d4]/30', 'text-[#06b6d4]');
         el.classList.remove('border-transparent', 'text-white');
-        
-        // Update nested text elements for highlight effect
         el.querySelector('.title-text')?.classList.add('text-[#06b6d4]');
         el.querySelector('.url-text')?.classList.add('text-[#06b6d4]/70');
         el.querySelector('.url-text')?.classList.remove('text-zinc-500');
-        
-        // Auto-scroll to selected item
         el.scrollIntoView({ block: 'nearest' });
       } else {
         el.classList.remove('bg-[#06b6d4]/10', 'border-[#06b6d4]/30', 'text-[#06b6d4]');
         el.classList.add('border-transparent', 'text-white');
-        
-        // Restore nested text elements
         el.querySelector('.title-text')?.classList.remove('text-[#06b6d4]');
         el.querySelector('.url-text')?.classList.remove('text-[#06b6d4]/70');
         el.querySelector('.url-text')?.classList.add('text-zinc-500');
@@ -170,7 +203,6 @@
     overlay?.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
     renderResults('');
-    // Slight delay to ensure element is visible before focusing
     setTimeout(() => searchInput?.focus(), 50);
   }
 
@@ -181,12 +213,10 @@
     document.body.style.overflow = '';
   }
 
-  // Input handler
   searchInput?.addEventListener('input', () => {
     renderResults(searchInput.value);
   });
 
-  // Keyboard navigation within search
   searchInput?.addEventListener('keydown', (e) => {
     const items = resultsContainer?.querySelectorAll('.search-result') || [];
     if (e.key === 'ArrowDown') {
@@ -204,7 +234,6 @@
     }
   });
 
-  // Global Ctrl+K / Cmd+K / Ctrl+/ handler
   document.addEventListener('keydown', (e) => {
     const isCmdK = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k';
     const isCtrlSlash = (e.ctrlKey || e.metaKey) && e.key === '/';
@@ -220,19 +249,16 @@
       }
     }
     
-    // Close on ESC
     if (e.key === 'Escape' && overlay && !overlay.classList.contains('hidden')) {
       e.preventDefault();
       closeSearch();
     }
   });
 
-  // Close on backdrop click
   overlay?.addEventListener('click', (e) => {
     if (e.target === overlay) closeSearch();
   });
 
-  // When opened via Header button, render initial results
   const observer = new MutationObserver(() => {
     if (overlay && !overlay.classList.contains('hidden')) {
       renderResults(searchInput?.value || '');
@@ -246,14 +272,7 @@
 </script>
 
 <style>
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-  }
+  .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
 </style>

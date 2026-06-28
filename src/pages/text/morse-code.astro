@@ -119,6 +119,7 @@ const schema = {
 </BaseLayout>
 
 <script>
+  import { copyToClipboard } from '../../utils/clipboard';
   const MORSE: Record<string, string> = {
     'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....','I':'..','J':'.---',
     'K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.','Q':'--.-','R':'.-.','S':'...','T':'-',
@@ -167,7 +168,7 @@ const schema = {
 
   // Copy morse
   document.getElementById('btn-copy-morse')?.addEventListener('click', () => {
-    if (morseOutput.value) navigator.clipboard.writeText(morseOutput.value);
+    if (morseOutput.value) copyToClipboard(morseOutput.value);
   });
 
   // Speed labels

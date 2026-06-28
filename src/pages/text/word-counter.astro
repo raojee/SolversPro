@@ -110,6 +110,7 @@ const schema = {
 </BaseLayout>
 
 <script>
+  import { copyToClipboard } from '../../utils/clipboard';
   const textarea = document.getElementById('main-textarea') as HTMLTextAreaElement;
 
   function formatTime(minutes: number): string {
@@ -212,6 +213,6 @@ const schema = {
   });
 
   document.getElementById('btn-copy-text')?.addEventListener('click', () => {
-    if (textarea.value) navigator.clipboard.writeText(textarea.value);
+    if (textarea.value) copyToClipboard(textarea.value);
   });
 </script>

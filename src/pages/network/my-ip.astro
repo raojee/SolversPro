@@ -119,6 +119,7 @@ const schema = {
 </BaseLayout>
 
 <script>
+  import { copyToClipboard } from '../../utils/clipboard';
   interface IpData {
     ip: string;
     country_name?: string;
@@ -221,7 +222,7 @@ const schema = {
 
   document.getElementById('btn-copy-ip')?.addEventListener('click', () => {
     if (currentIp) {
-      navigator.clipboard.writeText(currentIp).then(() => {
+      copyToClipboard(currentIp).then(() => {
         const btn = document.getElementById('btn-copy-ip') as HTMLButtonElement;
         btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>`;
         setTimeout(() => {

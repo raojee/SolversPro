@@ -125,6 +125,7 @@ const schema = {
 </BaseLayout>
 
 <script>
+  import { copyToClipboard } from '../../utils/clipboard';
   const inputEl = document.getElementById('input-text') as HTMLTextAreaElement;
   const outputEl = document.getElementById('output-text') as HTMLTextAreaElement;
   const outputLabel = document.getElementById('output-label')!;
@@ -195,7 +196,7 @@ const schema = {
 
   document.getElementById('btn-copy')?.addEventListener('click', () => {
     if (!outputEl.value) return;
-    navigator.clipboard.writeText(outputEl.value);
+    copyToClipboard(outputEl.value);
     const btn = document.getElementById('btn-copy')!;
     const original = btn.innerHTML;
     btn.textContent = '✓ Copied!';

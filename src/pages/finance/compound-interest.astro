@@ -291,6 +291,7 @@ const relatedTools = [
 </BaseLayout>
 
 <script>
+  import { copyToClipboard } from '../../utils/clipboard';
   // ==================== Compound Interest Calculator Logic ====================
 
   const CURRENCIES = {
@@ -551,7 +552,7 @@ const relatedTools = [
 
  const text = `Compound Interest Results (SolversPro)\n━━━━━━━━━━━━━━━━━━━━\nFinal Amount: ${final}\nTotal Invested: ${invested}\nInterest Earned: ${interest}\n\nCalculate yours: https://solverspro.com/finance/compound-interest`;
 
- navigator.clipboard.writeText(text).then(() => {
+ copyToClipboard(text).then(() => {
  const btn = document.getElementById('copy-results');
  const span = btn?.querySelector('span');
  if (span) {
@@ -574,7 +575,7 @@ const relatedTools = [
  if (navigator.share) {
  navigator.share({ title: 'Compound Interest Calculator', url });
  } else {
- navigator.clipboard.writeText(url).then(() => {
+ copyToClipboard(url).then(() => {
  const btn = document.getElementById('share-results');
  const span = btn?.querySelector('span');
  if (span) {
