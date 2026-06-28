@@ -1,0 +1,174 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+---
+<BaseLayout title="PDF to HTML | SolversPro" description="Convert PDF text content into an HTML page. Preview and download the HTML file. Free, private, browser-based.">
+  <Header />
+  <SearchOverlay />
+  <main class="flex-1 py-12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/tools'},{label:'PDF to HTML'}]} />
+      <div class="mb-8 mt-4 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">PDF to HTML</h1>
+        <p class="text-zinc-400">Extract content from a PDF and convert it to a clean, readable HTML page.</p>
+      </div>
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-8 space-y-6">
+        <div class="bg-[#2dd4bf]/5 border border-[#2dd4bf]/20 rounded-xl p-4 text-sm text-zinc-400">
+          <strong class="text-[#2dd4bf]">Note:</strong> This tool extracts text content and page structure. Complex layouts, images, and advanced formatting from the original PDF may not be fully preserved.
+        </div>
+
+        <div id="drop-zone" class="border-2 border-dashed border-white/[0.1] rounded-xl p-10 text-center cursor-pointer hover:border-[#ff6b35]/50 hover:bg-[#ff6b35]/[0.02] transition-all">
+          <div class="text-4xl mb-3">🌐</div>
+          <p class="text-white font-semibold mb-1">Drop PDF here or click to browse</p>
+          <p class="text-zinc-500 text-sm">PDF files only</p>
+          <input type="file" id="file-input" accept=".pdf" class="hidden" />
+        </div>
+
+        <div id="status" class="hidden">
+          <span id="status-text" class="block text-center text-zinc-400 text-sm mb-2"></span>
+          <div class="w-full bg-white/[0.05] rounded-full h-1.5">
+            <div id="progress-fill" class="bg-[#ff6b35] h-1.5 rounded-full transition-all" style="width:0%"></div>
+          </div>
+        </div>
+
+        <div id="output-section" class="hidden space-y-4">
+          <div class="flex items-center justify-between flex-wrap gap-3">
+            <p id="summary" class="text-sm text-zinc-400"></p>
+            <div class="flex gap-2">
+              <button id="preview-toggle" class="px-4 py-2 bg-white/[0.06] border border-white/[0.08] text-zinc-300 text-sm rounded-lg hover:bg-white/[0.1] transition-colors">👁 Preview</button>
+              <button id="download-btn" class="px-4 py-2 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white text-sm font-semibold rounded-lg transition-colors">⬇️ Download HTML</button>
+              <button id="reset-btn" class="px-4 py-2 bg-white/[0.04] border border-white/[0.06] text-zinc-400 text-sm rounded-lg hover:bg-white/[0.08] transition-colors">↩ New File</button>
+            </div>
+          </div>
+          <!-- Source view -->
+          <div id="source-view">
+            <textarea id="html-source" readonly class="w-full h-80 bg-[#0a0a12] border border-white/[0.06] rounded-xl p-4 text-xs text-zinc-300 font-mono leading-relaxed resize-y focus:outline-none"></textarea>
+          </div>
+          <!-- Preview iframe -->
+          <div id="preview-view" class="hidden">
+            <iframe id="preview-frame" class="w-full h-96 bg-white rounded-xl border border-white/[0.1]" sandbox="allow-same-origin"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script is:inline>
+  const PDFJS_VERSION = '3.11.174';
+  let generatedHTML = '';
+
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      if (window[`loaded_${src}`]) { resolve(); return; }
+      const s = document.createElement('script'); s.src = src;
+      s.onload = () => { window[`loaded_${src}`] = true; resolve(); }; s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  const dropZone = document.getElementById('drop-zone');
+  const fileInput = document.getElementById('file-input');
+  const statusEl = document.getElementById('status');
+  const statusText = document.getElementById('status-text');
+  const progressFill = document.getElementById('progress-fill');
+  const outputSection = document.getElementById('output-section');
+  const htmlSource = document.getElementById('html-source');
+  const summaryEl = document.getElementById('summary');
+  let showingPreview = false;
+
+  async function convert(file) {
+    dropZone.classList.add('hidden');
+    statusEl.classList.remove('hidden');
+    statusText.textContent = 'Loading PDF.js engine...';
+    progressFill.style.width = '5%';
+
+    await loadScript(`https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.min.js`);
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.worker.min.js`;
+
+    const buffer = await file.arrayBuffer();
+    progressFill.style.width = '20%';
+    const pdf = await window.pdfjsLib.getDocument({ data: buffer }).promise;
+    const total = pdf.numPages;
+
+    let bodyHtml = '';
+    for (let i = 1; i <= total; i++) {
+      statusText.textContent = `Converting page ${i} of ${total}...`;
+      progressFill.style.width = `${20 + (i / total) * 75}%`;
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      const pageText = content.items.map(item => {
+        const s = item.str;
+        if (!s.trim()) return '';
+        return `<span style="font-size:${Math.round(item.height || 12)}px">${s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</span>`;
+      }).join(' ');
+
+      bodyHtml += `<div class="pdf-page" id="page-${i}">
+  <h2 class="page-header">Page ${i}</h2>
+  <div class="page-content">${pageText}</div>
+</div>\n`;
+    }
+
+    generatedHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${file.name.replace('.pdf','')}</title>
+<style>
+  body { font-family: Georgia, serif; max-width: 860px; margin: 0 auto; padding: 40px 20px; color: #1a1a1a; background: #fff; line-height: 1.6; }
+  .pdf-page { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid #e5e7eb; }
+  .pdf-page:last-child { border-bottom: none; }
+  .page-header { font-size: 11px; font-family: monospace; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; }
+  .page-content { font-size: 14px; line-height: 1.8; }
+</style>
+</head>
+<body>
+${bodyHtml}
+</body>
+</html>`;
+
+    progressFill.style.width = '100%';
+    statusEl.classList.add('hidden');
+    htmlSource.value = generatedHTML;
+    summaryEl.textContent = `${total} page${total !== 1 ? 's' : ''} converted · ${(generatedHTML.length / 1024).toFixed(1)} KB HTML`;
+    outputSection.classList.remove('hidden');
+  }
+
+  dropZone.addEventListener('click', () => fileInput.click());
+  dropZone.addEventListener('dragover', e => e.preventDefault());
+  dropZone.addEventListener('drop', async e => { e.preventDefault(); const f = e.dataTransfer?.files[0]; if(f?.type==='application/pdf') await convert(f); });
+  fileInput.addEventListener('change', async () => { if(fileInput.files?.[0]) await convert(fileInput.files[0]); });
+
+  document.getElementById('download-btn').addEventListener('click', () => {
+    const blob = new Blob([generatedHTML], { type: 'text/html' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'converted.html'; a.click();
+  });
+
+  document.getElementById('preview-toggle').addEventListener('click', () => {
+    const sourceView = document.getElementById('source-view');
+    const previewView = document.getElementById('preview-view');
+    const frame = document.getElementById('preview-frame');
+    showingPreview = !showingPreview;
+    if (showingPreview) {
+      sourceView.classList.add('hidden'); previewView.classList.remove('hidden');
+      frame.srcdoc = generatedHTML;
+      document.getElementById('preview-toggle').textContent = '📄 Source';
+    } else {
+      sourceView.classList.remove('hidden'); previewView.classList.add('hidden');
+      document.getElementById('preview-toggle').textContent = '👁 Preview';
+    }
+  });
+
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    fileInput.value = ''; generatedHTML = ''; showingPreview = false;
+    outputSection.classList.add('hidden'); dropZone.classList.remove('hidden');
+    document.getElementById('source-view').classList.remove('hidden');
+    document.getElementById('preview-view').classList.add('hidden');
+    document.getElementById('preview-toggle').textContent = '👁 Preview';
+  });
+</script>

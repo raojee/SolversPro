@@ -1,0 +1,186 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+---
+<BaseLayout title="Images to PDF | SolversPro" description="Combine multiple JPG, PNG or WebP images into a single PDF file. Set page size, orientation and margins. Free, private, browser-based.">
+  <Header />
+  <SearchOverlay />
+  <main class="flex-1 py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/tools'},{label:'Images to PDF'}]} />
+      <div class="mb-8 mt-4 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Images to PDF</h1>
+        <p class="text-zinc-400">Combine multiple images (JPG, PNG, WebP) into a single PDF. Drag to reorder.</p>
+      </div>
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-8 space-y-6">
+        <!-- Drop Zone -->
+        <div id="drop-zone" class="border-2 border-dashed border-white/[0.1] rounded-xl p-10 text-center cursor-pointer hover:border-[#ff6b35]/50 hover:bg-[#ff6b35]/[0.02] transition-all">
+          <div class="text-4xl mb-3">🗂️</div>
+          <p class="text-white font-semibold mb-1">Drop images here or click to browse</p>
+          <p class="text-zinc-500 text-sm">JPG, PNG, WebP — multiple files supported</p>
+          <input type="file" id="file-input" accept="image/*" multiple class="hidden" />
+        </div>
+
+        <!-- Image list -->
+        <div id="image-list-wrap" class="hidden space-y-3">
+          <div class="flex items-center justify-between">
+            <p class="text-sm font-semibold text-zinc-400 uppercase tracking-wider">Images <span id="img-count" class="text-zinc-600 ml-1"></span></p>
+            <button id="add-more-btn" class="text-xs text-[#ff6b35] hover:text-[#ff8c5a] transition-colors">+ Add More</button>
+            <input type="file" id="add-more-input" accept="image/*" multiple class="hidden" />
+          </div>
+          <div id="image-list" class="space-y-2 max-h-72 overflow-y-auto pr-1"></div>
+        </div>
+
+        <!-- Options -->
+        <div id="options" class="hidden grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Page Size</label>
+            <select id="page-size" class="w-full bg-[#1a1a24] border border-white/[0.08] rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:ring-1 focus:ring-[#ff6b35]">
+              <option value="a4">A4 (210×297mm)</option>
+              <option value="letter">Letter (8.5×11in)</option>
+              <option value="fit">Fit to Image</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Orientation</label>
+            <select id="orientation" class="w-full bg-[#1a1a24] border border-white/[0.08] rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:ring-1 focus:ring-[#ff6b35]">
+              <option value="portrait">Portrait</option>
+              <option value="landscape">Landscape</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Margin</label>
+            <select id="margin" class="w-full bg-[#1a1a24] border border-white/[0.08] rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:ring-1 focus:ring-[#ff6b35]">
+              <option value="0">None</option>
+              <option value="20" selected>Small (20pt)</option>
+              <option value="40">Medium (40pt)</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="convert-btn" class="hidden w-full py-3 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white font-semibold rounded-xl transition-colors">🗂️ Create PDF</button>
+        <div id="status" class="hidden text-center py-3 text-zinc-400 text-sm"></div>
+        <div id="download-section" class="hidden text-center">
+          <div class="bg-green-500/10 border border-green-500/20 rounded-xl p-6 mb-4">
+            <div class="text-3xl mb-2">✅</div>
+            <p class="text-green-400 font-semibold">PDF created successfully!</p>
+          </div>
+          <a id="download-link" class="inline-flex items-center gap-2 px-8 py-3 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white font-semibold rounded-xl transition-colors">⬇️ Download PDF</a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { PDFDocument } from 'pdf-lib';
+
+  let imageFiles: File[] = [];
+
+  const dropZone = document.getElementById('drop-zone')!;
+  const fileInput = document.getElementById('file-input') as HTMLInputElement;
+  const imageListWrap = document.getElementById('image-list-wrap')!;
+  const imageList = document.getElementById('image-list')!;
+  const imgCount = document.getElementById('img-count')!;
+  const options = document.getElementById('options')!;
+  const convertBtn = document.getElementById('convert-btn')!;
+  const statusEl = document.getElementById('status')!;
+  const downloadSection = document.getElementById('download-section')!;
+  const downloadLink = document.getElementById('download-link') as HTMLAnchorElement;
+  const addMoreBtn = document.getElementById('add-more-btn')!;
+  const addMoreInput = document.getElementById('add-more-input') as HTMLInputElement;
+
+  function renderList() {
+    imgCount.textContent = `(${imageFiles.length})`;
+    imageList.innerHTML = imageFiles.map((f, i) => `
+      <div class="flex items-center gap-3 py-2 px-3 bg-[#1a1a24] rounded-lg">
+        <span class="text-zinc-600 font-mono text-xs w-5 text-right">${i + 1}</span>
+        <span class="text-sm text-zinc-300 flex-1 truncate">${f.name}</span>
+        <span class="text-xs text-zinc-600">${(f.size / 1024).toFixed(0)} KB</span>
+        <button class="remove-btn text-zinc-600 hover:text-red-400 transition-colors text-xs" data-idx="${i}">✕</button>
+      </div>
+    `).join('');
+    document.querySelectorAll('.remove-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        imageFiles.splice(parseInt((btn as HTMLElement).dataset.idx!), 1);
+        renderList();
+        if (imageFiles.length === 0) { imageListWrap.classList.add('hidden'); options.classList.add('hidden'); convertBtn.classList.add('hidden'); dropZone.classList.remove('hidden'); }
+      });
+    });
+  }
+
+  function addFiles(files: FileList | File[]) {
+    const imgs = Array.from(files).filter(f => f.type.startsWith('image/'));
+    imageFiles.push(...imgs);
+    if (imageFiles.length > 0) {
+      dropZone.classList.add('hidden');
+      imageListWrap.classList.remove('hidden');
+      options.classList.remove('hidden');
+      convertBtn.classList.remove('hidden');
+      downloadSection.classList.add('hidden');
+      renderList();
+    }
+  }
+
+  dropZone.addEventListener('click', () => fileInput.click());
+  dropZone.addEventListener('dragover', (e) => e.preventDefault());
+  dropZone.addEventListener('drop', (e) => { e.preventDefault(); if(e.dataTransfer?.files) addFiles(e.dataTransfer.files); });
+  fileInput.addEventListener('change', () => { if(fileInput.files) addFiles(fileInput.files); fileInput.value = ''; });
+  addMoreBtn.addEventListener('click', () => addMoreInput.click());
+  addMoreInput.addEventListener('change', () => { if(addMoreInput.files) addFiles(addMoreInput.files); addMoreInput.value = ''; });
+
+  convertBtn.addEventListener('click', async () => {
+    if (imageFiles.length === 0) return;
+    const pageSize = (document.getElementById('page-size') as HTMLSelectElement).value;
+    const orientation = (document.getElementById('orientation') as HTMLSelectElement).value;
+    const margin = parseInt((document.getElementById('margin') as HTMLSelectElement).value);
+
+    statusEl.textContent = '⏳ Creating PDF...';
+    statusEl.classList.remove('hidden');
+    downloadSection.classList.add('hidden');
+
+    try {
+      const doc = await PDFDocument.create();
+
+      // Page dimensions in points (1pt = 1/72 inch)
+      const pageSizes: Record<string, [number, number]> = {
+        a4: [595.28, 841.89],
+        letter: [612, 792],
+      };
+
+      for (const file of imageFiles) {
+        const buffer = await file.arrayBuffer();
+        const bytes = new Uint8Array(buffer);
+        let img;
+        if (file.type === 'image/png') img = await doc.embedPng(bytes);
+        else img = await doc.embedJpg(bytes);
+
+        let [pageW, pageH] = pageSize === 'fit' ? [img.width, img.height] : pageSizes[pageSize];
+        if (orientation === 'landscape') [pageW, pageH] = [pageH, pageW];
+
+        const page = doc.addPage([pageW, pageH]);
+        const drawW = pageW - margin * 2;
+        const drawH = pageH - margin * 2;
+        const scale = Math.min(drawW / img.width, drawH / img.height);
+        const scaledW = img.width * scale;
+        const scaledH = img.height * scale;
+        const x = margin + (drawW - scaledW) / 2;
+        const y = margin + (drawH - scaledH) / 2;
+        page.drawImage(img, { x, y, width: scaledW, height: scaledH });
+      }
+
+      const saved = await doc.save();
+      const blob = new Blob([saved], { type: 'application/pdf' });
+      downloadLink.href = URL.createObjectURL(blob);
+      downloadLink.download = 'images.pdf';
+      statusEl.classList.add('hidden');
+      downloadSection.classList.remove('hidden');
+    } catch (e) {
+      statusEl.textContent = '❌ Error creating PDF. Ensure all files are valid images.';
+    }
+  });
+</script>

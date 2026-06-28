@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+---
+<BaseLayout title="PDF to Text | SolversPro" description="Extract all text from any PDF file. Copy to clipboard or download as .txt. Free, private, 100% browser-based.">
+  <Header />
+  <SearchOverlay />
+  <main class="flex-1 py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/tools'},{label:'PDF to Text'}]} />
+      <div class="mb-8 mt-4 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">PDF to Text</h1>
+        <p class="text-zinc-400">Extract all readable text from any PDF. Copy to clipboard or download as a .txt file.</p>
+      </div>
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-8 space-y-6">
+        <div id="drop-zone" class="border-2 border-dashed border-white/[0.1] rounded-xl p-10 text-center cursor-pointer hover:border-[#ff6b35]/50 hover:bg-[#ff6b35]/[0.02] transition-all">
+          <div class="text-4xl mb-3">📝</div>
+          <p class="text-white font-semibold mb-1">Drop PDF here or click to browse</p>
+          <p class="text-zinc-500 text-sm">PDF files only</p>
+          <input type="file" id="file-input" accept=".pdf" class="hidden" />
+        </div>
+        <div id="status" class="hidden">
+          <div class="flex items-center justify-between mb-2">
+            <span id="status-text" class="text-zinc-400 text-sm">Loading PDF.js...</span>
+          </div>
+          <div class="w-full bg-white/[0.05] rounded-full h-1.5">
+            <div id="progress-fill" class="bg-[#ff6b35] h-1.5 rounded-full transition-all duration-300" style="width:0%"></div>
+          </div>
+        </div>
+        <div id="output-section" class="hidden space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <p id="summary" class="text-sm text-zinc-400"></p>
+            </div>
+            <div class="flex gap-2">
+              <button id="copy-btn" class="px-4 py-2 bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.08] text-zinc-300 text-sm rounded-lg transition-colors">📋 Copy</button>
+              <button id="download-btn" class="px-4 py-2 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white text-sm font-semibold rounded-lg transition-colors">⬇️ Download .txt</button>
+              <button id="reset-btn" class="px-4 py-2 bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] text-zinc-400 text-sm rounded-lg transition-colors">↩ New File</button>
+            </div>
+          </div>
+          <textarea id="text-output" readonly class="w-full h-96 bg-[#0a0a12] border border-white/[0.06] rounded-xl p-4 text-sm text-zinc-300 font-mono leading-relaxed resize-y focus:outline-none"></textarea>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script is:inline>
+  // Load PDF.js from CDN
+  const PDFJS_VERSION = '3.11.174';
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = src; s.onload = resolve; s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  const dropZone = document.getElementById('drop-zone');
+  const fileInput = document.getElementById('file-input');
+  const statusEl = document.getElementById('status');
+  const statusText = document.getElementById('status-text');
+  const progressFill = document.getElementById('progress-fill');
+  const outputSection = document.getElementById('output-section');
+  const textOutput = document.getElementById('text-output');
+  const summaryEl = document.getElementById('summary');
+
+  async function extractText(file) {
+    dropZone.classList.add('hidden');
+    statusEl.classList.remove('hidden');
+    statusText.textContent = 'Loading PDF.js engine...';
+    progressFill.style.width = '10%';
+
+    if (!window.pdfjsLib) {
+      await loadScript(`https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.min.js`);
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.worker.min.js`;
+    }
+
+    const buffer = await file.arrayBuffer();
+    progressFill.style.width = '30%';
+    statusText.textContent = 'Loading PDF...';
+
+    const loadingTask = window.pdfjsLib.getDocument({ data: buffer });
+    const pdf = await loadingTask.promise;
+    const total = pdf.numPages;
+    let fullText = '';
+
+    for (let i = 1; i <= total; i++) {
+      statusText.textContent = `Extracting page ${i} of ${total}...`;
+      progressFill.style.width = `${30 + (i / total) * 65}%`;
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      const pageText = content.items.map(item => item.str).join(' ');
+      if (i > 1) fullText += '\n\n--- Page ' + i + ' ---\n\n';
+      else fullText += '--- Page ' + i + ' ---\n\n';
+      fullText += pageText;
+    }
+
+    progressFill.style.width = '100%';
+    statusEl.classList.add('hidden');
+    textOutput.value = fullText;
+    summaryEl.textContent = `${total} page${total !== 1 ? 's' : ''} · ${fullText.split(/\s+/).filter(Boolean).length.toLocaleString()} words · ${fullText.length.toLocaleString()} characters`;
+    outputSection.classList.remove('hidden');
+  }
+
+  dropZone.addEventListener('click', () => fileInput.click());
+  dropZone.addEventListener('dragover', (e) => e.preventDefault());
+  dropZone.addEventListener('drop', async (e) => { e.preventDefault(); const f = e.dataTransfer?.files[0]; if(f?.type==='application/pdf') await extractText(f); });
+  fileInput.addEventListener('change', async () => { if(fileInput.files?.[0]) await extractText(fileInput.files[0]); });
+
+  document.getElementById('copy-btn').addEventListener('click', () => {
+    navigator.clipboard.writeText(textOutput.value);
+    document.getElementById('copy-btn').textContent = '✅ Copied!';
+    setTimeout(() => { document.getElementById('copy-btn').textContent = '📋 Copy'; }, 2000);
+  });
+
+  document.getElementById('download-btn').addEventListener('click', () => {
+    const blob = new Blob([textOutput.value], { type: 'text/plain' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'extracted-text.txt'; a.click();
+  });
+
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    fileInput.value = '';
+    outputSection.classList.add('hidden');
+    dropZone.classList.remove('hidden');
+  });
+</script>

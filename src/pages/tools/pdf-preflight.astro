@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+---
+<BaseLayout title="Preflight PDF | SolversPro" description="Inspect PDF structure, metadata, page sizes, and detect validation issues. Free, private, runs in your browser.">
+  <Header />
+  <SearchOverlay />
+  <main class="flex-1 py-12">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/tools'},{label:'Preflight PDF'}]} />
+      <div class="mb-8 mt-4 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Preflight PDF</h1>
+        <p class="text-zinc-400">Inspect PDF metadata, page structure, dimensions, and detect potential issues.</p>
+      </div>
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-8 space-y-6">
+        <div id="drop-zone" class="border-2 border-dashed border-white/[0.1] rounded-xl p-10 text-center cursor-pointer hover:border-[#2dd4bf]/50 hover:bg-[#2dd4bf]/[0.02] transition-all">
+          <div class="text-4xl mb-3">🔍</div>
+          <p class="text-white font-semibold mb-1">Drop PDF here or click to browse</p>
+          <p class="text-zinc-500 text-sm">PDF files only</p>
+          <input type="file" id="file-input" accept=".pdf" class="hidden" />
+        </div>
+
+        <div id="status" class="hidden text-center py-3 text-zinc-400 text-sm">⏳ Analyzing PDF...</div>
+
+        <div id="results" class="hidden space-y-4">
+          <!-- Metadata card -->
+          <div class="bg-[#1a1a24] border border-white/[0.06] rounded-xl p-5">
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+              <span class="text-[#2dd4bf]">📋</span> Document Metadata
+            </h3>
+            <div id="metadata-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+          </div>
+
+          <!-- Page sizes card -->
+          <div class="bg-[#1a1a24] border border-white/[0.06] rounded-xl p-5">
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+              <span class="text-[#ff6b35]">📐</span> Page Dimensions
+            </h3>
+            <div id="pages-grid" class="space-y-2 max-h-60 overflow-y-auto pr-1"></div>
+          </div>
+
+          <!-- Issues card -->
+          <div id="issues-card" class="bg-[#1a1a24] border border-white/[0.06] rounded-xl p-5">
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+              <span>⚠️</span> Validation Report
+            </h3>
+            <div id="issues-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { PDFDocument } from 'pdf-lib';
+
+  const dropZone = document.getElementById('drop-zone')!;
+  const fileInput = document.getElementById('file-input') as HTMLInputElement;
+  const statusEl = document.getElementById('status')!;
+  const results = document.getElementById('results')!;
+
+  function metaRow(label: string, value: string) {
+    return `<div class="flex flex-col gap-0.5">
+      <span class="text-xs text-zinc-500 uppercase tracking-wider">${label}</span>
+      <span class="text-sm text-zinc-200 font-mono break-all">${value || '—'}</span>
+    </div>`;
+  }
+
+  async function analyze(file: File) {
+    statusEl.classList.remove('hidden');
+    results.classList.add('hidden');
+    dropZone.classList.add('hidden');
+
+    try {
+      const buffer = await file.arrayBuffer();
+      const doc = await PDFDocument.load(new Uint8Array(buffer));
+      const pageCount = doc.getPageCount();
+
+      // Metadata
+      const metaGrid = document.getElementById('metadata-grid')!;
+      metaGrid.innerHTML = [
+        metaRow('File Name', file.name),
+        metaRow('File Size', `${(file.size / 1024).toFixed(2)} KB (${file.size.toLocaleString()} bytes)`),
+        metaRow('Page Count', String(pageCount)),
+        metaRow('PDF Version', (doc as any).context?.header?.toString() || '—'),
+        metaRow('Title', doc.getTitle() || ''),
+        metaRow('Author', doc.getAuthor() || ''),
+        metaRow('Subject', doc.getSubject() || ''),
+        metaRow('Creator', doc.getCreator() || ''),
+        metaRow('Producer', doc.getProducer() || ''),
+        metaRow('Created', doc.getCreationDate()?.toLocaleDateString() || ''),
+        metaRow('Modified', doc.getModificationDate()?.toLocaleDateString() || ''),
+        metaRow('Form Fields', String(doc.getForm().getFields().length)),
+      ].join('');
+
+      // Pages
+      const pagesGrid = document.getElementById('pages-grid')!;
+      const PT_TO_MM = 0.352778;
+      pagesGrid.innerHTML = Array.from({ length: pageCount }, (_, i) => {
+        const page = doc.getPage(i);
+        const { width, height } = page.getSize();
+        const wMm = (width * PT_TO_MM).toFixed(1);
+        const hMm = (height * PT_TO_MM).toFixed(1);
+        return `<div class="flex items-center justify-between py-2 px-3 bg-[#0d0d14] rounded-lg text-sm">
+          <span class="text-zinc-400">Page ${i + 1}</span>
+          <span class="text-zinc-300 font-mono">${width.toFixed(0)} × ${height.toFixed(0)} pt &nbsp;·&nbsp; ${wMm} × ${hMm} mm</span>
+        </div>`;
+      }).join('');
+
+      // Issues
+      const issues: { type: string; msg: string }[] = [];
+      if (!doc.getTitle()) issues.push({ type: 'warn', msg: 'No document title set.' });
+      if (!doc.getAuthor()) issues.push({ type: 'warn', msg: 'No author set.' });
+      if (pageCount === 0) issues.push({ type: 'error', msg: 'Document has no pages.' });
+
+      const pagesCheckSet = Array.from({ length: pageCount }, (_, i) => doc.getPage(i).getSize());
+      const uniqueSizes = new Set(pagesCheckSet.map(s => `${s.width.toFixed(0)}x${s.height.toFixed(0)}`));
+      if (uniqueSizes.size > 1) issues.push({ type: 'warn', msg: `Mixed page sizes detected (${uniqueSizes.size} different sizes).` });
+
+      const issuesList = document.getElementById('issues-list')!;
+      if (issues.length === 0) {
+        issuesList.innerHTML = '<div class="flex items-center gap-2 text-green-400 text-sm"><span>✅</span> No issues detected. This PDF looks good!</div>';
+      } else {
+        issuesList.innerHTML = issues.map(i => `
+          <div class="flex items-start gap-2 py-2 text-sm ${i.type === 'error' ? 'text-red-400' : 'text-yellow-400'}">
+            <span>${i.type === 'error' ? '❌' : '⚠️'}</span>
+            <span>${i.msg}</span>
+          </div>`).join('');
+      }
+
+      statusEl.classList.add('hidden');
+      results.classList.remove('hidden');
+    } catch (e) {
+      statusEl.textContent = '❌ Could not analyze PDF. The file may be encrypted or corrupted.';
+    }
+  }
+
+  dropZone.addEventListener('click', () => fileInput.click());
+  dropZone.addEventListener('dragover', (e) => e.preventDefault());
+  dropZone.addEventListener('drop', async (e) => { e.preventDefault(); const f = e.dataTransfer?.files[0]; if(f?.type==='application/pdf') await analyze(f); });
+  fileInput.addEventListener('change', async () => { if(fileInput.files?.[0]) await analyze(fileInput.files[0]); });
+</script>

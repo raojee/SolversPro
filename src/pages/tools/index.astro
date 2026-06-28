@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const tools = [
+  { title: 'PDF Merger', description: 'Drag, reorder, and combine multiple PDF files into a single document instantly.', icon: '🔗', href: '/tools/pdf-merger' },
+  { title: 'Split PDF By Range', description: 'Extract a specific page range (e.g. pages 3–8) from any PDF file.', icon: '✂️', href: '/tools/pdf-split-range' },
+  { title: 'Split PDF To Pages', description: 'Separate every PDF page into its own individual downloadable file.', icon: '📑', href: '/tools/pdf-split-pages' },
+  { title: 'Compose PDF', description: 'Create a PDF document from scratch using a built-in text editor.', icon: '✍️', href: '/tools/pdf-compose' },
+  { title: 'Protect PDF', description: 'Add password protection and set read/print/copy permissions on PDFs.', icon: '🔒', href: '/tools/pdf-protect' },
+  { title: 'Remove PDF Password', description: 'Unlock and remove password protection from a PDF file.', icon: '🔓', href: '/tools/pdf-remove-password' },
+  { title: 'Flatten PDF', description: 'Flatten form fields and annotations for universal compatibility.', icon: '📄', href: '/tools/pdf-flatten' },
+  { title: 'Preflight PDF', description: 'Inspect PDF metadata, page count, dimensions, and structure.', icon: '🔍', href: '/tools/pdf-preflight' },
+  { title: 'PDF to Text', description: 'Extract all readable text from any PDF document.', icon: '📝', href: '/tools/pdf-to-text' },
+  { title: 'PDF to Images', description: 'Convert each PDF page into a high-quality PNG image file.', icon: '🖼️', href: '/tools/pdf-to-images' },
+  { title: 'PDF to HTML', description: 'Convert PDF content into an HTML page you can preview and download.', icon: '🌐', href: '/tools/pdf-to-html' },
+  { title: 'Images to PDF', description: 'Combine multiple JPG/PNG/WebP images into a single PDF file.', icon: '🗂️', href: '/tools/images-to-pdf' },
+];
+---
+<BaseLayout
+  title="PDF Tools | SolversPro"
+  description="Free online PDF tools. Merge, split, protect, convert, and compose PDF files entirely in your browser. No uploads — 100% private and secure."
+>
+  <Header />
+  <SearchOverlay />
+  <div class="container mx-auto px-4 py-12 max-w-6xl">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'PDF Tools' }]} />
+    <div class="mb-12 mt-4">
+      <h1 class="text-4xl font-bold text-white mb-4">PDF Tools</h1>
+      <div class="prose prose-invert max-w-none text-zinc-300">
+        <h2>Free Online PDF Utilities — 100% In Your Browser</h2>
+        <p>SolversPro's PDF toolkit gives you professional-grade document processing without ever uploading files to a server. Every tool runs entirely client-side using <strong>pdf-lib</strong> and <strong>PDF.js</strong>, meaning your sensitive documents stay on your device at all times.</p>
+        <h3>Tools Available in this Category</h3>
+        <ul class="list-disc pl-5 space-y-2 mt-4 mb-6">
+          <li><strong>PDF Merger:</strong> Drag, reorder, and combine multiple PDFs into one document.</li>
+          <li><strong>Split PDF By Range:</strong> Extract specific page ranges (e.g., pages 5–12) into a new PDF.</li>
+          <li><strong>Split PDF To Pages:</strong> Break any PDF into individual single-page files, downloadable as a ZIP.</li>
+          <li><strong>Compose PDF:</strong> Write content in an editor and generate a formatted PDF document from scratch.</li>
+          <li><strong>Protect PDF:</strong> Encrypt PDFs with user and owner passwords with granular permission controls.</li>
+          <li><strong>Remove PDF Password:</strong> Unlock password-protected PDFs and re-download without encryption.</li>
+          <li><strong>Flatten PDF:</strong> Collapse form fields and annotations into a flat, non-interactive PDF.</li>
+          <li><strong>Preflight PDF:</strong> Validate structure, inspect metadata, check page sizes, and detect potential issues.</li>
+          <li><strong>PDF to Text:</strong> Extract all readable text from a PDF document and copy or download as .txt.</li>
+          <li><strong>PDF to Images:</strong> Render every page of a PDF as a downloadable high-resolution PNG.</li>
+          <li><strong>PDF to HTML:</strong> Convert PDF text and structure into a downloadable HTML page.</li>
+          <li><strong>Images to PDF:</strong> Combine JPG, PNG, or WebP images into a single professional PDF.</li>
+        </ul>
+        <p>All processing happens locally in your browser. No account required, no file size limits imposed by our servers, and zero risk of data leaks. Choose a tool below to get started.</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+      {tools.map(tool => <ToolCard {...tool} />)}
+    </div>
+  </div>
+  <Footer />
+</BaseLayout>
