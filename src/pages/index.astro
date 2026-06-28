@@ -153,6 +153,124 @@ const testimonials = [
     </div>
   </section>
 
+  <!-- World Clock & Timezone Section -->
+  <section class="py-20 border-b border-white/[0.06]" style="background: linear-gradient(180deg, #08080f 0%, #0d0d14 100%);">
+    <div class="container mx-auto px-4">
+      <div class="mb-12 text-center">
+        <span class="scifi-badge mb-6 inline-flex mx-auto">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          WORLD CLOCK
+        </span>
+        <h2 class="text-4xl font-bold text-white mb-4">Live Time & Timezone Comparison</h2>
+        <p class="text-zinc-400 max-w-xl mx-auto text-lg">See your current local time and compare it against any timezone in the world — instantly.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
+
+        <!-- Local Clock Card -->
+        <div class="relative bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-8 text-center overflow-hidden group hover:border-white/[0.12] transition-all">
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style="background: radial-gradient(ellipse at 50% 0%, rgba(45,212,191,0.06) 0%, transparent 70%);"></div>
+          <p class="text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-6 flex items-center justify-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#2dd4bf] animate-pulse inline-block"></span>
+            Your Local Time
+          </p>
+          <div id="local-time" class="text-6xl sm:text-7xl font-bold text-white font-mono tabular-nums tracking-tight mb-3">--:--:--</div>
+          <span id="local-ampm" class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-[#2dd4bf]/10 text-[#2dd4bf] border border-[#2dd4bf]/20 mb-4">--</span>
+          <div id="local-date" class="text-lg text-zinc-300 font-medium mb-2"></div>
+          <div id="local-tz-name" class="text-xs text-zinc-600 font-mono mt-2"></div>
+          <div id="local-offset" class="text-xs text-zinc-600 font-mono mt-1"></div>
+        </div>
+
+        <!-- Timezone Comparison Card -->
+        <div class="relative bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-8 overflow-hidden group hover:border-white/[0.12] transition-all">
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style="background: radial-gradient(ellipse at 50% 0%, rgba(255,107,53,0.06) 0%, transparent 70%);"></div>
+
+          <p class="text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-4">Compare With Timezone</p>
+
+          <select id="tz-select"
+            class="w-full p-3 bg-[#1a1a24] border border-white/[0.08] rounded-xl text-sm text-zinc-300 focus:ring-1 focus:ring-[#ff6b35] focus:outline-none cursor-pointer mb-6 font-mono">
+            <optgroup label="Africa">
+              <option value="Africa/Cairo">Cairo (Egypt)</option>
+              <option value="Africa/Lagos">Lagos (Nigeria)</option>
+              <option value="Africa/Johannesburg">Johannesburg (South Africa)</option>
+              <option value="Africa/Nairobi">Nairobi (Kenya)</option>
+            </optgroup>
+            <optgroup label="Asia">
+              <option value="Asia/Dubai">Dubai (UAE)</option>
+              <option value="Asia/Karachi">Karachi (Pakistan)</option>
+              <option value="Asia/Kolkata">Mumbai / Delhi (India)</option>
+              <option value="Asia/Dhaka">Dhaka (Bangladesh)</option>
+              <option value="Asia/Bangkok">Bangkok (Thailand)</option>
+              <option value="Asia/Singapore">Singapore</option>
+              <option value="Asia/Shanghai">Beijing / Shanghai (China)</option>
+              <option value="Asia/Tokyo">Tokyo (Japan)</option>
+              <option value="Asia/Seoul">Seoul (South Korea)</option>
+              <option value="Asia/Riyadh">Riyadh (Saudi Arabia)</option>
+              <option value="Asia/Tehran">Tehran (Iran)</option>
+              <option value="Asia/Kabul">Kabul (Afghanistan)</option>
+              <option value="Asia/Colombo">Colombo (Sri Lanka)</option>
+              <option value="Asia/Kathmandu">Kathmandu (Nepal)</option>
+              <option value="Asia/Tashkent">Tashkent (Uzbekistan)</option>
+            </optgroup>
+            <optgroup label="Europe">
+              <option value="Europe/London">London (UK)</option>
+              <option value="Europe/Paris">Paris (France)</option>
+              <option value="Europe/Berlin">Berlin (Germany)</option>
+              <option value="Europe/Rome">Rome (Italy)</option>
+              <option value="Europe/Madrid">Madrid (Spain)</option>
+              <option value="Europe/Amsterdam">Amsterdam (Netherlands)</option>
+              <option value="Europe/Moscow">Moscow (Russia)</option>
+              <option value="Europe/Istanbul">Istanbul (Turkey)</option>
+              <option value="Europe/Zurich">Zurich (Switzerland)</option>
+              <option value="Europe/Stockholm">Stockholm (Sweden)</option>
+            </optgroup>
+            <optgroup label="Americas">
+              <option value="America/New_York">New York (EST)</option>
+              <option value="America/Chicago">Chicago (CST)</option>
+              <option value="America/Denver">Denver (MST)</option>
+              <option value="America/Los_Angeles">Los Angeles (PST)</option>
+              <option value="America/Toronto">Toronto (Canada)</option>
+              <option value="America/Vancouver">Vancouver (Canada)</option>
+              <option value="America/Sao_Paulo">Sao Paulo (Brazil)</option>
+              <option value="America/Argentina/Buenos_Aires">Buenos Aires (Argentina)</option>
+              <option value="America/Mexico_City">Mexico City</option>
+              <option value="America/Bogota">Bogota (Colombia)</option>
+            </optgroup>
+            <optgroup label="Pacific / Oceania">
+              <option value="Australia/Sydney">Sydney (Australia)</option>
+              <option value="Australia/Melbourne">Melbourne (Australia)</option>
+              <option value="Pacific/Auckland">Auckland (New Zealand)</option>
+              <option value="Pacific/Honolulu">Honolulu (Hawaii)</option>
+            </optgroup>
+            <optgroup label="UTC">
+              <option value="UTC">UTC (Coordinated Universal Time)</option>
+            </optgroup>
+          </select>
+
+          <div class="text-center">
+            <div id="tz-time" class="text-6xl sm:text-7xl font-bold text-[#ff6b35] font-mono tabular-nums tracking-tight mb-3">--:--:--</div>
+            <span id="tz-ampm" class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-[#ff6b35]/10 text-[#ff6b35] border border-[#ff6b35]/20 mb-4">--</span>
+            <div id="tz-date" class="text-lg text-zinc-300 font-medium mb-5"></div>
+            <div id="tz-diff" class="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold border transition-all"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick timezone pills -->
+      <div class="mt-6 flex flex-wrap justify-center gap-2 max-w-5xl mx-auto" id="tz-pills">
+        <button class="tz-pill px-4 py-1.5 text-xs font-semibold bg-white/[0.04] hover:bg-[#2dd4bf]/10 border border-white/[0.06] hover:border-[#2dd4bf]/30 hover:text-[#2dd4bf] text-zinc-400 rounded-full transition-all" data-tz="UTC">UTC</button>
+        <button class="tz-pill px-4 py-1.5 text-xs font-semibold bg-white/[0.04] hover:bg-[#2dd4bf]/10 border border-white/[0.06] hover:border-[#2dd4bf]/30 hover:text-[#2dd4bf] text-zinc-400 rounded-full transition-all" data-tz="America/New_York">🇺🇸 New York</button>
+        <button class="tz-pill px-4 py-1.5 text-xs font-semibold bg-white/[0.04] hover:bg-[#2dd4bf]/10 border border-white/[0.06] hover:border-[#2dd4bf]/30 hover:text-[#2dd4bf] text-zinc-400 rounded-full transition-all" data-tz="Europe/London">🇬🇧 London</button>
+        <button class="tz-pill px-4 py-1.5 text-xs font-semibold bg-white/[0.04] hover:bg-[#2dd4bf]/10 border border-white/[0.06] hover:border-[#2dd4bf]/30 hover:text-[#2dd4bf] text-zinc-400 rounded-full transition-all" data-tz="Europe/Berlin">🇩🇪 Berlin</button>
+        <button class="tz-pill px-4 py-1.5 text-xs font-semibold bg-white/[0.04] hover:bg-[#2dd4bf]/10 border border-white/[0.06] hover:border-[#2dd4bf]/30 hover:text-[#2dd4bf] text-zinc-400 rounded-full transition-all" data-tz="Asia/Dubai">🇦🇪 Dubai</button>
+        <button class="tz-pill px-4 py-1.5 text-xs font-semibold bg-white/[0.04] hover:bg-[#2dd4bf]/10 border border-white/[0.06] hover:border-[#2dd4bf]/30 hover:text-[#2dd4bf] text-zinc-400 rounded-full transition-all" data-tz="Asia/Kolkata">🇮🇳 India</button>
+        <button class="tz-pill px-4 py-1.5 text-xs font-semibold bg-white/[0.04] hover:bg-[#2dd4bf]/10 border border-white/[0.06] hover:border-[#2dd4bf]/30 hover:text-[#2dd4bf] text-zinc-400 rounded-full transition-all" data-tz="Asia/Singapore">🇸🇬 Singapore</button>
+        <button class="tz-pill px-4 py-1.5 text-xs font-semibold bg-white/[0.04] hover:bg-[#2dd4bf]/10 border border-white/[0.06] hover:border-[#2dd4bf]/30 hover:text-[#2dd4bf] text-zinc-400 rounded-full transition-all" data-tz="Asia/Tokyo">🇯🇵 Tokyo</button>
+        <button class="tz-pill px-4 py-1.5 text-xs font-semibold bg-white/[0.04] hover:bg-[#2dd4bf]/10 border border-white/[0.06] hover:border-[#2dd4bf]/30 hover:text-[#2dd4bf] text-zinc-400 rounded-full transition-all" data-tz="Australia/Sydney">🇦🇺 Sydney</button>
+      </div>
+    </div>
+  </section>
+
   <!-- Capabilities Section -->
   <section class="py-24 border-b border-white/[0.06] bg-[#0d0d14]">
     <div class="container mx-auto px-4">
@@ -282,5 +400,159 @@ const testimonials = [
         el.style.opacity = '1';
       }, 300); // Wait for fade out to complete
     }, 2500); // Change every 2.5 seconds
+  }
+
+  // --- World Clock Logic ---
+  const tzSelect = document.getElementById('tz-select') as HTMLSelectElement;
+  const tzPills = document.querySelectorAll('.tz-pill');
+
+  function updateClock() {
+    const now = new Date();
+    
+    // Update Local Time
+    const localTimeEl = document.getElementById('local-time');
+    const localAmPmEl = document.getElementById('local-ampm');
+    const localDateEl = document.getElementById('local-date');
+    const localTzNameEl = document.getElementById('local-tz-name');
+    const localOffsetEl = document.getElementById('local-offset');
+
+    if (localTimeEl) {
+      localTimeEl.textContent = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      localAmPmEl!.textContent = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit' }).split(' ')[1].toUpperCase();
+      localDateEl!.textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      
+      const tzName = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      localTzNameEl!.textContent = tzName;
+      
+      const offsetMin = -now.getTimezoneOffset();
+      const offsetSign = offsetMin >= 0 ? '+' : '-';
+      const offsetHours = Math.floor(Math.abs(offsetMin) / 60).toString().padStart(2, '0');
+      const offsetMins = (Math.abs(offsetMin) % 60).toString().padStart(2, '0');
+      localOffsetEl!.textContent = `UTC${offsetSign}${offsetHours}:${offsetMins}`;
+    }
+
+    // Update Selected Timezone
+    if (tzSelect) {
+      const selectedTz = tzSelect.value;
+      updateSelectedTz(selectedTz);
+    }
+  }
+
+  function updateSelectedTz(tz: string) {
+    try {
+      const now = new Date();
+      
+      // Get formatted strings for the target timezone
+      const timeStr = now.toLocaleTimeString('en-US', { timeZone: tz, hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const ampmStr = now.toLocaleTimeString('en-US', { timeZone: tz, hour12: true, hour: '2-digit' }).split(' ')[1].toUpperCase();
+      const dateStr = now.toLocaleDateString('en-US', { timeZone: tz, weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+      document.getElementById('tz-time')!.textContent = timeStr;
+      document.getElementById('tz-ampm')!.textContent = ampmStr;
+      document.getElementById('tz-date')!.textContent = dateStr;
+
+      // Calculate difference
+      const localDate = new Date();
+      const localTimeValue = localDate.getTime();
+      
+      // Get local offset in ms
+      const localOffsetMs = localDate.getTimezoneOffset() * 60000;
+      
+      // Get target timezone offset by parsing the locale string back to a date
+      const tzDateString = localDate.toLocaleString('en-US', { timeZone: tz });
+      const tzDate = new Date(tzDateString);
+      
+      // Calculate diff in hours
+      const diffMs = tzDate.getTime() - localDate.getTime();
+      let diffHours = diffMs / 3600000;
+      
+      const diffWrap = document.getElementById('tz-diff-wrap');
+      const diffEl = document.getElementById('tz-diff');
+      const sameEl = document.getElementById('tz-same');
+      
+      if (diffWrap && diffEl && sameEl) {
+          if (Math.abs(diffHours) < 0.01) {
+              diffEl.style.display = 'none';
+              sameEl.style.display = 'block';
+          } else {
+              diffEl.style.display = 'inline-flex';
+              sameEl.style.display = 'none';
+              
+              const isAhead = diffHours > 0;
+              const absHours = Math.abs(diffHours);
+              const hrs = Math.floor(absHours);
+              const mins = Math.round((absHours - hrs) * 60);
+              
+              let diffText = isAhead ? '+' : '-';
+              if (hrs > 0) diffText += `${hrs}h `;
+              if (mins > 0 || hrs === 0) diffText += `${mins}m`;
+              
+              diffEl.textContent = diffText;
+              
+              if (isAhead) {
+                  diffEl.className = 'inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold border transition-all text-green-400 border-green-400/30 bg-green-400/10';
+              } else {
+                  diffEl.className = 'inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold border transition-all text-red-400 border-red-400/30 bg-red-400/10';
+              }
+          }
+      }
+    } catch (e) {
+      console.error("Timezone error:", e);
+    }
+  }
+
+  if (tzSelect) {
+    // Initial selection
+    const defaultTz = 'UTC';
+    tzSelect.value = defaultTz;
+    
+    // Update pills styling based on selection
+    const updatePills = (activeTz: string) => {
+        tzPills.forEach(pill => {
+            if ((pill as HTMLElement).dataset.tz === activeTz) {
+                pill.classList.add('bg-[#2dd4bf]/20', 'text-[#2dd4bf]', 'border-[#2dd4bf]/50');
+                pill.classList.remove('bg-white/[0.04]', 'text-zinc-400', 'border-white/[0.06]');
+            } else {
+                pill.classList.remove('bg-[#2dd4bf]/20', 'text-[#2dd4bf]', 'border-[#2dd4bf]/50');
+                pill.classList.add('bg-white/[0.04]', 'text-zinc-400', 'border-white/[0.06]');
+            }
+        });
+    };
+    
+    updatePills(defaultTz);
+
+    tzSelect.addEventListener('change', (e) => {
+      const newTz = (e.target as HTMLSelectElement).value;
+      updateSelectedTz(newTz);
+      updatePills(newTz);
+    });
+
+    tzPills.forEach(pill => {
+        pill.addEventListener('click', (e) => {
+            const tz = (e.target as HTMLElement).dataset.tz;
+            if (tz) {
+                // Find and set the option in select (if it exists)
+                let found = false;
+                Array.from(tzSelect.options).forEach(opt => {
+                    if (opt.value === tz) {
+                        tzSelect.value = tz;
+                        found = true;
+                    }
+                });
+                // If not found in select, add it temporarily (edge case)
+                if (!found) {
+                     const option = new Option(tz, tz, true, true);
+                     tzSelect.add(option);
+                }
+                
+                updateSelectedTz(tz);
+                updatePills(tz);
+            }
+        });
+    });
+
+    // Start clock
+    updateClock();
+    setInterval(updateClock, 1000);
   }
 </script>
