@@ -1,0 +1,236 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Unix Timestamp Converter",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Convert Unix timestamps to human-readable dates or date strings to Unix timestamps. Supports seconds and milliseconds. Free, instant, and runs in your browser."
+};
+---
+
+<BaseLayout
+  title="Unix Timestamp Converter | SolversPro"
+  description="Convert Unix timestamps to readable dates or dates to Unix timestamps. Supports seconds and milliseconds. Free and private — runs entirely in your browser."
+  canonical="https://solverspro.com/developer/timestamp-converter"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-3xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Developer Tools', href: '/developer' },
+        { label: 'Timestamp Converter' },
+      ]} />
+
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">🕐 Unix Timestamp Converter</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Convert Unix timestamps to human-readable date/time strings and vice versa. Supports seconds and milliseconds. Your current local time is shown live.</p>
+      </div>
+
+      <!-- Live Clock -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-1">Current Unix Timestamp</p>
+          <div class="flex items-center gap-3">
+            <span id="live-ts" class="text-3xl font-bold text-[#2dd4bf] font-mono tabular-nums">—</span>
+            <button id="btn-use-now" class="px-3 py-1.5 text-xs font-semibold bg-[#2dd4bf]/10 hover:bg-[#2dd4bf]/20 text-[#2dd4bf] rounded-lg border border-[#2dd4bf]/20 transition-all">Use Now</button>
+          </div>
+        </div>
+        <div class="text-right">
+          <p class="text-xs text-zinc-500 mb-1" id="live-utc"></p>
+          <p class="text-xs text-zinc-500" id="live-local"></p>
+        </div>
+      </div>
+
+      <!-- Timestamp → Date -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 mb-4">
+        <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Timestamp → Human Date</h2>
+        <div class="flex items-stretch gap-3 mb-4">
+          <input
+            type="text"
+            id="inp-ts"
+            class="flex-1 p-4 bg-[#1a1a24] border border-white/[0.06] rounded-lg focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-lg text-white placeholder:text-zinc-700"
+            placeholder="e.g. 1704067200"
+            autocomplete="off"
+          />
+          <div class="flex flex-col gap-1">
+            <label class="flex items-center gap-1.5 text-xs text-zinc-400 cursor-pointer">
+              <input type="radio" name="ts-unit" id="unit-sec" value="s" checked class="accent-[#2dd4bf]" /> Seconds
+            </label>
+            <label class="flex items-center gap-1.5 text-xs text-zinc-400 cursor-pointer">
+              <input type="radio" name="ts-unit" id="unit-ms" value="ms" class="accent-[#2dd4bf]" /> Milliseconds
+            </label>
+          </div>
+        </div>
+        <div id="ts-results" class="space-y-2 hidden">
+          {[
+            { id: 'res-local', label: 'Local Time' },
+            { id: 'res-utc', label: 'UTC' },
+            { id: 'res-iso', label: 'ISO 8601' },
+            { id: 'res-relative', label: 'Relative' },
+          ].map(({ id, label }) => (
+            <div class="flex items-center gap-3 bg-[#1a1a24] border border-white/[0.04] rounded-lg px-4 py-2.5">
+              <span class="text-xs text-zinc-500 w-24 flex-shrink-0">{label}</span>
+              <span id={id} class="flex-1 font-mono text-sm text-zinc-200 break-all"></span>
+              <button class="btn-copy-result text-xs text-zinc-600 hover:text-[#2dd4bf] transition-colors flex-shrink-0" data-from={id}>Copy</button>
+            </div>
+          ))}
+        </div>
+        <div id="ts-error" class="hidden mt-2 text-sm text-red-400"></div>
+      </div>
+
+      <!-- Date → Timestamp -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
+        <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Human Date → Timestamp</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+          <div>
+            <label class="block text-xs text-zinc-500 mb-1.5">Date & Time</label>
+            <input
+              type="datetime-local"
+              id="inp-date"
+              class="w-full p-3 bg-[#1a1a24] border border-white/[0.06] rounded-lg focus:ring-1 focus:ring-[#ff6b35] focus:outline-none font-mono text-sm text-white"
+            />
+          </div>
+          <div>
+            <label class="block text-xs text-zinc-500 mb-1.5">Timezone</label>
+            <select id="inp-tz" class="w-full p-3 bg-[#1a1a24] border border-white/[0.06] rounded-lg focus:ring-1 focus:ring-[#ff6b35] focus:outline-none text-sm text-zinc-300 appearance-none">
+              <option value="local">Local timezone</option>
+              <option value="utc">UTC</option>
+            </select>
+          </div>
+        </div>
+        <div id="date-results" class="space-y-2 hidden">
+          {[
+            { id: 'dres-sec', label: 'Unix (seconds)' },
+            { id: 'dres-ms', label: 'Unix (milliseconds)' },
+          ].map(({ id, label }) => (
+            <div class="flex items-center gap-3 bg-[#1a1a24] border border-white/[0.04] rounded-lg px-4 py-2.5">
+              <span class="text-xs text-zinc-500 w-36 flex-shrink-0">{label}</span>
+              <span id={id} class="flex-1 font-mono text-sm text-zinc-200"></span>
+              <button class="btn-copy-result text-xs text-zinc-600 hover:text-[#ff6b35] transition-colors flex-shrink-0" data-from={id}>Copy</button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  // Live clock
+  function updateClock() {
+    const now = Date.now();
+    const sec = Math.floor(now / 1000);
+    const d = new Date(now);
+    (document.getElementById('live-ts') as HTMLElement).textContent = sec.toString();
+    (document.getElementById('live-utc') as HTMLElement).textContent = 'UTC: ' + d.toUTCString();
+    (document.getElementById('live-local') as HTMLElement).textContent = 'Local: ' + d.toLocaleString();
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  document.getElementById('btn-use-now')?.addEventListener('click', () => {
+    const ts = Math.floor(Date.now() / 1000);
+    (document.getElementById('inp-ts') as HTMLInputElement).value = ts.toString();
+    (document.getElementById('unit-sec') as HTMLInputElement).checked = true;
+    convertTs();
+  });
+
+  function relativeTime(ms: number): string {
+    const diff = Date.now() - ms;
+    const abs = Math.abs(diff);
+    const suffix = diff > 0 ? 'ago' : 'from now';
+    if (abs < 60000) return `${Math.round(abs / 1000)} seconds ${suffix}`;
+    if (abs < 3600000) return `${Math.round(abs / 60000)} minutes ${suffix}`;
+    if (abs < 86400000) return `${Math.round(abs / 3600000)} hours ${suffix}`;
+    if (abs < 2592000000) return `${Math.round(abs / 86400000)} days ${suffix}`;
+    return `${Math.round(abs / 2592000000)} months ${suffix}`;
+  }
+
+  function convertTs() {
+    const raw = (document.getElementById('inp-ts') as HTMLInputElement).value.trim();
+    const unit = (document.querySelector('input[name="ts-unit"]:checked') as HTMLInputElement).value;
+    const err = document.getElementById('ts-error')!;
+    const results = document.getElementById('ts-results')!;
+
+    err.classList.add('hidden');
+    if (!raw) { results.classList.add('hidden'); return; }
+
+    const num = Number(raw);
+    if (isNaN(num)) {
+      err.textContent = 'Invalid timestamp number.';
+      err.classList.remove('hidden');
+      results.classList.add('hidden');
+      return;
+    }
+
+    const ms = unit === 'ms' ? num : num * 1000;
+    const d = new Date(ms);
+    if (isNaN(d.getTime())) {
+      err.textContent = 'Timestamp out of valid range.';
+      err.classList.remove('hidden');
+      results.classList.add('hidden');
+      return;
+    }
+
+    results.classList.remove('hidden');
+    (document.getElementById('res-local') as HTMLElement).textContent = d.toLocaleString();
+    (document.getElementById('res-utc') as HTMLElement).textContent = d.toUTCString();
+    (document.getElementById('res-iso') as HTMLElement).textContent = d.toISOString();
+    (document.getElementById('res-relative') as HTMLElement).textContent = relativeTime(ms);
+  }
+
+  (document.getElementById('inp-ts') as HTMLInputElement).addEventListener('input', convertTs);
+  document.querySelectorAll('input[name="ts-unit"]').forEach(el => el.addEventListener('change', convertTs));
+
+  // Date → Timestamp
+  function convertDate() {
+    const raw = (document.getElementById('inp-date') as HTMLInputElement).value;
+    const results = document.getElementById('date-results')!;
+    if (!raw) { results.classList.add('hidden'); return; }
+
+    const d = new Date(raw);
+    if (isNaN(d.getTime())) { results.classList.add('hidden'); return; }
+
+    const ms = d.getTime();
+    results.classList.remove('hidden');
+    (document.getElementById('dres-sec') as HTMLElement).textContent = Math.floor(ms / 1000).toString();
+    (document.getElementById('dres-ms') as HTMLElement).textContent = ms.toString();
+  }
+
+  (document.getElementById('inp-date') as HTMLInputElement).addEventListener('input', convertDate);
+  (document.getElementById('inp-tz') as HTMLSelectElement).addEventListener('change', convertDate);
+
+  // Set default date input to now
+  const now = new Date();
+  now.setSeconds(0, 0);
+  const pad = (n: number) => n.toString().padStart(2, '0');
+  (document.getElementById('inp-date') as HTMLInputElement).value =
+    `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  convertDate();
+
+  // Copy buttons
+  document.querySelectorAll<HTMLElement>('.btn-copy-result').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const el = document.getElementById(btn.dataset.from!);
+      if (!el?.textContent) return;
+      navigator.clipboard.writeText(el.textContent);
+      const orig = btn.textContent;
+      btn.textContent = '✓';
+      setTimeout(() => btn.textContent = orig, 1500);
+    });
+  });
+</script>

@@ -1,0 +1,206 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Text Case Converter",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Convert text between uppercase, lowercase, title case, camelCase, snake_case, PascalCase, kebab-case, and more. Free and instant in your browser."
+};
+---
+
+<BaseLayout
+  title="Text Case Converter | SolversPro"
+  description="Convert text between uppercase, lowercase, title case, camelCase, snake_case, PascalCase, kebab-case, and more. Free and instant — no server required."
+  canonical="https://solverspro.com/text/case-converter"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Text Tools', href: '/text' },
+        { label: 'Case Converter' },
+      ]} />
+
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">🔡 Text Case Converter</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Instantly convert text between any case format — uppercase, lowercase, title case, camelCase, snake_case, PascalCase, kebab-case, and more.</p>
+      </div>
+
+      <!-- Input -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 mb-6">
+        <div class="flex justify-between items-center mb-3">
+          <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Input Text</label>
+          <button id="btn-clear" class="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">Clear</button>
+        </div>
+        <textarea
+          id="input-text"
+          class="w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[160px]"
+          placeholder="Type or paste your text here..."
+          spellcheck="false"
+        ></textarea>
+        <div class="mt-3 flex gap-4 text-xs text-zinc-500">
+          <span>Words: <strong id="stat-words" class="text-zinc-300">0</strong></span>
+          <span>Characters: <strong id="stat-chars" class="text-zinc-300">0</strong></span>
+          <span>Lines: <strong id="stat-lines" class="text-zinc-300">0</strong></span>
+        </div>
+      </div>
+
+      <!-- Case Buttons Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+        <button data-case="upper" class="case-btn group flex flex-col items-start p-4 bg-[#0d0d14] border border-white/[0.06] rounded-xl hover:border-[#2dd4bf]/40 hover:bg-[#2dd4bf]/5 transition-all text-left">
+          <span class="text-lg font-bold text-[#2dd4bf] mb-1">AA</span>
+          <span class="text-xs font-semibold text-zinc-300">UPPERCASE</span>
+          <span class="text-xs text-zinc-600 mt-0.5">HELLO WORLD</span>
+        </button>
+        <button data-case="lower" class="case-btn group flex flex-col items-start p-4 bg-[#0d0d14] border border-white/[0.06] rounded-xl hover:border-[#ff6b35]/40 hover:bg-[#ff6b35]/5 transition-all text-left">
+          <span class="text-lg font-bold text-[#ff6b35] mb-1">aa</span>
+          <span class="text-xs font-semibold text-zinc-300">lowercase</span>
+          <span class="text-xs text-zinc-600 mt-0.5">hello world</span>
+        </button>
+        <button data-case="title" class="case-btn group flex flex-col items-start p-4 bg-[#0d0d14] border border-white/[0.06] rounded-xl hover:border-purple-400/40 hover:bg-purple-500/5 transition-all text-left">
+          <span class="text-lg font-bold text-purple-400 mb-1">Aa</span>
+          <span class="text-xs font-semibold text-zinc-300">Title Case</span>
+          <span class="text-xs text-zinc-600 mt-0.5">Hello World</span>
+        </button>
+        <button data-case="sentence" class="case-btn group flex flex-col items-start p-4 bg-[#0d0d14] border border-white/[0.06] rounded-xl hover:border-blue-400/40 hover:bg-blue-500/5 transition-all text-left">
+          <span class="text-lg font-bold text-blue-400 mb-1">A·</span>
+          <span class="text-xs font-semibold text-zinc-300">Sentence case</span>
+          <span class="text-xs text-zinc-600 mt-0.5">Hello world</span>
+        </button>
+        <button data-case="camel" class="case-btn group flex flex-col items-start p-4 bg-[#0d0d14] border border-white/[0.06] rounded-xl hover:border-yellow-400/40 hover:bg-yellow-500/5 transition-all text-left">
+          <span class="text-lg font-bold text-yellow-400 mb-1">aA</span>
+          <span class="text-xs font-semibold text-zinc-300">camelCase</span>
+          <span class="text-xs text-zinc-600 mt-0.5">helloWorld</span>
+        </button>
+        <button data-case="pascal" class="case-btn group flex flex-col items-start p-4 bg-[#0d0d14] border border-white/[0.06] rounded-xl hover:border-green-400/40 hover:bg-green-500/5 transition-all text-left">
+          <span class="text-lg font-bold text-green-400 mb-1">AA</span>
+          <span class="text-xs font-semibold text-zinc-300">PascalCase</span>
+          <span class="text-xs text-zinc-600 mt-0.5">HelloWorld</span>
+        </button>
+        <button data-case="snake" class="case-btn group flex flex-col items-start p-4 bg-[#0d0d14] border border-white/[0.06] rounded-xl hover:border-pink-400/40 hover:bg-pink-500/5 transition-all text-left">
+          <span class="text-lg font-bold text-pink-400 mb-1">a_</span>
+          <span class="text-xs font-semibold text-zinc-300">snake_case</span>
+          <span class="text-xs text-zinc-600 mt-0.5">hello_world</span>
+        </button>
+        <button data-case="kebab" class="case-btn group flex flex-col items-start p-4 bg-[#0d0d14] border border-white/[0.06] rounded-xl hover:border-orange-400/40 hover:bg-orange-500/5 transition-all text-left">
+          <span class="text-lg font-bold text-orange-400 mb-1">a-</span>
+          <span class="text-xs font-semibold text-zinc-300">kebab-case</span>
+          <span class="text-xs text-zinc-600 mt-0.5">hello-world</span>
+        </button>
+      </div>
+
+      <!-- Output -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
+        <div class="flex justify-between items-center mb-3">
+          <label id="output-label" class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Result</label>
+          <button id="btn-copy" class="text-xs font-semibold text-[#2dd4bf] hover:text-[#5eead4] transition-colors flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            Copy Result
+          </button>
+        </div>
+        <textarea
+          id="output-text"
+          readonly
+          class="w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:outline-none font-mono text-sm text-[#2dd4bf] resize-none min-h-[140px] cursor-text"
+          placeholder="Click a case button above to convert..."
+          spellcheck="false"
+        ></textarea>
+      </div>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const inputEl = document.getElementById('input-text') as HTMLTextAreaElement;
+  const outputEl = document.getElementById('output-text') as HTMLTextAreaElement;
+  const outputLabel = document.getElementById('output-label')!;
+
+  function getWords(text: string): string[] {
+    return text.trim().split(/[\s\-_]+/).filter(Boolean);
+  }
+
+  const converters: Record<string, (t: string) => string> = {
+    upper: (t) => t.toUpperCase(),
+    lower: (t) => t.toLowerCase(),
+    title: (t) => t.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()),
+    sentence: (t) => t.charAt(0).toUpperCase() + t.slice(1).toLowerCase(),
+    camel: (t) => {
+      const words = getWords(t);
+      return words.map((w, i) => i === 0 ? w.toLowerCase() : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join('');
+    },
+    pascal: (t) => getWords(t).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(''),
+    snake: (t) => getWords(t).map(w => w.toLowerCase()).join('_'),
+    kebab: (t) => getWords(t).map(w => w.toLowerCase()).join('-'),
+  };
+
+  const labels: Record<string, string> = {
+    upper: 'UPPERCASE', lower: 'lowercase', title: 'Title Case', sentence: 'Sentence case',
+    camel: 'camelCase', pascal: 'PascalCase', snake: 'snake_case', kebab: 'kebab-case'
+  };
+
+  let lastCase = '';
+
+  function updateStats() {
+    const text = inputEl.value;
+    (document.getElementById('stat-words') as HTMLElement).textContent = text.trim() ? text.trim().split(/\s+/).length.toString() : '0';
+    (document.getElementById('stat-chars') as HTMLElement).textContent = text.length.toString();
+    (document.getElementById('stat-lines') as HTMLElement).textContent = text ? text.split('\n').length.toString() : '0';
+  }
+
+  function convert(caseType: string) {
+    lastCase = caseType;
+    const input = inputEl.value;
+    if (!input) { outputEl.value = ''; return; }
+    outputEl.value = converters[caseType](input);
+    outputLabel.textContent = `Result — ${labels[caseType]}`;
+  }
+
+  document.querySelectorAll('.case-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const caseType = (btn as HTMLElement).dataset.case!;
+      convert(caseType);
+      // Highlight active
+      document.querySelectorAll('.case-btn').forEach(b => b.classList.remove('ring-2', 'ring-[#2dd4bf]'));
+      btn.classList.add('ring-2', 'ring-[#2dd4bf]');
+    });
+  });
+
+  inputEl.addEventListener('input', () => {
+    updateStats();
+    if (lastCase) convert(lastCase);
+  });
+
+  document.getElementById('btn-clear')?.addEventListener('click', () => {
+    inputEl.value = '';
+    outputEl.value = '';
+    outputLabel.textContent = 'Result';
+    lastCase = '';
+    updateStats();
+    document.querySelectorAll('.case-btn').forEach(b => b.classList.remove('ring-2', 'ring-[#2dd4bf]'));
+  });
+
+  document.getElementById('btn-copy')?.addEventListener('click', () => {
+    if (!outputEl.value) return;
+    navigator.clipboard.writeText(outputEl.value);
+    const btn = document.getElementById('btn-copy')!;
+    const original = btn.innerHTML;
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.innerHTML = original, 2000);
+  });
+
+  updateStats();
+</script>

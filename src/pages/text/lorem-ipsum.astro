@@ -1,0 +1,203 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Lorem Ipsum Generator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Generate placeholder Lorem Ipsum text by paragraphs, sentences, or words. Free, instant, and customizable — no server required."
+};
+---
+
+<BaseLayout
+  title="Lorem Ipsum Generator | SolversPro"
+  description="Generate placeholder Lorem Ipsum text by paragraphs, sentences, or words. Free, instant, and fully customizable — runs entirely in your browser."
+  canonical="https://solverspro.com/text/lorem-ipsum"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Text Tools', href: '/text' },
+        { label: 'Lorem Ipsum Generator' },
+      ]} />
+
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">📄 Lorem Ipsum Generator</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Generate professional placeholder text for your designs, mockups, and prototypes. Customize by paragraphs, sentences, or words.</p>
+      </div>
+
+      <!-- Controls -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <!-- Type -->
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">Generate</label>
+            <div class="flex flex-col gap-2">
+              <label class="flex items-center gap-2 text-sm text-zinc-300 cursor-pointer">
+                <input type="radio" name="gen-type" id="type-paragraphs" value="paragraphs" checked class="accent-[#2dd4bf]" />
+                Paragraphs
+              </label>
+              <label class="flex items-center gap-2 text-sm text-zinc-300 cursor-pointer">
+                <input type="radio" name="gen-type" id="type-sentences" value="sentences" class="accent-[#2dd4bf]" />
+                Sentences
+              </label>
+              <label class="flex items-center gap-2 text-sm text-zinc-300 cursor-pointer">
+                <input type="radio" name="gen-type" id="type-words" value="words" class="accent-[#2dd4bf]" />
+                Words
+              </label>
+            </div>
+          </div>
+
+          <!-- Amount -->
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">Amount</label>
+            <div class="flex items-center gap-3">
+              <button id="btn-minus" class="w-9 h-9 flex items-center justify-center text-lg font-bold bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.08] rounded-lg text-zinc-300 transition-all">−</button>
+              <span id="amount-display" class="text-3xl font-bold text-[#2dd4bf] w-12 text-center tabular-nums">5</span>
+              <button id="btn-plus" class="w-9 h-9 flex items-center justify-center text-lg font-bold bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.08] rounded-lg text-zinc-300 transition-all">+</button>
+            </div>
+            <input type="range" id="amount-slider" min="1" max="20" value="5" class="w-full h-2 rounded-full appearance-none cursor-pointer accent-[#2dd4bf] bg-white/[0.08] mt-4" />
+          </div>
+
+          <!-- Options -->
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">Options</label>
+            <div class="flex flex-col gap-2">
+              <label class="flex items-center gap-2 text-sm text-zinc-300 cursor-pointer">
+                <input type="checkbox" id="opt-start-lorem" checked class="accent-[#2dd4bf] rounded" />
+                Start with "Lorem ipsum..."
+              </label>
+              <label class="flex items-center gap-2 text-sm text-zinc-300 cursor-pointer">
+                <input type="checkbox" id="opt-html" class="accent-[#2dd4bf] rounded" />
+                Wrap in &lt;p&gt; tags
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 flex justify-center">
+          <button id="btn-generate"
+            class="px-10 py-3.5 bg-[#2dd4bf] hover:bg-[#5eead4] text-slate-900 rounded-lg font-bold text-sm transition-all shadow-[0_0_20px_rgba(45,212,191,0.3)] hover:shadow-[0_0_30px_rgba(45,212,191,0.5)]"
+          >
+            Generate Lorem Ipsum
+          </button>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
+        <div class="flex justify-between items-center mb-3">
+          <div class="flex items-center gap-3">
+            <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Generated Text</label>
+            <span id="char-count" class="text-xs text-zinc-600"></span>
+          </div>
+          <button id="btn-copy" class="text-xs font-semibold text-[#2dd4bf] hover:text-[#5eead4] transition-colors flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            Copy
+          </button>
+        </div>
+        <textarea
+          id="output-text"
+          readonly
+          class="w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:outline-none text-sm text-zinc-300 resize-none min-h-[320px] leading-relaxed cursor-text"
+          placeholder="Click 'Generate Lorem Ipsum' to create placeholder text..."
+          spellcheck="false"
+        ></textarea>
+      </div>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const LOREM_WORDS = "lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum".split(' ');
+
+  let amount = 5;
+
+  const amountDisplay = document.getElementById('amount-display')!;
+  const amountSlider = document.getElementById('amount-slider') as HTMLInputElement;
+
+  function setAmount(v: number) {
+    amount = Math.max(1, Math.min(20, v));
+    amountDisplay.textContent = amount.toString();
+    amountSlider.value = amount.toString();
+  }
+
+  document.getElementById('btn-minus')?.addEventListener('click', () => setAmount(amount - 1));
+  document.getElementById('btn-plus')?.addEventListener('click', () => setAmount(amount + 1));
+  amountSlider.addEventListener('input', () => setAmount(Number(amountSlider.value)));
+
+  function randomWord(): string {
+    return LOREM_WORDS[Math.floor(Math.random() * LOREM_WORDS.length)];
+  }
+
+  function randomSentence(wordCount = 0): string {
+    const count = wordCount || (Math.floor(Math.random() * 10) + 7);
+    const words = Array.from({ length: count }, randomWord);
+    words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
+    return words.join(' ') + '.';
+  }
+
+  function randomParagraph(): string {
+    const sentenceCount = Math.floor(Math.random() * 4) + 4;
+    return Array.from({ length: sentenceCount }, () => randomSentence()).join(' ');
+  }
+
+  function generate() {
+    const type = (document.querySelector('input[name="gen-type"]:checked') as HTMLInputElement).value;
+    const startLorem = (document.getElementById('opt-start-lorem') as HTMLInputElement).checked;
+    const wrapHtml = (document.getElementById('opt-html') as HTMLInputElement).checked;
+
+    let results: string[] = [];
+
+    if (type === 'words') {
+      let words = Array.from({ length: amount }, randomWord);
+      if (startLorem && amount >= 2) { words[0] = 'Lorem'; words[1] = 'ipsum'; }
+      results = [words.join(' ')];
+    } else if (type === 'sentences') {
+      results = Array.from({ length: amount }, (_, i) => randomSentence());
+      if (startLorem) results[0] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+    } else {
+      results = Array.from({ length: amount }, () => randomParagraph());
+      if (startLorem) results[0] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+    }
+
+    let output: string;
+    if (wrapHtml && type === 'paragraphs') {
+      output = results.map(p => `<p>${p}</p>`).join('\n\n');
+    } else {
+      output = type === 'paragraphs' ? results.join('\n\n') : results.join(' ');
+    }
+
+    const outputEl = document.getElementById('output-text') as HTMLTextAreaElement;
+    outputEl.value = output;
+    (document.getElementById('char-count') as HTMLElement).textContent = `${output.length} chars · ${output.trim().split(/\s+/).length} words`;
+  }
+
+  document.getElementById('btn-generate')?.addEventListener('click', generate);
+
+  document.getElementById('btn-copy')?.addEventListener('click', () => {
+    const outputEl = document.getElementById('output-text') as HTMLTextAreaElement;
+    if (!outputEl.value) return;
+    navigator.clipboard.writeText(outputEl.value);
+    const btn = document.getElementById('btn-copy')!;
+    const original = btn.innerHTML;
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.innerHTML = original, 2000);
+  });
+
+  generate();
+</script>
