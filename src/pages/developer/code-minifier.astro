@@ -1,0 +1,168 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Code Minifier (HTML, CSS, JS)",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Instantly minify HTML, CSS, and JavaScript. Remove whitespace, comments, and optimize your code for production."
+};
+---
+
+<BaseLayout
+  title="Code Minifier (HTML, CSS, JS) | SolversPro"
+  description="Instantly minify HTML, CSS, and JavaScript. Remove whitespace, comments, and optimize your code for production. Free and browser-based."
+  canonical="https://solverspro.com/developer/code-minifier"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Developer Tools', href: '/developer' },
+        { label: 'Code Minifier' },
+      ]} />
+
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">🗜️ Code Minifier</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Instantly minify HTML, CSS, and JavaScript code. Reduce file sizes by stripping unnecessary whitespace, line breaks, and comments.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <!-- Input -->
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 flex flex-col h-full">
+          <div class="flex justify-between items-center mb-3">
+             <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Input Code</label>
+             <select id="code-type" class="bg-[#1a1a24] text-sm text-zinc-300 border border-white/[0.06] rounded px-2 py-1 outline-none">
+                <option value="html">HTML</option>
+                <option value="css">CSS</option>
+                <option value="js">JavaScript</option>
+             </select>
+          </div>
+          <textarea
+            id="code-input"
+            class="w-full flex-1 p-4 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-xs text-zinc-300 resize-none min-h-[300px]"
+            placeholder="Paste your unminified code here..."
+            spellcheck="false"
+          ></textarea>
+           <div class="mt-4 flex gap-2">
+            <button id="btn-minify" class="w-full px-6 py-3 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white rounded-xl font-bold transition-all">
+              Minify
+            </button>
+          </div>
+        </div>
+
+        <!-- Output -->
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 flex flex-col h-full">
+          <div class="flex justify-between items-center mb-3">
+            <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Minified Result</label>
+            <button id="btn-copy" class="text-xs font-semibold text-[#2dd4bf] hover:text-[#5eead4] transition-colors">Copy Result</button>
+          </div>
+          <textarea
+            id="code-output"
+            readonly
+            class="w-full flex-1 p-4 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:outline-none font-mono text-xs text-[#2dd4bf] resize-none min-h-[300px] cursor-text"
+            placeholder="Minified code will appear here..."
+          ></textarea>
+          <div class="mt-4 flex gap-4 text-sm text-zinc-400">
+             <div>Original: <span id="stat-original" class="text-white font-mono">0 B</span></div>
+             <div>Minified: <span id="stat-minified" class="text-[#2dd4bf] font-mono">0 B</span></div>
+             <div>Saved: <span id="stat-saved" class="text-green-400 font-mono">0%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <ToolShare title="Code Minifier" url="https://solverspro.com/developer/code-minifier" />
+      <SimilarTools category="developer" currentPath="/developer/code-minifier" />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { copyToClipboard } from '../../utils/clipboard';
+
+  const inputEl = document.getElementById('code-input') as HTMLTextAreaElement;
+  const outputEl = document.getElementById('code-output') as HTMLTextAreaElement;
+  const typeEl = document.getElementById('code-type') as HTMLSelectElement;
+
+  function formatBytes(bytes: number) {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
+
+  function minifyHTML(code: string) {
+    return code
+      .replace(/<!--[\s\S]*?-->/g, '') // remove comments
+      .replace(/\s+/g, ' ') // replace multiple spaces with single space
+      .replace(/>\s+</g, '><') // remove space between tags
+      .trim();
+  }
+
+  function minifyCSS(code: string) {
+    return code
+      .replace(/\/\*[\s\S]*?\*\//g, '') // remove comments
+      .replace(/\s+/g, ' ') // multiple spaces to single
+      .replace(/\s*([\{\}\:\;\,])\s*/g, '$1') // remove space around separators
+      .replace(/\;+\}/g, '}') // remove trailing semicolon
+      .trim();
+  }
+
+  function minifyJS(code: string) {
+    // Note: Basic regex JS minification is prone to errors, but acceptable for simple tools.
+    // Removes single line comments, multi line comments, and multiple spaces.
+    return code
+      .replace(/\/\*[\s\S]*?\*\//g, '') // multiline comments
+      .replace(/\/\/.*/g, '') // single line comments
+      .replace(/\s+/g, ' ') // multiple spaces
+      .replace(/\s*([\{\}\(\)\=\+\-\*\/\:\;\,\<\>\!\&\|])\s*/g, '$1') // remove space around operators
+      .trim();
+  }
+
+  function minify() {
+    const code = inputEl.value;
+    if (!code) {
+       outputEl.value = '';
+       updateStats(0, 0);
+       return;
+    }
+
+    const type = typeEl.value;
+    let minified = '';
+
+    if (type === 'html') minified = minifyHTML(code);
+    else if (type === 'css') minified = minifyCSS(code);
+    else if (type === 'js') minified = minifyJS(code);
+
+    outputEl.value = minified;
+    updateStats(new Blob([code]).size, new Blob([minified]).size);
+  }
+
+  function updateStats(original: number, minified: number) {
+     (document.getElementById('stat-original') as HTMLElement).textContent = formatBytes(original);
+     (document.getElementById('stat-minified') as HTMLElement).textContent = formatBytes(minified);
+     const saved = original > 0 ? ((original - minified) / original * 100).toFixed(1) : '0';
+     (document.getElementById('stat-saved') as HTMLElement).textContent = `${saved}%`;
+  }
+
+  document.getElementById('btn-minify')?.addEventListener('click', minify);
+  
+  document.getElementById('btn-copy')?.addEventListener('click', () => {
+    if (outputEl.value) copyToClipboard(outputEl.value);
+  });
+</script>

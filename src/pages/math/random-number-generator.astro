@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Random Number Generator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Generate random numbers within a specific range instantly. Support for multiple numbers, decimals, and custom separators."
+};
+---
+
+<BaseLayout
+  title="Random Number Generator | SolversPro"
+  description="Generate random numbers within a specific range instantly. Support for multiple numbers, decimals, and custom separators. Free and browser-based."
+  canonical="https://solverspro.com/math/random-number-generator"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Math Tools', href: '/math' },
+        { label: 'Random Number Generator' },
+      ]} />
+
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">🎲 Random Number Generator</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Generate random numbers within a specific range instantly. Support for multiple numbers, decimals, and custom separators.</p>
+      </div>
+
+      <!-- Controls -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400 block mb-2">Minimum</label>
+            <input id="rng-min" type="number" value="1"
+              class="w-full p-3 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none text-zinc-300 font-mono text-sm" />
+          </div>
+          <div>
+            <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400 block mb-2">Maximum</label>
+            <input id="rng-max" type="number" value="100"
+              class="w-full p-3 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none text-zinc-300 font-mono text-sm" />
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-end gap-4">
+          <div class="flex-1 min-w-[120px]">
+            <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400 block mb-2">Quantity</label>
+            <input id="rng-count" type="number" min="1" max="10000" value="1"
+              class="w-full p-3 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none text-zinc-300 font-mono text-sm" />
+          </div>
+          <div class="flex items-center gap-3">
+             <label class="flex items-center gap-2 cursor-pointer">
+              <input id="rng-decimals" type="checkbox" class="accent-[#2dd4bf] w-4 h-4" />
+              <span class="text-sm text-zinc-400">Allow Decimals</span>
+            </label>
+             <label class="flex items-center gap-2 cursor-pointer">
+              <input id="rng-unique" type="checkbox" class="accent-[#2dd4bf] w-4 h-4" />
+              <span class="text-sm text-zinc-400">Unique Numbers</span>
+            </label>
+          </div>
+          <button id="btn-generate" class="px-6 py-3 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white rounded-xl font-bold transition-all">
+            Generate
+          </button>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
+        <div class="flex justify-between items-center mb-3">
+          <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Generated Numbers</label>
+          <div class="flex gap-3">
+            <button id="btn-copy" class="text-xs font-semibold text-[#2dd4bf] hover:text-[#5eead4] transition-colors">Copy All</button>
+          </div>
+        </div>
+        <textarea
+          id="rng-output"
+          readonly
+          class="w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:outline-none font-mono text-sm text-[#2dd4bf] resize-none min-h-[200px] cursor-text"
+          placeholder="Click Generate to create random numbers..."
+        ></textarea>
+      </div>
+
+      <ToolShare title="Random Number Generator" url="https://solverspro.com/math/random-number-generator" />
+      <SimilarTools category="math" currentPath="/math/random-number-generator" />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { copyToClipboard } from '../../utils/clipboard';
+
+  function generate() {
+    const min = parseFloat((document.getElementById('rng-min') as HTMLInputElement).value) || 0;
+    const max = parseFloat((document.getElementById('rng-max') as HTMLInputElement).value) || 0;
+    const count = Math.min(10000, Math.max(1, parseInt((document.getElementById('rng-count') as HTMLInputElement).value) || 1));
+    const decimals = (document.getElementById('rng-decimals') as HTMLInputElement).checked;
+    const unique = (document.getElementById('rng-unique') as HTMLInputElement).checked;
+
+    const actualMin = Math.min(min, max);
+    const actualMax = Math.max(min, max);
+
+    if (unique && !decimals && (actualMax - actualMin + 1) < count) {
+       (document.getElementById('rng-output') as HTMLTextAreaElement).value = "Error: Range is too small to generate " + count + " unique integers.";
+       return;
+    }
+
+    const numbers: number[] = [];
+    let attempts = 0;
+    const maxAttempts = count * 10;
+
+    while (numbers.length < count && attempts < maxAttempts) {
+      attempts++;
+      let num = Math.random() * (actualMax - actualMin) + actualMin;
+      if (!decimals) {
+         num = Math.floor(Math.random() * (actualMax - actualMin + 1)) + actualMin;
+      } else {
+         // Keep a reasonable number of decimal places for random floats
+         num = parseFloat(num.toFixed(4));
+      }
+      
+      if (unique) {
+         if (!numbers.includes(num)) {
+             numbers.push(num);
+         }
+      } else {
+         numbers.push(num);
+      }
+    }
+    
+    (document.getElementById('rng-output') as HTMLTextAreaElement).value = numbers.join(', ');
+  }
+
+  document.getElementById('btn-generate')?.addEventListener('click', generate);
+  document.getElementById('btn-copy')?.addEventListener('click', () => {
+    const output = (document.getElementById('rng-output') as HTMLTextAreaElement).value;
+    if (output) copyToClipboard(output);
+  });
+
+  generate();
+</script>

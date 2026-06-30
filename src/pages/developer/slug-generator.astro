@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "URL Slug Generator",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Convert any text into a SEO-friendly URL slug. Instantly remove special characters, spaces, and generate clean slugs."
+};
+---
+
+<BaseLayout
+  title="URL Slug Generator | SolversPro"
+  description="Convert any text into a SEO-friendly URL slug. Instantly remove special characters, spaces, and generate clean slugs. Free and browser-based."
+  canonical="https://solverspro.com/developer/slug-generator"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Developer Tools', href: '/developer' },
+        { label: 'URL Slug Generator' },
+      ]} />
+
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">🔗 URL Slug Generator</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Convert any text or title into an SEO-friendly URL slug instantly. Removes special characters, replaces spaces with hyphens, and lowercases text.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <!-- Input -->
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
+          <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400 block mb-3">Input Text or Title</label>
+          <textarea
+            id="slug-input"
+            class="w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[200px]"
+            placeholder="Enter your title here... e.g. '10 Best Free Online Tools in 2024!'"
+            spellcheck="false"
+          ></textarea>
+        </div>
+
+        <!-- Output -->
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
+          <div class="flex justify-between items-center mb-3">
+            <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Generated Slug</label>
+            <button id="btn-copy" class="text-xs font-semibold text-[#2dd4bf] hover:text-[#5eead4] transition-colors">Copy Slug</button>
+          </div>
+          <textarea
+            id="slug-output"
+            readonly
+            class="w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:outline-none font-mono text-sm text-[#2dd4bf] resize-none min-h-[200px] cursor-text"
+            placeholder="your-generated-slug-will-appear-here"
+          ></textarea>
+        </div>
+      </div>
+
+      <ToolShare title="URL Slug Generator" url="https://solverspro.com/developer/slug-generator" />
+      <SimilarTools category="developer" currentPath="/developer/slug-generator" />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { copyToClipboard } from '../../utils/clipboard';
+
+  const inputEl = document.getElementById('slug-input') as HTMLTextAreaElement;
+  const outputEl = document.getElementById('slug-output') as HTMLTextAreaElement;
+
+  function generateSlug(text: string) {
+    return text
+      .toString()
+      .normalize('NFD') // split an accented letter in the base letter and the acent
+      .replace(/[\u0300-\u036f]/g, '') // remove all previously split accents
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9 -]/g, '') // remove all chars not letters, numbers and spaces (to be replaced)
+      .replace(/\s+/g, '-') // separator
+      .replace(/-+/g, '-'); // replace multiple hyphens with one
+  }
+
+  inputEl.addEventListener('input', () => {
+    outputEl.value = generateSlug(inputEl.value);
+  });
+
+  document.getElementById('btn-copy')?.addEventListener('click', () => {
+    if (outputEl.value) copyToClipboard(outputEl.value);
+  });
+</script>

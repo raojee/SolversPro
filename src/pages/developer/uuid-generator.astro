@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "UUID v4 Generator",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Generate cryptographically secure UUID v4 identifiers instantly. Bulk generate up to 100 UUIDs at once."
+};
+---
+
+<BaseLayout
+  title="UUID v4 Generator | SolversPro"
+  description="Generate cryptographically secure UUID v4 identifiers instantly. Bulk generate, copy, and download. Free, runs in your browser."
+  canonical="https://solverspro.com/developer/uuid-generator"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Developer Tools', href: '/developer' },
+        { label: 'UUID Generator' },
+      ]} />
+
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">🆔 UUID v4 Generator</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Generate cryptographically secure, random UUID v4 identifiers. Bulk generate up to 100 at once.</p>
+      </div>
+
+      <!-- Controls -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 mb-6">
+        <div class="flex flex-wrap items-end gap-4">
+          <div class="flex-1 min-w-[120px]">
+            <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400 block mb-2">Quantity</label>
+            <input id="uuid-count" type="number" min="1" max="100" value="1"
+              class="w-full p-3 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none text-zinc-300 font-mono text-sm" />
+          </div>
+          <div class="flex items-center gap-3">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input id="uuid-uppercase" type="checkbox" class="accent-[#2dd4bf] w-4 h-4" />
+              <span class="text-sm text-zinc-400">Uppercase</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input id="uuid-hyphens" type="checkbox" checked class="accent-[#2dd4bf] w-4 h-4" />
+              <span class="text-sm text-zinc-400">Hyphens</span>
+            </label>
+          </div>
+          <button id="btn-generate" class="px-6 py-3 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white rounded-xl font-bold transition-all">
+            Generate
+          </button>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
+        <div class="flex justify-between items-center mb-3">
+          <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Generated UUIDs</label>
+          <div class="flex gap-3">
+            <button id="btn-copy" class="text-xs font-semibold text-[#2dd4bf] hover:text-[#5eead4] transition-colors">Copy All</button>
+          </div>
+        </div>
+        <textarea
+          id="uuid-output"
+          readonly
+          class="w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:outline-none font-mono text-sm text-[#2dd4bf] resize-none min-h-[200px] cursor-text"
+          placeholder="Click Generate to create UUIDs..."
+        ></textarea>
+      </div>
+
+      <ToolShare title="UUID v4 Generator" url="https://solverspro.com/developer/uuid-generator" />
+      <SimilarTools category="developer" currentPath="/developer/uuid-generator" />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { copyToClipboard } from '../../utils/clipboard';
+
+  function generateUUID() {
+    return crypto.randomUUID();
+  }
+
+  function generate() {
+    const count = Math.min(100, Math.max(1, parseInt((document.getElementById('uuid-count') as HTMLInputElement).value) || 1));
+    const uppercase = (document.getElementById('uuid-uppercase') as HTMLInputElement).checked;
+    const hyphens = (document.getElementById('uuid-hyphens') as HTMLInputElement).checked;
+
+    const uuids = [];
+    for (let i = 0; i < count; i++) {
+      let uuid = generateUUID();
+      if (!hyphens) uuid = uuid.replace(/-/g, '');
+      if (uppercase) uuid = uuid.toUpperCase();
+      uuids.push(uuid);
+    }
+    (document.getElementById('uuid-output') as HTMLTextAreaElement).value = uuids.join('\n');
+  }
+
+  document.getElementById('btn-generate')?.addEventListener('click', generate);
+  document.getElementById('btn-copy')?.addEventListener('click', () => {
+    const output = (document.getElementById('uuid-output') as HTMLTextAreaElement).value;
+    if (output) copyToClipboard(output);
+  });
+
+  generate();
+</script>

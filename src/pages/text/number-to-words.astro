@@ -1,0 +1,161 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Number to Words Converter",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Convert numbers into English words instantly. Useful for writing checks, filling out forms, or learning English numbers."
+};
+---
+
+<BaseLayout
+  title="Number to Words Converter | SolversPro"
+  description="Convert numbers into English words instantly. Useful for writing checks, filling out forms, or learning English numbers. Free and browser-based."
+  canonical="https://solverspro.com/text/number-to-words"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Text Tools', href: '/text' },
+        { label: 'Number to Words Converter' },
+      ]} />
+
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">🔢 Number to Words Converter</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Convert any number into English words instantly. Helpful for writing checks, financial documents, or simply spelling out large numbers.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <!-- Input -->
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
+          <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400 block mb-3">Number</label>
+          <input
+            id="num-input"
+            type="number"
+            class="w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-xl text-zinc-300"
+            placeholder="e.g. 123456"
+          />
+          <div class="mt-4 flex gap-2">
+             <label class="flex items-center gap-2 cursor-pointer">
+              <input id="format-title" type="checkbox" class="accent-[#2dd4bf] w-4 h-4" />
+              <span class="text-sm text-zinc-400">Title Case</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Output -->
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
+          <div class="flex justify-between items-center mb-3">
+            <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Words</label>
+            <button id="btn-copy" class="text-xs font-semibold text-[#2dd4bf] hover:text-[#5eead4] transition-colors">Copy</button>
+          </div>
+          <textarea
+            id="num-output"
+            readonly
+            class="w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:outline-none text-sm text-[#2dd4bf] resize-none min-h-[120px] cursor-text"
+            placeholder="Words will appear here..."
+          ></textarea>
+        </div>
+      </div>
+
+      <ToolShare title="Number to Words Converter" url="https://solverspro.com/text/number-to-words" />
+      <SimilarTools category="text" currentPath="/text/number-to-words" />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { copyToClipboard } from '../../utils/clipboard';
+
+  const inputEl = document.getElementById('num-input') as HTMLInputElement;
+  const outputEl = document.getElementById('num-output') as HTMLTextAreaElement;
+  const formatTitleEl = document.getElementById('format-title') as HTMLInputElement;
+
+  const a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
+  const b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+
+  function inWords(numStr: string) {
+      if ((numStr = numStr.toString()).length > 15) return 'too big'; // limitation
+      const n = ('0000000000000000000' + numStr).substr(-15).match(/^(\d{3})(\d{3})(\d{3})(\d{3})(\d{3})$/);
+      if (!n) return '';
+      let str = '';
+      str += (Number(n[1]) != 0) ? (a[Number(n[1])] || b[n[1][0] as any] + ' ' + a[n[1][1] as any]) + 'trillion ' : '';
+      str += (Number(n[2]) != 0) ? (a[Number(n[2])] || b[n[2][0] as any] + ' ' + a[n[2][1] as any]) + 'billion ' : '';
+      str += (Number(n[3]) != 0) ? (a[Number(n[3])] || b[n[3][0] as any] + ' ' + a[n[3][1] as any]) + 'million ' : '';
+      str += (Number(n[4]) != 0) ? (a[Number(n[4])] || b[n[4][0] as any] + ' ' + a[n[4][1] as any]) + 'thousand ' : '';
+      str += (Number(n[5]) != 0) ? (a[Number(n[5])] || b[n[5][0] as any] + ' ' + a[n[5][1] as any]) : '';
+      
+      // Handle hundreds properly
+      const num = parseInt(numStr);
+      if (num === 0) return 'zero';
+
+      let result = '';
+      
+      function convertGroup(n: number) {
+          if (n === 0) return '';
+          if (n < 20) return a[n];
+          if (n < 100) return b[Math.floor(n / 10)] + (n % 10 !== 0 ? '-' + a[n % 10] : ' ');
+          return a[Math.floor(n / 100)] + 'hundred ' + (n % 100 !== 0 ? 'and ' + convertGroup(n % 100) : '');
+      }
+
+      const trillions = Math.floor(num / 1000000000000);
+      const billions = Math.floor((num % 1000000000000) / 1000000000);
+      const millions = Math.floor((num % 1000000000) / 1000000);
+      const thousands = Math.floor((num % 1000000) / 1000);
+      const remainder = num % 1000;
+
+      if (trillions) result += convertGroup(trillions) + 'trillion ';
+      if (billions) result += convertGroup(billions) + 'billion ';
+      if (millions) result += convertGroup(millions) + 'million ';
+      if (thousands) result += convertGroup(thousands) + 'thousand ';
+      if (remainder) result += convertGroup(remainder);
+
+      return result.trim();
+  }
+
+  function convert() {
+    let val = inputEl.value;
+    if (!val) {
+        outputEl.value = '';
+        return;
+    }
+    
+    // basic sanitization
+    val = val.replace(/[^0-9]/g, '');
+    if (!val) {
+       outputEl.value = 'Invalid number';
+       return;
+    }
+
+    let words = inWords(val);
+    
+    if (formatTitleEl.checked) {
+        words = words.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())));
+    }
+
+    outputEl.value = words;
+  }
+
+  inputEl.addEventListener('input', convert);
+  formatTitleEl.addEventListener('change', convert);
+
+  document.getElementById('btn-copy')?.addEventListener('click', () => {
+    if (outputEl.value) copyToClipboard(outputEl.value);
+  });
+</script>

@@ -8,6 +8,30 @@ export interface Tool {
 export const toolsByCategory: Record<string, Tool[]> = {
   "developer": [
   {
+    title: 'Code Minifier',
+    description: 'Instantly minify HTML, CSS, and JavaScript. Remove whitespace, comments, and optimize your code for production.',
+    icon: '🗜️',
+    href: '/developer/code-minifier'
+  },
+  {
+    title: 'Markdown to HTML Converter',
+    description: 'Convert Markdown text into clean HTML code instantly. Supports GitHub Flavored Markdown (GFM).',
+    icon: '📝',
+    href: '/developer/markdown-to-html'
+  },
+  {
+    title: 'URL Slug Generator',
+    description: 'Convert any text into a SEO-friendly URL slug. Instantly remove special characters, spaces, and generate clean slugs.',
+    icon: '🔗',
+    href: '/developer/slug-generator'
+  },
+  {
+    title: 'UUID v4 Generator',
+    description: 'Generate cryptographically secure UUID v4 identifiers instantly. Bulk generate up to 100 UUIDs at once.',
+    icon: '🆔',
+    href: '/developer/uuid-generator'
+  },
+  {
     title: 'JSON Formatter & Validator',
     description: 'Format, validate, and minify JSON data. Convert nested JSON structures into easy-to-read data tables.',
     icon: '{"}',
@@ -98,6 +122,12 @@ export const toolsByCategory: Record<string, Tool[]> = {
 ],
   "math": [
  {
+ title: 'Random Number Generator',
+ description: 'Generate random numbers within a specific range instantly. Support for multiple numbers, decimals, and custom separators.',
+ icon: '🎲',
+ href: '/math/random-number-generator',
+ },
+ {
  title: 'Scientific Calculator',
  description: 'Advanced math functions including trig, logarithms, and constants for STEM work.',
  icon: '🔬',
@@ -165,6 +195,12 @@ export const toolsByCategory: Record<string, Tool[]> = {
   },
 ],
   "text": [
+  {
+    title: 'Number to Words Converter',
+    description: 'Convert numbers into English words instantly. Useful for writing checks, filling out forms, or learning English numbers.',
+    icon: '🔢',
+    href: '/text/number-to-words'
+  },
   {
     title: 'Word Counter',
     description: 'Real-time word, character, sentence, and paragraph counter with reading time estimate and keyword density.',
