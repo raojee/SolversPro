@@ -1,0 +1,382 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "IP Address Lookup",
+  "applicationCategory": "NetworkApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Look up any IP address to find its geolocation, ISP, organization, timezone, and more. Free and instant IP intelligence tool."
+};
+---
+
+<BaseLayout
+  title="IP Address Lookup — Find IP Location & Details | SolversPro"
+  description="Look up any IPv4 or IPv6 address to find its geolocation, ISP, ASN, timezone, and more. Free, fast, and accurate IP intelligence tool."
+  canonical="https://solverspro.com/network/ip-lookup"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-3xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Network Tools', href: '/network' },
+        { label: 'IP Lookup' },
+      ]} />
+
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">📡 IP Address Lookup</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Enter any public IPv4 or IPv6 address to instantly look up its geolocation, ISP, organization, timezone, and more.</p>
+      </div>
+
+      <!-- Input Section -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6 mb-6">
+        <label class="text-xs font-semibold text-zinc-500 uppercase tracking-wider block mb-2">IP Address</label>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input
+            id="lookup-input"
+            type="text"
+            class="flex-1 px-4 py-3 bg-[#1a1a24] border border-white/[0.08] rounded-lg text-white font-mono text-lg focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none placeholder-zinc-600"
+            placeholder="e.g. 8.8.8.8 or 2001:4860:4860::8888"
+          />
+          <button id="btn-lookup"
+            class="px-6 py-3 bg-[#ff6b35] hover:bg-[#ff8555] active:scale-[0.98] text-white font-bold rounded-xl transition-all shadow-lg shadow-[#ff6b35]/20 text-sm whitespace-nowrap"
+          >
+            Lookup IP
+          </button>
+        </div>
+
+        <!-- Quick actions -->
+        <div class="flex flex-wrap gap-2 mt-3">
+          <button id="btn-my-ip" class="text-xs px-3 py-1.5 bg-[#2dd4bf]/10 hover:bg-[#2dd4bf]/20 text-[#2dd4bf] rounded-lg border border-[#2dd4bf]/20 transition-colors font-semibold">
+            🔍 Use My IP
+          </button>
+          <button id="btn-example-1" class="text-xs px-3 py-1.5 bg-white/[0.04] hover:bg-white/[0.08] text-zinc-400 rounded-lg border border-white/[0.06] transition-colors" data-ip="8.8.8.8">
+            8.8.8.8
+          </button>
+          <button id="btn-example-2" class="text-xs px-3 py-1.5 bg-white/[0.04] hover:bg-white/[0.08] text-zinc-400 rounded-lg border border-white/[0.06] transition-colors" data-ip="1.1.1.1">
+            1.1.1.1
+          </button>
+          <button id="btn-example-3" class="text-xs px-3 py-1.5 bg-white/[0.04] hover:bg-white/[0.08] text-zinc-400 rounded-lg border border-white/[0.06] transition-colors" data-ip="208.67.222.222">
+            208.67.222.222
+          </button>
+        </div>
+
+        <div id="error-msg" class="hidden mt-3 text-red-400 text-sm text-center bg-red-500/10 border border-red-500/20 rounded-lg py-2"></div>
+      </div>
+
+      <!-- Loading State -->
+      <div id="lookup-loading" class="hidden bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-10 mb-6 flex flex-col items-center justify-center gap-4 min-h-[200px]">
+        <div class="w-10 h-10 border-2 border-[#2dd4bf]/30 border-t-[#2dd4bf] rounded-full animate-spin"></div>
+        <p class="text-zinc-500 text-sm">Looking up IP address...</p>
+      </div>
+
+      <!-- Results Section -->
+      <div id="results-section" class="hidden space-y-4">
+        <!-- IP Header Card -->
+        <div class="bg-gradient-to-br from-[#0d0d14] to-[#111122] border border-[#2dd4bf]/20 rounded-2xl p-8 text-center shadow-xl shadow-[#2dd4bf]/5">
+          <div class="text-xs text-zinc-500 uppercase tracking-widest font-semibold mb-3">Looked Up IP Address</div>
+          <div class="flex items-center justify-center gap-3 mb-4">
+            <div id="res-ip" class="text-3xl sm:text-4xl font-bold font-mono text-white tracking-wider">—</div>
+            <button id="btn-copy-ip"
+              class="p-2.5 bg-[#2dd4bf]/10 hover:bg-[#2dd4bf]/25 text-[#2dd4bf] rounded-lg border border-[#2dd4bf]/20 transition-all hover:scale-105"
+              title="Copy IP"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            </button>
+          </div>
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-[#2dd4bf]/10 border border-[#2dd4bf]/20 rounded-full">
+            <div class="w-2 h-2 rounded-full bg-[#2dd4bf] animate-pulse"></div>
+            <span id="res-ip-version" class="text-[#2dd4bf] text-sm font-semibold">—</span>
+          </div>
+        </div>
+
+        <!-- Location Details Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            { id: 'res-country', icon: '🌍', label: 'Country' },
+            { id: 'res-region', icon: '🗺️', label: 'Region / State' },
+            { id: 'res-city', icon: '🏙️', label: 'City' },
+            { id: 'res-postal', icon: '📮', label: 'Postal Code' },
+            { id: 'res-isp', icon: '📡', label: 'ISP / Organization' },
+            { id: 'res-asn', icon: '🔗', label: 'ASN' },
+            { id: 'res-timezone', icon: '🕐', label: 'Timezone' },
+            { id: 'res-coords', icon: '📍', label: 'Coordinates' },
+            { id: 'res-currency', icon: '💱', label: 'Currency' },
+            { id: 'res-languages', icon: '🗣️', label: 'Languages' },
+            { id: 'res-calling-code', icon: '📞', label: 'Calling Code' },
+            { id: 'res-country-area', icon: '📐', label: 'Country Area (km²)' },
+          ].map(d => (
+            <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl px-5 py-4 flex items-center gap-4 group hover:border-white/[0.12] transition-colors">
+              <span class="text-2xl">{d.icon}</span>
+              <div class="min-w-0 flex-1">
+                <div class="text-xs text-zinc-500 uppercase tracking-wider mb-1">{d.label}</div>
+                <div id={d.id} class="text-white font-semibold truncate">—</div>
+              </div>
+              <button class="copy-btn text-zinc-700 hover:text-[#2dd4bf] transition-colors opacity-0 group-hover:opacity-100" data-target={d.id}>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <!-- Network Details -->
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
+          <h3 class="text-xs text-zinc-500 uppercase tracking-wider mb-4">🖧 Network Details</h3>
+          <div class="space-y-3 font-mono text-sm">
+            <div class="flex gap-3 items-center">
+              <span class="text-zinc-600 w-28 flex-shrink-0 text-xs uppercase tracking-wider">Network</span>
+              <span id="res-network" class="text-[#2dd4bf] break-all">—</span>
+            </div>
+            <div class="flex gap-3 items-center">
+              <span class="text-zinc-600 w-28 flex-shrink-0 text-xs uppercase tracking-wider">IP Version</span>
+              <span id="res-version-detail" class="text-[#a78bfa]">—</span>
+            </div>
+            <div class="flex gap-3 items-center">
+              <span class="text-zinc-600 w-28 flex-shrink-0 text-xs uppercase tracking-wider">Country Code</span>
+              <span id="res-country-code" class="text-[#ff6b35]">—</span>
+            </div>
+            <div class="flex gap-3 items-center">
+              <span class="text-zinc-600 w-28 flex-shrink-0 text-xs uppercase tracking-wider">UTC Offset</span>
+              <span id="res-utc-offset" class="text-[#fbbf24]">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap gap-3 justify-center">
+          <SaveResultButton id="save-lookup-btn" />
+        </div>
+      </div>
+
+      <!-- Info Note -->
+      <div class="mt-6 bg-[#0d0d14] border border-white/[0.04] rounded-xl p-4 text-xs text-zinc-600 text-center">
+        🔒 IP lookups are performed using a public API (ipapi.co). We do not store or log any queried IP addresses.
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { copyToClipboard } from '../../utils/clipboard';
+
+  interface LookupData {
+    ip: string;
+    version?: string;
+    country_name?: string;
+    country_code?: string;
+    region?: string;
+    city?: string;
+    postal?: string;
+    org?: string;
+    asn?: string;
+    timezone?: string;
+    utc_offset?: string;
+    latitude?: number;
+    longitude?: number;
+    currency?: string;
+    currency_name?: string;
+    languages?: string;
+    country_calling_code?: string;
+    country_area?: number;
+    network?: string;
+    error?: boolean;
+    reason?: string;
+  }
+
+  let currentIp = '';
+
+  function set(id: string, val: string) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val || '—';
+  }
+
+  function showError(msg: string) {
+    const errorEl = document.getElementById('error-msg') as HTMLElement;
+    errorEl.textContent = msg;
+    errorEl.classList.remove('hidden');
+  }
+
+  function hideError() {
+    const errorEl = document.getElementById('error-msg') as HTMLElement;
+    errorEl.classList.add('hidden');
+  }
+
+  function isValidIP(ip: string): boolean {
+    // Basic IPv4 validation
+    const ipv4 = /^(\d{1,3}\.){3}\d{1,3}$/;
+    if (ipv4.test(ip)) {
+      return ip.split('.').every(part => {
+        const n = parseInt(part, 10);
+        return n >= 0 && n <= 255;
+      });
+    }
+    // Basic IPv6 validation (simplified)
+    const ipv6 = /^([0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}$/;
+    if (ipv6.test(ip)) return true;
+    // IPv6 with :: shorthand
+    if (ip.includes('::') && ip.match(/:/g)) return true;
+    return false;
+  }
+
+  async function lookupIP(ip: string) {
+    hideError();
+
+    if (!ip) {
+      showError('Please enter an IP address.');
+      return;
+    }
+
+    if (!isValidIP(ip)) {
+      showError('Invalid IP address format. Enter a valid IPv4 or IPv6 address.');
+      return;
+    }
+
+    const loadingEl = document.getElementById('lookup-loading') as HTMLElement;
+    const resultsSection = document.getElementById('results-section') as HTMLElement;
+
+    loadingEl.classList.remove('hidden');
+    resultsSection.classList.add('hidden');
+
+    try {
+      const res = await fetch(`https://ipapi.co/${ip}/json/`);
+      const data: LookupData = await res.json();
+
+      if (data.error) {
+        loadingEl.classList.add('hidden');
+        showError(data.reason || 'Could not look up this IP address. It may be a private or reserved address.');
+        return;
+      }
+
+      currentIp = data.ip || ip;
+
+      set('res-ip', currentIp);
+      set('res-ip-version', data.version === 'IPv6' ? 'IPv6 Address' : 'IPv4 Address');
+      set('res-country', data.country_name || '—');
+      set('res-region', data.region || '—');
+      set('res-city', data.city || '—');
+      set('res-postal', data.postal || '—');
+      set('res-isp', data.org || '—');
+      set('res-asn', data.asn || '—');
+      set('res-timezone', data.timezone || '—');
+      set('res-coords', data.latitude && data.longitude
+        ? `${data.latitude.toFixed(4)}°, ${data.longitude.toFixed(4)}°`
+        : '—');
+      set('res-currency', data.currency && data.currency_name
+        ? `${data.currency_name} (${data.currency})`
+        : data.currency || '—');
+      set('res-languages', data.languages || '—');
+      set('res-calling-code', data.country_calling_code || '—');
+      set('res-country-area', data.country_area
+        ? data.country_area.toLocaleString()
+        : '—');
+      set('res-network', data.network || '—');
+      set('res-version-detail', data.version || '—');
+      set('res-country-code', data.country_code || '—');
+      set('res-utc-offset', data.utc_offset || '—');
+
+      loadingEl.classList.add('hidden');
+      resultsSection.classList.remove('hidden');
+
+      // Save button
+      const saveBtn = document.getElementById('save-lookup-btn');
+      if (saveBtn) {
+        saveBtn.classList.remove('hidden');
+        saveBtn.onclick = () => {
+          if (typeof (window as any).saveToDashboard === 'function') {
+            (window as any).saveToDashboard('IP Lookup', '/network/ip-lookup', {
+              type: 'key-value',
+              data: {
+                'IP Address': currentIp,
+                'Country': data.country_name || '—',
+                'City': data.city || '—',
+                'ISP': data.org || '—',
+                'ASN': data.asn || '—'
+              }
+            });
+          }
+        };
+      }
+
+    } catch {
+      loadingEl.classList.add('hidden');
+      showError('Failed to look up IP address. Please check your connection and try again.');
+    }
+  }
+
+  // Lookup button
+  document.getElementById('btn-lookup')?.addEventListener('click', () => {
+    const ip = (document.getElementById('lookup-input') as HTMLInputElement).value.trim();
+    lookupIP(ip);
+  });
+
+  // Enter key support
+  document.getElementById('lookup-input')?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const ip = (document.getElementById('lookup-input') as HTMLInputElement).value.trim();
+      lookupIP(ip);
+    }
+  });
+
+  // Use My IP button
+  document.getElementById('btn-my-ip')?.addEventListener('click', async () => {
+    hideError();
+    const input = document.getElementById('lookup-input') as HTMLInputElement;
+    const btn = document.getElementById('btn-my-ip') as HTMLButtonElement;
+    btn.textContent = '⏳ Detecting...';
+    try {
+      const res = await fetch('https://api.ipify.org?format=json');
+      const data = await res.json();
+      input.value = data.ip;
+      btn.textContent = '🔍 Use My IP';
+      lookupIP(data.ip);
+    } catch {
+      btn.textContent = '🔍 Use My IP';
+      showError('Could not detect your IP address.');
+    }
+  });
+
+  // Example IP buttons
+  document.querySelectorAll('[data-ip]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const ip = (btn as HTMLElement).dataset.ip || '';
+      (document.getElementById('lookup-input') as HTMLInputElement).value = ip;
+      lookupIP(ip);
+    });
+  });
+
+  // Copy IP button
+  document.getElementById('btn-copy-ip')?.addEventListener('click', () => {
+    if (currentIp) {
+      copyToClipboard(currentIp).then(() => {
+        const btn = document.getElementById('btn-copy-ip') as HTMLButtonElement;
+        btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>`;
+        setTimeout(() => {
+          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>`;
+        }, 1500);
+      });
+    }
+  });
+
+  // Copy individual result fields
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const target = (e.currentTarget as HTMLElement).dataset.target;
+      if (target) {
+        const val = document.getElementById(target)?.textContent || '';
+        copyToClipboard(val);
+      }
+    });
+  });
+</script>
