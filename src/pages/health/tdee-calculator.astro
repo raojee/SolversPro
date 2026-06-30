@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
@@ -178,8 +180,11 @@ const faqItems = [
 <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
  <FAQAccordion items={faqItems} id="tdee-faq" />
  </div>
+      <ToolShare title="TDEE Calculator — Free Calorie & Metabolism Tool" url="https://solverspro.com/health/tdee-calculator" />
+      <SimilarTools category="health" currentPath="/health/tdee-calculator" />
+    
  </div>
- </main>
+  </main>
 
  <Footer />
 </BaseLayout>

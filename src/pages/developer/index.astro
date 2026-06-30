@@ -6,62 +6,8 @@ import CategoryCard from '../../components/CategoryCard.astro';
 import ToolCard from '../../components/ToolCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-const tools = [
-  {
-    title: 'JSON Formatter & Validator',
-    description: 'Format, validate, and minify JSON data. Convert nested JSON structures into easy-to-read data tables.',
-    icon: '{"}',
-    href: '/developer/json-tools'
-  },
-  {
-    title: 'XML Formatter & Validator',
-    description: 'Format, validate, and minify XML documents. Parse complex XML into interactive data tables.',
-    icon: '</> ',
-    href: '/developer/xml-tools'
-  },
-  {
-    title: 'Base64 Encoder & Decoder',
-    description: 'Quickly encode text to Base64 or decode Base64 back to text.',
-    icon: '🔤',
-    href: '/developer/base64-converter'
-  },
-  {
-    title: 'JWT Token Decoder',
-    description: 'Decode and inspect JSON Web Tokens (JWT) payload and header data securely.',
-    icon: '🔐',
-    href: '/developer/jwt-decoder'
-  },
-  {
-    title: 'Hash Generator',
-    description: 'Generate cryptographic hashes like SHA-256, SHA-384, and SHA-512 from any text.',
-    icon: '🔒',
-    href: '/developer/hash-generator'
-  },
-  {
-    title: 'Color Converter',
-    description: 'Convert color codes between HEX, RGB, and HSL formats instantly.',
-    icon: '🎨',
-    href: '/developer/color-converter'
-  },
-  {
-    title: 'Number Base Converter',
-    description: 'Convert numbers between binary (base 2), octal (base 8), decimal (base 10), and hexadecimal (base 16).',
-    icon: '🔢',
-    href: '/developer/number-base'
-  },
-  {
-    title: 'Regex Tester & Debugger',
-    description: 'Test regular expressions in real-time with live match highlighting, flags, and capture group inspection.',
-    icon: '⚡',
-    href: '/developer/regex-tester'
-  },
-  {
-    title: 'Unix Timestamp Converter',
-    description: 'Convert Unix timestamps to human-readable dates or date strings to Unix timestamps instantly.',
-    icon: '🕐',
-    href: '/developer/timestamp-converter'
-  }
-];
+import { toolsByCategory } from '../../data/tools';
+const tools = toolsByCategory['developer'] || [];
 ---
 
 <BaseLayout

@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -113,6 +115,9 @@ const schema = {
       <div class="bg-[#0d0d14] border border-white/[0.04] rounded-xl p-4 text-xs text-zinc-600 text-center">
         🔒 Your IP is fetched using a public API (ipify.org + ipapi.co). We do not store or log your IP address.
       </div>
+      <ToolShare title="My IP Checker — What Is My IP?" url="https://solverspro.com/network/my-ip" />
+      <SimilarTools category="network" currentPath="/network/my-ip" />
+    
     </div>
   </main>
   <Footer />

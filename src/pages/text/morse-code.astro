@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -113,6 +115,9 @@ const schema = {
       <div class="mt-6 flex justify-center">
         <SaveResultButton id="save-morse-btn" />
       </div>
+      <ToolShare title="Morse Code Translator" url="https://solverspro.com/text/morse-code" />
+      <SimilarTools category="text" currentPath="/text/morse-code" />
+    
     </div>
   </main>
   <Footer />

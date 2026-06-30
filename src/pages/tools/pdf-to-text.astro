@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
@@ -44,6 +46,9 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
           <textarea id="text-output" readonly class="w-full h-96 bg-[#0a0a12] border border-white/[0.06] rounded-xl p-4 text-sm text-zinc-300 font-mono leading-relaxed resize-y focus:outline-none"></textarea>
         </div>
       </div>
+      <ToolShare title="PDF to Text" url="https://solverspro.com/tools/pdf-to-text" />
+      <SimilarTools category="tools" currentPath="/tools/pdf-to-text" />
+    
     </div>
   </main>
   <Footer />

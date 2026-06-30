@@ -5,14 +5,8 @@ import Footer from '../../components/Footer.astro';
 import ToolCard from '../../components/ToolCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-const tools = [
-  {
-    title: 'QR Code Generator',
-    description: 'Generate QR codes for URLs, text, email, phone numbers, and WiFi. Customize colors and size. Download as PNG.',
-    icon: '📱',
-    href: '/qr/qr-generator'
-  },
-];
+import { toolsByCategory } from '../../data/tools';
+const tools = toolsByCategory['qr'] || [];
 ---
 <BaseLayout
   title="QR Code Tools | SolversPro"

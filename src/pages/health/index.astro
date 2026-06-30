@@ -6,20 +6,8 @@ import SearchOverlay from '../../components/SearchOverlay.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ToolCard from '../../components/ToolCard.astro';
 
-const tools = [
-  {
-  title: 'TDEE Calculator',
-  description: 'Calculate your Total Daily Energy Expenditure based on your activity level.',
-  icon: '🔥',
-  href: '/health/tdee-calculator',
-  },
-  {
-  title: 'BMI Calculator',
-  description: 'Calculate your Body Mass Index (BMI) and check your weight category.',
-  icon: '⚖️',
-  href: '/health/bmi-calculator',
-  },
-];
+import { toolsByCategory } from '../../data/tools';
+const tools = toolsByCategory['health'] || [];
 ---
 
 <BaseLayout

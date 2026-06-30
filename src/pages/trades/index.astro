@@ -6,38 +6,8 @@ import SearchOverlay from '../../components/SearchOverlay.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ToolCard from '../../components/ToolCard.astro';
 
-const tools = [
- {
- title: 'Concrete Slab Calculator',
- description: 'Calculate exactly how much concrete you need for slabs, footings, and walls.',
- icon: '🧱',
- href: '/trades/concrete-slab',
- },
- {
- title: 'Wire Size Calculator',
- description: 'Determine the correct wire gauge for electrical installations.',
- icon: '⚡',
- href: '/trades/wire-size',
- },
-  {
-  title: 'Solar Panel Calculator',
-  description: 'Size your solar array based on energy usage and location.',
-  icon: '☀️',
-  href: '/trades/solar-panel',
-  },
-  {
-  title: 'Board Feet Calculator',
-  description: 'Calculate hardwood lumber volume in board feet.',
-  icon: '🪵',
-  href: '/trades/board-feet',
-  },
-  {
-  title: 'Paint Calculator',
-  description: 'Determine exactly how many gallons of paint your project needs.',
-  icon: '🎨',
-  href: '/trades/paint-calculator',
-  },
-];
+import { toolsByCategory } from '../../data/tools';
+const tools = toolsByCategory['trades'] || [];
 ---
 
 <BaseLayout

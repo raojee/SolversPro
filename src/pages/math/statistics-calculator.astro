@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
@@ -68,6 +70,9 @@ const schema = {
           </div>
         </div>
       </div>
+      <ToolShare title="Statistics Calculator" url="https://solverspro.com/math/statistics-calculator" />
+      <SimilarTools category="math" currentPath="/math/statistics-calculator" />
+    
     </div>
   </main>
   <Footer />

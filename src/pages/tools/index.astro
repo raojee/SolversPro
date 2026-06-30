@@ -6,20 +6,8 @@ import SearchOverlay from '../../components/SearchOverlay.astro';
 import ToolCard from '../../components/ToolCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-const tools = [
-  { title: 'PDF Merger', description: 'Drag, reorder, and combine multiple PDF files into a single document instantly.', icon: '🔗', href: '/tools/pdf-merger' },
-  { title: 'Split PDF By Range', description: 'Extract a specific page range (e.g. pages 3–8) from any PDF file.', icon: '✂️', href: '/tools/pdf-split-range' },
-  { title: 'Split PDF To Pages', description: 'Separate every PDF page into its own individual downloadable file.', icon: '📑', href: '/tools/pdf-split-pages' },
-  { title: 'Compose PDF', description: 'Create a PDF document from scratch using a built-in text editor.', icon: '✍️', href: '/tools/pdf-compose' },
-  { title: 'Protect PDF', description: 'Add password protection and set read/print/copy permissions on PDFs.', icon: '🔒', href: '/tools/pdf-protect' },
-  { title: 'Remove PDF Password', description: 'Unlock and remove password protection from a PDF file.', icon: '🔓', href: '/tools/pdf-remove-password' },
-  { title: 'Flatten PDF', description: 'Flatten form fields and annotations for universal compatibility.', icon: '📄', href: '/tools/pdf-flatten' },
-  { title: 'Preflight PDF', description: 'Inspect PDF metadata, page count, dimensions, and structure.', icon: '🔍', href: '/tools/pdf-preflight' },
-  { title: 'PDF to Text', description: 'Extract all readable text from any PDF document.', icon: '📝', href: '/tools/pdf-to-text' },
-  { title: 'PDF to Images', description: 'Convert each PDF page into a high-quality PNG image file.', icon: '🖼️', href: '/tools/pdf-to-images' },
-  { title: 'PDF to HTML', description: 'Convert PDF content into an HTML page you can preview and download.', icon: '🌐', href: '/tools/pdf-to-html' },
-  { title: 'Images to PDF', description: 'Combine multiple JPG/PNG/WebP images into a single PDF file.', icon: '🗂️', href: '/tools/images-to-pdf' },
-];
+import { toolsByCategory } from '../../data/tools';
+const tools = toolsByCategory['tools'] || [];
 ---
 <BaseLayout
   title="PDF Tools | SolversPro"

@@ -5,26 +5,8 @@ import Footer from '../../components/Footer.astro';
 import ToolCard from '../../components/ToolCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-const tools = [
-  {
-    title: 'IP Subnet Calculator',
-    description: 'Calculate network address, broadcast, subnet mask, host range, and usable hosts for any IPv4 subnet using CIDR notation.',
-    icon: '🌐',
-    href: '/network/ip-subnet-calculator'
-  },
-  {
-    title: 'My IP Checker',
-    description: 'Instantly find your public IP address with location, ISP, timezone, and coordinates.',
-    icon: '🔍',
-    href: '/network/my-ip'
-  },
-  {
-    title: 'IP Address Lookup',
-    description: 'Look up any public IP address to find its geolocation, ISP, ASN, timezone, and network details.',
-    icon: '📡',
-    href: '/network/ip-lookup'
-  },
-];
+import { toolsByCategory } from '../../data/tools';
+const tools = toolsByCategory['network'] || [];
 ---
 <BaseLayout
   title="Network Tools | SolversPro"

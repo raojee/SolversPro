@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -70,6 +72,9 @@ const schema = {
       <div class="mt-6 flex justify-center">
         <SaveResultButton id="save-base64-btn" />
       </div>
+      <ToolShare title="Base64 Encoder & Decoder" url="https://solverspro.com/developer/base64-converter" />
+      <SimilarTools category="developer" currentPath="/developer/base64-converter" />
+    
 
     </div>
   </main>

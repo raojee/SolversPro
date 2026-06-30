@@ -5,14 +5,8 @@ import Footer from '../../components/Footer.astro';
 import ToolCard from '../../components/ToolCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-const tools = [
-  {
-    title: 'Random Password Generator',
-    description: 'Generate cryptographically secure passwords with custom length, character sets, and strength indicator.',
-    icon: '🔐',
-    href: '/security/password-generator'
-  },
-];
+import { toolsByCategory } from '../../data/tools';
+const tools = toolsByCategory['security'] || [];
 ---
 <BaseLayout
   title="Security Tools | SolversPro"

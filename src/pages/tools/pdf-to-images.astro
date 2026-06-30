@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
@@ -59,6 +61,9 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
           <div id="image-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
         </div>
       </div>
+      <ToolShare title="PDF to Images" url="https://solverspro.com/tools/pdf-to-images" />
+      <SimilarTools category="tools" currentPath="/tools/pdf-to-images" />
+    
     </div>
   </main>
   <Footer />

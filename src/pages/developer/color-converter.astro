@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -69,6 +71,9 @@ const schema = {
         </div>
 
       </div>
+      <ToolShare title="Color Converter" url="https://solverspro.com/developer/color-converter" />
+      <SimilarTools category="developer" currentPath="/developer/color-converter" />
+    
 
     </div>
   </main>

@@ -6,38 +6,8 @@ import SearchOverlay from '../../components/SearchOverlay.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ToolCard from '../../components/ToolCard.astro';
 
-const tools = [
- {
- title: 'Scientific Calculator',
- description: 'Advanced math functions including trig, logarithms, and constants for STEM work.',
- icon: '🔬',
- href: '/math/scientific-calculator',
- },
- {
- title: 'Quadratic Equation Solver',
- description: 'Find the roots of any quadratic equation with step-by-step solutions.',
- icon: '📈',
- href: '/math/quadratic-solver',
- },
- {
- title: 'Matrix Calculator',
- description: 'Perform matrix operations: addition, multiplication, determinant, and inverse.',
- icon: '🔢',
- href: '/math/matrix-calculator',
- },
- {
- title: 'Percentage Calculator',
- description: 'Calculate percentages, increases, decreases, and percentage of a number.',
- icon: '📊',
- href: '/math/percentage-calculator',
- },
- {
- title: 'Unit Converter',
- description: 'Convert between length, weight, temperature, volume, and more.',
- icon: '📏',
- href: '/math/unit-converter',
- },
-];
+import { toolsByCategory } from '../../data/tools';
+const tools = toolsByCategory['math'] || [];
 ---
 
 <BaseLayout

@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
@@ -284,8 +286,11 @@ const relatedTools = [
  ))}
  </div>
  </div>
+      <ToolShare title="Compound Interest Calculator — Free Finance Tool" url="https://solverspro.com/finance/compound-interest" />
+      <SimilarTools category="finance" currentPath="/finance/compound-interest" />
+    
  </div>
- </main>
+  </main>
 
  <Footer />
 </BaseLayout>
