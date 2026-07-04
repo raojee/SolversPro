@@ -3,34 +3,1182 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import SearchOverlay from '../components/SearchOverlay.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+const categories = [
+  { id: 'ai', label: 'AI Solver', icon: '🧠', color: '#a78bfa' },
+  { id: 'developer', label: 'Developer Tools', icon: '⚡', color: '#06b6d4' },
+  { id: 'pdf', label: 'PDF Tools', icon: '📄', color: '#f43f5e' },
+  { id: 'text', label: 'Text Tools', icon: '📝', color: '#22c55e' },
+  { id: 'math', label: 'Math Tools', icon: '📐', color: '#eab308' },
+  { id: 'finance', label: 'Finance', icon: '💰', color: '#3b82f6' },
+  { id: 'health', label: 'Health', icon: '❤️', color: '#ef4444' },
+  { id: 'trades', label: 'Trades', icon: '🔧', color: '#f97316' },
+  { id: 'network', label: 'Network', icon: '🌐', color: '#14b8a6' },
+  { id: 'security', label: 'Security & QR', icon: '🔐', color: '#8b5cf6' },
+];
+
+const toolDocs = {
+  ai: [
+    {
+      title: 'Universal AI Solver',
+      href: '/solve',
+      description: 'A Gemini-powered AI assistant that solves problems step-by-step across math, science, chemistry, physics, engineering, and more. Supports text input and image uploads for multimodal problem solving.',
+      features: [
+        'Step-by-step solutions with clear explanations',
+        'Supports math, physics, chemistry, engineering, and logic problems',
+        'Multimodal: upload images of handwritten problems or textbook screenshots',
+        'Powered by Google Gemini AI',
+        'Renders LaTeX/KaTeX for mathematical notation',
+        'Conversation history within a session',
+      ],
+      steps: [
+        'Navigate to the AI Solver page.',
+        'Type your question or problem in the input box (e.g., "Solve x² + 5x + 6 = 0").',
+        'Optionally, click the image icon to upload a photo of a problem.',
+        'Press Enter or click Send.',
+        'Read the step-by-step solution rendered with formatted math.',
+        'Ask follow-up questions in the same session for deeper understanding.',
+      ],
+    },
+  ],
+  developer: [
+    {
+      title: 'JSON Formatter & Validator',
+      href: '/developer/json-tools',
+      description: 'Format, validate, and minify JSON data. Convert nested JSON structures into easy-to-read, syntax-highlighted output with error detection.',
+      features: [
+        'Beautify minified JSON with customizable indentation',
+        'Validate JSON structure and highlight syntax errors with line numbers',
+        'One-click minify for production payloads',
+        'Copy formatted output to clipboard',
+      ],
+      steps: [
+        'Paste your JSON into the input area.',
+        'Click "Format" to beautify or "Minify" to compress.',
+        'If there are errors, the validator highlights the exact line and character.',
+        'Click "Copy" to copy the result to your clipboard.',
+      ],
+    },
+    {
+      title: 'XML Formatter & Validator',
+      href: '/developer/xml-tools',
+      description: 'Format, validate, and minify XML documents. Parse complex XML into readable, indented output.',
+      features: [
+        'Beautify dense XML strings into readable format',
+        'Validate XML structure and report errors',
+        'Minify XML for compact transmission',
+        'Copy output to clipboard',
+      ],
+      steps: [
+        'Paste your XML into the input area.',
+        'Click "Format" to beautify or "Minify" to compress.',
+        'Review any validation errors shown below the input.',
+        'Click "Copy" to copy the formatted output.',
+      ],
+    },
+    {
+      title: 'Base64 Encoder & Decoder',
+      href: '/developer/base64-converter',
+      description: 'Encode plain text to Base64 or decode Base64 strings back to readable text. Essential for debugging API payloads, email headers, and data URIs.',
+      features: [
+        'Instant encode and decode in real-time',
+        'Supports UTF-8 text input',
+        'One-click copy to clipboard',
+        'Clean, distraction-free interface',
+      ],
+      steps: [
+        'Select the mode: "Encode" or "Decode".',
+        'Paste or type your text in the input field.',
+        'The result appears instantly in the output field.',
+        'Click "Copy" to copy the result.',
+      ],
+    },
+    {
+      title: 'JWT Token Decoder',
+      href: '/developer/jwt-decoder',
+      description: 'Decode and inspect JSON Web Tokens (JWT) to view the header, payload, claims, and expiration. Runs 100% locally — your tokens never leave your browser.',
+      features: [
+        'Decodes header and payload sections',
+        'Shows all standard claims (iss, sub, aud, exp, iat, etc.)',
+        'Displays expiration status (expired/valid) with human-readable time',
+        'Syntax-highlighted JSON output',
+        'Token never sent to any server',
+      ],
+      steps: [
+        'Paste your full JWT (e.g., eyJhbGciOi...) into the input field.',
+        'The decoded header and payload appear instantly.',
+        'Review claims, expiration time, and algorithm used.',
+        'Check the expiration status indicator to see if the token is still valid.',
+      ],
+    },
+    {
+      title: 'Hash Generator',
+      href: '/developer/hash-generator',
+      description: 'Generate cryptographic hashes from any text input. Supports SHA-1, SHA-256, SHA-384, and SHA-512 using the Web Crypto API.',
+      features: [
+        'Supports SHA-1, SHA-256, SHA-384, SHA-512',
+        'Uses the native Web Crypto API (no external libraries)',
+        'Instant hash generation as you type',
+        'One-click copy for each hash value',
+      ],
+      steps: [
+        'Type or paste your text into the input field.',
+        'All supported hashes are generated simultaneously in real-time.',
+        'Click the copy icon next to any hash value to copy it.',
+      ],
+    },
+    {
+      title: 'Color Converter',
+      href: '/developer/color-converter',
+      description: 'Convert color codes between HEX, RGB, and HSL formats instantly. Includes a visual color preview swatch.',
+      features: [
+        'Bidirectional conversion: HEX ↔ RGB ↔ HSL',
+        'Live color preview swatch',
+        'Accepts shorthand HEX (e.g., #FFF)',
+        'Copy any format to clipboard',
+      ],
+      steps: [
+        'Enter a color value in any supported format (HEX, RGB, or HSL).',
+        'The other two formats are computed and displayed instantly.',
+        'View the live color preview swatch.',
+        'Click "Copy" next to any format to use it in your CSS.',
+      ],
+    },
+    {
+      title: 'Number Base Converter',
+      href: '/developer/number-base',
+      description: 'Convert numbers between binary (base 2), octal (base 8), decimal (base 10), and hexadecimal (base 16) simultaneously.',
+      features: [
+        'Input in any base, see all four bases at once',
+        'Supports large numbers',
+        'Real-time conversion as you type',
+        'Copy any result to clipboard',
+      ],
+      steps: [
+        'Select the input base (decimal, binary, octal, or hex).',
+        'Type your number in the input field.',
+        'All other base representations update in real-time.',
+        'Click "Copy" next to any output to copy it.',
+      ],
+    },
+    {
+      title: 'Regex Tester & Debugger',
+      href: '/developer/regex-tester',
+      description: 'Test regular expressions in real-time with live match highlighting, flags (g, i, m, s), and capture group inspection.',
+      features: [
+        'Real-time match highlighting in the test string',
+        'Supports all regex flags: global, case-insensitive, multiline, dotAll',
+        'Displays all matches with their index positions',
+        'Shows named and numbered capture groups',
+        'Quick-reference cheat sheet',
+      ],
+      steps: [
+        'Enter your regex pattern in the pattern field.',
+        'Set flags (g, i, m, s) as needed.',
+        'Paste or type your test string in the text area.',
+        'Matches are highlighted in real-time.',
+        'Review capture groups in the results panel below.',
+      ],
+    },
+    {
+      title: 'Unix Timestamp Converter',
+      href: '/developer/timestamp-converter',
+      description: 'Convert Unix epoch timestamps to human-readable dates and vice versa. Shows UTC and local time, plus relative time (e.g., "3 hours ago").',
+      features: [
+        'Timestamp → Date and Date → Timestamp conversion',
+        'Shows both UTC and local timezone',
+        'Relative time display (e.g., "2 days ago")',
+        'Live "current timestamp" clock',
+        'Supports seconds and milliseconds',
+      ],
+      steps: [
+        'Enter a Unix timestamp (seconds or milliseconds) in the input field.',
+        'The human-readable date, UTC time, and relative time are shown instantly.',
+        'Or, select a date/time from the date picker to get its Unix timestamp.',
+        'Click "Copy" to copy the result.',
+      ],
+    },
+    {
+      title: 'Code Minifier',
+      href: '/developer/code-minifier',
+      description: 'Minify HTML, CSS, and JavaScript code to reduce file size for production. Removes whitespace, comments, and unnecessary characters.',
+      features: [
+        'Supports HTML, CSS, and JavaScript minification',
+        'Shows original vs. minified size and savings percentage',
+        'One-click copy to clipboard',
+        'Runs entirely in the browser',
+      ],
+      steps: [
+        'Select the code type: HTML, CSS, or JavaScript.',
+        'Paste your code into the input area.',
+        'Click "Minify" to generate the compressed output.',
+        'Review the file size savings shown above the output.',
+        'Click "Copy" to copy the minified code.',
+      ],
+    },
+    {
+      title: 'Markdown to HTML Converter',
+      href: '/developer/markdown-to-html',
+      description: 'Convert Markdown text into clean HTML code instantly. Supports GitHub Flavored Markdown (GFM) including tables, task lists, and code blocks.',
+      features: [
+        'Full GitHub Flavored Markdown (GFM) support',
+        'Live preview of rendered HTML',
+        'Copy raw HTML output',
+        'Supports tables, code blocks, task lists, and more',
+      ],
+      steps: [
+        'Type or paste your Markdown into the input area.',
+        'The rendered HTML preview updates in real-time.',
+        'Switch to the "HTML" tab to see the raw HTML source.',
+        'Click "Copy HTML" to copy the generated code.',
+      ],
+    },
+    {
+      title: 'URL Slug Generator',
+      href: '/developer/slug-generator',
+      description: 'Convert any text into a clean, SEO-friendly URL slug. Removes special characters, replaces spaces with hyphens, and lowercases everything.',
+      features: [
+        'Converts any text to URL-safe slugs',
+        'Removes special characters and diacritics',
+        'Customizable separator (hyphen or underscore)',
+        'One-click copy to clipboard',
+      ],
+      steps: [
+        'Type or paste your text (e.g., a blog post title) into the input.',
+        'The slug is generated instantly below.',
+        'Optionally change the separator character.',
+        'Click "Copy" to copy the slug.',
+      ],
+    },
+    {
+      title: 'UUID v4 Generator',
+      href: '/developer/uuid-generator',
+      description: 'Generate cryptographically secure UUID v4 identifiers. Bulk generate up to 100 UUIDs at once for database seeding, testing, or unique ID needs.',
+      features: [
+        'Cryptographically secure using crypto.randomUUID()',
+        'Bulk generate up to 100 UUIDs at once',
+        'Copy individual or all UUIDs',
+        'Uppercase/lowercase toggle',
+      ],
+      steps: [
+        'Click "Generate" to create a new UUID.',
+        'Set the quantity (1–100) for bulk generation.',
+        'Click "Copy" next to any UUID, or "Copy All" for the full list.',
+        'Toggle uppercase if needed.',
+      ],
+    },
+  ],
+  pdf: [
+    {
+      title: 'PDF Merger',
+      href: '/tools/pdf-merger',
+      description: 'Combine multiple PDF files into a single document. Drag and drop to reorder pages before merging.',
+      features: [
+        'Merge unlimited PDF files',
+        'Drag-and-drop reordering',
+        'Preview file order before merging',
+        'Download merged PDF instantly',
+      ],
+      steps: [
+        'Click "Choose Files" or drag and drop your PDF files.',
+        'Reorder files by dragging them into the desired sequence.',
+        'Click "Merge PDFs".',
+        'Download the combined PDF file.',
+      ],
+    },
+    {
+      title: 'Split PDF By Range',
+      href: '/tools/pdf-split-range',
+      description: 'Extract a specific page range from any PDF file (e.g., pages 3–8).',
+      features: [
+        'Specify start and end page numbers',
+        'Preview page count before splitting',
+        'Fast client-side processing',
+        'Download extracted pages as a new PDF',
+      ],
+      steps: [
+        'Upload your PDF file.',
+        'Enter the start page and end page numbers.',
+        'Click "Split PDF".',
+        'Download the extracted pages.',
+      ],
+    },
+    {
+      title: 'Split PDF To Pages',
+      href: '/tools/pdf-split-pages',
+      description: 'Separate every page of a PDF into individual, downloadable files.',
+      features: [
+        'Splits every page into its own PDF',
+        'Download individual pages or all at once',
+        'Works with large multi-page documents',
+        'No file size limits (client-side)',
+      ],
+      steps: [
+        'Upload your PDF file.',
+        'Click "Split All Pages".',
+        'Download individual page PDFs or click "Download All".',
+      ],
+    },
+    {
+      title: 'Compose PDF',
+      href: '/tools/pdf-compose',
+      description: 'Create a PDF document from scratch using a built-in text editor with basic formatting.',
+      features: [
+        'Rich text editor with formatting options',
+        'Customizable page size and margins',
+        'Add multiple pages',
+        'Download as PDF instantly',
+      ],
+      steps: [
+        'Type or paste your content into the editor.',
+        'Apply formatting (bold, italic, headings) as needed.',
+        'Click "Generate PDF".',
+        'Download your newly created PDF.',
+      ],
+    },
+    {
+      title: 'Protect PDF',
+      href: '/tools/pdf-protect',
+      description: 'Add password protection to your PDF and set permissions for reading, printing, and copying.',
+      features: [
+        'Set owner and user passwords',
+        'Control print, copy, and edit permissions',
+        'AES encryption',
+        'Preview permissions before applying',
+      ],
+      steps: [
+        'Upload your PDF file.',
+        'Enter a password in the password field.',
+        'Select permissions (allow/disallow printing, copying, etc.).',
+        'Click "Protect PDF".',
+        'Download the password-protected file.',
+      ],
+    },
+    {
+      title: 'Remove PDF Password',
+      href: '/tools/pdf-remove-password',
+      description: 'Unlock a password-protected PDF by entering the current password to remove encryption.',
+      features: [
+        'Remove password protection from PDFs',
+        'Requires the current password to unlock',
+        'Produces an unprotected PDF for easy sharing',
+        'Client-side decryption — password stays private',
+      ],
+      steps: [
+        'Upload your password-protected PDF.',
+        'Enter the current password.',
+        'Click "Remove Password".',
+        'Download the unlocked PDF.',
+      ],
+    },
+    {
+      title: 'Flatten PDF',
+      href: '/tools/pdf-flatten',
+      description: 'Flatten form fields and annotations into the PDF content for universal compatibility across readers.',
+      features: [
+        'Flattens interactive form fields',
+        'Bakes annotations into the page content',
+        'Ensures consistent display across all PDF viewers',
+        'Client-side processing',
+      ],
+      steps: [
+        'Upload your PDF with form fields or annotations.',
+        'Click "Flatten PDF".',
+        'Download the flattened version.',
+      ],
+    },
+    {
+      title: 'Preflight PDF',
+      href: '/tools/pdf-preflight',
+      description: 'Inspect PDF metadata, page count, page dimensions, and internal structure without modifying the file.',
+      features: [
+        'Shows page count, dimensions, and orientation',
+        'Displays metadata (title, author, creator, dates)',
+        'Reports PDF version',
+        'Non-destructive inspection',
+      ],
+      steps: [
+        'Upload your PDF file.',
+        'Review the metadata, page dimensions, and structure report.',
+        'Use the information for pre-print checks or debugging.',
+      ],
+    },
+    {
+      title: 'PDF to Text',
+      href: '/tools/pdf-to-text',
+      description: 'Extract all readable text content from any PDF document.',
+      features: [
+        'Extracts text from all pages',
+        'Preserves paragraph structure',
+        'Copy extracted text to clipboard',
+        'Download as .txt file',
+      ],
+      steps: [
+        'Upload your PDF file.',
+        'The extracted text appears in the output area.',
+        'Click "Copy" to copy the text or "Download" to save as .txt.',
+      ],
+    },
+    {
+      title: 'PDF to Images',
+      href: '/tools/pdf-to-images',
+      description: 'Convert each page of a PDF into a high-quality PNG image file.',
+      features: [
+        'Converts every page to PNG',
+        'Adjustable resolution/quality',
+        'Download individual images or all at once',
+        'Client-side rendering',
+      ],
+      steps: [
+        'Upload your PDF file.',
+        'Set the desired image quality/resolution.',
+        'Click "Convert".',
+        'Download individual page images or click "Download All".',
+      ],
+    },
+    {
+      title: 'PDF to HTML',
+      href: '/tools/pdf-to-html',
+      description: 'Convert PDF content into an HTML page that you can preview in the browser and download.',
+      features: [
+        'Converts PDF text content to HTML structure',
+        'Live preview in the browser',
+        'Download the HTML file',
+        'Client-side conversion',
+      ],
+      steps: [
+        'Upload your PDF file.',
+        'Preview the converted HTML output in the browser.',
+        'Click "Download HTML" to save the file.',
+      ],
+    },
+    {
+      title: 'Images to PDF',
+      href: '/tools/images-to-pdf',
+      description: 'Combine multiple JPG, PNG, or WebP images into a single PDF document.',
+      features: [
+        'Supports JPG, PNG, and WebP formats',
+        'Drag-and-drop reordering',
+        'Customizable page size (A4, Letter, etc.)',
+        'Preview images before converting',
+      ],
+      steps: [
+        'Click "Choose Files" or drag and drop your images.',
+        'Reorder images by dragging them.',
+        'Select a page size if needed.',
+        'Click "Create PDF".',
+        'Download the combined PDF.',
+      ],
+    },
+  ],
+  text: [
+    {
+      title: 'Word Counter',
+      href: '/text/word-counter',
+      description: 'Real-time word, character, sentence, and paragraph counter with reading time estimate and keyword density analysis.',
+      features: [
+        'Counts words, characters (with/without spaces), sentences, and paragraphs',
+        'Estimated reading and speaking time',
+        'Top keyword density analysis',
+        'Works in real-time as you type',
+      ],
+      steps: [
+        'Type or paste your text into the input area.',
+        'All statistics update in real-time above the input.',
+        'Scroll down to see keyword density analysis.',
+      ],
+    },
+    {
+      title: 'Morse Code Translator',
+      href: '/text/morse-code',
+      description: 'Translate English text to Morse code and Morse code back to English. Includes audio playback with adjustable speed.',
+      features: [
+        'Bidirectional translation: Text ↔ Morse code',
+        'Audio playback of Morse code with adjustable WPM speed',
+        'Visual dot/dash display',
+        'Copy Morse code output to clipboard',
+      ],
+      steps: [
+        'Select the mode: "Text to Morse" or "Morse to Text".',
+        'Type or paste your input.',
+        'The translation appears instantly.',
+        'Click the play button to hear the Morse code audio.',
+        'Adjust playback speed with the WPM slider.',
+      ],
+    },
+    {
+      title: 'URL Encoder & Decoder',
+      href: '/text/url-encoder',
+      description: 'Encode or decode URLs and query strings. Supports both encodeURIComponent (for parameters) and encodeURI (for full URLs).',
+      features: [
+        'Two encoding modes: encodeURIComponent and encodeURI',
+        'Real-time encoding/decoding',
+        'Handles special characters, Unicode, and emoji',
+        'One-click copy to clipboard',
+      ],
+      steps: [
+        'Select the mode: "Encode" or "Decode".',
+        'Choose the encoding function (encodeURIComponent or encodeURI).',
+        'Paste or type your text.',
+        'The result updates in real-time.',
+        'Click "Copy" to copy the output.',
+      ],
+    },
+    {
+      title: 'Text Case Converter',
+      href: '/text/case-converter',
+      description: 'Convert text between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case, and more.',
+      features: [
+        'Supports 8+ case conversions',
+        'One-click conversion buttons',
+        'Character and word count display',
+        'Copy result to clipboard',
+      ],
+      steps: [
+        'Paste or type your text in the input area.',
+        'Click the desired case button (e.g., "UPPER", "lower", "Title Case").',
+        'The converted text appears in the output.',
+        'Click "Copy" to copy the result.',
+      ],
+    },
+    {
+      title: 'Lorem Ipsum Generator',
+      href: '/text/lorem-ipsum',
+      description: 'Generate placeholder Lorem Ipsum text by paragraphs, sentences, or words. Customizable count for your design and development needs.',
+      features: [
+        'Generate by paragraphs, sentences, or words',
+        'Customizable quantity',
+        'Starts with "Lorem ipsum dolor sit amet…"',
+        'One-click copy to clipboard',
+      ],
+      steps: [
+        'Select the unit: Paragraphs, Sentences, or Words.',
+        'Set the desired quantity.',
+        'Click "Generate".',
+        'Copy the generated text to your clipboard.',
+      ],
+    },
+    {
+      title: 'Number to Words Converter',
+      href: '/text/number-to-words',
+      description: 'Convert any number into English words instantly. Useful for writing checks, filling out legal forms, or educational purposes.',
+      features: [
+        'Handles large numbers (up to trillions and beyond)',
+        'Supports decimal numbers',
+        'Proper English grammar (commas, "and" placement)',
+        'Copy result to clipboard',
+      ],
+      steps: [
+        'Type a number into the input field.',
+        'The English word representation appears instantly.',
+        'Click "Copy" to copy the text.',
+      ],
+    },
+  ],
+  math: [
+    {
+      title: 'Scientific Calculator',
+      href: '/math/scientific-calculator',
+      description: 'A full-featured scientific calculator with trigonometric functions, logarithms, constants (π, e), and expression history.',
+      features: [
+        'Trig functions: sin, cos, tan and inverses',
+        'Logarithms: log, ln',
+        'Constants: π, e',
+        'Expression history',
+        'Keyboard input support',
+      ],
+      steps: [
+        'Enter a mathematical expression using the buttons or your keyboard.',
+        'Use function buttons (sin, cos, log, etc.) for advanced operations.',
+        'Press "=" or Enter to evaluate.',
+        'View previous calculations in the history panel.',
+      ],
+    },
+    {
+      title: 'Quadratic Equation Solver',
+      href: '/math/quadratic-solver',
+      description: 'Solve any quadratic equation (ax² + bx + c = 0) and get both roots with step-by-step discriminant analysis.',
+      features: [
+        'Finds both real and complex roots',
+        'Step-by-step discriminant calculation',
+        'Shows the vertex and axis of symmetry',
+        'Handles edge cases (a=0, discriminant<0)',
+      ],
+      steps: [
+        'Enter the coefficients a, b, and c.',
+        'Click "Solve".',
+        'View the roots (x₁ and x₂), discriminant, and solution steps.',
+      ],
+    },
+    {
+      title: 'Matrix Calculator',
+      href: '/math/matrix-calculator',
+      description: 'Perform matrix operations: addition, subtraction, multiplication, scalar multiplication, determinant, transpose, and inverse.',
+      features: [
+        'Supports matrices up to 10×10',
+        'Operations: add, subtract, multiply, transpose, determinant, inverse',
+        'Adjustable matrix dimensions',
+        'Clear and reset buttons',
+      ],
+      steps: [
+        'Set the matrix dimensions (rows × columns).',
+        'Enter values into the matrix cells.',
+        'Select an operation from the toolbar.',
+        'For binary operations (add, multiply), fill in the second matrix.',
+        'Click "Calculate" and view the result matrix.',
+      ],
+    },
+    {
+      title: 'Percentage Calculator',
+      href: '/math/percentage-calculator',
+      description: 'Calculate percentages, percentage of a number, percentage increase/decrease, and "what percent is X of Y" questions.',
+      features: [
+        'Four calculation modes',
+        'Real-time results as you type',
+        'Clear explanations of each calculation',
+        'Copy results to clipboard',
+      ],
+      steps: [
+        'Select the calculation mode (e.g., "What is X% of Y?").',
+        'Enter the required values.',
+        'The result is calculated and displayed instantly.',
+      ],
+    },
+    {
+      title: 'Statistics Calculator',
+      href: '/math/statistics-calculator',
+      description: 'Calculate mean, median, mode, standard deviation, variance, range, sum, and more from a dataset.',
+      features: [
+        'Calculates mean, median, mode, range, min, max',
+        'Standard deviation and variance (population & sample)',
+        'Accepts comma-separated or space-separated input',
+        'Instant results',
+      ],
+      steps: [
+        'Enter your data values separated by commas or spaces.',
+        'Click "Calculate".',
+        'View all statistical measures in the results panel.',
+      ],
+    },
+    {
+      title: 'Unit Converter',
+      href: '/math/unit-converter',
+      description: 'Convert between units of length, weight, temperature, volume, area, speed, time, and data storage.',
+      features: [
+        'Supports 8+ unit categories',
+        'Bidirectional conversion',
+        'Common and scientific units',
+        'Real-time conversion as you type',
+      ],
+      steps: [
+        'Select a category (e.g., Length, Weight, Temperature).',
+        'Choose the "from" and "to" units.',
+        'Enter the value to convert.',
+        'The converted value appears instantly.',
+      ],
+    },
+    {
+      title: 'Geometry Calculator',
+      href: '/math/geometry-calculator',
+      description: 'Calculate area, perimeter, volume, and surface area for common geometric shapes (circle, rectangle, triangle, sphere, cylinder, etc.).',
+      features: [
+        'Supports 2D shapes: circle, rectangle, triangle, trapezoid',
+        'Supports 3D shapes: sphere, cylinder, cone, cube',
+        'Calculates area, perimeter, volume, surface area',
+        'Visual shape indicators',
+      ],
+      steps: [
+        'Select a shape from the dropdown.',
+        'Enter the required dimensions (e.g., radius, width, height).',
+        'Click "Calculate".',
+        'View all computed properties (area, perimeter, volume, etc.).',
+      ],
+    },
+    {
+      title: 'Random Number Generator',
+      href: '/math/random-number-generator',
+      description: 'Generate random numbers within a custom range. Supports multiple numbers, decimal values, and custom separators.',
+      features: [
+        'Set custom min/max range',
+        'Generate multiple random numbers at once',
+        'Support for decimal/integer mode',
+        'Customizable output separator',
+        'Copy results to clipboard',
+      ],
+      steps: [
+        'Set the minimum and maximum values.',
+        'Choose how many random numbers to generate.',
+        'Select integer or decimal mode.',
+        'Click "Generate".',
+        'Copy the results to clipboard.',
+      ],
+    },
+  ],
+  finance: [
+    {
+      title: 'Compound Interest Calculator',
+      href: '/finance/compound-interest',
+      description: 'Visualize how your money grows over time with the power of compound interest. Includes charts and annual breakdowns.',
+      features: [
+        'Interactive growth chart',
+        'Annual breakdown table',
+        'Supports monthly/quarterly/annual compounding',
+        'Accounts for regular contributions',
+        'Shows total interest earned vs. principal invested',
+      ],
+      steps: [
+        'Enter your initial investment (principal).',
+        'Set the annual interest rate.',
+        'Choose the compounding frequency (monthly, quarterly, annually).',
+        'Enter any regular contribution amount and frequency.',
+        'Set the investment duration in years.',
+        'Review the growth chart and year-by-year breakdown.',
+      ],
+    },
+    {
+      title: 'Simple Interest Calculator',
+      href: '/finance/simple-interest',
+      description: 'Calculate simple interest on loans and investments. Shows total interest and final amount.',
+      features: [
+        'Calculates interest, total amount, and breakdown',
+        'Supports daily, monthly, and annual terms',
+        'Clean, easy-to-read results',
+        'Copy results to clipboard',
+      ],
+      steps: [
+        'Enter the principal amount.',
+        'Set the annual interest rate.',
+        'Enter the time period.',
+        'View the calculated interest and total amount.',
+      ],
+    },
+    {
+      title: 'Cash-on-Cash Return',
+      href: '/finance/cash-on-cash-return',
+      description: 'Evaluate rental property investments by calculating your annual cash-on-cash return percentage.',
+      features: [
+        'Calculates annual pre-tax cash flow',
+        'Cash-on-cash return percentage',
+        'Accounts for operating expenses and debt service',
+        'Ideal for real estate investment analysis',
+      ],
+      steps: [
+        'Enter the property purchase price and down payment.',
+        'Input the monthly rental income.',
+        'Add operating expenses (property tax, insurance, maintenance, etc.).',
+        'Enter mortgage payment details.',
+        'Review the cash-on-cash return percentage.',
+      ],
+    },
+    {
+      title: 'ROI Calculator',
+      href: '/finance/roi-calculator',
+      description: 'Calculate return on investment (ROI) percentage and annualized return to compare different investment opportunities.',
+      features: [
+        'Simple ROI percentage calculation',
+        'Annualized ROI for time-adjusted comparison',
+        'Net profit calculation',
+        'Clean visual results',
+      ],
+      steps: [
+        'Enter the initial investment amount.',
+        'Enter the final value or gain.',
+        'Optionally enter the investment duration for annualized ROI.',
+        'View the ROI percentage and net profit.',
+      ],
+    },
+    {
+      title: 'Mortgage Calculator',
+      href: '/finance/mortgage-calculator',
+      description: 'Calculate monthly mortgage payments including principal, interest, taxes, and insurance (PITI).',
+      features: [
+        'Monthly payment breakdown',
+        'Amortization schedule',
+        'Includes property tax and insurance estimates',
+        'Total interest paid over the loan term',
+      ],
+      steps: [
+        'Enter the home price and down payment.',
+        'Set the loan term (15, 20, or 30 years).',
+        'Enter the annual interest rate.',
+        'Optionally add property tax and insurance.',
+        'View the monthly payment and amortization details.',
+      ],
+    },
+  ],
+  health: [
+    {
+      title: 'BMI Calculator',
+      href: '/health/bmi-calculator',
+      description: 'Calculate your Body Mass Index (BMI) and see your weight category (underweight, normal, overweight, obese).',
+      features: [
+        'Supports metric (kg/cm) and imperial (lbs/ft-in) units',
+        'WHO weight category classification',
+        'Visual BMI scale indicator',
+        'Healthy weight range for your height',
+      ],
+      steps: [
+        'Select your unit system (metric or imperial).',
+        'Enter your height and weight.',
+        'Click "Calculate".',
+        'View your BMI, weight category, and healthy range.',
+      ],
+    },
+    {
+      title: 'TDEE Calculator',
+      href: '/health/tdee-calculator',
+      description: 'Calculate your Total Daily Energy Expenditure (TDEE) — the number of calories you burn per day based on your activity level.',
+      features: [
+        'Calculates BMR using Mifflin-St Jeor equation',
+        'Five activity levels from sedentary to very active',
+        'Shows calorie targets for weight loss, maintenance, and gain',
+        'Macronutrient split recommendations',
+      ],
+      steps: [
+        'Enter your age, gender, height, and weight.',
+        'Select your activity level.',
+        'Click "Calculate".',
+        'View your TDEE, BMR, and calorie targets for different goals.',
+      ],
+    },
+  ],
+  trades: [
+    {
+      title: 'Concrete Slab Calculator',
+      href: '/trades/concrete-slab',
+      description: 'Calculate exactly how much concrete you need for slabs, footings, and walls. Results in cubic yards and number of pre-mix bags.',
+      features: [
+        'Calculates volume in cubic yards and cubic meters',
+        'Pre-mix bag count (40, 60, 80 lb bags)',
+        'Supports slabs, footings, columns, and walls',
+        'Accounts for waste factor',
+      ],
+      steps: [
+        'Select the shape type (slab, column, footing, etc.).',
+        'Enter dimensions: length, width, and thickness/depth.',
+        'Set the waste factor percentage (default: 10%).',
+        'View the concrete volume and bag count.',
+      ],
+    },
+    {
+      title: 'Wire Size Calculator',
+      href: '/trades/wire-size',
+      description: 'Determine the correct wire gauge (AWG) for electrical installations based on current, distance, and voltage drop tolerance.',
+      features: [
+        'NEC-compliant wire size recommendations',
+        'Accounts for voltage drop over distance',
+        'Supports copper and aluminum conductors',
+        'Single-phase and three-phase circuits',
+      ],
+      steps: [
+        'Enter the circuit amperage.',
+        'Set the one-way wire run distance.',
+        'Choose conductor material (copper or aluminum).',
+        'Set the acceptable voltage drop percentage.',
+        'View the recommended wire gauge.',
+      ],
+    },
+    {
+      title: 'Solar Panel Calculator',
+      href: '/trades/solar-panel',
+      description: 'Size your solar array based on daily energy usage, panel wattage, and sun hours for your location.',
+      features: [
+        'Calculates required number of panels',
+        'Accounts for system losses and efficiency',
+        'Adjustable peak sun hours',
+        'Estimates annual energy production',
+      ],
+      steps: [
+        'Enter your daily energy consumption (kWh).',
+        'Set the panel wattage (e.g., 400W).',
+        'Enter the average peak sun hours for your location.',
+        'View the recommended number of panels and system size.',
+      ],
+    },
+    {
+      title: 'Board Feet Calculator',
+      href: '/trades/board-feet',
+      description: 'Calculate hardwood lumber volume in board feet. Essential for woodworkers, carpenters, and lumber yards.',
+      features: [
+        'Standard board feet formula (T×W×L / 144)',
+        'Supports multiple board entries',
+        'Total volume calculation',
+        'Price estimation per board foot',
+      ],
+      steps: [
+        'Enter the board dimensions: thickness, width, and length.',
+        'Set the number of boards.',
+        'Optionally enter a price per board foot.',
+        'View the total board feet and estimated cost.',
+      ],
+    },
+    {
+      title: 'Paint Calculator',
+      href: '/trades/paint-calculator',
+      description: 'Calculate how many gallons of paint you need for a room or project based on wall dimensions and coverage rate.',
+      features: [
+        'Calculates total paintable area',
+        'Subtracts doors and windows',
+        'Adjustable coverage rate (sq ft per gallon)',
+        'Accounts for multiple coats',
+      ],
+      steps: [
+        'Enter the room dimensions (length, width, height).',
+        'Set the number of doors and windows to exclude.',
+        'Choose the number of coats.',
+        'View the total gallons needed.',
+      ],
+    },
+  ],
+  network: [
+    {
+      title: 'IP Subnet Calculator',
+      href: '/network/ip-subnet-calculator',
+      description: 'Calculate network address, broadcast address, subnet mask, host range, and usable hosts for any IPv4 CIDR notation.',
+      features: [
+        'Full subnet breakdown from CIDR notation',
+        'Shows network address, broadcast, and host range',
+        'Wildcard mask and binary representation',
+        'Usable host count',
+      ],
+      steps: [
+        'Enter an IPv4 address with CIDR notation (e.g., 192.168.1.0/24).',
+        'Click "Calculate".',
+        'View the subnet details: network address, broadcast, mask, host range, etc.',
+      ],
+    },
+    {
+      title: 'My IP Checker',
+      href: '/network/my-ip',
+      description: 'Instantly find your public IP address along with geolocation, ISP, timezone, and coordinates.',
+      features: [
+        'Detects your public IP address automatically',
+        'Shows geolocation (city, region, country)',
+        'ISP and organization details',
+        'Timezone and coordinates',
+      ],
+      steps: [
+        'Open the tool — your public IP is detected automatically.',
+        'View your location, ISP, timezone, and coordinates.',
+        'Click "Copy IP" to copy your address to clipboard.',
+      ],
+    },
+    {
+      title: 'IP Address Lookup',
+      href: '/network/ip-lookup',
+      description: 'Look up any public IP address to find its geolocation, ISP, ASN, timezone, and network details.',
+      features: [
+        'Geolocation: city, region, country, coordinates',
+        'ISP and ASN information',
+        'Timezone and UTC offset',
+        'Supports IPv4 addresses',
+      ],
+      steps: [
+        'Enter a public IP address in the input field.',
+        'Click "Lookup".',
+        'View the geolocation, ISP, ASN, and timezone details.',
+      ],
+    },
+  ],
+  security: [
+    {
+      title: 'Random Password Generator',
+      href: '/security/password-generator',
+      description: 'Generate cryptographically secure passwords with customizable length, character sets, and a visual strength indicator.',
+      features: [
+        'Adjustable password length (8–128 characters)',
+        'Toggle uppercase, lowercase, numbers, and symbols',
+        'Visual password strength meter',
+        'Exclude ambiguous characters option',
+        'Generate multiple passwords at once',
+        'One-click copy to clipboard',
+      ],
+      steps: [
+        'Set the desired password length using the slider.',
+        'Toggle character sets: uppercase, lowercase, numbers, symbols.',
+        'Click "Generate" for a new password.',
+        'Review the strength indicator (Weak → Very Strong).',
+        'Click "Copy" to copy the password.',
+      ],
+    },
+    {
+      title: 'QR Code Generator',
+      href: '/qr/qr-generator',
+      description: 'Generate QR codes for URLs, text, email, phone numbers, WiFi credentials, and more. Customize colors and size, then download as PNG.',
+      features: [
+        'Supports URL, text, email, phone, WiFi, and vCard',
+        'Customizable foreground and background colors',
+        'Adjustable QR code size',
+        'Download as PNG image',
+        'Real-time preview',
+      ],
+      steps: [
+        'Select the QR code type (URL, Text, WiFi, etc.).',
+        'Enter the content (e.g., a URL or WiFi password).',
+        'Customize colors and size if desired.',
+        'Preview the QR code in real-time.',
+        'Click "Download PNG" to save the image.',
+      ],
+    },
+  ],
+};
 ---
 
 <BaseLayout
-  title="Documentation | SolversPro"
-  description="API and Documentation for SolversPro coming soon."
+  title="Documentation — All Tools & How-To Guides | SolversPro"
+  description="Comprehensive documentation for all 58+ SolversPro tools. Detailed features, step-by-step usage guides, and FAQs for developer tools, PDF tools, finance calculators, math solvers, and more."
 >
   <Header />
   <SearchOverlay />
-  
-  <main class="flex-1 py-24 px-6 flex items-center justify-center">
-    <div class="max-w-3xl mx-auto text-center">
-      <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#ff6b35]/10 text-[#2dd4bf] mb-8">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-        </svg>
+
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Documentation' },
+      ]} />
+
+      <!-- Hero -->
+      <div class="mb-16">
+        <div class="flex items-center gap-4 mb-6">
+          <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl bg-[#06b6d4]/10">
+            📖
+          </div>
+          <div>
+            <h1 class="text-3xl md:text-4xl font-bold text-white">Documentation</h1>
+            <p class="text-zinc-500 mt-1">Complete guide to every tool on SolversPro.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
+          <div class="bg-[#1a1a2e] border border-zinc-800 rounded-xl p-5 text-center">
+            <p class="text-3xl font-bold text-white">58+</p>
+            <p class="text-sm text-zinc-500 mt-1">Free Tools</p>
+          </div>
+          <div class="bg-[#1a1a2e] border border-zinc-800 rounded-xl p-5 text-center">
+            <p class="text-3xl font-bold text-white">10</p>
+            <p class="text-sm text-zinc-500 mt-1">Categories</p>
+          </div>
+          <div class="bg-[#1a1a2e] border border-zinc-800 rounded-xl p-5 text-center">
+            <p class="text-3xl font-bold text-white">100%</p>
+            <p class="text-sm text-zinc-500 mt-1">Client-Side & Private</p>
+          </div>
+        </div>
+
+        <div class="mt-8 p-4 bg-[#06b6d4]/5 border border-[#06b6d4]/20 rounded-xl">
+          <p class="text-sm text-zinc-300">
+            <span class="text-[#06b6d4] font-semibold">🔒 Privacy First:</span> Every tool on SolversPro runs entirely in your browser. Your data is never uploaded to any server. You can safely use these tools with sensitive information.
+          </p>
+        </div>
       </div>
-      
-      <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">Documentation Coming Soon</h1>
-      <p class="text-xl text-zinc-400 mb-10 max-w-2xl mx-auto">
-        We're currently drafting comprehensive documentation for our calculators and upcoming API access.
-      </p>
-      
-      <a href="/" class="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white transition-all duration-200 bg-[#ff6b35] border border-transparent rounded-xl hover:bg-[#ff8c5a] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ff6b35]">
-        Return Home
-      </a>
+
+      <!-- Category Jump Links -->
+      <div class="mb-16">
+        <h2 class="text-lg font-semibold text-white mb-4" style="font-family: 'JetBrains Mono', monospace;">// CATEGORIES</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+          {categories.map(cat => (
+            <a
+              href={`#${cat.id}`}
+              class="group flex items-center gap-2.5 px-4 py-3 bg-[#1a1a2e] border border-zinc-800 rounded-xl hover:border-zinc-600 transition-all duration-200 text-sm"
+            >
+              <span class="text-lg">{cat.icon}</span>
+              <span class="text-zinc-300 group-hover:text-white transition-colors">{cat.label}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Tool Sections -->
+      {categories.map(cat => {
+        const tools = toolDocs[cat.id as keyof typeof toolDocs] || [];
+        return (
+          <section id={cat.id} class="mb-20 scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8 pb-4 border-b border-zinc-800">
+              <span class="text-2xl">{cat.icon}</span>
+              <h2 class="text-2xl font-bold text-white">{cat.label}</h2>
+              <span class="ml-auto text-xs font-mono text-zinc-600 bg-zinc-800/50 px-2.5 py-1 rounded-full">{tools.length} tools</span>
+            </div>
+
+            <div class="space-y-6">
+              {tools.map(tool => (
+                <div class="doc-tool-card bg-[#12121a] border border-zinc-800/60 rounded-2xl p-6 hover:border-zinc-700 transition-all duration-300">
+                  <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
+                    <h3 class="text-lg font-bold text-white">
+                      <a href={tool.href} class="hover:text-[#06b6d4] transition-colors">{tool.title}</a>
+                    </h3>
+                    <a
+                      href={tool.href}
+                      class="shrink-0 inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-[#06b6d4]/10 text-[#06b6d4] hover:bg-[#06b6d4]/20 transition-colors"
+                      style="font-family: 'JetBrains Mono', monospace;"
+                    >
+                      Try it →
+                    </a>
+                  </div>
+
+                  <p class="text-zinc-400 text-sm mb-5 leading-relaxed">{tool.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Features -->
+                    <div>
+                      <h4 class="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-3" style="font-family: 'JetBrains Mono', monospace;">Features</h4>
+                      <ul class="space-y-1.5">
+                        {tool.features.map(f => (
+                          <li class="flex items-start gap-2 text-sm text-zinc-400">
+                            <span class="text-[#2dd4bf] mt-0.5 shrink-0">✓</span>
+                            <span>{f}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <!-- How to Use -->
+                    <div>
+                      <h4 class="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-3" style="font-family: 'JetBrains Mono', monospace;">How to Use</h4>
+                      <ol class="space-y-1.5">
+                        {tool.steps.map((step, i) => (
+                          <li class="flex items-start gap-2.5 text-sm text-zinc-400">
+                            <span class="shrink-0 w-5 h-5 rounded-full bg-zinc-800 text-zinc-400 text-xs flex items-center justify-center font-mono font-bold mt-0.5">{i + 1}</span>
+                            <span>{step}</span>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+      })}
+
+      <!-- Bottom CTA -->
+      <div class="text-center py-16 border-t border-zinc-800">
+        <h2 class="text-2xl font-bold text-white mb-4">Can't find what you need?</h2>
+        <p class="text-zinc-400 mb-8 max-w-xl mx-auto">Use our AI-powered search to find the right tool instantly, or try the Universal AI Solver for custom problems.</p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="/solve"
+            class="inline-flex items-center justify-center px-8 py-3.5 text-sm font-semibold text-white bg-[#ff6b35] rounded-xl hover:bg-[#ff8c5a] transition-all duration-200"
+          >
+            🧠 Try AI Solver
+          </a>
+          <a
+            href="/all-tools"
+            class="inline-flex items-center justify-center px-8 py-3.5 text-sm font-semibold text-zinc-300 bg-zinc-800 border border-zinc-700 rounded-xl hover:bg-zinc-700 transition-all duration-200"
+          >
+            View All Tools
+          </a>
+        </div>
+      </div>
     </div>
   </main>
-  
+
   <Footer />
 </BaseLayout>
+
+<style>
+  .doc-tool-card:hover {
+    box-shadow: 0 0 0 1px rgba(6, 182, 212, 0.1), 0 4px 24px rgba(0, 0, 0, 0.3);
+  }
+</style>
