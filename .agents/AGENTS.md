@@ -11,11 +11,12 @@ Whenever you add new tools to the SolversPro project, you MUST update the follow
 5. **`src/pages/terms.astro`**: Update the total number of tools and the list of categories/tools in the "Description of Service" section.
 6. **`src/pages/privacy.astro`**: Update the total number of tools in the description metadata and anywhere else it is mentioned.
 7. **`src/pages/faq.astro`**: Update the tool counts and categories in the FAQ answers.
-8. **Blog Posts (`src/pages/blog/`)**: 
+8. **Category Index Pages (e.g., `src/pages/developer/index.astro`)**: Update the meta description and intro text to accurately reflect the new number of tools (e.g., 30+ utilities) and the new tool features.
+9. **Blog Posts (`src/pages/blog/`)**: 
    - Update promotional blog post titles and URLs (e.g., `70-free-online-tools...` -> `80-free-online-tools...`).
    - Update the internal text of these posts to match the new count.
    - Update `src/pages/blog/index.astro` to reflect the new blog post URL and title.
-8. **Always verify the build**: After updating these files, always run `npx astro build` to ensure no components or syntax issues were introduced.
+10. **Always verify the build**: After updating these files, always run `npx astro build` to ensure no components or syntax issues were introduced.
 
 ## Git Practices
 
