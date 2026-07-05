@@ -7,30 +7,278 @@ import SearchOverlay from '../components/SearchOverlay.astro';
 
 <BaseLayout
   title="About Us | SolversPro"
-  description="You think a problem, we solve it. SolversPro offers 100% free, fast, and secure utilities."
+  description="You think a problem, we solve it. SolversPro offers 100% free, fast, and secure utilities — from financial calculators to developer tools — all running in your browser."
 >
   <Header />
   <SearchOverlay />
-  
-  <main class="flex-1 py-16 px-6">
-    <div class="max-w-4xl mx-auto">
-      <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">About SolversPro</h1>
-      <div class="prose prose-lg text-zinc-400">
-        <p class="text-xl font-medium text-white mb-6">
-          You think a problem, we solve it. 100% free, fast, and secure utilities.
-        </p>
-        <p class="mb-4">
-          SolversPro was built with a simple mission: to provide the fastest, most reliable, and easiest-to-use tools on the internet. Whether you are a student, a professional, or someone looking to make quick calculations for your personal life, our platform is designed to get out of your way and deliver instant results.
-        </p>
-        <p class="mb-4">
-          We believe that basic utilities shouldn't be locked behind paywalls, bogged down by intrusive advertisements, or demand your personal data. That's why the vast majority of our tools—from our financial calculators to our developer utilities—run entirely in your browser. For advanced tasks requiring our Universal AI Solver, we securely transmit your queries to industry-leading AI models without storing your data on our servers.
-        </p>
-        <p class="mb-4">
-          From complex financial projections to quick health metrics, our directory is constantly expanding. We are dedicated to building a comprehensive suite of utilities that you can rely on every single day.
+
+  <!-- ============================================================
+       Hero Section
+       ============================================================ -->
+  <section class="relative pt-24 pb-20 overflow-hidden border-b border-white/[0.06]">
+    <!-- Abstract radial glow -->
+    <div class="absolute inset-0 pointer-events-none z-0">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full opacity-[0.07]" style="background: radial-gradient(ellipse at center, #ff6b35, transparent 70%);"></div>
+    </div>
+
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <div class="mb-6">
+          <span class="scifi-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            ABOUT US
+          </span>
+        </div>
+
+        <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 text-white tracking-tight leading-[1.1]">
+          You Think a Problem,<br />
+          <span class="text-[#ff6b35]">We Solve It.</span>
+        </h1>
+
+        <p class="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+          SolversPro was built with a simple mission: provide the fastest, most reliable, and easiest-to-use tools on the internet — <span class="text-white font-medium">100% free, forever.</span>
         </p>
       </div>
     </div>
-  </main>
-  
+  </section>
+
+  <!-- ============================================================
+       Live Stats Bar
+       ============================================================ -->
+  <section class="py-10 border-b border-white/[0.06]" style="background: linear-gradient(180deg, #08080f 0%, #0d0d14 100%);">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto text-center">
+        <div class="about-stat group">
+          <div class="text-3xl sm:text-4xl font-bold text-white mb-1" style="font-family: 'JetBrains Mono', monospace;">60<span class="text-[#ff6b35]">+</span></div>
+          <div class="text-xs uppercase tracking-widest text-zinc-500 font-semibold" style="font-family: 'JetBrains Mono', monospace;">Free Tools</div>
+        </div>
+        <div class="about-stat group">
+          <div class="text-3xl sm:text-4xl font-bold text-white mb-1" style="font-family: 'JetBrains Mono', monospace;">0<span class="text-[#2dd4bf]">ms</span></div>
+          <div class="text-xs uppercase tracking-widest text-zinc-500 font-semibold" style="font-family: 'JetBrains Mono', monospace;">Server Delay</div>
+        </div>
+        <div class="about-stat group">
+          <div class="text-3xl sm:text-4xl font-bold text-white mb-1" style="font-family: 'JetBrains Mono', monospace;">100<span class="text-[#ff6b35]">%</span></div>
+          <div class="text-xs uppercase tracking-widest text-zinc-500 font-semibold" style="font-family: 'JetBrains Mono', monospace;">Private</div>
+        </div>
+        <div class="about-stat group">
+          <div class="text-3xl sm:text-4xl font-bold text-white mb-1" style="font-family: 'JetBrains Mono', monospace;">$0</div>
+          <div class="text-xs uppercase tracking-widest text-zinc-500 font-semibold" style="font-family: 'JetBrains Mono', monospace;">Forever Free</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Our Mission — Feature Cards
+       ============================================================ -->
+  <section class="py-20 border-b border-white/[0.06]">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-14">
+        <span class="scifi-badge mb-6 inline-flex mx-auto">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          OUR PRINCIPLES
+        </span>
+        <h2 class="text-4xl font-bold text-white mb-4">Built Different. Built Better.</h2>
+        <p class="text-zinc-400 max-w-xl mx-auto text-lg">Every decision we make is guided by four core principles.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        <!-- Card: Free Forever -->
+        <div class="relative group p-8 bg-white/[0.02] border border-white/[0.06] rounded-2xl card-hover-fx overflow-hidden">
+          <div class="absolute -top-12 -right-12 w-32 h-32 bg-[#ff6b35] opacity-0 blur-[60px] rounded-full transition-opacity duration-500 group-hover:opacity-10 pointer-events-none"></div>
+          <div class="w-12 h-12 rounded-lg flex items-center justify-center text-xl bg-[#ff6b35]/10 border border-[#ff6b35]/20 text-[#ff6b35] mb-6 group-hover:bg-[#ff6b35]/20 transition-colors">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-3 text-white" style="font-family: 'JetBrains Mono', monospace;">Free Forever</h3>
+          <p class="text-sm leading-relaxed text-zinc-400">Basic utilities shouldn't be locked behind paywalls. Every tool on SolversPro is completely free — no subscriptions, no hidden fees.</p>
+        </div>
+
+        <!-- Card: Blazing Fast -->
+        <div class="relative group p-8 bg-white/[0.02] border border-white/[0.06] rounded-2xl card-hover-fx overflow-hidden">
+          <div class="absolute -top-12 -right-12 w-32 h-32 bg-[#2dd4bf] opacity-0 blur-[60px] rounded-full transition-opacity duration-500 group-hover:opacity-10 pointer-events-none"></div>
+          <div class="w-12 h-12 rounded-lg flex items-center justify-center text-xl bg-[#2dd4bf]/10 border border-[#2dd4bf]/20 text-[#2dd4bf] mb-6 group-hover:bg-[#2dd4bf]/20 transition-colors">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-3 text-white" style="font-family: 'JetBrains Mono', monospace;">Blazing Fast</h3>
+          <p class="text-sm leading-relaxed text-zinc-400">Most tools run entirely in your browser with zero server round-trips. Results appear the instant you type — no loading spinners, no waiting.</p>
+        </div>
+
+        <!-- Card: Privacy First -->
+        <div class="relative group p-8 bg-white/[0.02] border border-white/[0.06] rounded-2xl card-hover-fx overflow-hidden">
+          <div class="absolute -top-12 -right-12 w-32 h-32 bg-[#a78bfa] opacity-0 blur-[60px] rounded-full transition-opacity duration-500 group-hover:opacity-10 pointer-events-none"></div>
+          <div class="w-12 h-12 rounded-lg flex items-center justify-center text-xl bg-[#a78bfa]/10 border border-[#a78bfa]/20 text-[#a78bfa] mb-6 group-hover:bg-[#a78bfa]/20 transition-colors">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-3 text-white" style="font-family: 'JetBrains Mono', monospace;">Privacy First</h3>
+          <p class="text-sm leading-relaxed text-zinc-400">We don't collect your data, sell your information, or bombard you with ads. Your calculations stay on your device.</p>
+        </div>
+
+        <!-- Card: Always Growing -->
+        <div class="relative group p-8 bg-white/[0.02] border border-white/[0.06] rounded-2xl card-hover-fx overflow-hidden">
+          <div class="absolute -top-12 -right-12 w-32 h-32 bg-[#fbbf24] opacity-0 blur-[60px] rounded-full transition-opacity duration-500 group-hover:opacity-10 pointer-events-none"></div>
+          <div class="w-12 h-12 rounded-lg flex items-center justify-center text-xl bg-[#fbbf24]/10 border border-[#fbbf24]/20 text-[#fbbf24] mb-6 group-hover:bg-[#fbbf24]/20 transition-colors">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-3 text-white" style="font-family: 'JetBrains Mono', monospace;">Always Growing</h3>
+          <p class="text-sm leading-relaxed text-zinc-400">From financial projections to health metrics, our directory is constantly expanding with new categories and tools.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       How It Works — Numbered Steps
+       ============================================================ -->
+  <section class="py-20 border-b border-white/[0.06]" style="background: linear-gradient(180deg, #0d0d14 0%, #0a0a0f 100%);">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-14">
+        <span class="scifi-badge mb-6 inline-flex mx-auto">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          HOW IT WORKS
+        </span>
+        <h2 class="text-4xl font-bold text-white mb-4">Three Steps. Zero Friction.</h2>
+        <p class="text-zinc-400 max-w-xl mx-auto text-lg">Getting answers has never been this simple.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <!-- Step 1 -->
+        <div class="relative text-center group">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-[#ff6b35]/10 border border-[#ff6b35]/20 flex items-center justify-center text-2xl font-bold text-[#ff6b35] group-hover:bg-[#ff6b35]/20 group-hover:border-[#ff6b35]/40 group-hover:shadow-[0_0_20px_rgba(255,107,53,0.2)] transition-all duration-300" style="font-family: 'JetBrains Mono', monospace;">
+            01
+          </div>
+          <!-- Connector line (desktop) -->
+          <div class="hidden md:block absolute top-8 left-[calc(50%+40px)] w-[calc(100%-80px)] h-px bg-gradient-to-r from-[#ff6b35]/30 to-transparent"></div>
+          <h3 class="text-xl font-bold text-white mb-3" style="font-family: 'JetBrains Mono', monospace;">Pick a Tool</h3>
+          <p class="text-sm text-zinc-400 leading-relaxed max-w-xs mx-auto">Browse 60+ tools across Math, Finance, Health, Dev Tools, Trades, Security, and more.</p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="relative text-center group">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-[#2dd4bf]/10 border border-[#2dd4bf]/20 flex items-center justify-center text-2xl font-bold text-[#2dd4bf] group-hover:bg-[#2dd4bf]/20 group-hover:border-[#2dd4bf]/40 group-hover:shadow-[0_0_20px_rgba(45,212,191,0.2)] transition-all duration-300" style="font-family: 'JetBrains Mono', monospace;">
+            02
+          </div>
+          <div class="hidden md:block absolute top-8 left-[calc(50%+40px)] w-[calc(100%-80px)] h-px bg-gradient-to-r from-[#2dd4bf]/30 to-transparent"></div>
+          <h3 class="text-xl font-bold text-white mb-3" style="font-family: 'JetBrains Mono', monospace;">Enter Your Data</h3>
+          <p class="text-sm text-zinc-400 leading-relaxed max-w-xs mx-auto">Type your values into clean, intuitive inputs. No sign-ups, no email gates — just start typing.</p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="text-center group">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-[#a78bfa]/10 border border-[#a78bfa]/20 flex items-center justify-center text-2xl font-bold text-[#a78bfa] group-hover:bg-[#a78bfa]/20 group-hover:border-[#a78bfa]/40 group-hover:shadow-[0_0_20px_rgba(167,139,250,0.2)] transition-all duration-300" style="font-family: 'JetBrains Mono', monospace;">
+            03
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3" style="font-family: 'JetBrains Mono', monospace;">Get Instant Results</h3>
+          <p class="text-sm text-zinc-400 leading-relaxed max-w-xs mx-auto">Results appear instantly — calculated client-side. Copy, share, or save them to your dashboard.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       About Copy — Extended Story
+       ============================================================ -->
+  <section class="py-20 border-b border-white/[0.06]">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 items-start">
+          <!-- Decorative sidebar accent -->
+          <div class="hidden md:block w-1 rounded-full self-stretch" style="background: linear-gradient(180deg, #ff6b35, #2dd4bf, #a78bfa);"></div>
+
+          <div class="space-y-6">
+            <h2 class="text-3xl font-bold text-white mb-2">Our Story</h2>
+
+            <p class="text-zinc-400 leading-relaxed text-[15px]">
+              Whether you're a student cramming for finals, a professional running financial models, or someone simply trying to figure out a tip — you deserve tools that get out of your way and deliver instant results.
+            </p>
+
+            <p class="text-zinc-400 leading-relaxed text-[15px]">
+              We believe basic utilities shouldn't be locked behind paywalls, bogged down by intrusive advertisements, or demand your personal data. That's why the vast majority of our tools — from our financial calculators to our developer utilities — <span class="text-white font-medium">run entirely in your browser</span>.
+            </p>
+
+            <p class="text-zinc-400 leading-relaxed text-[15px]">
+              For advanced tasks requiring our <span class="text-[#2dd4bf] font-medium">Universal AI Solver</span>, we securely transmit your queries to industry-leading AI models powered by Gemini — without storing your data on our servers.
+            </p>
+
+            <p class="text-zinc-400 leading-relaxed text-[15px]">
+              From complex engineering calculations to quick health metrics, our directory is constantly expanding. We are dedicated to building a comprehensive, beautifully-designed suite of utilities that you can rely on every single day.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA Section
+       ============================================================ -->
+  <section class="py-24 relative overflow-hidden">
+    <!-- Background glow -->
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full opacity-[0.05]" style="background: radial-gradient(ellipse at center, #2dd4bf, transparent 70%);"></div>
+    </div>
+
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="max-w-2xl mx-auto text-center">
+        <h2 class="text-4xl sm:text-5xl font-bold text-white mb-6 tracking-tight">
+          Ready to Start <span class="text-[#ff6b35]">Solving?</span>
+        </h2>
+        <p class="text-lg text-zinc-400 mb-10 max-w-lg mx-auto leading-relaxed">
+          Explore 60+ free tools or let our AI solve any problem for you — no sign-up required.
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <a href="/all-tools" class="px-8 py-3.5 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white rounded font-semibold text-sm transition-all shadow-[0_0_15px_rgba(255,107,53,0.3)] hover:shadow-[0_0_25px_rgba(255,107,53,0.5)] flex items-center gap-2" style="font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em;">
+            Browse All Tools
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="/solve" class="px-8 py-3.5 bg-[#2dd4bf] hover:bg-[#5eead4] text-slate-900 rounded font-semibold text-sm transition-all shadow-[0_0_15px_rgba(45,212,191,0.3)] hover:shadow-[0_0_25px_rgba(45,212,191,0.5)] flex items-center gap-2" style="font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em;">
+            Try AI Solver
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <Footer />
 </BaseLayout>
+
+<style>
+  /* Stats counter entry animation */
+  .about-stat {
+    position: relative;
+    padding: 1.5rem 1rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.015);
+    transition: all 0.3s ease;
+  }
+  .about-stat:hover {
+    border-color: rgba(255, 107, 53, 0.2);
+    background: rgba(255, 107, 53, 0.04);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.08);
+  }
+
+  /* Fade-in on scroll animation */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  section {
+    animation: fadeInUp 0.6s ease-out both;
+  }
+  section:nth-child(2) { animation-delay: 0.05s; }
+  section:nth-child(3) { animation-delay: 0.1s; }
+  section:nth-child(4) { animation-delay: 0.15s; }
+  section:nth-child(5) { animation-delay: 0.2s; }
+  section:nth-child(6) { animation-delay: 0.25s; }
+  section:nth-child(7) { animation-delay: 0.3s; }
+</style>
