@@ -1,0 +1,140 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "JSON to CSV / CSV to JSON Converter",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Convert JSON arrays to CSV spreadsheets or CSV data back to JSON instantly. Handles nested objects with dot-notation flattening. Free and browser-based."
+};
+---
+
+<BaseLayout
+  title="JSON ↔ CSV Converter | SolversPro"
+  description="Convert JSON arrays to CSV spreadsheets or CSV data back to JSON instantly. Handles nested objects with dot-notation flattening. Free and browser-based."
+  canonical="https://solverspro.com/developer/json-csv"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Developer Tools', href: '/developer' },
+        { label: 'JSON ↔ CSV Converter' },
+      ]} />
+
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">📊 JSON ↔ CSV Converter</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Convert JSON arrays to CSV tables or CSV data back to JSON objects. Handles nested objects with dot-notation flattening. All processing runs locally in your browser.</p>
+      </div>
+
+      <div class="flex flex-col lg:flex-row gap-6 w-full min-h-[500px]">
+        <!-- JSON Side -->
+        <div class="flex-1 flex flex-col gap-4">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">JSON</h2>
+            <button id="btn-to-csv" class="px-3 py-1.5 text-xs font-semibold bg-[#2dd4bf]/20 hover:bg-[#2dd4bf]/30 text-[#2dd4bf] rounded transition-colors border border-[#2dd4bf]/30">To CSV &rarr;</button>
+          </div>
+          <textarea
+            id="input-json"
+            class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#ff6b35] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[350px]"
+            placeholder='[{"name":"Alice","age":30},{"name":"Bob","age":25}]'
+            spellcheck="false"
+          ></textarea>
+        </div>
+
+        <!-- CSV Side -->
+        <div class="flex-1 flex flex-col gap-4">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <button id="btn-to-json" class="px-3 py-1.5 text-xs font-semibold bg-[#ff6b35]/20 hover:bg-[#ff6b35]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30">&larr; To JSON</button>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">CSV</h2>
+          </div>
+          <textarea
+            id="input-csv"
+            class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[350px]"
+            placeholder="name,age&#10;Alice,30&#10;Bob,25"
+            spellcheck="false"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Error display -->
+      <div id="error-msg" class="hidden mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-mono"></div>
+
+      <ToolShare title="JSON ↔ CSV Converter" url="https://solverspro.com/developer/json-csv" />
+      <SimilarTools category="developer" currentPath="/developer/json-csv" />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { copyToClipboard } from '../../utils/clipboard';
+  import Papa from 'papaparse';
+
+  const jsonEl = document.getElementById('input-json') as HTMLTextAreaElement;
+  const csvEl = document.getElementById('input-csv') as HTMLTextAreaElement;
+  const errorEl = document.getElementById('error-msg') as HTMLDivElement;
+
+  function showError(msg: string) {
+    errorEl.textContent = msg;
+    errorEl.classList.remove('hidden');
+    setTimeout(() => errorEl.classList.add('hidden'), 5000);
+  }
+
+  function flatten(obj: any, prefix = ''): Record<string, any> {
+    const result: Record<string, any> = {};
+    for (const key of Object.keys(obj)) {
+      const newKey = prefix ? `${prefix}.${key}` : key;
+      if (obj[key] !== null && typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+        Object.assign(result, flatten(obj[key], newKey));
+      } else {
+        result[newKey] = obj[key];
+      }
+    }
+    return result;
+  }
+
+  document.getElementById('btn-to-csv')?.addEventListener('click', () => {
+    try {
+      errorEl.classList.add('hidden');
+      let parsed = JSON.parse(jsonEl.value.trim());
+      if (!Array.isArray(parsed)) parsed = [parsed];
+      const flat = parsed.map((row: any) => flatten(row));
+      const csv = Papa.unparse(flat);
+      csvEl.value = csv;
+      csvEl.classList.add('ring-2', 'ring-[#2dd4bf]', 'border-[#2dd4bf]');
+      setTimeout(() => csvEl.classList.remove('ring-2', 'ring-[#2dd4bf]', 'border-[#2dd4bf]'), 500);
+    } catch (e: any) {
+      showError('Invalid JSON: ' + e.message);
+    }
+  });
+
+  document.getElementById('btn-to-json')?.addEventListener('click', () => {
+    try {
+      errorEl.classList.add('hidden');
+      const result = Papa.parse(csvEl.value.trim(), { header: true, skipEmptyLines: true });
+      if (result.errors.length > 0) {
+        showError('CSV Error: ' + result.errors[0].message);
+        return;
+      }
+      jsonEl.value = JSON.stringify(result.data, null, 2);
+      jsonEl.classList.add('ring-2', 'ring-[#ff6b35]', 'border-[#ff6b35]');
+      setTimeout(() => jsonEl.classList.remove('ring-2', 'ring-[#ff6b35]', 'border-[#ff6b35]'), 500);
+    } catch (e: any) {
+      showError('CSV Error: ' + e.message);
+    }
+  });
+</script>

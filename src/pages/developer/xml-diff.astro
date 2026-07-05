@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+
+const schema = {
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  "name": "XML Diff", "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All", "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Compare two XML documents with line-by-line diff highlighting. Find differences in structure and content. Free and browser-based."
+};
+---
+
+<BaseLayout title="XML Diff | SolversPro" description="Compare two XML documents with line-by-line diff highlighting. Find differences in structure and content. Free and browser-based." canonical="https://solverspro.com/developer/xml-diff" schema={schema}>
+  <Header /><SearchOverlay />
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-5xl">
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'Developer Tools',href:'/developer'},{label:'XML Diff'}]} />
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">📄 XML Diff</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Compare two XML documents line by line with color-coded diff output. Normalizes formatting before comparison for accurate results.</p>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="flex flex-col">
+          <div class="bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Original XML</h2>
+          </div>
+          <textarea id="input-a" class="w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#ff6b35] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[250px]" placeholder="<root><item>A</item></root>" spellcheck="false"></textarea>
+        </div>
+        <div class="flex flex-col">
+          <div class="bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Modified XML</h2>
+          </div>
+          <textarea id="input-b" class="w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[250px]" placeholder="<root><item>B</item></root>" spellcheck="false"></textarea>
+        </div>
+      </div>
+      <div class="flex justify-center mb-6">
+        <button id="btn-diff" class="px-6 py-2.5 text-sm font-semibold bg-[#ff6b35] hover:bg-[#ff8c5a] text-white rounded transition-colors" style="font-family:'JetBrains Mono',monospace;">Compare XML</button>
+      </div>
+      <div id="diff-output" class="hidden bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6 font-mono text-sm overflow-x-auto min-h-[200px]"></div>
+      <div id="error-msg" class="hidden mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-mono"></div>
+      <ToolShare title="XML Diff" url="https://solverspro.com/developer/xml-diff" />
+      <SimilarTools category="developer" currentPath="/developer/xml-diff" />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const inputA = document.getElementById('input-a') as HTMLTextAreaElement;
+  const inputB = document.getElementById('input-b') as HTMLTextAreaElement;
+  const diffOut = document.getElementById('diff-output') as HTMLDivElement;
+  const errorEl = document.getElementById('error-msg') as HTMLDivElement;
+
+  function showError(msg: string) { errorEl.textContent = msg; errorEl.classList.remove('hidden'); setTimeout(() => errorEl.classList.add('hidden'), 5000); }
+  function esc(s: string): string { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/ /g,'&nbsp;'); }
+
+  function formatXml(xml: string): string {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xml, 'text/xml');
+    const err = doc.querySelector('parsererror');
+    if (err) throw new Error('Invalid XML');
+    const serializer = new XMLSerializer();
+    let formatted = serializer.serializeToString(doc);
+    // Simple indent
+    let indent = 0;
+    return formatted.replace(/(>)(<)/g, '$1\n$2').split('\n').map(line => {
+      line = line.trim();
+      if (!line) return '';
+      if (line.match(/^<\//)) indent--;
+      const pad = '  '.repeat(Math.max(0, indent));
+      if (line.match(/^<[^/].*[^/]>$/) && !line.match(/^<\?/)) indent++;
+      return pad + line;
+    }).filter(l => l).join('\n');
+  }
+
+  function lcs(a: string[], b: string[]): number[][] {
+    const m = a.length, n = b.length;
+    const dp: number[][] = Array.from({length: m+1}, () => Array(n+1).fill(0));
+    for (let i = 1; i <= m; i++)
+      for (let j = 1; j <= n; j++)
+        dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1]+1 : Math.max(dp[i-1][j], dp[i][j-1]);
+    return dp;
+  }
+
+  function buildDiff(a: string[], b: string[]): {type: string; line: string}[] {
+    const dp = lcs(a, b);
+    const stack: {type: string; line: string}[] = [];
+    let i = a.length, j = b.length;
+    while (i > 0 || j > 0) {
+      if (i > 0 && j > 0 && a[i-1] === b[j-1]) { stack.push({type:' ',line:a[i-1]}); i--; j--; }
+      else if (j > 0 && (i === 0 || dp[i][j-1] >= dp[i-1][j])) { stack.push({type:'+',line:b[j-1]}); j--; }
+      else { stack.push({type:'-',line:a[i-1]}); i--; }
+    }
+    return stack.reverse();
+  }
+
+  document.getElementById('btn-diff')?.addEventListener('click', () => {
+    try {
+      errorEl.classList.add('hidden');
+      const fmtA = formatXml(inputA.value.trim());
+      const fmtB = formatXml(inputB.value.trim());
+      const diff = buildDiff(fmtA.split('\n'), fmtB.split('\n'));
+      diffOut.classList.remove('hidden');
+      const addCount = diff.filter(d => d.type === '+').length;
+      const delCount = diff.filter(d => d.type === '-').length;
+      if (addCount === 0 && delCount === 0) {
+        diffOut.innerHTML = '<div style="color:#34d399;text-align:center;padding:20px;">✓ No differences found — XML documents are identical.</div>';
+        return;
+      }
+      let html = `<div style="color:#71717a;margin-bottom:12px;font-size:12px;"><span style="color:#34d399">+${addCount}</span> &nbsp; <span style="color:#f87171">-${delCount}</span></div>`;
+      for (const d of diff) {
+        if (d.type === ' ') html += `<div style="padding:2px 12px;"><span style="color:#a1a1aa">${esc(d.line)}</span></div>`;
+        else if (d.type === '-') html += `<div style="background:rgba(248,113,113,0.08);border-left:3px solid #f87171;padding:2px 12px;margin:1px 0;"><span style="color:#f87171">- ${esc(d.line)}</span></div>`;
+        else html += `<div style="background:rgba(52,211,153,0.08);border-left:3px solid #34d399;padding:2px 12px;margin:1px 0;"><span style="color:#34d399">+ ${esc(d.line)}</span></div>`;
+      }
+      diffOut.innerHTML = html;
+    } catch (e: any) { showError(e.message); }
+  });
+</script>

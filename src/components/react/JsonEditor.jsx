@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import SaveResultReact from './SaveResultReact';
 
 // Helper to flatten nested objects for tabular view
@@ -14,11 +14,39 @@ const flattenObject = (obj, prefix = '') => {
   }, {});
 };
 
+// Helper to convert JSON to XML
+const jsonToXmlStr = (obj) => {
+  let xml = '';
+  for (let prop in obj) {
+    if (obj.hasOwnProperty(prop)) {
+      // Validate tag name
+      const tagName = prop.replace(/[^a-zA-Z0-9_-]/g, '_');
+      const validTagName = /^[a-zA-Z_]/.test(tagName) ? tagName : `_${tagName}`;
+      
+      if (Array.isArray(obj[prop])) {
+        for (let arrayItem of obj[prop]) {
+          if (typeof arrayItem === 'object' && arrayItem !== null) {
+            xml += `<${validTagName}>\n${jsonToXmlStr(arrayItem)}\n</${validTagName}>\n`;
+          } else {
+            xml += `<${validTagName}>${arrayItem}</${validTagName}>\n`;
+          }
+        }
+      } else if (typeof obj[prop] === 'object' && obj[prop] !== null) {
+        xml += `<${validTagName}>\n${jsonToXmlStr(obj[prop])}\n</${validTagName}>\n`;
+      } else {
+        xml += `<${validTagName}>${obj[prop]}</${validTagName}>\n`;
+      }
+    }
+  }
+  return xml;
+};
+
 export default function JsonEditor() {
   const [input, setInput] = useState('{\n  "example": "data",\n  "nested": {\n    "value": 123\n  }\n}');
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('formatted'); // 'formatted', 'table'
   const [parsedData, setParsedData] = useState(null);
+  const fileInputRef = useRef(null);
 
   const handleFormat = (space) => {
     try {
@@ -26,6 +54,7 @@ export default function JsonEditor() {
       setInput(JSON.stringify(parsed, null, space));
       setParsedData(parsed);
       setError(null);
+      setActiveTab('formatted');
     } catch (e) {
       setError(e.message);
     }
@@ -39,6 +68,56 @@ export default function JsonEditor() {
       alert('Valid JSON!');
     } catch (e) {
       setError(e.message);
+    }
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const content = event.target.result;
+      setInput(content);
+      try {
+        setParsedData(JSON.parse(content));
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+    reader.readAsText(file);
+    // Reset file input so the same file can be uploaded again if needed
+    e.target.value = null;
+  };
+
+  const convertToXml = () => {
+    try {
+      const parsed = JSON.parse(input);
+      const xmlBody = jsonToXmlStr(parsed);
+      const fullXml = `<?xml version="1.0" encoding="UTF-8"?>\n<root>\n${xmlBody}</root>`;
+      
+      // Simple indent for XML output
+      let formatted = '';
+      let pad = 0;
+      const rawXml = fullXml.replace(/(>)(<)(\/*)/g, '$1\n$2$3');
+      const lines = rawXml.split('\n');
+      lines.forEach((line) => {
+        let indent = 0;
+        if (line.match(/.+<\/\w[^>]*>$/)) indent = 0;
+        else if (line.match(/^<\/\w/)) { if (pad !== 0) pad -= 1; }
+        else if (line.match(/^<\w[^>]*[^\/]>.*$/)) indent = 1;
+        else indent = 0;
+        formatted += '  '.repeat(Math.max(0, pad)) + line + '\n';
+        pad += indent;
+      });
+      
+      setInput(formatted.trim());
+      setParsedData(null);
+      setError(null);
+      setActiveTab('formatted');
+    } catch (e) {
+      setError("Cannot convert to XML: " + e.message);
     }
   };
 
@@ -102,12 +181,26 @@ export default function JsonEditor() {
     <div className="flex flex-col lg:flex-row gap-6 w-full h-full min-h-[600px]">
       {/* Input Side */}
       <div className="flex-1 flex flex-col gap-4">
-        <div className="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+        <div className="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0 flex-wrap gap-2">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400">Input JSON</h2>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
+            <input 
+              type="file" 
+              accept=".json" 
+              ref={fileInputRef} 
+              onChange={handleFileUpload} 
+              className="hidden" 
+            />
+            <button onClick={() => fileInputRef.current.click()} className="px-3 py-1.5 text-xs font-semibold bg-[#3b82f6]/20 hover:bg-[#3b82f6]/30 text-[#3b82f6] rounded transition-colors border border-[#3b82f6]/30 flex items-center gap-1.5">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              Upload
+            </button>
+            <div className="w-px bg-white/[0.1] mx-1"></div>
             <button onClick={() => handleFormat(2)} className="px-3 py-1.5 text-xs font-semibold bg-white/[0.05] hover:bg-white/[0.1] text-white rounded transition-colors border border-white/[0.1]">Format 2 Spaces</button>
             <button onClick={() => handleFormat(4)} className="px-3 py-1.5 text-xs font-semibold bg-white/[0.05] hover:bg-white/[0.1] text-white rounded transition-colors border border-white/[0.1]">Format 4 Spaces</button>
             <button onClick={() => handleFormat(0)} className="px-3 py-1.5 text-xs font-semibold bg-white/[0.05] hover:bg-white/[0.1] text-white rounded transition-colors border border-white/[0.1]">Minify</button>
+            <div className="w-px bg-white/[0.1] mx-1"></div>
+            <button onClick={convertToXml} className="px-3 py-1.5 text-xs font-semibold bg-[#eab308]/20 hover:bg-[#eab308]/30 text-[#eab308] rounded transition-colors border border-[#eab308]/30">To XML</button>
             <button onClick={handleValidate} className="px-3 py-1.5 text-xs font-semibold bg-[#2dd4bf]/20 hover:bg-[#2dd4bf]/30 text-[#2dd4bf] rounded transition-colors border border-[#2dd4bf]/30">Validate</button>
           </div>
         </div>
@@ -128,7 +221,7 @@ export default function JsonEditor() {
         {error && (
           <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm font-mono flex items-center gap-2">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-            Invalid JSON: {error}
+            Error: {error}
           </div>
         )}
       </div>
@@ -163,7 +256,7 @@ export default function JsonEditor() {
                 toolPath="/developer/json-tools"
                 payloadGenerator={() => ({
                   type: 'text',
-                  data: `Valid JSON formatted.\n\n${input.slice(0, 150)}${input.length > 150 ? '...' : ''}`
+                  data: `Valid output.\n\n${input.slice(0, 150)}${input.length > 150 ? '...' : ''}`
                 })}
               />
             </div>

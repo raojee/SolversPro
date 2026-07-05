@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+
+const schema = {
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  "name": "SQL Escape", "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All", "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Escape single quotes, backslashes, and special characters for safe SQL string literals. Free and browser-based."
+};
+---
+
+<BaseLayout title="SQL Escape | SolversPro" description="Escape single quotes, backslashes, and special characters for safe SQL string literals. Free and browser-based." canonical="https://solverspro.com/developer/sql-escape" schema={schema}>
+  <Header /><SearchOverlay />
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'Developer Tools',href:'/developer'},{label:'SQL Escape'}]} />
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">🗄️ SQL Escape</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Escape special characters for safe SQL string literals. Prevents SQL injection by properly escaping single quotes, backslashes, and null bytes.</p>
+      </div>
+      <div class="flex flex-col lg:flex-row gap-6 w-full min-h-[500px]">
+        <div class="flex-1 flex flex-col gap-4">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Raw String</h2>
+            <button id="btn-escape" class="px-3 py-1.5 text-xs font-semibold bg-[#2dd4bf]/20 hover:bg-[#2dd4bf]/30 text-[#2dd4bf] rounded transition-colors border border-[#2dd4bf]/30">Escape &rarr;</button>
+          </div>
+          <textarea id="input-raw" class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#ff6b35] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[350px]" placeholder="O'Reilly's \"Book\" with \backslash" spellcheck="false"></textarea>
+        </div>
+        <div class="flex-1 flex flex-col gap-4">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <button id="btn-unescape" class="px-3 py-1.5 text-xs font-semibold bg-[#ff6b35]/20 hover:bg-[#ff6b35]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30">&larr; Unescape</button>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">SQL Escaped</h2>
+          </div>
+          <textarea id="input-escaped" class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[350px]" placeholder="O''Reilly''s \"Book\" with \\backslash" spellcheck="false"></textarea>
+        </div>
+      </div>
+      <ToolShare title="SQL Escape" url="https://solverspro.com/developer/sql-escape" />
+      <SimilarTools category="developer" currentPath="/developer/sql-escape" />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const rawEl = document.getElementById('input-raw') as HTMLTextAreaElement;
+  const escEl = document.getElementById('input-escaped') as HTMLTextAreaElement;
+
+  function escapeSql(s: string): string {
+    return s.replace(/\\/g, '\\\\').replace(/'/g, "''").replace(/\x00/g, '\\0').replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/\x1a/g, '\\Z');
+  }
+  function unescapeSql(s: string): string {
+    return s.replace(/\\Z/g, '\x1a').replace(/\\r/g, '\r').replace(/\\n/g, '\n').replace(/\\0/g, '\x00').replace(/''/g, "'").replace(/\\\\/g, '\\');
+  }
+
+  document.getElementById('btn-escape')?.addEventListener('click', () => {
+    escEl.value = escapeSql(rawEl.value);
+    escEl.classList.add('ring-2','ring-[#2dd4bf]','border-[#2dd4bf]');
+    setTimeout(() => escEl.classList.remove('ring-2','ring-[#2dd4bf]','border-[#2dd4bf]'), 500);
+  });
+  document.getElementById('btn-unescape')?.addEventListener('click', () => {
+    rawEl.value = unescapeSql(escEl.value);
+    rawEl.classList.add('ring-2','ring-[#ff6b35]','border-[#ff6b35]');
+    setTimeout(() => rawEl.classList.remove('ring-2','ring-[#ff6b35]','border-[#ff6b35]'), 500);
+  });
+</script>

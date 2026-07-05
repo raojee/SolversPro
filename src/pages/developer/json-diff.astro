@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+
+const schema = {
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  "name": "JSON Diff", "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All", "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Compare two JSON objects side by side. Highlights added, removed, and changed keys with color-coded output. Free and browser-based."
+};
+---
+
+<BaseLayout title="JSON Diff | SolversPro" description="Compare two JSON objects side by side. Highlights added, removed, and changed keys with color-coded output. Free and browser-based." canonical="https://solverspro.com/developer/json-diff" schema={schema}>
+  <Header /><SearchOverlay />
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-5xl">
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'Developer Tools',href:'/developer'},{label:'JSON Diff'}]} />
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">🔍 JSON Diff</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Compare two JSON objects and see a color-coded diff. Highlights added, removed, and changed keys.</p>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="flex flex-col">
+          <div class="bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Original JSON</h2>
+          </div>
+          <textarea id="input-a" class="w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#ff6b35] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[250px]" placeholder='{"name":"Alice","age":30}' spellcheck="false"></textarea>
+        </div>
+        <div class="flex flex-col">
+          <div class="bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Modified JSON</h2>
+          </div>
+          <textarea id="input-b" class="w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[250px]" placeholder='{"name":"Alice","age":31,"email":"a@b.com"}' spellcheck="false"></textarea>
+        </div>
+      </div>
+      <div class="flex justify-center mb-6">
+        <button id="btn-diff" class="px-6 py-2.5 text-sm font-semibold bg-[#ff6b35] hover:bg-[#ff8c5a] text-white rounded transition-colors" style="font-family:'JetBrains Mono',monospace;">Compare JSON</button>
+      </div>
+      <div id="diff-output" class="hidden bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6 font-mono text-sm overflow-x-auto min-h-[200px]"></div>
+      <div id="error-msg" class="hidden mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-mono"></div>
+      <ToolShare title="JSON Diff" url="https://solverspro.com/developer/json-diff" />
+      <SimilarTools category="developer" currentPath="/developer/json-diff" />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const inputA = document.getElementById('input-a') as HTMLTextAreaElement;
+  const inputB = document.getElementById('input-b') as HTMLTextAreaElement;
+  const diffOut = document.getElementById('diff-output') as HTMLDivElement;
+  const errorEl = document.getElementById('error-msg') as HTMLDivElement;
+
+  function showError(msg: string) { errorEl.textContent = msg; errorEl.classList.remove('hidden'); setTimeout(() => errorEl.classList.add('hidden'), 5000); }
+
+  function esc(s: string): string {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function deepDiff(a: any, b: any, path: string, lines: string[]) {
+    const aType = typeof a;
+    const bType = typeof b;
+
+    if (a === b) return;
+    if (aType !== bType || Array.isArray(a) !== Array.isArray(b)) {
+      lines.push(`<div style="background:rgba(251,191,36,0.08);border-left:3px solid #fbbf24;padding:4px 12px;margin:2px 0;border-radius:4px;"><span style="color:#fbbf24">~ ${esc(path)}</span>: <span style="color:#f87171;text-decoration:line-through">${esc(JSON.stringify(a))}</span> → <span style="color:#34d399">${esc(JSON.stringify(b))}</span></div>`);
+      return;
+    }
+    if (Array.isArray(a) && Array.isArray(b)) {
+      const max = Math.max(a.length, b.length);
+      for (let i = 0; i < max; i++) {
+        if (i >= a.length) lines.push(`<div style="background:rgba(52,211,153,0.08);border-left:3px solid #34d399;padding:4px 12px;margin:2px 0;border-radius:4px;"><span style="color:#34d399">+ ${esc(path)}[${i}]</span>: ${esc(JSON.stringify(b[i]))}</div>`);
+        else if (i >= b.length) lines.push(`<div style="background:rgba(248,113,113,0.08);border-left:3px solid #f87171;padding:4px 12px;margin:2px 0;border-radius:4px;"><span style="color:#f87171">- ${esc(path)}[${i}]</span>: ${esc(JSON.stringify(a[i]))}</div>`);
+        else deepDiff(a[i], b[i], `${path}[${i}]`, lines);
+      }
+      return;
+    }
+    if (aType === 'object' && a !== null && b !== null) {
+      const allKeys = new Set([...Object.keys(a), ...Object.keys(b)]);
+      for (const key of allKeys) {
+        const newPath = path ? `${path}.${key}` : key;
+        if (!(key in a)) lines.push(`<div style="background:rgba(52,211,153,0.08);border-left:3px solid #34d399;padding:4px 12px;margin:2px 0;border-radius:4px;"><span style="color:#34d399">+ ${esc(newPath)}</span>: ${esc(JSON.stringify(b[key]))}</div>`);
+        else if (!(key in b)) lines.push(`<div style="background:rgba(248,113,113,0.08);border-left:3px solid #f87171;padding:4px 12px;margin:2px 0;border-radius:4px;"><span style="color:#f87171">- ${esc(newPath)}</span>: ${esc(JSON.stringify(a[key]))}</div>`);
+        else deepDiff(a[key], b[key], newPath, lines);
+      }
+      return;
+    }
+    lines.push(`<div style="background:rgba(251,191,36,0.08);border-left:3px solid #fbbf24;padding:4px 12px;margin:2px 0;border-radius:4px;"><span style="color:#fbbf24">~ ${esc(path)}</span>: <span style="color:#f87171;text-decoration:line-through">${esc(JSON.stringify(a))}</span> → <span style="color:#34d399">${esc(JSON.stringify(b))}</span></div>`);
+  }
+
+  document.getElementById('btn-diff')?.addEventListener('click', () => {
+    try {
+      errorEl.classList.add('hidden');
+      const a = JSON.parse(inputA.value.trim());
+      const b = JSON.parse(inputB.value.trim());
+      const lines: string[] = [];
+      deepDiff(a, b, '', lines);
+      diffOut.classList.remove('hidden');
+      if (lines.length === 0) {
+        diffOut.innerHTML = '<div style="color:#34d399;text-align:center;padding:20px;">✓ No differences found — JSON objects are identical.</div>';
+      } else {
+        diffOut.innerHTML = `<div style="color:#71717a;margin-bottom:12px;font-size:12px;">${lines.length} difference${lines.length>1?'s':''} found</div>` + lines.join('');
+      }
+    } catch (e: any) { showError('Invalid JSON: ' + e.message); }
+  });
+</script>

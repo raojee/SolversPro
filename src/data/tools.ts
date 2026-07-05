@@ -84,7 +84,132 @@ export const toolsByCategory: Record<string, Tool[]> = {
     description: 'Convert Unix timestamps to human-readable dates or date strings to Unix timestamps instantly.',
     icon: '🕐',
     href: '/developer/timestamp-converter'
-  }
+  },
+  // ── Format Converters ──────────────────────────────
+  {
+    title: 'JSON ↔ CSV Converter',
+    description: 'Convert JSON arrays to CSV spreadsheets or CSV data back to JSON. Handles nested objects with dot-notation flattening.',
+    icon: '📊',
+    href: '/developer/json-csv'
+  },
+  {
+    title: 'JSON ↔ YAML Converter',
+    description: 'Convert between JSON and YAML formats instantly. Perfect for Kubernetes configs, CI/CD pipelines, and API specs.',
+    icon: '📋',
+    href: '/developer/json-yaml'
+  },
+  {
+    title: 'XML ↔ CSV Converter',
+    description: 'Transform XML documents into CSV tables or convert CSV data into structured XML. Great for legacy data migration.',
+    icon: '🔄',
+    href: '/developer/xml-csv'
+  },
+  {
+    title: 'XML ↔ YAML Converter',
+    description: 'Convert between XML and YAML formats. Useful for config file migration and cross-platform data exchange.',
+    icon: '🔀',
+    href: '/developer/xml-yaml'
+  },
+  // ── Escapers & Unescapers ──────────────────────────
+  {
+    title: 'HTML Escape & Unescape',
+    description: 'Escape HTML special characters to entities or unescape entities back to readable HTML. Prevent XSS vulnerabilities.',
+    icon: '🛡️',
+    href: '/developer/html-escape'
+  },
+  {
+    title: 'XML Escape & Unescape',
+    description: 'Escape XML special characters or unescape XML entities. Safely embed text in XML documents.',
+    icon: '📐',
+    href: '/developer/xml-escape'
+  },
+  {
+    title: 'JSON Escape & Unescape',
+    description: 'Escape strings for embedding in JSON or unescape JSON-encoded strings back to plain text.',
+    icon: '🔤',
+    href: '/developer/json-escape'
+  },
+  {
+    title: 'SQL Escape',
+    description: 'Escape single quotes, backslashes, and special characters for safe SQL string literals.',
+    icon: '🗄️',
+    href: '/developer/sql-escape'
+  },
+  {
+    title: 'CSV Escape',
+    description: 'Escape CSV fields per RFC 4180 — properly quote fields containing commas, quotes, and newlines.',
+    icon: '📑',
+    href: '/developer/csv-escape'
+  },
+  // ── Data-to-Class Code Generators ──────────────────
+  {
+    title: 'JSON to TypeScript',
+    description: 'Generate TypeScript interfaces from JSON data. Infers types, handles nested objects, arrays, and optional fields.',
+    icon: '🟦',
+    href: '/developer/json-to-typescript'
+  },
+  {
+    title: 'JSON to Java',
+    description: 'Generate Java POJO classes with getters, setters, and proper type mapping from any JSON structure.',
+    icon: '☕',
+    href: '/developer/json-to-java'
+  },
+  {
+    title: 'JSON to Python',
+    description: 'Generate Python dataclasses with type annotations from JSON. Supports nested structures and lists.',
+    icon: '🐍',
+    href: '/developer/json-to-python'
+  },
+  {
+    title: 'JSON to C#',
+    description: 'Generate C# classes with auto-properties and proper .NET type mapping from JSON objects.',
+    icon: '🟣',
+    href: '/developer/json-to-csharp'
+  },
+  {
+    title: 'JSON to Go',
+    description: 'Generate Go structs with json tags from JSON data. Handles nested objects and proper Go naming conventions.',
+    icon: '🐹',
+    href: '/developer/json-to-go'
+  },
+  // ── Diff / Compare Tools ───────────────────────────
+  {
+    title: 'JSON Diff',
+    description: 'Compare two JSON objects side by side. Highlights added, removed, and changed keys with color-coded output.',
+    icon: '🔍',
+    href: '/developer/json-diff'
+  },
+  {
+    title: 'XML Diff',
+    description: 'Compare two XML documents with line-by-line diff highlighting. Find differences in structure and content.',
+    icon: '📄',
+    href: '/developer/xml-diff'
+  },
+  {
+    title: 'Text Diff',
+    description: 'Compare two blocks of text with a unified diff view. Highlights additions, deletions, and modifications line by line.',
+    icon: '📝',
+    href: '/developer/text-diff'
+  },
+  // ── Web Beautifiers ────────────────────────────────
+  {
+    title: 'HTML Beautifier',
+    description: 'Format and indent messy HTML code with configurable indentation. Makes minified HTML readable instantly.',
+    icon: '🌐',
+    href: '/developer/html-beautifier'
+  },
+  {
+    title: 'CSS Beautifier',
+    description: 'Format compressed CSS into clean, readable stylesheets. One property per line with proper brace alignment.',
+    icon: '🎨',
+    href: '/developer/css-beautifier'
+  },
+  {
+    title: 'JavaScript Beautifier',
+    description: 'Format minified JavaScript into readable, properly indented code. Handles braces, semicolons, and nesting.',
+    icon: '⚡',
+    href: '/developer/js-beautifier'
+  },
 ],
   "finance": [
  {

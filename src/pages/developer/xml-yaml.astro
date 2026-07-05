@@ -1,0 +1,161 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "XML to YAML / YAML to XML Converter",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Convert between XML and YAML formats. Useful for config file migration and cross-platform data exchange. Free and browser-based."
+};
+---
+
+<BaseLayout
+  title="XML ↔ YAML Converter | SolversPro"
+  description="Convert between XML and YAML formats. Useful for config file migration and cross-platform data exchange. Free and browser-based."
+  canonical="https://solverspro.com/developer/xml-yaml"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Developer Tools', href: '/developer' },
+        { label: 'XML ↔ YAML Converter' },
+      ]} />
+
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">🔀 XML ↔ YAML Converter</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Convert between XML and YAML formats. Perfect for migrating config files between platforms and frameworks.</p>
+      </div>
+
+      <div class="flex flex-col lg:flex-row gap-6 w-full min-h-[500px]">
+        <!-- XML Side -->
+        <div class="flex-1 flex flex-col gap-4">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">XML</h2>
+            <button id="btn-to-yaml" class="px-3 py-1.5 text-xs font-semibold bg-[#2dd4bf]/20 hover:bg-[#2dd4bf]/30 text-[#2dd4bf] rounded transition-colors border border-[#2dd4bf]/30">To YAML &rarr;</button>
+          </div>
+          <textarea
+            id="input-xml"
+            class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#ff6b35] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[350px]"
+            placeholder="<config>&#10;  <server>&#10;    <host>localhost</host>&#10;    <port>8080</port>&#10;  </server>&#10;</config>"
+            spellcheck="false"
+          ></textarea>
+        </div>
+
+        <!-- YAML Side -->
+        <div class="flex-1 flex flex-col gap-4">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <button id="btn-to-xml" class="px-3 py-1.5 text-xs font-semibold bg-[#ff6b35]/20 hover:bg-[#ff6b35]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30">&larr; To XML</button>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">YAML</h2>
+          </div>
+          <textarea
+            id="input-yaml"
+            class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[350px]"
+            placeholder="config:&#10;  server:&#10;    host: localhost&#10;    port: 8080"
+            spellcheck="false"
+          ></textarea>
+        </div>
+      </div>
+
+      <div id="error-msg" class="hidden mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-mono"></div>
+
+      <ToolShare title="XML ↔ YAML Converter" url="https://solverspro.com/developer/xml-yaml" />
+      <SimilarTools category="developer" currentPath="/developer/xml-yaml" />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import * as jsYaml from 'js-yaml';
+
+  const xmlEl = document.getElementById('input-xml') as HTMLTextAreaElement;
+  const yamlEl = document.getElementById('input-yaml') as HTMLTextAreaElement;
+  const errorEl = document.getElementById('error-msg') as HTMLDivElement;
+
+  function showError(msg: string) {
+    errorEl.textContent = msg;
+    errorEl.classList.remove('hidden');
+    setTimeout(() => errorEl.classList.add('hidden'), 5000);
+  }
+
+  function xmlNodeToObj(node: Element): any {
+    const children = Array.from(node.children);
+    if (children.length === 0) return node.textContent || '';
+    const obj: Record<string, any> = {};
+    for (const child of children) {
+      const key = child.tagName;
+      const val = xmlNodeToObj(child);
+      if (obj[key] !== undefined) {
+        if (!Array.isArray(obj[key])) obj[key] = [obj[key]];
+        obj[key].push(val);
+      } else {
+        obj[key] = val;
+      }
+    }
+    return obj;
+  }
+
+  function objToXml(obj: any, indent = 0): string {
+    const pad = '  '.repeat(indent);
+    if (typeof obj !== 'object' || obj === null) return String(obj).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    let xml = '';
+    for (const [key, val] of Object.entries(obj)) {
+      if (Array.isArray(val)) {
+        for (const item of val) {
+          xml += `${pad}<${key}>${typeof item === 'object' ? '\n' + objToXml(item, indent + 1) + pad : objToXml(item, 0)}</${key}>\n`;
+        }
+      } else if (typeof val === 'object' && val !== null) {
+        xml += `${pad}<${key}>\n${objToXml(val, indent + 1)}${pad}</${key}>\n`;
+      } else {
+        xml += `${pad}<${key}>${objToXml(val, 0)}</${key}>\n`;
+      }
+    }
+    return xml;
+  }
+
+  document.getElementById('btn-to-yaml')?.addEventListener('click', () => {
+    try {
+      errorEl.classList.add('hidden');
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(xmlEl.value.trim(), 'text/xml');
+      const err = doc.querySelector('parsererror');
+      if (err) throw new Error('Invalid XML: ' + err.textContent?.substring(0, 100));
+      const obj = xmlNodeToObj(doc.documentElement);
+      const wrapper: Record<string, any> = {};
+      wrapper[doc.documentElement.tagName] = obj;
+      yamlEl.value = jsYaml.dump(wrapper, { indent: 2, lineWidth: -1 });
+      yamlEl.classList.add('ring-2', 'ring-[#2dd4bf]', 'border-[#2dd4bf]');
+      setTimeout(() => yamlEl.classList.remove('ring-2', 'ring-[#2dd4bf]', 'border-[#2dd4bf]'), 500);
+    } catch (e: any) {
+      showError(e.message);
+    }
+  });
+
+  document.getElementById('btn-to-xml')?.addEventListener('click', () => {
+    try {
+      errorEl.classList.add('hidden');
+      const parsed = jsYaml.load(yamlEl.value.trim()) as Record<string, any>;
+      if (typeof parsed !== 'object' || parsed === null) throw new Error('YAML must parse to an object');
+      const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' + objToXml(parsed, 0);
+      xmlEl.value = xml;
+      xmlEl.classList.add('ring-2', 'ring-[#ff6b35]', 'border-[#ff6b35]');
+      setTimeout(() => xmlEl.classList.remove('ring-2', 'ring-[#ff6b35]', 'border-[#ff6b35]'), 500);
+    } catch (e: any) {
+      showError(e.message);
+    }
+  });
+</script>

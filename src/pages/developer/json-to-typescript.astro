@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+
+const schema = {
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  "name": "JSON to TypeScript Converter", "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All", "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Generate TypeScript interfaces from JSON data. Infers types, handles nested objects, arrays, and optional fields. Free and browser-based."
+};
+---
+
+<BaseLayout title="JSON to TypeScript | SolversPro" description="Generate TypeScript interfaces from JSON data. Infers types, handles nested objects, arrays, and optional fields. Free and browser-based." canonical="https://solverspro.com/developer/json-to-typescript" schema={schema}>
+  <Header /><SearchOverlay />
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-5xl">
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'Developer Tools',href:'/developer'},{label:'JSON to TypeScript'}]} />
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">🟦 JSON to TypeScript</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Paste any JSON object and instantly generate fully typed TypeScript interfaces. Handles nested objects, arrays, and infers proper types.</p>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[500px]">
+        <div class="flex flex-col">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">JSON Input</h2>
+            <button id="btn-convert" class="px-3 py-1.5 text-xs font-semibold bg-[#2dd4bf]/20 hover:bg-[#2dd4bf]/30 text-[#2dd4bf] rounded transition-colors border border-[#2dd4bf]/30">Generate &rarr;</button>
+          </div>
+          <textarea id="input-json" class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#ff6b35] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[400px]" placeholder='{"name":"Alice","age":30,"address":{"city":"NYC","zip":"10001"},"tags":["admin","user"]}' spellcheck="false"></textarea>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">TypeScript Output</h2>
+            <button id="btn-copy" class="text-xs font-semibold text-[#2dd4bf] hover:text-[#5eead4] transition-colors">Copy</button>
+          </div>
+          <textarea id="output-code" readonly class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:outline-none font-mono text-sm text-[#2dd4bf] resize-none min-h-[400px]" placeholder="// Generated TypeScript interfaces will appear here"></textarea>
+        </div>
+      </div>
+      <div id="error-msg" class="hidden mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-mono"></div>
+      <ToolShare title="JSON to TypeScript" url="https://solverspro.com/developer/json-to-typescript" />
+      <SimilarTools category="developer" currentPath="/developer/json-to-typescript" />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { copyToClipboard } from '../../utils/clipboard';
+
+  const jsonEl = document.getElementById('input-json') as HTMLTextAreaElement;
+  const outEl = document.getElementById('output-code') as HTMLTextAreaElement;
+  const errorEl = document.getElementById('error-msg') as HTMLDivElement;
+
+  function showError(msg: string) {
+    errorEl.textContent = msg; errorEl.classList.remove('hidden');
+    setTimeout(() => errorEl.classList.add('hidden'), 5000);
+  }
+
+  function capitalize(s: string): string {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  function toInterfaceName(key: string): string {
+    return capitalize(key.replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, ''));
+  }
+
+  function inferType(val: any, key: string, interfaces: Map<string, string>): string {
+    if (val === null) return 'null';
+    if (Array.isArray(val)) {
+      if (val.length === 0) return 'any[]';
+      const itemType = inferType(val[0], key, interfaces);
+      return `${itemType}[]`;
+    }
+    if (typeof val === 'object') {
+      const name = 'I' + toInterfaceName(key);
+      generateInterface(val, name, interfaces);
+      return name;
+    }
+    return typeof val; // string | number | boolean
+  }
+
+  function generateInterface(obj: Record<string, any>, name: string, interfaces: Map<string, string>) {
+    let lines = `export interface ${name} {\n`;
+    for (const [key, val] of Object.entries(obj)) {
+      const safeKey = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key) ? key : `'${key}'`;
+      const type = inferType(val, key, interfaces);
+      lines += `  ${safeKey}: ${type};\n`;
+    }
+    lines += '}';
+    interfaces.set(name, lines);
+  }
+
+  document.getElementById('btn-convert')?.addEventListener('click', () => {
+    try {
+      errorEl.classList.add('hidden');
+      const parsed = JSON.parse(jsonEl.value.trim());
+      const interfaces = new Map<string, string>();
+      if (typeof parsed !== 'object' || parsed === null) {
+        showError('JSON must be an object or array of objects');
+        return;
+      }
+      const root = Array.isArray(parsed) ? (parsed[0] || {}) : parsed;
+      generateInterface(root, 'IRootObject', interfaces);
+      outEl.value = Array.from(interfaces.values()).reverse().join('\n\n');
+      outEl.classList.add('ring-2','ring-[#2dd4bf]','border-[#2dd4bf]');
+      setTimeout(() => outEl.classList.remove('ring-2','ring-[#2dd4bf]','border-[#2dd4bf]'), 500);
+    } catch (e: any) {
+      showError('Invalid JSON: ' + e.message);
+    }
+  });
+
+  document.getElementById('btn-copy')?.addEventListener('click', () => {
+    if (outEl.value) copyToClipboard(outEl.value);
+  });
+</script>

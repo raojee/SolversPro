@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import SaveResultReact from './SaveResultReact';
 
 // Basic XML to JSON parser for table display
@@ -94,6 +94,7 @@ export default function XmlEditor() {
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('formatted');
   const [parsedData, setParsedData] = useState(null);
+  const fileInputRef = useRef(null);
 
   const handleFormat = (spaceStr) => {
     try {
@@ -109,6 +110,7 @@ export default function XmlEditor() {
       setInput(formatted);
       setParsedData(xmlToJson(xmlDoc));
       setError(null);
+      setActiveTab('formatted');
     } catch (e) {
       setError(e.message);
     }
@@ -141,14 +143,56 @@ export default function XmlEditor() {
       }
       const minified = input.replace(/\>[\r\n ]+\</g, "><").replace(/(<.*?>)|\s+/g, (m, $1) => $1 ? $1 : ' ').trim();
       setInput(minified);
+      setParsedData(xmlToJson(xmlDoc));
       setError(null);
+      setActiveTab('formatted');
     } catch (e) {
       setError(e.message);
     }
   };
 
+  const convertToJson = () => {
+    try {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(input, "text/xml");
+      if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
+        throw new Error("Invalid XML - Cannot Convert");
+      }
+      const jsonObj = xmlToJson(xmlDoc);
+      setInput(JSON.stringify(jsonObj, null, 2));
+      setParsedData(jsonObj); // The parsed data is now JSON, which table view can handle
+      setError(null);
+      setActiveTab('formatted');
+    } catch (e) {
+      setError(e.message);
+    }
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const content = event.target.result;
+      setInput(content);
+      try {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(content, "text/xml");
+        if (xmlDoc.getElementsByTagName("parsererror").length === 0) {
+           setParsedData(xmlToJson(xmlDoc));
+           setError(null);
+        }
+      } catch (err) {
+        // Just ignore parsing errors on initial load
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = null; // Reset for subsequent uploads
+  };
+
   const renderTable = (data) => {
-    if (!data) return <p className="text-zinc-400">No valid XML data to display.</p>;
+    if (!data) return <p className="text-zinc-400">No valid data to display.</p>;
     
     // Find the first array (list of nodes) to act as table rows
     let targetArray = null;
@@ -221,12 +265,26 @@ export default function XmlEditor() {
     <div className="flex flex-col lg:flex-row gap-6 w-full h-full min-h-[600px]">
       {/* Input Side */}
       <div className="flex-1 flex flex-col gap-4">
-        <div className="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0 overflow-x-auto whitespace-nowrap">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400 mr-4">Input XML</h2>
-          <div className="flex gap-2">
+        <div className="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0 flex-wrap gap-2">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400">Input Data</h2>
+          <div className="flex gap-2 flex-wrap">
+            <input 
+              type="file" 
+              accept=".xml,.json" 
+              ref={fileInputRef} 
+              onChange={handleFileUpload} 
+              className="hidden" 
+            />
+            <button onClick={() => fileInputRef.current.click()} className="px-3 py-1.5 text-xs font-semibold bg-[#3b82f6]/20 hover:bg-[#3b82f6]/30 text-[#3b82f6] rounded transition-colors border border-[#3b82f6]/30 flex items-center gap-1.5">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              Upload
+            </button>
+            <div className="w-px bg-white/[0.1] mx-1"></div>
             <button onClick={() => handleFormat('  ')} className="px-3 py-1.5 text-xs font-semibold bg-white/[0.05] hover:bg-white/[0.1] text-white rounded transition-colors border border-white/[0.1]">Format 2 Spaces</button>
             <button onClick={() => handleFormat('    ')} className="px-3 py-1.5 text-xs font-semibold bg-white/[0.05] hover:bg-white/[0.1] text-white rounded transition-colors border border-white/[0.1]">Format 4 Spaces</button>
             <button onClick={handleMinify} className="px-3 py-1.5 text-xs font-semibold bg-white/[0.05] hover:bg-white/[0.1] text-white rounded transition-colors border border-white/[0.1]">Minify</button>
+            <div className="w-px bg-white/[0.1] mx-1"></div>
+            <button onClick={convertToJson} className="px-3 py-1.5 text-xs font-semibold bg-[#eab308]/20 hover:bg-[#eab308]/30 text-[#eab308] rounded transition-colors border border-[#eab308]/30">To JSON</button>
             <button onClick={handleValidate} className="px-3 py-1.5 text-xs font-semibold bg-[#2dd4bf]/20 hover:bg-[#2dd4bf]/30 text-[#2dd4bf] rounded transition-colors border border-[#2dd4bf]/30">Validate</button>
           </div>
         </div>
@@ -286,7 +344,7 @@ export default function XmlEditor() {
                 toolPath="/developer/xml-tools"
                 payloadGenerator={() => ({
                   type: 'text',
-                  data: `Valid XML formatted.\n\n${input.slice(0, 150)}${input.length > 150 ? '...' : ''}`
+                  data: `Valid output.\n\n${input.slice(0, 150)}${input.length > 150 ? '...' : ''}`
                 })}
               />
             </div>

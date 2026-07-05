@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+
+const schema = {
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  "name": "JSON to Python Converter", "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All", "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Generate Python dataclasses with type annotations from JSON. Supports nested structures and lists. Free and browser-based."
+};
+---
+
+<BaseLayout title="JSON to Python | SolversPro" description="Generate Python dataclasses with type annotations from JSON. Supports nested structures and lists. Free and browser-based." canonical="https://solverspro.com/developer/json-to-python" schema={schema}>
+  <Header /><SearchOverlay />
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-5xl">
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'Developer Tools',href:'/developer'},{label:'JSON to Python'}]} />
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">🐍 JSON to Python</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Paste any JSON object and generate Python dataclasses with proper type annotations. Supports nested structures and lists.</p>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[500px]">
+        <div class="flex flex-col">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">JSON Input</h2>
+            <button id="btn-convert" class="px-3 py-1.5 text-xs font-semibold bg-[#2dd4bf]/20 hover:bg-[#2dd4bf]/30 text-[#2dd4bf] rounded transition-colors border border-[#2dd4bf]/30">Generate &rarr;</button>
+          </div>
+          <textarea id="input-json" class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#ff6b35] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[400px]" placeholder='{"name":"Alice","age":30,"scores":[95,87]}' spellcheck="false"></textarea>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Python Output</h2>
+            <button id="btn-copy" class="text-xs font-semibold text-[#2dd4bf] hover:text-[#5eead4] transition-colors">Copy</button>
+          </div>
+          <textarea id="output-code" readonly class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:outline-none font-mono text-sm text-[#2dd4bf] resize-none min-h-[400px]" placeholder="# Generated Python dataclass will appear here"></textarea>
+        </div>
+      </div>
+      <div id="error-msg" class="hidden mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-mono"></div>
+      <ToolShare title="JSON to Python" url="https://solverspro.com/developer/json-to-python" />
+      <SimilarTools category="developer" currentPath="/developer/json-to-python" />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { copyToClipboard } from '../../utils/clipboard';
+  const jsonEl = document.getElementById('input-json') as HTMLTextAreaElement;
+  const outEl = document.getElementById('output-code') as HTMLTextAreaElement;
+  const errorEl = document.getElementById('error-msg') as HTMLDivElement;
+
+  function showError(msg: string) { errorEl.textContent = msg; errorEl.classList.remove('hidden'); setTimeout(() => errorEl.classList.add('hidden'), 5000); }
+  function capitalize(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }
+  function toSnake(s: string): string { return s.replace(/([A-Z])/g, '_$1').toLowerCase().replace(/^_/, ''); }
+
+  function pyType(val: any, key: string, classes: Map<string, string>): string {
+    if (val === null) return 'Optional[Any]';
+    if (Array.isArray(val)) {
+      if (val.length === 0) return 'List[Any]';
+      return `List[${pyType(val[0], key, classes)}]`;
+    }
+    if (typeof val === 'object') {
+      const name = capitalize(key);
+      generateClass(val, name, classes);
+      return name;
+    }
+    if (typeof val === 'number') return Number.isInteger(val) ? 'int' : 'float';
+    if (typeof val === 'boolean') return 'bool';
+    return 'str';
+  }
+
+  function generateClass(obj: Record<string, any>, name: string, classes: Map<string, string>) {
+    let code = `@dataclass\nclass ${name}:\n`;
+    for (const [key, val] of Object.entries(obj)) {
+      const type = pyType(val, key, classes);
+      code += `    ${toSnake(key)}: ${type}\n`;
+    }
+    classes.set(name, code);
+  }
+
+  document.getElementById('btn-convert')?.addEventListener('click', () => {
+    try {
+      errorEl.classList.add('hidden');
+      const parsed = JSON.parse(jsonEl.value.trim());
+      const classes = new Map<string, string>();
+      const root = Array.isArray(parsed) ? (parsed[0] || {}) : parsed;
+      generateClass(root, 'RootObject', classes);
+
+      const needsList = outEl.value?.includes('List[');
+      let header = 'from dataclasses import dataclass\nfrom typing import Any, List, Optional\n\n';
+      outEl.value = header + Array.from(classes.values()).reverse().join('\n\n');
+      outEl.classList.add('ring-2','ring-[#2dd4bf]','border-[#2dd4bf]');
+      setTimeout(() => outEl.classList.remove('ring-2','ring-[#2dd4bf]','border-[#2dd4bf]'), 500);
+    } catch (e: any) { showError('Invalid JSON: ' + e.message); }
+  });
+
+  document.getElementById('btn-copy')?.addEventListener('click', () => { if (outEl.value) copyToClipboard(outEl.value); });
+</script>

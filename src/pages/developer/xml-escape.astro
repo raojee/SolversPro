@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+
+const schema = {
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  "name": "XML Escape & Unescape", "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All", "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Escape XML special characters or unescape XML entities. Safely embed text in XML documents. Free and browser-based."
+};
+---
+
+<BaseLayout title="XML Escape & Unescape | SolversPro" description="Escape XML special characters or unescape XML entities. Safely embed text in XML documents. Free and browser-based." canonical="https://solverspro.com/developer/xml-escape" schema={schema}>
+  <Header /><SearchOverlay />
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'Developer Tools',href:'/developer'},{label:'XML Escape & Unescape'}]} />
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">📐 XML Escape & Unescape</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Escape the five XML predefined entities or unescape XML entities back to their original characters.</p>
+      </div>
+      <div class="flex flex-col lg:flex-row gap-6 w-full min-h-[500px]">
+        <div class="flex-1 flex flex-col gap-4">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Unescaped Text</h2>
+            <button id="btn-escape" class="px-3 py-1.5 text-xs font-semibold bg-[#2dd4bf]/20 hover:bg-[#2dd4bf]/30 text-[#2dd4bf] rounded transition-colors border border-[#2dd4bf]/30">Escape &rarr;</button>
+          </div>
+          <textarea id="input-raw" class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#ff6b35] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[350px]" placeholder='<tag attr="value">5 > 3 & 2 < 4</tag>' spellcheck="false"></textarea>
+        </div>
+        <div class="flex-1 flex flex-col gap-4">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <button id="btn-unescape" class="px-3 py-1.5 text-xs font-semibold bg-[#ff6b35]/20 hover:bg-[#ff6b35]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30">&larr; Unescape</button>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Escaped Text</h2>
+          </div>
+          <textarea id="input-escaped" class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[350px]" placeholder="&amp;lt;tag attr=&amp;quot;value&amp;quot;&amp;gt;" spellcheck="false"></textarea>
+        </div>
+      </div>
+      <ToolShare title="XML Escape & Unescape" url="https://solverspro.com/developer/xml-escape" />
+      <SimilarTools category="developer" currentPath="/developer/xml-escape" />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const rawEl = document.getElementById('input-raw') as HTMLTextAreaElement;
+  const escEl = document.getElementById('input-escaped') as HTMLTextAreaElement;
+
+  function escapeXml(s: string): string {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
+  }
+  function unescapeXml(s: string): string {
+    return s.replace(/&apos;/g,"'").replace(/&quot;/g,'"').replace(/&gt;/g,'>').replace(/&lt;/g,'<').replace(/&amp;/g,'&');
+  }
+
+  document.getElementById('btn-escape')?.addEventListener('click', () => {
+    escEl.value = escapeXml(rawEl.value);
+    escEl.classList.add('ring-2','ring-[#2dd4bf]','border-[#2dd4bf]');
+    setTimeout(() => escEl.classList.remove('ring-2','ring-[#2dd4bf]','border-[#2dd4bf]'), 500);
+  });
+  document.getElementById('btn-unescape')?.addEventListener('click', () => {
+    rawEl.value = unescapeXml(escEl.value);
+    rawEl.classList.add('ring-2','ring-[#ff6b35]','border-[#ff6b35]');
+    setTimeout(() => rawEl.classList.remove('ring-2','ring-[#ff6b35]','border-[#ff6b35]'), 500);
+  });
+</script>

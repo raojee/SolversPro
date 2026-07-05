@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+
+const schema = {
+  "@context": "https://schema.org", "@type": "SoftwareApplication",
+  "name": "CSV Escape", "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All", "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Escape CSV fields per RFC 4180 — properly quote fields containing commas, quotes, and newlines. Free and browser-based."
+};
+---
+
+<BaseLayout title="CSV Escape | SolversPro" description="Escape CSV fields per RFC 4180 — properly quote fields containing commas, quotes, and newlines. Free and browser-based." canonical="https://solverspro.com/developer/csv-escape" schema={schema}>
+  <Header /><SearchOverlay />
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'Developer Tools',href:'/developer'},{label:'CSV Escape'}]} />
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">📑 CSV Escape</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">Escape CSV fields per RFC 4180. Properly handles quoting of fields that contain commas, double quotes, or newlines.</p>
+      </div>
+      <div class="flex flex-col lg:flex-row gap-6 w-full min-h-[500px]">
+        <div class="flex-1 flex flex-col gap-4">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Raw Fields (one per line)</h2>
+            <button id="btn-escape" class="px-3 py-1.5 text-xs font-semibold bg-[#2dd4bf]/20 hover:bg-[#2dd4bf]/30 text-[#2dd4bf] rounded transition-colors border border-[#2dd4bf]/30">Escape &rarr;</button>
+          </div>
+          <textarea id="input-raw" class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#ff6b35] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[350px]" placeholder='Hello, World&#10;She said "yes"&#10;Line 1&#10;Line 2&#10;Normal field' spellcheck="false"></textarea>
+        </div>
+        <div class="flex-1 flex flex-col gap-4">
+          <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
+            <button id="btn-unescape" class="px-3 py-1.5 text-xs font-semibold bg-[#ff6b35]/20 hover:bg-[#ff6b35]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30">&larr; Unescape</button>
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">CSV Escaped Fields</h2>
+          </div>
+          <textarea id="input-escaped" class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[350px]" placeholder='"Hello, World"&#10;"She said ""yes"""&#10;Normal field' spellcheck="false"></textarea>
+        </div>
+      </div>
+      <ToolShare title="CSV Escape" url="https://solverspro.com/developer/csv-escape" />
+      <SimilarTools category="developer" currentPath="/developer/csv-escape" />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const rawEl = document.getElementById('input-raw') as HTMLTextAreaElement;
+  const escEl = document.getElementById('input-escaped') as HTMLTextAreaElement;
+
+  function escapeCsvField(field: string): string {
+    if (field.includes(',') || field.includes('"') || field.includes('\n') || field.includes('\r')) {
+      return '"' + field.replace(/"/g, '""') + '"';
+    }
+    return field;
+  }
+  function unescapeCsvField(field: string): string {
+    const trimmed = field.trim();
+    if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
+      return trimmed.slice(1, -1).replace(/""/g, '"');
+    }
+    return trimmed;
+  }
+
+  document.getElementById('btn-escape')?.addEventListener('click', () => {
+    escEl.value = rawEl.value.split('\n').map(f => escapeCsvField(f)).join('\n');
+    escEl.classList.add('ring-2','ring-[#2dd4bf]','border-[#2dd4bf]');
+    setTimeout(() => escEl.classList.remove('ring-2','ring-[#2dd4bf]','border-[#2dd4bf]'), 500);
+  });
+  document.getElementById('btn-unescape')?.addEventListener('click', () => {
+    rawEl.value = escEl.value.split('\n').map(f => unescapeCsvField(f)).join('\n');
+    rawEl.classList.add('ring-2','ring-[#ff6b35]','border-[#ff6b35]');
+    setTimeout(() => rawEl.classList.remove('ring-2','ring-[#ff6b35]','border-[#ff6b35]'), 500);
+  });
+</script>
