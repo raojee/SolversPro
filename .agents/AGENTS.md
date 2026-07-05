@@ -16,3 +16,7 @@ Whenever you add new tools to the SolversPro project, you MUST update the follow
    - Update the internal text of these posts to match the new count.
    - Update `src/pages/blog/index.astro` to reflect the new blog post URL and title.
 8. **Always verify the build**: After updating these files, always run `npx astro build` to ensure no components or syntax issues were introduced.
+
+## Git Practices
+
+1. **Always push to Git**: After completing any work, updating tools, or fixing issues, you MUST commit and push all changes to the Git repository. Do not leave uncommitted work in the local workspace.
