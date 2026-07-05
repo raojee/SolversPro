@@ -10,7 +10,8 @@ Whenever you add new tools to the SolversPro project, you MUST update the follow
 4. **`src/pages/all-tools.astro`**: Update the total number of tools and any summary text.
 5. **`src/pages/terms.astro`**: Update the total number of tools and the list of categories/tools in the "Description of Service" section.
 6. **`src/pages/privacy.astro`**: Update the total number of tools in the description metadata and anywhere else it is mentioned.
-7. **Blog Posts (`src/pages/blog/`)**: 
+7. **`src/pages/faq.astro`**: Update the tool counts and categories in the FAQ answers.
+8. **Blog Posts (`src/pages/blog/`)**: 
    - Update promotional blog post titles and URLs (e.g., `70-free-online-tools...` -> `80-free-online-tools...`).
    - Update the internal text of these posts to match the new count.
    - Update `src/pages/blog/index.astro` to reflect the new blog post URL and title.
