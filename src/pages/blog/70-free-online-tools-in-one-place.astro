@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import BlogRating from '../../components/BlogRating.astro';
 import BlogShare from '../../components/BlogShare.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 const schema = {
   "@context": "https://schema.org",
@@ -51,19 +52,36 @@ const schema = {
           <span class="flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
             Today
-          </span>
-          <span class="flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            4 min read
-          </span>
-        </div>
-      </header>
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 max-w-4xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Blog', href: '/blog' },
+        { label: '70+ Free Online Tools' }
+      ]} />
 
-      <!-- Content -->
-      <div class="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-a:text-[#2dd4bf] hover:prose-a:text-[#5eead4] prose-strong:text-white">
-        <p class="lead text-xl text-zinc-300 mb-8">
-          In a digital landscape cluttered with single-purpose websites, ad-heavy interfaces, and tools locked behind paywalls, finding reliable utilities shouldn't feel like a treasure hunt. SolversPro's Online Tools collection changes that equation, offering over 50 free, browser-based tools organised into logical categories, all accessible without signups or subscriptions.
-        </p>
+      <article class="mt-8 bg-[#0a0a0f] border border-white/[0.06] rounded-2xl overflow-hidden shadow-2xl">
+        <!-- Hero Image Placeholder -->
+        <div class="h-[300px] sm:h-[400px] w-full bg-[#1a1a24] relative overflow-hidden flex items-center justify-center border-b border-white/[0.06]">
+          <div class="absolute inset-0 opacity-30" style="background: radial-gradient(circle at center, #2dd4bf 0%, transparent 70%);"></div>
+          <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight z-10 text-center px-4">70+ Free Online Tools in One Place: Discover SolversPro's Comprehensive Toolkit</h1>
+        </div>
+
+        <div class="p-8 md:p-12">
+          <!-- Meta data -->
+          <div class="flex items-center gap-4 text-sm text-zinc-500 mb-10 pb-6 border-b border-white/[0.06] font-mono">
+            <span>Published: March 20, 2024</span>
+            <span>•</span>
+            <span>4 min read</span>
+            <span>•</span>
+            <span class="text-[#2dd4bf] bg-[#2dd4bf]/10 px-2.5 py-0.5 rounded-full border border-[#2dd4bf]/20">Product Update</span>
+          </div>
+
+          <!-- Content -->
+          <div class="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-a:text-[#ff6b35] hover:prose-a:text-[#ff8c5a] prose-strong:text-zinc-200">
+            <p class="lead text-xl text-zinc-300">
+              In a digital landscape cluttered with single-purpose websites, ad-heavy interfaces, and tools locked behind paywalls, finding reliable utilities shouldn't feel like a treasure hunt. SolversPro's Online Tools collection changes that equation, offering over 70 free, browser-based tools organised into logical categories, all accessible without signups or subscriptions.
+            </p>
 
         <h2 class="text-2xl font-bold mt-12 mb-6">What Is SolversPro?</h2>
         <p>
@@ -150,8 +168,8 @@ const schema = {
 
       <BlogRating initialRating={5} totalRatings={2} />
       <BlogShare 
-        url="https://solverspro.com/blog/50-free-online-tools-in-one-place"
-        title="50+ Free Online Tools in One Place: Discover SolversPro's Comprehensive Toolkit"
+        url="https://solverspro.com/blog/70-free-online-tools-in-one-place"
+        title="70+ Free Online Tools in One Place: Discover SolversPro's Comprehensive Toolkit"
       />
     </article>
   </main>
