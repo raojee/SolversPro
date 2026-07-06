@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ToolCard from '../components/ToolCard.astro';
+import ToolFAQ from '../components/ToolFAQ.astro';
+import { toolsByCategory } from '../data/tools';
+
+const mathTools = toolsByCategory['math'] || [];
+
+// Select the top tools to feature
+const topTools = mathTools.slice(0, 6);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Math Solver Tools - Calculators and Equation Solvers",
+  "description": "A comprehensive suite of free math solver tools. Easily calculate matrices, geometry, quadratic equations, and statistics directly in your browser.",
+  "url": "https://solverspro.com/math-solver-tools"
+};
+
+const faqs = [
+  { question: "What are math solver tools?", answer: "Math solver tools are online utilities that help you automatically calculate, solve, and analyze mathematical problems. This includes everything from simple percentages to complex 3x3 matrix determinants." },
+  { question: "Why use an online math solver?", answer: "Online math solvers eliminate human error from complex calculations. Whether you are an engineering student checking your homework or a professional analyzing statistical variance, our tools provide instant, guaranteed accurate results." },
+  { question: "Are these math tools free?", answer: "Yes! All math solver tools on SolversPro are 100% free to use, with no hidden paywalls, no signup requirements, and no obtrusive advertisements." },
+  { question: "How do the matrix solvers work?", answer: "Our matrix calculators utilize advanced linear algebra algorithms written in JavaScript to compute determinants, inverses, and multiplications instantaneously within your browser." }
+];
+---
+
+<BaseLayout
+  title="Math Solver Tools | Free Online Calculators & Solvers"
+  description="A comprehensive suite of free math solver tools. Easily calculate matrices, geometry, quadratic equations, and statistics directly in your browser."
+  canonical="https://solverspro.com/math-solver-tools"
+  schema={schema}
+>
+  <Header />
+
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="py-20 px-6 bg-gradient-to-b from-[#2dd4bf]/10 to-[#0a0a0f]">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+          Powerful <span class="text-[#2dd4bf]">Math Solver Tools</span> & Calculators
+        </h1>
+        <p class="text-xl text-zinc-400 leading-relaxed mb-10 max-w-2xl mx-auto">
+          Eliminate calculation errors. From complex matrix algebra to statistical variance, solve advanced mathematical problems instantly for free.
+        </p>
+        <div class="flex justify-center gap-4">
+          <a href="/math" class="px-8 py-4 bg-[#2dd4bf] hover:bg-[#5eead4] text-[#0a0a0f] rounded-xl font-bold transition-all shadow-lg shadow-[#2dd4bf]/20">
+            Explore All Math Tools
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content & Featured Tools -->
+    <section class="py-16 px-6">
+      <div class="max-w-6xl mx-auto">
+        
+        <div class="grid lg:grid-cols-3 gap-12">
+          
+          <!-- Left Column: Copy -->
+          <div class="lg:col-span-2 prose prose-invert max-w-none text-zinc-300">
+            <h2 class="text-3xl font-bold text-white mb-6">Solve Complex Math Instantly</h2>
+            <p>
+              Whether you are an engineering professional, a data scientist, or a student, performing manual calculations is prone to error and incredibly time-consuming. <strong>Math solver tools</strong> are designed to handle the heavy lifting, providing you with instantaneous, perfectly accurate results.
+            </p>
+            <p>
+              The SolversPro math suite is built for precision. Instead of relying on a physical calculator where a single mistyped digit ruins an entire equation, our visual interfaces allow you to see exactly what you are inputting.
+            </p>
+            
+            <h3 class="text-2xl font-bold text-white mt-10 mb-4">Core Math Solver Categories</h3>
+            <ul>
+              <li><strong>Algebraic Solvers:</strong> Find the roots of complex quadratic equations without having to memorize the quadratic formula.</li>
+              <li><strong>Linear Algebra & Matrices:</strong> Performing a 3x3 matrix determinant calculation by hand takes minutes. Our Matrix Calculator does it in milliseconds.</li>
+              <li><strong>Geometry & Trigonometry:</strong> Calculate areas, volumes, and surface areas of complex 3D shapes instantly.</li>
+              <li><strong>Statistics & Probability:</strong> Input a raw dataset to instantly generate the mean, median, mode, variance, and standard deviation.</li>
+            </ul>
+
+            <h3 class="text-2xl font-bold text-white mt-10 mb-4">Fast, Free, and Private</h3>
+            <p>
+              Like all tools on SolversPro, our math solvers run entirely in your web browser. This means absolutely zero server lag when computing complex algorithms, and total privacy for your proprietary datasets or financial numbers.
+            </p>
+          </div>
+
+          <!-- Right Column: Featured Tools -->
+          <div class="lg:col-span-1">
+            <h3 class="text-xl font-bold text-white mb-6 border-b border-white/[0.06] pb-4">Popular Math Solvers</h3>
+            <div class="flex flex-col gap-4">
+              {topTools.map(tool => (
+                <a href={tool.href} class="p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl hover:bg-white/[0.04] hover:border-[#2dd4bf]/30 transition-all group">
+                  <div class="flex items-center gap-3">
+                    <span class="text-2xl">{tool.icon}</span>
+                    <div>
+                      <h4 class="text-white font-bold group-hover:text-[#2dd4bf] transition-colors">{tool.name}</h4>
+                      <p class="text-xs text-zinc-500 mt-1 line-clamp-1">{tool.description}</p>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+            <a href="/math" class="block w-full text-center mt-6 py-3 text-sm font-bold text-[#2dd4bf] bg-[#2dd4bf]/10 hover:bg-[#2dd4bf]/20 rounded-xl transition-all">
+              View All Math Solvers &rarr;
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 px-6 bg-white/[0.02] border-t border-white/[0.06]">
+      <div class="max-w-4xl mx-auto">
+        <ToolFAQ title="Math Solver Tools FAQ" faqs={faqs} />
+      </div>
+    </section>
+
+  </main>
+  
+  <Footer />
+</BaseLayout>

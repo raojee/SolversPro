@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ToolCard from '../components/ToolCard.astro';
+import ToolFAQ from '../components/ToolFAQ.astro';
+import { toolsByCategory } from '../data/tools';
+
+const developerTools = toolsByCategory['developer'] || [];
+
+// Select the top tools to feature
+const topTools = developerTools.slice(0, 6);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Developer Solver Tools - Complete Guide & Toolkit",
+  "description": "The ultimate collection of developer solver tools. Free, privacy-first, browser-based utilities for formatting JSON, decoding JWTs, and manipulating data.",
+  "url": "https://solverspro.com/developer-solver-tools"
+};
+
+const faqs = [
+  { question: "What are developer solver tools?", answer: "Developer solver tools are specialized utilities designed to help software engineers format, parse, decode, and manipulate data. Examples include JSON formatters, Base64 decoders, and YAML to XML converters." },
+  { question: "Why do developers need solver tools?", answer: "Modern web development often involves dealing with complex payloads (like nested JSON) or encoded strings (like JWTs). Solver tools automate the tedious process of reading and translating these formats, preventing human error." },
+  { question: "Are browser-based developer tools secure?", answer: "It depends on the tool. Many online tools send your pasted data to a backend server for processing, which is a massive security risk. SolversPro's developer solver tools are 100% secure because they run locally in your browser using JavaScript. No data is ever transmitted." },
+  { question: "What is the most commonly used developer solver tool?", answer: "JSON formatters and validators are typically the most heavily used tools, as JSON has become the standard data interchange format for REST APIs." }
+];
+---
+
+<BaseLayout
+  title="Developer Solver Tools | Complete Guide & Free Toolkit"
+  description="The ultimate collection of developer solver tools. Free, privacy-first, browser-based utilities for formatting JSON, decoding JWTs, and manipulating data locally."
+  canonical="https://solverspro.com/developer-solver-tools"
+  schema={schema}
+>
+  <Header />
+
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="py-20 px-6 bg-gradient-to-b from-[#ff6b35]/10 to-[#0a0a0f]">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+          The Ultimate <span class="text-[#ff6b35]">Developer Solver Tools</span> Hub
+        </h1>
+        <p class="text-xl text-zinc-400 leading-relaxed mb-10 max-w-2xl mx-auto">
+          Stop struggling with unreadable JSON, corrupted Base64 strings, and invalid XML. Access the world's fastest, privacy-first developer tools—running entirely in your browser.
+        </p>
+        <div class="flex justify-center gap-4">
+          <a href="/developer" class="px-8 py-4 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white rounded-xl font-bold transition-all shadow-lg shadow-[#ff6b35]/20">
+            View All 30+ Tools
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content & Featured Tools -->
+    <section class="py-16 px-6">
+      <div class="max-w-6xl mx-auto">
+        
+        <div class="grid lg:grid-cols-3 gap-12">
+          
+          <!-- Left Column: Copy -->
+          <div class="lg:col-span-2 prose prose-invert max-w-none text-zinc-300">
+            <h2 class="text-3xl font-bold text-white mb-6">Why You Need Dedicated Developer Solver Tools</h2>
+            <p>
+              When an API breaks in production or a Kubernetes configuration file throws a syntax error, time is critical. Attempting to manually parse a 10,000-line minified JSON payload or visually decode a JWT token is impossible. That's where <strong>developer solver tools</strong> come in.
+            </p>
+            <p>
+              A robust solver tool instantly transforms raw, chaotic data into a structured, readable format. However, relying on random websites to format your company's proprietary data introduces severe security risks.
+            </p>
+            
+            <h3 class="text-2xl font-bold text-white mt-10 mb-4">The Privacy-First Advantage</h3>
+            <p>
+              Every tool featured on SolversPro operates under a strict "Client-Side Only" architecture. This means when you paste an API payload into our JSON to YAML converter, or test a regular expression against sensitive customer emails, <strong>your data never leaves your computer</strong>. The processing happens natively within your browser's JavaScript engine.
+            </p>
+
+            <h3 class="text-2xl font-bold text-white mt-10 mb-4">Essential Categories of Developer Solvers</h3>
+            <ul>
+              <li><strong>Formatters & Validators:</strong> Ensure your JSON, XML, HTML, and CSS are syntactically perfect before deployment.</li>
+              <li><strong>Data-to-Class Generators:</strong> Instantly convert API payloads into typed interfaces for TypeScript, Go, Java, C#, and Python.</li>
+              <li><strong>Encoders & Decoders:</strong> Base64 and JWT manipulation are daily requirements for modern web development.</li>
+              <li><strong>Security & Hashing:</strong> Generate cryptographic hashes (SHA-256) entirely offline.</li>
+            </ul>
+          </div>
+
+          <!-- Right Column: Featured Tools -->
+          <div class="lg:col-span-1">
+            <h3 class="text-xl font-bold text-white mb-6 border-b border-white/[0.06] pb-4">Most Popular Solvers</h3>
+            <div class="flex flex-col gap-4">
+              {topTools.map(tool => (
+                <a href={tool.href} class="p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl hover:bg-white/[0.04] hover:border-[#ff6b35]/30 transition-all group">
+                  <div class="flex items-center gap-3">
+                    <span class="text-2xl">{tool.icon}</span>
+                    <div>
+                      <h4 class="text-white font-bold group-hover:text-[#ff6b35] transition-colors">{tool.name}</h4>
+                      <p class="text-xs text-zinc-500 mt-1 line-clamp-1">{tool.description}</p>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+            <a href="/developer" class="block w-full text-center mt-6 py-3 text-sm font-bold text-[#ff6b35] bg-[#ff6b35]/10 hover:bg-[#ff6b35]/20 rounded-xl transition-all">
+              Browse Entire Directory &rarr;
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 px-6 bg-white/[0.02] border-t border-white/[0.06]">
+      <div class="max-w-4xl mx-auto">
+        <ToolFAQ title="Developer Solver Tools FAQ" faqs={faqs} />
+      </div>
+    </section>
+
+  </main>
+  
+  <Footer />
+</BaseLayout>

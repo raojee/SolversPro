@@ -5,6 +5,7 @@ import SimilarTools from '../../components/SimilarTools.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
 const schema = {
@@ -75,7 +76,11 @@ const schema = {
       <ToolShare title="Base64 Encoder & Decoder" url="https://solverspro.com/developer/base64-converter" />
       <SimilarTools category="developer" currentPath="/developer/base64-converter" />
     
-
+      <ToolFAQ faqs={[
+        { question: "What is Base64 encoding used for?", answer: "Base64 is used to encode binary data into a text-based format. Developers commonly use it to embed images in CSS/HTML or to pass data safely in URLs and JSON payloads." },
+        { question: "Is this Base64 converter secure?", answer: "Yes! All encoding and decoding operations happen locally via your browser's native JavaScript APIs. We never send your text or data over the network." },
+        { question: "Does this tool support UTF-8 characters?", answer: "Yes, our converter automatically handles UTF-8 encoding so you can safely convert text containing emojis and special characters to Base64." }
+      ]} />
     </div>
   </main>
   <Footer />

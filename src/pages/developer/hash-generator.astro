@@ -5,6 +5,7 @@ import SimilarTools from '../../components/SimilarTools.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
 const schema = {
@@ -102,7 +103,11 @@ const schema = {
       <ToolShare title="Hash Generator" url="https://solverspro.com/developer/hash-generator" />
       <SimilarTools category="developer" currentPath="/developer/hash-generator" />
     
-
+      <ToolFAQ faqs={[
+        { question: "Can a cryptographic hash be decrypted?", answer: "No, cryptographic hashes like SHA-256 are one-way functions. They are designed to be irreversible, meaning you cannot 'decrypt' a hash back into its original text." },
+        { question: "Is this hash generator secure for passwords?", answer: "Yes, this tool runs entirely on your device using the Web Crypto API. However, for storing user passwords in a database, you should use a hashing algorithm designed with a 'work factor' (like bcrypt or Argon2) rather than raw SHA-256." },
+        { question: "Does the text length affect the hash length?", answer: "No. A specific hashing algorithm will always output a fixed-length string, regardless of whether the input is one letter or a billion words." }
+      ]} />
     </div>
   </main>
   <Footer />

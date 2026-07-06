@@ -5,6 +5,7 @@ import SimilarTools from '../../components/SimilarTools.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
 const schema = {
@@ -90,7 +91,11 @@ const schema = {
       <ToolShare title="JWT Token Decoder" url="https://solverspro.com/developer/jwt-decoder" />
       <SimilarTools category="developer" currentPath="/developer/jwt-decoder" />
     
-
+      <ToolFAQ faqs={[
+        { question: "Is decoding a JWT safe?", answer: "Yes, decoding a JWT only reads the Base64Url encoded public information. It does not modify or validate the token. Since our tool runs entirely in your browser, your token never leaves your device." },
+        { question: "Can I edit the JWT payload?", answer: "Currently, this tool is meant for decoding and inspecting existing tokens. If you edit the payload, the original signature will become invalid." },
+        { question: "Why do I see 'Invalid JWT format'?", answer: "A valid JWT must have exactly three parts separated by dots (header.payload.signature) and must be properly Base64Url encoded." }
+      ]} />
     </div>
   </main>
   <Footer />

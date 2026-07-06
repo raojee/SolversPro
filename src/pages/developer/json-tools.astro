@@ -5,6 +5,7 @@ import SimilarTools from '../../components/SimilarTools.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 import JsonEditor from '../../components/react/JsonEditor.jsx';
 
 const schema = {
@@ -42,6 +43,12 @@ const schema = {
     <div class="min-h-[600px] h-[calc(100vh-250px)]">
       <JsonEditor client:load />
     </div>
+
+    <ToolFAQ faqs={[
+      { question: "Is this JSON formatter safe to use?", answer: "Yes. All formatting and validation happens locally in your browser via JavaScript. Your data is never sent to our servers." },
+      { question: "How does the JSON validator work?", answer: "It attempts to parse the JSON string. If there is a syntax error, it will immediately highlight the exact line and character where the parsing failed." },
+      { question: "Can I format very large JSON files?", answer: "Yes, our tool is optimized for performance, but extremely massive files (e.g., hundreds of megabytes) might cause browser lag." }
+    ]} />
   </div>
   <Footer />
 </BaseLayout>
