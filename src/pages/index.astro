@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import SearchOverlay from '../components/SearchOverlay.astro';
 import ToolCard from '../components/ToolCard.astro';
 import CategoryCard from '../components/CategoryCard.astro';
+import InteractiveDemos from '../components/InteractiveDemos.astro';
 
 const tools = [
   {
@@ -83,19 +84,19 @@ const tools = [
 
 const testimonials = [
   {
-    quote: "SolversPro solved my engineering problems in seconds. Absolutely game-changing!",
+    quote: "The CIDR Subnet Calculator saved our team hours during the server migration. Being able to compute CIDR ranges client-side meant we didn't have to worry about our internal IP schemas leaking.",
     author: "Alex Chen",
-    role: "Mechanical Engineer"
+    role: "Systems Engineer at TechFlow"
   },
   {
-    quote: "The accuracy and speed are unmatched. I use it for all my financial calculations now.",
+    quote: "With over 60 tools instantly available, this has replaced five different websites I used to keep open. The JSON formatter is the fastest I've used.",
     author: "Sarah Johnson",
-    role: "Finance Analyst"
+    role: "Senior Developer"
   },
   {
-    quote: "Finally, a calculator that understands complex math. Highly recommended!",
+    quote: "Finally, a calculation platform that respects privacy. I use the loan calculators with clients securely without any server tracking our numbers.",
     author: "Marcus Williams",
-    role: "Physics Student"
+    role: "Financial Advisor"
   }
 ];
 ---
@@ -114,50 +115,96 @@ const testimonials = [
     </div>
 
     <div class="container mx-auto px-4 relative z-10">
-      <div class="max-w-2xl">
-        <div class="mb-6">
-          <span class="scifi-badge">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            PRECISION COMPUTING
-          </span>
-        </div>
-        
-        <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 text-white tracking-tight leading-[1.1]">
-          Master <span id="hero-dynamic-text" class="inline-block transition-opacity duration-300 min-w-[200px] sm:min-w-[320px]">Math</span> <br />
-          <span class="text-[#ff6b35]">with Intelligence</span>
-        </h1>
-        
-        <p class="text-lg sm:text-xl text-zinc-400 mb-10 max-w-lg leading-relaxed">
-          Free, lightning-fast, client-side calculation engines for engineering, finance, and health. All running at the speed of light, right in your browser.
-        </p>
-        
-        <div class="flex flex-wrap items-center gap-4 mb-12">
-          <a href="/solve" class="px-8 py-3.5 bg-[#2dd4bf] hover:bg-[#5eead4] text-slate-900 rounded font-semibold text-sm transition-all shadow-[0_0_15px_rgba(45,212,191,0.3)] hover:shadow-[0_0_25px_rgba(45,212,191,0.5)] flex items-center gap-2" style="font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em;">
-            Start Calculating
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-          <a href="/dashboard" class="px-8 py-3.5 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white rounded font-semibold text-sm transition-all shadow-[0_0_15px_rgba(255,107,53,0.3)] flex items-center gap-2" style="font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em;">
-            My Dashboard
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-          </a>
-          <a href="/docs" class="px-8 py-3.5 bg-transparent border border-white/[0.2] hover:border-white/[0.4] text-white rounded font-semibold text-sm transition-all" style="font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em;">
-            Learn More
-          </a>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <!-- Text Column -->
+        <div class="max-w-2xl">
+          <div class="mb-6">
+            <span class="scifi-badge">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              PRECISION COMPUTING
+            </span>
+          </div>
+          
+          <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 text-white tracking-tight leading-[1.1]">
+            Master <span id="hero-dynamic-text" class="inline-block transition-opacity duration-300 min-w-[200px] sm:min-w-[320px]">Math</span> <br />
+            <span class="text-[#ff6b35]">with Intelligence</span>
+          </h1>
+          
+          <p class="text-lg sm:text-xl text-zinc-400 mb-10 max-w-lg leading-relaxed">
+            Free, lightning-fast, client-side calculation engines for engineering, finance, and health. All running at the speed of light, right in your browser.
+          </p>
+          
+          <div class="flex flex-wrap items-center gap-4 mb-12">
+            <a href="/solve" class="px-8 py-3.5 bg-[#2dd4bf] hover:bg-[#5eead4] text-slate-900 rounded font-semibold text-sm transition-all shadow-[0_0_15px_rgba(45,212,191,0.3)] hover:shadow-[0_0_25px_rgba(45,212,191,0.5)] flex items-center gap-2" style="font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em;">
+              Start Calculating
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="/dashboard" class="px-8 py-3.5 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white rounded font-semibold text-sm transition-all shadow-[0_0_15px_rgba(255,107,53,0.3)] flex items-center gap-2" style="font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em;">
+              My Dashboard
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            </a>
+            <a href="/docs" class="px-8 py-3.5 bg-transparent border border-white/[0.2] hover:border-white/[0.4] text-white rounded font-semibold text-sm transition-all" style="font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em;">
+              Learn More
+            </a>
+          </div>
+
+          <div class="pt-6 border-t border-white/[0.06]">
+            <p class="text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-4" style="font-family: 'JetBrains Mono', monospace;">Trusted By & Built With</p>
+            <div class="flex items-center gap-4 text-sm text-white font-medium flex-wrap" style="font-family: 'JetBrains Mono', monospace;">
+              <span>60+ Tools</span>
+              <span class="text-[#ff6b35]">•</span>
+              <span>100% Client-Side</span>
+              <span class="text-[#ff6b35]">•</span>
+              <span>Zero Data Stored</span>
+              <span class="text-[#ff6b35]">•</span>
+              <a href="https://www.linkedin.com/in/tahirrao/" target="_blank" class="hover:text-[#2dd4bf] transition-colors underline decoration-white/[0.2] hover:decoration-[#2dd4bf]">Built by Tahir Rao</a>
+            </div>
+          </div>
         </div>
 
-        <div class="pt-6 border-t border-white/[0.06]">
-          <p class="text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-4" style="font-family: 'JetBrains Mono', monospace;">Trusted By</p>
-          <div class="flex items-center gap-4 text-sm text-white font-medium" style="font-family: 'JetBrains Mono', monospace;">
-            <span>Engineers</span>
-            <span class="text-[#ff6b35]">•</span>
-            <span>Finance Pros</span>
-            <span class="text-[#ff6b35]">•</span>
-            <span>Students</span>
+        <!-- AI Typing Demo Column -->
+        <div class="hidden lg:block relative">
+          <div class="absolute inset-0 bg-gradient-to-tr from-[#2dd4bf]/20 to-[#ff6b35]/20 blur-3xl opacity-50 rounded-full"></div>
+          <div class="relative bg-[#0d0d14]/80 border border-white/[0.1] rounded-2xl p-6 shadow-2xl backdrop-blur-md" style="font-family: 'JetBrains Mono', monospace;">
+            <!-- Mac style dots -->
+            <div class="flex gap-2 mb-6">
+              <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+            </div>
+            
+            <div class="space-y-4 text-sm">
+              <!-- User Input -->
+              <div class="flex gap-3 text-zinc-300 items-start">
+                <span class="text-[#2dd4bf] mt-0.5">❯</span>
+                <div class="flex-1">
+                  <span id="ai-typing-text"></span><span id="ai-typing-cursor" class="animate-pulse w-2 h-4 bg-[#2dd4bf] inline-block ml-1 align-middle"></span>
+                </div>
+              </div>
+              
+              <!-- AI Response (Hidden initially) -->
+              <div id="ai-response-box" class="hidden opacity-0 transition-opacity duration-700 pt-5 border-t border-white/[0.06]">
+                <div class="flex gap-3 text-white">
+                  <span class="text-[#ff6b35] text-lg">🤖</span>
+                  <div class="space-y-3 flex-1">
+                    <p class="text-[#2dd4bf] font-bold">Step-by-step Solution:</p>
+                    <p class="text-zinc-400">1. Apply the power rule: <span class="text-zinc-300">d/dx(x^n) = n*x^(n-1)</span></p>
+                    <p class="text-zinc-400">2. Derivative of 4x² = 4 * 2x^(2-1) = <span class="text-white">8x</span></p>
+                    <p class="text-zinc-400">3. Derivative of 3x = 3 * 1x^(1-1) = <span class="text-white">3</span></p>
+                    <div class="mt-4 p-4 bg-white/[0.03] rounded-xl border border-white/[0.05]">
+                      <p class="text-lg font-bold text-white">Result: <span class="text-[#ff6b35]">8x + 3</span></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <InteractiveDemos />
 
   <!-- World Clock & Timezone Section -->
   <section class="py-20 border-b border-white/[0.06]" style="background: linear-gradient(180deg, #08080f 0%, #0d0d14 100%);">
@@ -406,6 +453,35 @@ const testimonials = [
         el.style.opacity = '1';
       }, 300); // Wait for fade out to complete
     }, 2500); // Change every 2.5 seconds
+  }
+
+  // --- AI Typing Effect Logic ---
+  const typingTextEl = document.getElementById('ai-typing-text');
+  const aiResponseBox = document.getElementById('ai-response-box');
+  const cursorEl = document.getElementById('ai-typing-cursor');
+  
+  if (typingTextEl && aiResponseBox && cursorEl) {
+    const textToType = "Solve the derivative of 4x^2 + 3x";
+    let charIndex = 0;
+    
+    // Start typing after a short delay
+    setTimeout(() => {
+      const typeInterval = setInterval(() => {
+        typingTextEl.textContent += textToType.charAt(charIndex);
+        charIndex++;
+        if (charIndex >= textToType.length) {
+          clearInterval(typeInterval);
+          cursorEl.style.display = 'none'; // hide cursor when done typing
+          // Show the response box after a brief "thinking" pause
+          setTimeout(() => {
+            aiResponseBox.classList.remove('hidden');
+            // Trigger reflow to ensure transition works
+            void aiResponseBox.offsetWidth;
+            aiResponseBox.classList.remove('opacity-0');
+          }, 600);
+        }
+      }, 50); // Typing speed
+    }, 1000);
   }
 
   // --- World Clock Logic ---
