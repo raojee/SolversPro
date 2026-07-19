@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import BlogRating from '../../components/BlogRating.astro';
+import BlogShare from '../../components/BlogShare.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Essential Network Tools: IP Subnet Calculator and IP Lookup Explained",
+  "description": "Understand how to manage IP addresses, calculate subnets, and perform IP lookups using our free suite of online network administration tools.",
+  "author": {
+    "@type": "Organization",
+    "name": "SolversPro"
+  },
+  "datePublished": new Date().toISOString().split('T')[0],
+};
+---
+
+<BaseLayout
+  title="Essential Network Tools: IP Subnets & Lookups | SolversPro Blog"
+  description="Learn how to efficiently manage IP addresses, calculate network subnets, and perform IP lookups with our free online network administration tools."
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-16 px-6">
+    <article class="max-w-4xl mx-auto">
+      <!-- Header -->
+      <header class="mb-12">
+        <nav aria-label="breadcrumb" class="mb-6">
+          <ol class="flex items-center space-x-2 text-sm text-zinc-400">
+            <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <a href="/blog" class="hover:text-white transition-colors">Blog</a>
+            </li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <span class="text-[#ff6b35]">Network Admin</span>
+            </li>
+          </ol>
+        </nav>
+        
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">Essential Network Tools: IP Subnet Calculator and IP Lookup Explained</h1>
+        
+        <div class="flex items-center gap-4 text-sm text-zinc-400 mb-8 pb-8 border-b border-white/[0.06]">
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            July 20, 2026
+          </span>
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            4 min read
+          </span>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-a:text-[#2dd4bf] hover:prose-a:text-[#5eead4] prose-strong:text-white">
+        <p class="lead text-xl text-zinc-300 mb-8">
+          Whether you're studying for your CCNA, configuring a home lab, or working as a professional system administrator, dealing with IP addresses and subnets is an unavoidable reality. Manual binary math is prone to errors, which is why network tools are essential.
+        </p>
+
+        <p>
+          At SolversPro, we've developed a suite of lightweight, browser-based network tools designed to make IP management fast and error-free. Let's look at how to use them effectively.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Mastering Subnetting with the IP Subnet Calculator</h2>
+        <p>
+          Subnetting involves dividing a large network into smaller, more manageable sub-networks. This improves network performance and enhances security by isolating traffic. However, calculating the network address, broadcast address, and usable host range requires complex binary math.
+        </p>
+        <p>
+          Our <a href="/network/ip-subnet-calculator">IP Subnet Calculator</a> automates this entirely. 
+        </p>
+        <ol>
+          <li>Enter any valid IPv4 address (e.g., 192.168.1.50).</li>
+          <li>Select your subnet mask via CIDR notation (e.g., /24).</li>
+          <li>Instantly receive your Network ID, Broadcast ID, Subnet Mask in dotted decimal, and the exact range of usable IPs.</li>
+        </p>
+        <p>
+          It even displays the maximum number of hosts supported by your chosen subnet, making network capacity planning a breeze.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Investigating IP Addresses with IP Lookup</h2>
+        <p>
+          See a suspicious IP address in your server logs? Need to verify the geographical location of a remote server? 
+        </p>
+        <p>
+          The <a href="/network/ip-lookup">IP Lookup Tool</a> provides instant geolocation data for any public IPv4 or IPv6 address. Enter an IP, and the tool will query public registries to return the associated Country, Region, City, ISP (Internet Service Provider), and approximate latitude/longitude coordinates.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">What is My Public IP?</h2>
+        <p>
+          When you connect to the internet from behind a router, your local IP (like 192.168.x.x) is hidden behind a public IP address assigned by your ISP via NAT (Network Address Translation). 
+        </p>
+        <p>
+          If you need to whitelist your current location for remote server access or configure a firewall, you need to know your public IP. Our simple <a href="/network/my-ip">What Is My IP</a> tool detects and displays your public-facing IPv4 or IPv6 address the second you open the page.
+        </p>
+
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-8 my-12">
+          <h3 class="text-xl font-bold text-white mb-4 mt-0">Fast, Free, and Privacy-Focused</h3>
+          <p class="mb-0 text-zinc-400">
+            Unlike many other network tool websites, SolversPro doesn't log your queries. Whether you're calculating subnets for a corporate infrastructure or looking up IPs from a server log, your data isn't tracked or stored.
+          </p>
+        </div>
+
+        <p>
+          Check out our complete <a href="/all-tools#section-network">Network Tools Category</a> to simplify your daily admin tasks.
+        </p>
+      </div>
+
+      <BlogShare url="https://solverspro.com/blog/essential-network-tools-ip-subnet-calculator" title="Essential Network Tools: IP Subnet Calculator and IP Lookup Explained" />
+      <BlogRating />
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import BlogRating from '../../components/BlogRating.astro';
+import BlogShare from '../../components/BlogShare.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How to Calculate ROI and Cash-on-Cash Return for Real Estate",
+  "description": "Learn the difference between ROI and Cash-on-Cash Return, and how to use free online financial calculators to analyze your real estate investments.",
+  "author": {
+    "@type": "Organization",
+    "name": "SolversPro"
+  },
+  "datePublished": new Date().toISOString().split('T')[0],
+};
+---
+
+<BaseLayout
+  title="Calculate ROI and Cash-on-Cash Return | SolversPro Blog"
+  description="Learn the difference between ROI and Cash-on-Cash Return, and how to easily analyze your real estate investments using free online financial calculators."
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-16 px-6">
+    <article class="max-w-4xl mx-auto">
+      <!-- Header -->
+      <header class="mb-12">
+        <nav aria-label="breadcrumb" class="mb-6">
+          <ol class="flex items-center space-x-2 text-sm text-zinc-400">
+            <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <a href="/blog" class="hover:text-white transition-colors">Blog</a>
+            </li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <span class="text-[#ff6b35]">Finance Guides</span>
+            </li>
+          </ol>
+        </nav>
+        
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">How to Calculate ROI and Cash-on-Cash Return for Real Estate</h1>
+        
+        <div class="flex items-center gap-4 text-sm text-zinc-400 mb-8 pb-8 border-b border-white/[0.06]">
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            July 20, 2026
+          </span>
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            6 min read
+          </span>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-a:text-[#2dd4bf] hover:prose-a:text-[#5eead4] prose-strong:text-white">
+        <p class="lead text-xl text-zinc-300 mb-8">
+          Whether you're buying your first rental property or expanding an established portfolio, making the numbers work is the most critical step in real estate investing. Two of the most common metrics used to evaluate profitability are Return on Investment (ROI) and Cash-on-Cash (CoC) Return. 
+        </p>
+
+        <p>
+          While they sound similar, they measure very different aspects of your investment. In this guide, we'll explain the difference between them and show you how to calculate both quickly using our free online finance tools.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">What is Return on Investment (ROI)?</h2>
+        <p>
+          ROI is a broad metric that measures the overall profitability of an investment compared to its total cost. It accounts for all money earned and all money spent over the life of the investment.
+        </p>
+        <p><strong>The Formula:</strong></p>
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 font-mono text-center text-[#ff6b35]">
+          ROI = (Net Profit / Total Investment Cost) × 100
+        </div>
+        <p class="mt-4">
+          For example, if you buy a house in cash for $200,000, spend $20,000 on renovations, and later sell it for $260,000, your net profit is $40,000. Your ROI would be ($40,000 / $220,000) × 100 = 18.18%.
+        </p>
+        <p>
+          Need to calculate this quickly? Use our <a href="/finance/roi-calculator">Free ROI Calculator</a> to instantly determine your percentage return, annualized return, and net profit.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">What is Cash-on-Cash Return?</h2>
+        <p>
+          While ROI looks at the total investment (including loans), Cash-on-Cash Return strictly measures the annual return on the actual <strong>cash you personally invested</strong>. This metric is favored by real estate investors because it perfectly illustrates the power of leverage (using a mortgage).
+        </p>
+        <p><strong>The Formula:</strong></p>
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 font-mono text-center text-[#2dd4bf]">
+          CoC Return = (Annual Pre-Tax Cash Flow / Total Cash Invested) × 100
+        </div>
+        
+        <h3 class="text-xl font-bold mt-8 mb-4">A Practical Example:</h3>
+        <p>Let's say you buy a $300,000 rental property using a conventional mortgage:</p>
+        <ul>
+          <li><strong>Down Payment (20%):</strong> $60,000</li>
+          <li><strong>Closing Costs:</strong> $8,000</li>
+          <li><strong>Initial Repairs:</strong> $12,000</li>
+          <li><strong>Total Cash Invested:</strong> $80,000</li>
+        </ul>
+        <p>Now let's look at the income:</p>
+        <ul>
+          <li><strong>Monthly Rent:</strong> $2,500 ($30,000/year)</li>
+          <li><strong>Monthly Expenses (Mortgage, Taxes, Insurance, Maintenance):</strong> $1,900 ($22,800/year)</li>
+          <li><strong>Annual Cash Flow:</strong> $7,200</li>
+        </ul>
+        <p>
+          Your Cash-on-Cash Return is ($7,200 / $80,000) × 100 = <strong>9%</strong>.
+        </p>
+        <p>
+          Running these numbers manually for every potential property is tedious. We built the <a href="/finance/cash-on-cash-return">Cash-on-Cash Return Calculator</a> to do it for you. Just plug in your purchase price, down payment, monthly rent, and expenses, and it will instantly break down your monthly and annual cash flow.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Which Metric Should You Use?</h2>
+        <p>
+          Both! Smart investors use CoC Return to evaluate short-term cash flow and the efficiency of their capital. They use ROI to evaluate the total, long-term wealth generated by the property, including loan paydown and market appreciation.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Other Essential Finance Calculators</h2>
+        <p>
+          When analyzing properties, you'll also need to calculate your monthly debt service. Our <a href="/finance/mortgage-calculator">Mortgage Calculator</a> lets you easily figure out your monthly principal and interest payments based on current interest rates. 
+        </p>
+        <p>
+          Explore our full suite of <a href="/all-tools#section-finance">Financial Tools</a> to make data-driven investment decisions with confidence.
+        </p>
+      </div>
+
+      <BlogShare url="https://solverspro.com/blog/how-to-calculate-roi-and-cash-on-cash-return" title="How to Calculate ROI and Cash-on-Cash Return for Real Estate" />
+      <BlogRating />
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
