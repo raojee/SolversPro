@@ -1,7 +1,7 @@
 ---
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 w-full bg-[#0d0d14]/90 border-b border-white/[0.06] transition-all duration-300" style="backdrop-filter: blur(12px);" id="main-header">
+<header class="fixed top-0 left-0 right-0 z-50 w-full bg-[#0d0d14]/90 border-b border-white/[0.06] transition-all duration-300" style="backdrop-filter: blur(12px);" id="main-header" data-scrolled="false">
   <div class="container mx-auto px-4 h-16 flex items-center justify-between">
     <!-- Logo -->
     <a href="/" class="flex items-center gap-3 no-underline group" id="header-logo">
@@ -154,6 +154,33 @@
 </header>
 
 <script>
+  // Scroll-aware header: becomes more prominent after user scrolls past hero
+  const mainHeader = document.getElementById('main-header');
+  let lastScrollY = 0;
+
+  function onScroll() {
+    const scrollY = window.scrollY;
+    if (scrollY > 60) {
+      mainHeader?.setAttribute('data-scrolled', 'true');
+      if (mainHeader) {
+        mainHeader.style.background = 'rgba(13, 13, 20, 0.98)';
+        mainHeader.style.borderBottomColor = 'rgba(255, 107, 53, 0.15)';
+        mainHeader.style.boxShadow = '0 1px 30px rgba(0, 0, 0, 0.6)';
+      }
+    } else {
+      mainHeader?.setAttribute('data-scrolled', 'false');
+      if (mainHeader) {
+        mainHeader.style.background = 'rgba(13, 13, 20, 0.90)';
+        mainHeader.style.borderBottomColor = 'rgba(255, 255, 255, 0.06)';
+        mainHeader.style.boxShadow = 'none';
+      }
+    }
+    lastScrollY = scrollY;
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll(); // run on load
+
   const menuToggle = document.getElementById('mobile-menu-toggle');
   const menuClose = document.getElementById('mobile-menu-close');
   const drawer = document.getElementById('mobile-drawer');
