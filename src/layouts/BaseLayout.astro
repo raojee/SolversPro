@@ -20,6 +20,7 @@ const canonicalUrl = canonical || Astro.url.href;
 import '../styles/global.css';
 import ActivityTracker from '../components/ActivityTracker.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
+import Toast from '../components/Toast.astro';
 ---
 
 <!DOCTYPE html>
@@ -81,12 +82,16 @@ import GoogleAnalytics from '../components/GoogleAnalytics.astro';
     }
   </script>
 
+  <!-- Per-page head slot (e.g. KaTeX, extra stylesheets) -->
+  <slot name="head" />
+
   <!-- Analytics -->
   <GoogleAnalytics />
 
 </head>
 <body class="min-h-screen flex flex-col bg-[#0a0a0f] text-zinc-400 pt-16">
   <slot />
+  <Toast />
   <ActivityTracker />
 </body>
 </html>

@@ -28,7 +28,9 @@ const schema = {
   canonical="https://solverspro.com/solve"
   schema={schema}
 >
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsRQ01PxyUG251qK80nA+rB4LpMQIuz9fX03tFkQ0IeStE/x2YyK0GjOww" crossorigin="anonymous">
+  <Fragment slot="head">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsRQ01PxyUG251qK80nA+rB4LpMQIuz9fX03tFkQ0IeStE/x2YyK0GjOww" crossorigin="anonymous">
+  </Fragment>
   <Header />
   <SearchOverlay />
 

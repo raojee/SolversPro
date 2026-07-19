@@ -1,0 +1,109 @@
+---
+---
+
+<!-- Global Toast Notification System -->
+<!-- Usage: window.showToast('Your message', 'success' | 'error' | 'info') -->
+
+<div id="toast-container" class="fixed bottom-6 right-6 z-[9999] flex flex-col gap-3 pointer-events-none" aria-live="polite"></div>
+
+<style>
+  .toast {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    max-width: 360px;
+    pointer-events: all;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    border: 1px solid;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .toast.show {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  .toast.hide {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  .toast-success {
+    background: rgba(13, 13, 20, 0.95);
+    border-color: rgba(45, 212, 191, 0.4);
+    color: #2dd4bf;
+  }
+  .toast-error {
+    background: rgba(13, 13, 20, 0.95);
+    border-color: rgba(248, 113, 113, 0.4);
+    color: #f87171;
+  }
+  .toast-info {
+    background: rgba(13, 13, 20, 0.95);
+    border-color: rgba(255, 107, 53, 0.4);
+    color: #ff6b35;
+  }
+  .toast-icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+  }
+  .toast-close {
+    margin-left: auto;
+    flex-shrink: 0;
+    cursor: pointer;
+    opacity: 0.6;
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 0;
+    line-height: 1;
+  }
+  .toast-close:hover { opacity: 1; }
+</style>
+
+<script is:inline>
+  (function() {
+    const ICONS = {
+      success: `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>`,
+      error:   `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
+      info:    `<svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+    };
+
+    window.showToast = function(message, type = 'info', duration = 4000) {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.innerHTML = `
+        ${ICONS[type] || ICONS.info}
+        <span style="flex:1">${message}</span>
+        <button class="toast-close" aria-label="Dismiss">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      `;
+
+      container.appendChild(toast);
+
+      // Trigger entrance animation
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => toast.classList.add('show'));
+      });
+
+      const dismiss = () => {
+        toast.classList.remove('show');
+        toast.classList.add('hide');
+        setTimeout(() => toast.remove(), 350);
+      };
+
+      toast.querySelector('.toast-close').addEventListener('click', dismiss);
+      setTimeout(dismiss, duration);
+    };
+  })();
+</script>
