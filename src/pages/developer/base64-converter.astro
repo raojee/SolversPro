@@ -104,7 +104,7 @@ const schema = {
       setTimeout(() => base64Input.classList.remove('ring-2', 'ring-[#2dd4bf]', 'border-[#2dd4bf]'), 500);
       showSaveBtn();
     } catch (e) {
-      alert("Error encoding text.");
+      window.showToast?.('Error encoding text — ensure the input is valid UTF-8.', 'error');
     }
   });
 
@@ -122,7 +122,7 @@ const schema = {
       setTimeout(() => textInput.classList.remove('ring-2', 'ring-[#ff6b35]', 'border-[#ff6b35]'), 500);
       showSaveBtn();
     } catch (e) {
-      alert("Invalid Base64 string.");
+      window.showToast?.('Invalid Base64 string — check your input and try again.', 'error');
     }
   });
 

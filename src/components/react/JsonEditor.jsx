@@ -65,7 +65,7 @@ export default function JsonEditor() {
       const parsed = JSON.parse(input);
       setParsedData(parsed);
       setError(null);
-      alert('Valid JSON!');
+      window.showToast?.('Valid JSON! ✓ No syntax errors found.', 'success');
     } catch (e) {
       setError(e.message);
     }

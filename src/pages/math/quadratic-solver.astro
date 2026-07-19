@@ -135,7 +135,7 @@ const faqItems = [
     const c = parseFloat((document.querySelector('input[name="c"]') as HTMLInputElement).value) || 0;
     
     if (a === 0) {
-      alert("Coefficient 'a' cannot be 0 for a quadratic equation.");
+      window.showToast?.("Coefficient 'a' cannot be 0 for a quadratic equation.", 'error');
       return;
     }
 

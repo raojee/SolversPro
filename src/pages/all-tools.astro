@@ -12,50 +12,150 @@ const formatCategory = (cat: string) => {
   if (cat === 'tools') return 'PDF Tools';
   return cat.charAt(0).toUpperCase() + cat.slice(1) + (cat === 'trades' || cat === 'math' || cat === 'finance' || cat === 'health' || cat === 'developer' || cat === 'security' || cat === 'network' || cat === 'text' ? ' Tools' : '');
 };
+
+// Build flat tool list for client-side search
+const allTools = Object.entries(toolsByCategory).flatMap(([category, items]) =>
+  items.map(tool => ({ ...tool, category }))
+);
+const totalCount = allTools.length;
 ---
 
 <BaseLayout
   title="All Tools | SolversPro"
-  description="Explore our complete collection of 70+ free online calculators, converters, developer utilities, and engineering tools."
+  description={`Explore our complete collection of ${totalCount}+ free online calculators, converters, developer utilities, and engineering tools — all running in your browser.`}
+  canonical="https://solverspro.com/all-tools"
 >
   <Header />
   <SearchOverlay />
 
   <main class="flex-1 py-16 px-6">
     <div class="max-w-7xl mx-auto">
-      <div class="mb-12">
+
+      <!-- Header -->
+      <div class="mb-10">
         <span class="scifi-badge mb-6">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
           TOOLKIT
         </span>
-        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">All Tools</h1>
-        <p class="text-lg text-zinc-400 max-w-2xl">Browse our complete collection of 70+ free online calculators, converters, developer utilities, and engineering tools.</p>
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">All Tools</h1>
+        <p class="text-lg text-zinc-400 max-w-2xl">Browse our complete collection of <strong class="text-white">{totalCount}+</strong> free tools — all running locally in your browser.</p>
       </div>
 
-      <div class="space-y-16">
+      <!-- Search + Category Filter -->
+      <div class="sticky top-[64px] z-30 bg-[#0a0a0f]/95 backdrop-blur-md border-b border-white/[0.06] -mx-6 px-6 py-4 mb-10">
+        <div class="flex flex-col sm:flex-row gap-3 max-w-3xl">
+          <div class="relative flex-1">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input
+              id="tool-search"
+              type="search"
+              placeholder="Search tools... (e.g. JSON, mortgage, regex)"
+              autocomplete="off"
+              class="w-full pl-9 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.1] rounded-lg text-white placeholder:text-zinc-600 text-sm focus:border-[#ff6b35] focus:outline-none transition-colors"
+              style="font-family: 'JetBrains Mono', monospace;"
+            />
+          </div>
+          <select
+            id="category-filter"
+            class="px-3 py-2.5 bg-white/[0.04] border border-white/[0.1] rounded-lg text-zinc-300 text-sm focus:border-[#ff6b35] focus:outline-none transition-colors"
+            style="font-family: 'JetBrains Mono', monospace;"
+          >
+            <option value="">All Categories</option>
+            {Object.keys(toolsByCategory).map(cat => (
+              <option value={cat}>{formatCategory(cat)}</option>
+            ))}
+          </select>
+        </div>
+        <!-- Result count -->
+        <p id="search-count" class="text-xs text-zinc-600 mt-2" style="font-family: 'JetBrains Mono', monospace;">
+          Showing {totalCount} tools
+        </p>
+      </div>
+
+      <!-- No results message (hidden by default) -->
+      <div id="no-results" class="hidden text-center py-24">
+        <p class="text-zinc-500 text-lg mb-2">No tools found.</p>
+        <p class="text-zinc-600 text-sm">Try a different keyword or clear the filter.</p>
+      </div>
+
+      <!-- Tool sections — rendered server-side, filtered client-side -->
+      <div id="tools-container" class="space-y-16">
         {Object.entries(toolsByCategory).map(([category, items]) => (
-          <section id={category}>
+          <section id={`section-${category}`} data-category={category}>
             <div class="flex items-center gap-4 mb-8 border-b border-white/[0.06] pb-4">
               <h2 class="text-2xl font-bold text-white capitalize">{formatCategory(category)}</h2>
-              <span class="px-2.5 py-0.5 rounded-full bg-white/[0.05] border border-white/[0.1] text-xs font-mono text-zinc-400">
+              <span class="px-2.5 py-0.5 rounded-full bg-white/[0.05] border border-white/[0.1] text-xs font-mono text-zinc-400 section-count">
                 {items.length}
               </span>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 tool-grid">
               {items.map(tool => (
-                <ToolCard
-                  title={tool.title}
-                  description={tool.description}
-                  icon={tool.icon}
-                  href={tool.href}
-                />
+                <div
+                  data-title={tool.title.toLowerCase()}
+                  data-desc={tool.description.toLowerCase()}
+                  data-category={category}
+                  class="tool-item"
+                >
+                  <ToolCard
+                    title={tool.title}
+                    description={tool.description}
+                    icon={tool.icon}
+                    href={tool.href}
+                  />
+                </div>
               ))}
             </div>
           </section>
         ))}
       </div>
+
     </div>
   </main>
 
   <Footer />
 </BaseLayout>
+
+<script is:inline>
+  (function () {
+    const searchInput = document.getElementById('tool-search');
+    const categoryFilter = document.getElementById('category-filter');
+    const searchCount = document.getElementById('search-count');
+    const noResults = document.getElementById('no-results');
+    const sections = document.querySelectorAll('[id^="section-"]');
+    const totalTools = document.querySelectorAll('.tool-item').length;
+
+    function filter() {
+      const q = searchInput.value.toLowerCase().trim();
+      const cat = categoryFilter.value;
+      let visible = 0;
+
+      sections.forEach(section => {
+        const sectionCat = section.dataset.category;
+        const items = section.querySelectorAll('.tool-item');
+        let sectionVisible = 0;
+
+        items.forEach(item => {
+          const matchSearch = !q || item.dataset.title.includes(q) || item.dataset.desc.includes(q);
+          const matchCat = !cat || item.dataset.category === cat;
+          const show = matchSearch && matchCat;
+
+          item.style.display = show ? '' : 'none';
+          if (show) { sectionVisible++; visible++; }
+        });
+
+        // Hide entire section if nothing inside it matches
+        section.style.display = sectionVisible > 0 ? '' : 'none';
+
+        // Update per-section count badge
+        const badge = section.querySelector('.section-count');
+        if (badge) badge.textContent = sectionVisible;
+      });
+
+      searchCount.textContent = `Showing ${visible} of ${totalTools} tools`;
+      noResults.classList.toggle('hidden', visible > 0);
+    }
+
+    searchInput?.addEventListener('input', filter);
+    categoryFilter?.addEventListener('change', filter);
+  })();
+</script>

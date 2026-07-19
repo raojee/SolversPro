@@ -88,7 +88,7 @@ const schema = {
       .filter(n => !isNaN(n));
       
     if (data.length === 0) {
-      alert("Please enter a valid comma-separated list of numbers.");
+      window.showToast?.('Please enter a valid comma-separated list of numbers.', 'error');
       return;
     }
 

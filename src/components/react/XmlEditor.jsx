@@ -128,7 +128,7 @@ export default function XmlEditor() {
       
       setParsedData(xmlToJson(xmlDoc));
       setError(null);
-      alert('Valid XML!');
+      window.showToast?.('Valid XML! ✓ No syntax errors found.', 'success');
     } catch (e) {
       setError(e.message);
     }
