@@ -1,0 +1,4 @@
+/developer-solver-tools /developer 301
+/math-solver-tools /math 301
+/tools/* /pdf/:splat 301
+/solve /search 301

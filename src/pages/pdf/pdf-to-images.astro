@@ -12,7 +12,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
   <SearchOverlay />
   <main class="flex-1 py-12">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/tools'},{label:'PDF to Images'}]} />
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf'},{label:'PDF to Images'}]} />
       <div class="mb-8 mt-4 text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">PDF to Images</h1>
         <p class="text-zinc-400">Convert each PDF page into a high-quality PNG image. Preview and download all or individually.</p>
@@ -61,8 +61,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
           <div id="image-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
         </div>
       </div>
-      <ToolShare title="PDF to Images" url="https://solverspro.com/tools/pdf-to-images" />
-      <SimilarTools category="tools" currentPath="/tools/pdf-to-images" />
+      <ToolShare title="PDF to Images" url="https://solverspro.com/pdf/pdf-to-images" />
+      <SimilarTools category="pdf" currentPath="/pdf/pdf-to-images" />
     
     </div>
   </main>

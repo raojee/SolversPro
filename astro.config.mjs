@@ -9,7 +9,13 @@ export default defineConfig({
   site: 'https://solverspro.com',
   output: 'static',
   integrations: [
-    sitemap(),
+    sitemap({
+      filter: (page) => !page.includes('/dashboard'),
+      serialize(item) {
+        item.lastmod = new Date().toISOString();
+        return item;
+      }
+    }),
     react(),
     AstroPWA({
       registerType: 'autoUpdate',

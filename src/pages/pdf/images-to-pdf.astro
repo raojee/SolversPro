@@ -12,7 +12,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
   <SearchOverlay />
   <main class="flex-1 py-12">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/tools'},{label:'Images to PDF'}]} />
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf'},{label:'Images to PDF'}]} />
       <div class="mb-8 mt-4 text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Images to PDF</h1>
         <p class="text-zinc-400">Combine multiple images (JPG, PNG, WebP) into a single PDF. Drag to reorder.</p>
@@ -73,8 +73,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
           <a id="download-link" class="inline-flex items-center gap-2 px-8 py-3 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white font-semibold rounded-xl transition-colors">⬇️ Download PDF</a>
         </div>
       </div>
-      <ToolShare title="Images to PDF" url="https://solverspro.com/tools/images-to-pdf" />
-      <SimilarTools category="tools" currentPath="/tools/images-to-pdf" />
+      <ToolShare title="Images to PDF" url="https://solverspro.com/pdf/images-to-pdf" />
+      <SimilarTools category="pdf" currentPath="/pdf/images-to-pdf" />
     
     </div>
   </main>

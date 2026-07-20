@@ -12,7 +12,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
   <SearchOverlay />
   <main class="flex-1 py-12">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/tools'},{label:'PDF to Text'}]} />
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf'},{label:'PDF to Text'}]} />
       <div class="mb-8 mt-4 text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">PDF to Text</h1>
         <p class="text-zinc-400">Extract all readable text from any PDF. Copy to clipboard or download as a .txt file.</p>
@@ -46,8 +46,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
           <textarea id="text-output" readonly class="w-full h-96 bg-[#0a0a12] border border-white/[0.06] rounded-xl p-4 text-sm text-zinc-300 font-mono leading-relaxed resize-y focus:outline-none"></textarea>
         </div>
       </div>
-      <ToolShare title="PDF to Text" url="https://solverspro.com/tools/pdf-to-text" />
-      <SimilarTools category="tools" currentPath="/tools/pdf-to-text" />
+      <ToolShare title="PDF to Text" url="https://solverspro.com/pdf/pdf-to-text" />
+      <SimilarTools category="pdf" currentPath="/pdf/pdf-to-text" />
     
     </div>
   </main>
