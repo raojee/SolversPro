@@ -20,13 +20,13 @@ const schema = {
     "price": "0",
     "priceCurrency": "USD"
   },
-  "description": "Convert live exchange rates across 160+ currencies using official central bank reference rates. Real-time rates, historical comparisons, and multi-currency rate boards."
+  "description": "Convert live exchange rates across 160+ world currencies using official central bank reference rates. Real-time rates, historical comparisons, and multi-currency rate boards."
 };
 
 const faqItems = [
   {
     question: "Where do the currency exchange rates come from?",
-    answer: "Our rates are powered by Frankfurter, an open-source financial data API sourcing daily reference rates directly from 84 central banks worldwide, including the European Central Bank (ECB), Federal Reserve, and Bank of England."
+    answer: "Our rates are powered by Frankfurter v2, an open-source financial data API sourcing daily reference rates directly from 84 central banks worldwide, including the European Central Bank (ECB), Federal Reserve, and Bank of England."
   },
   {
     question: "How often are exchange rates updated?",
@@ -38,7 +38,7 @@ const faqItems = [
   },
   {
     question: "Can I view historical currency conversion rates?",
-    answer: "Yes! You can pick any historical date using the Historical Rate Lookup tool to see official central bank reference exchange rates dating all the way back to 1999 (and up to 1948 for major pairs)."
+    answer: "Yes! You can pick any historical date using the Historical Rate Lookup tool to see official central bank reference exchange rates dating all the way back to 1999."
   },
   {
     question: "How many currencies are supported?",
@@ -93,7 +93,7 @@ const relatedTools = [
           Live Currency Converter
         </h1>
         <p class="text-zinc-400 text-base sm:text-lg leading-relaxed">
-          Convert 160+ world currencies with mid-market rates from 84 central banks. Fast, 100% free, and updated daily.
+          Convert 160+ world currencies with mid-market rates from 84 central banks. Fast, 100% free, and searchable.
         </p>
       </div>
 
@@ -122,26 +122,23 @@ const relatedTools = [
               </div>
             </div>
 
-            <!-- From Currency -->
+            <!-- From Currency Button (Custom Searchable) -->
             <div class="md:col-span-3">
-              <label for="from-currency" class="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">From</label>
-              <select
-                id="from-currency"
-                class="w-full bg-[#14141f] border border-white/[0.1] rounded-xl px-4 py-3.5 text-white font-mono text-base focus:outline-none focus:border-[#2dd4bf] transition-colors cursor-pointer"
+              <label class="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">From</label>
+              <button
+                type="button"
+                id="from-currency-btn"
+                class="w-full bg-[#14141f] border border-white/[0.1] hover:border-[#2dd4bf]/50 rounded-xl px-4 py-3.5 text-left font-mono flex items-center justify-between text-white transition-all cursor-pointer group"
               >
-                <option value="USD">USD — US Dollar</option>
-                <option value="EUR">EUR — Euro</option>
-                <option value="GBP">GBP — British Pound</option>
-                <option value="PKR">PKR — Pakistani Rupee</option>
-                <option value="INR">INR — Indian Rupee</option>
-                <option value="AED">AED — UAE Dirham</option>
-                <option value="SAR">SAR — Saudi Riyal</option>
-                <option value="CAD">CAD — Canadian Dollar</option>
-                <option value="AUD">AUD — Australian Dollar</option>
-                <option value="JPY">JPY — Japanese Yen</option>
-                <option value="CNY">CNY — Chinese Yuan</option>
-                <option value="CHF">CHF — Swiss Franc</option>
-              </select>
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <span id="from-flag" class="text-xl shrink-0">🇺🇸</span>
+                  <div class="flex flex-col min-w-0">
+                    <span id="from-code" class="font-bold text-white text-base leading-none">USD</span>
+                    <span id="from-name" class="text-[11px] text-zinc-400 truncate mt-1">US Dollar</span>
+                  </div>
+                </div>
+                <svg class="w-4 h-4 text-zinc-500 group-hover:text-[#2dd4bf] transition-colors shrink-0 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
             </div>
 
             <!-- Swap Button -->
@@ -158,26 +155,23 @@ const relatedTools = [
               </button>
             </div>
 
-            <!-- To Currency -->
+            <!-- To Currency Button (Custom Searchable) -->
             <div class="md:col-span-4">
-              <label for="to-currency" class="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">To</label>
-              <select
-                id="to-currency"
-                class="w-full bg-[#14141f] border border-white/[0.1] rounded-xl px-4 py-3.5 text-white font-mono text-base focus:outline-none focus:border-[#2dd4bf] transition-colors cursor-pointer"
+              <label class="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">To</label>
+              <button
+                type="button"
+                id="to-currency-btn"
+                class="w-full bg-[#14141f] border border-white/[0.1] hover:border-[#2dd4bf]/50 rounded-xl px-4 py-3.5 text-left font-mono flex items-center justify-between text-white transition-all cursor-pointer group"
               >
-                <option value="EUR">EUR — Euro</option>
-                <option value="USD">USD — US Dollar</option>
-                <option value="GBP">GBP — British Pound</option>
-                <option value="PKR" selected>PKR — Pakistani Rupee</option>
-                <option value="INR">INR — Indian Rupee</option>
-                <option value="AED">AED — UAE Dirham</option>
-                <option value="SAR">SAR — Saudi Riyal</option>
-                <option value="CAD">CAD — Canadian Dollar</option>
-                <option value="AUD">AUD — Australian Dollar</option>
-                <option value="JPY">JPY — Japanese Yen</option>
-                <option value="CNY">CNY — Chinese Yuan</option>
-                <option value="CHF">CHF — Swiss Franc</option>
-              </select>
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <span id="to-flag" class="text-xl shrink-0">🇪🇺</span>
+                  <div class="flex flex-col min-w-0">
+                    <span id="to-code" class="font-bold text-white text-base leading-none">EUR</span>
+                    <span id="to-name" class="text-[11px] text-zinc-400 truncate mt-1">Euro</span>
+                  </div>
+                </div>
+                <svg class="w-4 h-4 text-zinc-500 group-hover:text-[#2dd4bf] transition-colors shrink-0 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
             </div>
 
           </div>
@@ -206,10 +200,10 @@ const relatedTools = [
               <span id="out-amount-from">1</span> <span id="out-code-from">USD</span> =
             </p>
             <div class="text-4xl sm:text-5xl font-bold text-white font-mono tracking-tight mb-2" id="out-result">
-              <span class="text-[#2dd4bf]" id="out-val">—</span> <span class="text-2xl text-zinc-400" id="out-code-to">PKR</span>
+              <span class="text-[#2dd4bf]" id="out-val">—</span> <span class="text-2xl text-zinc-400" id="out-code-to">EUR</span>
             </div>
             <p class="text-xs font-mono text-zinc-500" id="rate-details">
-              1 <span id="unit-base">USD</span> = <span id="unit-rate">—</span> <span id="unit-target">PKR</span> | Mid-Market Reference Rate
+              1 <span id="unit-base">USD</span> = <span id="unit-rate">—</span> <span id="unit-target">EUR</span> | Mid-Market Reference Rate
             </p>
           </div>
 
@@ -231,7 +225,7 @@ const relatedTools = [
         </form>
       </div>
 
-      <!-- Grid for Multi-Currency Board & 7-Day Trend -->
+      <!-- Grid for Multi-Currency Board & Historical Rates -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
 
         <!-- Quick Rate Board -->
@@ -250,7 +244,7 @@ const relatedTools = [
           </div>
         </div>
 
-        <!-- Historical Rate & Trend Spotter -->
+        <!-- Historical Rate Lookup -->
         <div class="bg-[#0d0d14] border border-white/[0.08] rounded-2xl p-6 flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-4">
@@ -294,6 +288,47 @@ const relatedTools = [
           </div>
         </div>
 
+      </div>
+
+      <!-- Searchable Currency Modal Overlay -->
+      <div id="currency-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="bg-[#0d0d14] border border-white/[0.12] rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col max-h-[85vh] animate-in fade-in zoom-in duration-200">
+          
+          <!-- Modal Header -->
+          <div class="p-4 border-b border-white/[0.08] flex items-center justify-between">
+            <h3 class="text-base font-bold text-white font-mono flex items-center gap-2">
+              <span>🔍</span> Select Currency
+            </h3>
+            <button id="close-modal-btn" class="w-8 h-8 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] text-zinc-400 hover:text-white flex items-center justify-center transition-colors">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Search Bar -->
+          <div class="p-4 border-b border-white/[0.06] bg-[#14141f]">
+            <div class="relative">
+              <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <input
+                type="search"
+                id="currency-search-input"
+                placeholder="Search currency code or country... (e.g. USD, Euro, PKR, Yen)"
+                class="w-full bg-[#0d0d14] border border-white/[0.1] focus:border-[#2dd4bf] rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-zinc-500 font-mono focus:outline-none transition-colors"
+                autocomplete="off"
+              />
+            </div>
+
+            <!-- Popular Quick Badges -->
+            <div class="flex flex-wrap gap-1.5 mt-3" id="popular-badges">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+
+          <!-- Currency List (Scrollable) -->
+          <div class="overflow-y-auto flex-1 p-2 space-y-1" id="currency-list-container">
+            <!-- List items dynamically rendered -->
+          </div>
+
+        </div>
       </div>
 
       <!-- Information & Explanations -->
@@ -347,20 +382,67 @@ const relatedTools = [
     (function() {
       const API_BASE = 'https://api.frankfurter.dev/v2';
 
-      // Domestic & major currencies data
-      const POPULAR_CURRENCIES = ['USD', 'EUR', 'GBP', 'PKR', 'INR', 'AED', 'SAR', 'CAD', 'AUD', 'JPY', 'CNY', 'CHF'];
-      const SYMBOLS = {
-        USD: '$', EUR: '€', GBP: '£', PKR: 'Rs', INR: '₹', AED: 'AED', SAR: 'SAR',
-        CAD: 'CA$', AUD: 'A$', JPY: '¥', CNY: '¥', CHF: 'CHF', BRL: 'R$', MXN: 'MX$'
-      };
+      // Comprehensive static currency dataset with ISO codes, country names, symbols, and flags
+      const CURRENCY_DATABASE = [
+        { code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸' },
+        { code: 'EUR', name: 'Euro', symbol: '€', flag: '🇪🇺' },
+        { code: 'GBP', name: 'British Pound', symbol: '£', flag: '🇬🇧' },
+        { code: 'PKR', name: 'Pakistani Rupee', symbol: 'Rs', flag: '🇵🇰' },
+        { code: 'INR', name: 'Indian Rupee', symbol: '₹', flag: '🇮🇳' },
+        { code: 'AED', name: 'United Arab Emirates Dirham', symbol: 'د.إ', flag: '🇦🇪' },
+        { code: 'SAR', name: 'Saudi Riyal', symbol: '﷼', flag: '🇸🇦' },
+        { code: 'CAD', name: 'Canadian Dollar', symbol: 'CA$', flag: '🇨🇦' },
+        { code: 'AUD', name: 'Australian Dollar', symbol: 'A$', flag: '🇦🇺' },
+        { code: 'JPY', name: 'Japanese Yen', symbol: '¥', flag: '🇯🇵' },
+        { code: 'CNY', name: 'Chinese Yuan', symbol: '¥', flag: '🇨🇳' },
+        { code: 'CHF', name: 'Swiss Franc', symbol: 'CHF', flag: '🇨🇭' },
+        { code: 'BRL', name: 'Brazilian Real', symbol: 'R$', flag: '🇧🇷' },
+        { code: 'MXN', name: 'Mexican Peso', symbol: 'MX$', flag: '🇲🇽' },
+        { code: 'SGD', name: 'Singapore Dollar', symbol: 'S$', flag: '🇸🇬' },
+        { code: 'NZD', name: 'New Zealand Dollar', symbol: 'NZ$', flag: '🇳🇿' },
+        { code: 'HKD', name: 'Hong Kong Dollar', symbol: 'HK$', flag: '🇭🇰' },
+        { code: 'SEK', name: 'Swedish Krona', symbol: 'kr', flag: '🇸🇪' },
+        { code: 'NOK', name: 'Norwegian Krone', symbol: 'kr', flag: '🇳🇴' },
+        { code: 'KRW', name: 'South Korean Won', symbol: '₩', flag: '🇰🇷' },
+        { code: 'TRY', name: 'Turkish Lira', symbol: '₺', flag: '🇹🇷' },
+        { code: 'RUB', name: 'Russian Ruble', symbol: '₽', flag: '🇷🇺' },
+        { code: 'ZAR', name: 'South African Rand', symbol: 'R', flag: '🇿🇦' },
+        { code: 'MYR', name: 'Malaysian Ringgit', symbol: 'RM', flag: '🇲🇾' },
+        { code: 'THB', name: 'Thai Baht', symbol: '฿', flag: '🇹🇭' },
+        { code: 'IDR', name: 'Indonesian Rupiah', symbol: 'Rp', flag: '🇮🇩' },
+        { code: 'PHP', name: 'Philippine Peso', symbol: '₱', flag: '🇵🇭' },
+        { code: 'EGP', name: 'Egyptian Pound', symbol: 'E£', flag: '🇪🇬' },
+        { code: 'KWD', name: 'Kuwaiti Dinar', symbol: 'KD', flag: '🇰🇼' },
+        { code: 'QAR', name: 'Qatari Riyal', symbol: 'QR', flag: '🇶🇦' },
+        { code: 'OMR', name: 'Omani Rial', symbol: 'OMR', flag: '🇴🇲' },
+        { code: 'BHD', name: 'Bahraini Dinar', symbol: 'BD', flag: '🇧🇭' },
+      ];
 
-      let fullCurrencyList = {};
+      const POPULAR_CODES = ['USD', 'EUR', 'GBP', 'PKR', 'INR', 'AED', 'SAR', 'CAD', 'AUD', 'JPY'];
+
+      let fullCurrencyMap = new Map();
+      CURRENCY_DATABASE.forEach(c => fullCurrencyMap.set(c.code, c));
+
+      // Active state
+      let selectedFrom = 'USD';
+      let selectedTo = 'EUR';
       let currentRate = 1;
+      let activeSelectingTarget = 'from'; // 'from' | 'to'
 
-      // Elements
+      // UI Elements
       const amountInput = document.getElementById('amount');
-      const fromSelect = document.getElementById('from-currency');
-      const toSelect = document.getElementById('to-currency');
+      const fromBtn = document.getElementById('from-currency-btn');
+      const toBtn = document.getElementById('to-currency-btn');
+
+      const fromFlag = document.getElementById('from-flag');
+      const fromCode = document.getElementById('from-code');
+      const fromName = document.getElementById('from-name');
+      const fromSymbolPrefix = document.getElementById('from-symbol-prefix');
+
+      const toFlag = document.getElementById('to-flag');
+      const toCode = document.getElementById('to-code');
+      const toName = document.getElementById('to-name');
+
       const swapBtn = document.getElementById('swap-btn');
       const spinner = document.getElementById('loading-spinner');
 
@@ -371,7 +453,6 @@ const relatedTools = [
       const unitBase = document.getElementById('unit-base');
       const unitRate = document.getElementById('unit-rate');
       const unitTarget = document.getElementById('unit-target');
-      const fromSymbolPrefix = document.getElementById('from-symbol-prefix');
 
       const rateBoard = document.getElementById('rate-board');
       const boardBaseLabel = document.getElementById('board-base-label');
@@ -382,7 +463,14 @@ const relatedTools = [
       const histDateLabel = document.getElementById('hist-date-label');
       const histRateVal = document.getElementById('hist-rate-val');
 
-      // Set yesterday as default max date for historical lookup
+      // Modal elements
+      const modal = document.getElementById('currency-modal');
+      const closeModalBtn = document.getElementById('close-modal-btn');
+      const searchInput = document.getElementById('currency-search-input');
+      const listContainer = document.getElementById('currency-list-container');
+      const popularBadgesContainer = document.getElementById('popular-badges');
+
+      // Set max date for historical lookup
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
       if (histDate) {
@@ -390,67 +478,85 @@ const relatedTools = [
         histDate.value = yesterday.toISOString().split('T')[0];
       }
 
-      // Populate Currencies Dropdowns from Frankfurter API
+      // Fetch currencies from Frankfurter v2 API
       async function loadCurrencies() {
         try {
           const res = await fetch(`${API_BASE}/currencies`);
-          if (!res.ok) throw new Error('Failed to load currencies');
-          fullCurrencyList = await res.json();
+          if (!res.ok) throw new Error('API error loading currencies');
+          const data = await res.json();
 
-          // Build option list sorted by code
-          const keys = Object.keys(fullCurrencyList).sort();
-          if (keys.length > 0) {
-            let optionsHTML = '';
-            keys.forEach(code => {
-              const name = fullCurrencyList[code]?.name || fullCurrencyList[code] || code;
-              optionsHTML += `<option value="${code}">${code} — ${name}</option>`;
+          // v2/currencies returns an array of objects: [{ iso_code: 'USD', name: 'US Dollar', symbol: '$' }, ...]
+          if (Array.isArray(data)) {
+            data.forEach(item => {
+              if (item.iso_code) {
+                const code = item.iso_code;
+                const existing = fullCurrencyMap.get(code);
+                fullCurrencyMap.set(code, {
+                  code: code,
+                  name: item.name || code,
+                  symbol: item.symbol || existing?.symbol || '',
+                  flag: existing?.flag || getFlagEmoji(code)
+                });
+              }
             });
-
-            const currentFrom = fromSelect.value;
-            const currentTo = toSelect.value;
-
-            fromSelect.innerHTML = optionsHTML;
-            toSelect.innerHTML = optionsHTML;
-
-            fromSelect.value = currentFrom || 'USD';
-            toSelect.value = currentTo || 'PKR';
           }
-        } catch (e) {
-          console.warn('Using fallback static currency list', e);
+        } catch (err) {
+          console.warn('Using fallback currency map:', err);
         }
       }
 
-      // Fetch Rate & Update UI
+      // Flag helper from country/currency code
+      function getFlagEmoji(code) {
+        const countryCode = code.slice(0, 2);
+        if (countryCode.length !== 2) return '🌐';
+        try {
+          return String.fromCodePoint(...[...countryCode.toUpperCase()].map(c => 0x1F1E0 + c.charCodeAt(0) - 65));
+        } catch {
+          return '🌐';
+        }
+      }
+
+      // Render button labels
+      function renderButtonLabels() {
+        const f = fullCurrencyMap.get(selectedFrom) || { code: selectedFrom, name: selectedFrom, flag: '🇺🇸', symbol: '$' };
+        const t = fullCurrencyMap.get(selectedTo) || { code: selectedTo, name: selectedTo, flag: '🇪🇺', symbol: '€' };
+
+        if (fromFlag) fromFlag.textContent = f.flag || '🌐';
+        if (fromCode) fromCode.textContent = f.code;
+        if (fromName) fromName.textContent = f.name;
+        if (fromSymbolPrefix) fromSymbolPrefix.textContent = f.symbol || f.code;
+
+        if (toFlag) toFlag.textContent = t.flag || '🌐';
+        if (toCode) toCode.textContent = t.code;
+        if (toName) toName.textContent = t.name;
+      }
+
+      // Main conversion executor
       async function updateConversion() {
-        const from = fromSelect.value;
-        const to = toSelect.value;
+        renderButtonLabels();
+
         const amount = parseFloat(amountInput.value) || 0;
 
-        // Update prefix symbol
-        if (fromSymbolPrefix) {
-          fromSymbolPrefix.textContent = SYMBOLS[from] || from;
-        }
-
-        if (from === to) {
+        if (selectedFrom === selectedTo) {
           currentRate = 1;
-          renderResult(amount, 1, from, to);
-          updateRateBoard(from);
+          renderResult(amount, 1, selectedFrom, selectedTo);
+          updateRateBoard(selectedFrom);
           return;
         }
 
         if (spinner) spinner.classList.remove('hidden');
 
         try {
-          const res = await fetch(`${API_BASE}/rate/${from}/${to}`);
-          if (!res.ok) throw new Error('API error');
+          const res = await fetch(`${API_BASE}/rate/${selectedFrom}/${selectedTo}`);
+          if (!res.ok) throw new Error('Failed to fetch rate');
           const data = await res.json();
-          currentRate = data.rate || (1 / data.rate);
+          currentRate = data.rate || 1;
 
-          renderResult(amount, currentRate, from, to);
-          updateRateBoard(from);
+          renderResult(amount, currentRate, selectedFrom, selectedTo);
+          updateRateBoard(selectedFrom);
         } catch (err) {
           console.error('Error fetching rate:', err);
-          outVal.textContent = 'Error fetching rate';
+          if (outVal) outVal.textContent = 'Error fetching rate';
         } finally {
           if (spinner) spinner.classList.add('hidden');
         }
@@ -471,42 +577,44 @@ const relatedTools = [
         if (unitRate) unitRate.textContent = rate.toFixed(4);
         if (unitTarget) unitTarget.textContent = to;
 
-        // Global save utility payload setup
-        window.currentConversionPayload = {
-          from,
-          to,
-          amount,
-          result: total,
-          rate
-        };
+        window.currentConversionPayload = { from, to, amount, result: total, rate };
       }
 
-      // Populate Quick Multi-Currency Board
+      // Update multi-currency rate board
       async function updateRateBoard(base) {
         if (!rateBoard) return;
         if (boardBaseLabel) boardBaseLabel.textContent = `Base: 1 ${base}`;
 
-        const targets = POPULAR_CURRENCIES.filter(c => c !== base).slice(0, 7);
+        const targets = POPULAR_CODES.filter(c => c !== base).slice(0, 7);
 
         try {
           const res = await fetch(`${API_BASE}/rates?base=${base}&quotes=${targets.join(',')}`);
           if (!res.ok) throw new Error('Board rate fetch failed');
           const data = await res.json();
-          const rates = data.rates || {};
+
+          // Frankfurter v2 returns an array: [ { base: 'USD', quote: 'EUR', rate: 0.87 }, ... ]
+          let rateMap = {};
+          if (Array.isArray(data)) {
+            data.forEach(item => {
+              if (item.quote && item.rate) rateMap[item.quote] = item.rate;
+            });
+          }
 
           let html = '';
           targets.forEach(code => {
-            const r = rates[code];
+            const r = rateMap[code];
+            const cObj = fullCurrencyMap.get(code) || { name: code, flag: '🌐', symbol: '' };
             if (r) {
-              const formattedRate = r < 0.01 ? r.toFixed(6) : r.toFixed(3);
+              const formattedRate = r < 0.01 ? r.toFixed(6) : r.toFixed(4);
               html += `
-                <div class="flex items-center justify-between p-2.5 bg-[#14141f] rounded-lg border border-white/[0.05] hover:border-white/[0.1] transition-colors">
+                <div class="flex items-center justify-between p-2.5 bg-[#14141f] rounded-lg border border-white/[0.05] hover:border-white/[0.1] transition-colors cursor-pointer" onclick="window.selectBoardCurrency('${code}')">
                   <div class="flex items-center gap-2 font-mono text-xs text-white">
+                    <span class="text-base">${cObj.flag}</span>
                     <span class="px-1.5 py-0.5 rounded bg-white/[0.08] text-zinc-300 font-bold">${code}</span>
-                    <span class="text-zinc-400">${fullCurrencyList[code]?.name || code}</span>
+                    <span class="text-zinc-400 truncate max-w-[140px]">${cObj.name}</span>
                   </div>
                   <div class="font-mono text-xs font-bold text-[#2dd4bf]">
-                    ${SYMBOLS[code] || ''} ${formattedRate}
+                    ${cObj.symbol} ${formattedRate}
                   </div>
                 </div>
               `;
@@ -518,25 +626,31 @@ const relatedTools = [
         }
       }
 
+      window.selectBoardCurrency = function(code) {
+        selectedTo = code;
+        updateConversion();
+      };
+
       // Historical rate lookup
       if (fetchHistBtn) {
         fetchHistBtn.addEventListener('click', async () => {
           const d = histDate.value;
-          const from = fromSelect.value;
-          const to = toSelect.value;
           if (!d) return;
 
           fetchHistBtn.textContent = 'Fetching...';
 
           try {
-            const res = await fetch(`${API_BASE}/rates?date=${d}&base=${from}&quotes=${to}`);
+            const res = await fetch(`${API_BASE}/rates?date=${d}&base=${selectedFrom}&quotes=${selectedTo}`);
             if (!res.ok) throw new Error('No historical data');
             const data = await res.json();
-            const rate = data.rates?.[to];
+            
+            // v2 returns array: [ { date: '...', base: 'USD', quote: 'EUR', rate: 0.91 } ]
+            const rateObj = Array.isArray(data) ? data[0] : null;
+            const rate = rateObj?.rate;
 
             if (histResultBox) histResultBox.classList.remove('hidden');
-            if (histDateLabel) histDateLabel.textContent = `Official rate on ${d} (${from} → ${to})`;
-            if (histRateVal) histRateVal.textContent = rate ? `1 ${from} = ${rate.toFixed(4)} ${to}` : 'No rate record on this date';
+            if (histDateLabel) histDateLabel.textContent = `Official rate on ${d} (${selectedFrom} → ${selectedTo})`;
+            if (histRateVal) histRateVal.textContent = rate ? `1 ${selectedFrom} = ${rate.toFixed(4)} ${selectedTo}` : 'No rate record on this date';
           } catch (e) {
             if (histResultBox) histResultBox.classList.remove('hidden');
             if (histRateVal) histRateVal.textContent = 'Date unavailable';
@@ -546,17 +660,17 @@ const relatedTools = [
         });
       }
 
-      // Swap currencies handler
+      // Swap button handler
       if (swapBtn) {
         swapBtn.addEventListener('click', () => {
-          const temp = fromSelect.value;
-          fromSelect.value = toSelect.value;
-          toSelect.value = temp;
+          const temp = selectedFrom;
+          selectedFrom = selectedTo;
+          selectedTo = temp;
           updateConversion();
         });
       }
 
-      // Presets
+      // Amount Presets
       document.querySelectorAll('.preset-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const val = e.target.getAttribute('data-val');
@@ -583,10 +697,125 @@ const relatedTools = [
         });
       }
 
-      // Event listeners
+      // ── Custom Searchable Currency Modal Implementation ─────────────────────
+      function openModal(target) {
+        activeSelectingTarget = target;
+        if (modal) {
+          modal.classList.remove('hidden');
+          modal.classList.add('flex');
+        }
+        if (searchInput) {
+          searchInput.value = '';
+          searchInput.focus();
+        }
+        renderModalPopularBadges();
+        renderModalList('');
+      }
+
+      function closeModal() {
+        if (modal) {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+        }
+      }
+
+      function renderModalPopularBadges() {
+        if (!popularBadgesContainer) return;
+        let html = '';
+        POPULAR_CODES.forEach(code => {
+          const c = fullCurrencyMap.get(code) || { code, flag: '🌐' };
+          html += `
+            <button
+              type="button"
+              class="px-2.5 py-1 rounded-lg bg-[#0d0d14] hover:bg-[#2dd4bf]/20 border border-white/[0.1] hover:border-[#2dd4bf]/40 text-xs font-mono text-white flex items-center gap-1.5 transition-colors cursor-pointer"
+              onclick="window.chooseModalCurrency('${code}')"
+            >
+              <span>${c.flag}</span>
+              <span>${code}</span>
+            </button>
+          `;
+        });
+        popularBadgesContainer.innerHTML = html;
+      }
+
+      function renderModalList(query) {
+        if (!listContainer) return;
+        const q = query.trim().toLowerCase();
+
+        const all = Array.from(fullCurrencyMap.values());
+        const filtered = all.filter(c => {
+          if (!q) return true;
+          return c.code.toLowerCase().includes(q) || c.name.toLowerCase().includes(q);
+        });
+
+        if (filtered.length === 0) {
+          listContainer.innerHTML = `
+            <div class="text-center py-8 text-zinc-500 font-mono text-xs">
+              No currencies match "${query}"
+            </div>
+          `;
+          return;
+        }
+
+        let html = '';
+        filtered.forEach(c => {
+          const isSelected = (activeSelectingTarget === 'from' && c.code === selectedFrom) || (activeSelectingTarget === 'to' && c.code === selectedTo);
+          html += `
+            <div
+              class="p-3 rounded-xl flex items-center justify-between transition-colors cursor-pointer ${isSelected ? 'bg-[#2dd4bf]/15 border border-[#2dd4bf]/30' : 'hover:bg-white/[0.05] border border-transparent'}"
+              onclick="window.chooseModalCurrency('${c.code}')"
+            >
+              <div class="flex items-center gap-3 min-w-0">
+                <span class="text-2xl shrink-0">${c.flag || '🌐'}</span>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex items-center gap-2">
+                    <span class="font-bold text-white font-mono text-sm">${c.code}</span>
+                    <span class="text-xs text-zinc-400 font-mono">${c.symbol ? '(' + c.symbol + ')' : ''}</span>
+                  </div>
+                  <span class="text-xs text-zinc-400 truncate">${c.name}</span>
+                </div>
+              </div>
+              ${isSelected ? '<span class="text-[#2dd4bf] font-mono text-xs font-bold">Selected</span>' : ''}
+            </div>
+          `;
+        });
+
+        listContainer.innerHTML = html;
+      }
+
+      window.chooseModalCurrency = function(code) {
+        if (activeSelectingTarget === 'from') {
+          selectedFrom = code;
+        } else {
+          selectedTo = code;
+        }
+        closeModal();
+        updateConversion();
+      };
+
+      // Event bindings for modal & inputs
+      if (fromBtn) fromBtn.addEventListener('click', () => openModal('from'));
+      if (toBtn) toBtn.addEventListener('click', () => openModal('to'));
+      if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeModal();
+        });
+      }
+
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          renderModalList(e.target.value);
+        });
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+          closeModal();
+        }
+      });
+
       if (amountInput) amountInput.addEventListener('input', updateConversion);
-      if (fromSelect) fromSelect.addEventListener('change', updateConversion);
-      if (toSelect) toSelect.addEventListener('change', updateConversion);
 
       // Initial execution
       loadCurrencies().then(updateConversion);
