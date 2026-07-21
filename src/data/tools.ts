@@ -212,25 +212,31 @@ export const toolsByCategory: Record<string, Tool[]> = {
   },
 ],
   "finance": [
- {
- title: 'Compound Interest Calculator',
- description: 'See how your money grows over time with the power of compound interest.',
- icon: '💰',
- href: '/finance/compound-interest',
- },
- {
- title: 'Cash-on-Cash Return',
- description: 'Evaluate rental property investments by calculating your annual cash return.',
- icon: '🏠',
- href: '/finance/cash-on-cash-return',
- },
- {
- title: 'Simple Interest Calculator',
- description: 'Calculate simple interest on loans and investments quickly.',
- icon: '📊',
- href: '/finance/simple-interest',
- },
-],
+    {
+      title: 'Live Currency Converter',
+      description: 'Convert 160+ world currencies instantly with live mid-market central bank reference exchange rates.',
+      icon: '💱',
+      href: '/finance/currency-converter',
+    },
+    {
+      title: 'Compound Interest Calculator',
+      description: 'See how your money grows over time with the power of compound interest.',
+      icon: '💰',
+      href: '/finance/compound-interest',
+    },
+    {
+      title: 'Cash-on-Cash Return',
+      description: 'Evaluate rental property investments by calculating your annual cash return.',
+      icon: '🏠',
+      href: '/finance/cash-on-cash-return',
+    },
+    {
+      title: 'Simple Interest Calculator',
+      description: 'Calculate simple interest on loans and investments quickly.',
+      icon: '📊',
+      href: '/finance/simple-interest',
+    },
+  ],
   "health": [
   {
   title: 'TDEE Calculator',

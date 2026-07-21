@@ -1,0 +1,596 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Live Currency Converter",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "Convert live exchange rates across 160+ currencies using official central bank reference rates. Real-time rates, historical comparisons, and multi-currency rate boards."
+};
+
+const faqItems = [
+  {
+    question: "Where do the currency exchange rates come from?",
+    answer: "Our rates are powered by Frankfurter, an open-source financial data API sourcing daily reference rates directly from 84 central banks worldwide, including the European Central Bank (ECB), Federal Reserve, and Bank of England."
+  },
+  {
+    question: "How often are exchange rates updated?",
+    answer: "Reference exchange rates are updated daily by official central banks around 16:00 CET on working days. Live market fluctuations between central bank publishing windows are blended across multiple official sources."
+  },
+  {
+    question: "Is there any fee or mark-up on these conversion rates?",
+    answer: "No. SolversPro provides raw mid-market reference rates directly from central banks with zero mark-up, spread, or hidden fees. Note that retail banks and money transfer services typically charge a 1%–4% spread over mid-market rates."
+  },
+  {
+    question: "Can I view historical currency conversion rates?",
+    answer: "Yes! You can pick any historical date using the Historical Rate Lookup tool to see official central bank reference exchange rates dating all the way back to 1999 (and up to 1948 for major pairs)."
+  },
+  {
+    question: "How many currencies are supported?",
+    answer: "We support over 160 active world currencies, including USD, EUR, GBP, CAD, AUD, JPY, INR, PKR, AED, SAR, CNY, CHF, BRL, MXN, and many more."
+  }
+];
+
+const relatedTools = [
+  {
+    title: 'Compound Interest Calculator',
+    description: 'See how your money grows over time with compounding interest.',
+    icon: '💰',
+    href: '/finance/compound-interest'
+  },
+  {
+    title: 'Cash-on-Cash Return',
+    description: 'Evaluate rental property investments by calculating your annual cash return.',
+    icon: '🏠',
+    href: '/finance/cash-on-cash-return'
+  },
+  {
+    title: 'Simple Interest Calculator',
+    description: 'Calculate simple interest on loans and investments quickly.',
+    icon: '📊',
+    href: '/finance/simple-interest'
+  }
+];
+---
+
+<BaseLayout
+  title="Live Currency Converter | Real-Time Exchange Rates | SolversPro"
+  description="Convert 160+ world currencies instantly with live mid-market exchange rates sourced from 84 central banks. Includes rate trends, multi-currency boards, and historical rate lookups."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <Header />
+
+  <main class="py-12 bg-[#08080f] min-h-screen border-b border-white/[0.06]">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Finance', href: '/finance' },
+        { label: 'Currency Converter' }
+      ]} />
+
+      <!-- Page Hero Header -->
+      <div class="mb-10 text-center max-w-3xl mx-auto">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2dd4bf]/10 border border-[#2dd4bf]/20 text-[#2dd4bf] text-xs font-mono mb-4">
+          <span class="w-2 h-2 rounded-full bg-[#2dd4bf] animate-pulse"></span>
+          OFFICIAL CENTRAL BANK RATES
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-bold text-white mb-4 tracking-tight">
+          Live Currency Converter
+        </h1>
+        <p class="text-zinc-400 text-base sm:text-lg leading-relaxed">
+          Convert 160+ world currencies with mid-market rates from 84 central banks. Fast, 100% free, and updated daily.
+        </p>
+      </div>
+
+      <!-- Main Converter Card -->
+      <div class="bg-[#0d0d14] border border-white/[0.08] rounded-2xl p-6 sm:p-8 mb-8 shadow-2xl relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-tr from-[#2dd4bf]/5 via-transparent to-[#ff6b35]/5 pointer-events-none"></div>
+
+        <form id="currency-form" onsubmit="return false;" class="relative z-10">
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center mb-6">
+            
+            <!-- Amount Input -->
+            <div class="md:col-span-4">
+              <label for="amount" class="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">Amount</label>
+              <div class="relative">
+                <span id="from-symbol-prefix" class="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 font-mono text-lg">$</span>
+                <input
+                  type="number"
+                  id="amount"
+                  value="1"
+                  step="any"
+                  min="0"
+                  class="w-full bg-[#14141f] border border-white/[0.1] rounded-xl pl-10 pr-4 py-3.5 text-white font-mono text-xl font-bold focus:outline-none focus:border-[#2dd4bf] transition-colors"
+                  placeholder="1.00"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- From Currency -->
+            <div class="md:col-span-3">
+              <label for="from-currency" class="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">From</label>
+              <select
+                id="from-currency"
+                class="w-full bg-[#14141f] border border-white/[0.1] rounded-xl px-4 py-3.5 text-white font-mono text-base focus:outline-none focus:border-[#2dd4bf] transition-colors cursor-pointer"
+              >
+                <option value="USD">USD — US Dollar</option>
+                <option value="EUR">EUR — Euro</option>
+                <option value="GBP">GBP — British Pound</option>
+                <option value="PKR">PKR — Pakistani Rupee</option>
+                <option value="INR">INR — Indian Rupee</option>
+                <option value="AED">AED — UAE Dirham</option>
+                <option value="SAR">SAR — Saudi Riyal</option>
+                <option value="CAD">CAD — Canadian Dollar</option>
+                <option value="AUD">AUD — Australian Dollar</option>
+                <option value="JPY">JPY — Japanese Yen</option>
+                <option value="CNY">CNY — Chinese Yuan</option>
+                <option value="CHF">CHF — Swiss Franc</option>
+              </select>
+            </div>
+
+            <!-- Swap Button -->
+            <div class="md:col-span-1 flex justify-center pt-2 md:pt-6">
+              <button
+                type="button"
+                id="swap-btn"
+                class="w-12 h-12 rounded-xl bg-white/[0.05] hover:bg-[#2dd4bf]/20 border border-white/[0.1] text-zinc-300 hover:text-[#2dd4bf] flex items-center justify-center transition-all duration-200 transform hover:rotate-180"
+                title="Swap Currencies"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- To Currency -->
+            <div class="md:col-span-4">
+              <label for="to-currency" class="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">To</label>
+              <select
+                id="to-currency"
+                class="w-full bg-[#14141f] border border-white/[0.1] rounded-xl px-4 py-3.5 text-white font-mono text-base focus:outline-none focus:border-[#2dd4bf] transition-colors cursor-pointer"
+              >
+                <option value="EUR">EUR — Euro</option>
+                <option value="USD">USD — US Dollar</option>
+                <option value="GBP">GBP — British Pound</option>
+                <option value="PKR" selected>PKR — Pakistani Rupee</option>
+                <option value="INR">INR — Indian Rupee</option>
+                <option value="AED">AED — UAE Dirham</option>
+                <option value="SAR">SAR — Saudi Riyal</option>
+                <option value="CAD">CAD — Canadian Dollar</option>
+                <option value="AUD">AUD — Australian Dollar</option>
+                <option value="JPY">JPY — Japanese Yen</option>
+                <option value="CNY">CNY — Chinese Yuan</option>
+                <option value="CHF">CHF — Swiss Franc</option>
+              </select>
+            </div>
+
+          </div>
+
+          <!-- Quick Presets -->
+          <div class="flex flex-wrap items-center gap-2 mb-6">
+            <span class="text-xs font-mono text-zinc-500 uppercase mr-2">Quick Amount:</span>
+            <button type="button" class="preset-btn px-3 py-1 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] text-xs font-mono text-zinc-300 border border-white/[0.08]" data-val="1">1</button>
+            <button type="button" class="preset-btn px-3 py-1 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] text-xs font-mono text-zinc-300 border border-white/[0.08]" data-val="10">10</button>
+            <button type="button" class="preset-btn px-3 py-1 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] text-xs font-mono text-zinc-300 border border-white/[0.08]" data-val="100">100</button>
+            <button type="button" class="preset-btn px-3 py-1 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] text-xs font-mono text-zinc-300 border border-white/[0.08]" data-val="500">500</button>
+            <button type="button" class="preset-btn px-3 py-1 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] text-xs font-mono text-zinc-300 border border-white/[0.08]" data-val="1000">1,000</button>
+            <button type="button" class="preset-btn px-3 py-1 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] text-xs font-mono text-zinc-300 border border-white/[0.08]" data-val="5000">5,000</button>
+          </div>
+
+          <!-- Main Conversion Display -->
+          <div class="bg-[#14141f]/80 border border-white/[0.06] rounded-xl p-6 text-center mb-6 relative">
+            <div id="loading-spinner" class="hidden absolute inset-0 bg-[#14141f]/90 rounded-xl flex items-center justify-center backdrop-blur-sm z-20">
+              <div class="flex items-center gap-3 text-[#2dd4bf] font-mono text-sm">
+                <svg class="animate-spin w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>
+                Fetching central bank rates...
+              </div>
+            </div>
+
+            <p class="text-sm font-mono text-zinc-400 mb-1" id="conversion-heading">
+              <span id="out-amount-from">1</span> <span id="out-code-from">USD</span> =
+            </p>
+            <div class="text-4xl sm:text-5xl font-bold text-white font-mono tracking-tight mb-2" id="out-result">
+              <span class="text-[#2dd4bf]" id="out-val">—</span> <span class="text-2xl text-zinc-400" id="out-code-to">PKR</span>
+            </div>
+            <p class="text-xs font-mono text-zinc-500" id="rate-details">
+              1 <span id="unit-base">USD</span> = <span id="unit-rate">—</span> <span id="unit-target">PKR</span> | Mid-Market Reference Rate
+            </p>
+          </div>
+
+          <!-- Actions & Share -->
+          <div class="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-white/[0.06]">
+            <div class="flex items-center gap-3">
+              <SaveResultButton />
+              <button
+                type="button"
+                id="pin-this-tool"
+                class="px-4 py-2 bg-white/[0.05] hover:bg-white/[0.1] text-zinc-300 rounded-lg text-xs font-mono border border-white/[0.08] transition-colors flex items-center gap-1.5"
+              >
+                ⭐ Pin Tool
+              </button>
+            </div>
+            <ToolShare title="Live Currency Converter | SolversPro" />
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Grid for Multi-Currency Board & 7-Day Trend -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+
+        <!-- Quick Rate Board -->
+        <div class="bg-[#0d0d14] border border-white/[0.08] rounded-2xl p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span class="text-[#ff6b35]">💱</span> Multi-Currency Rates
+            </h2>
+            <span class="text-xs font-mono text-zinc-500" id="board-base-label">Base: USD</span>
+          </div>
+          <p class="text-xs text-zinc-400 mb-4">Compare 1 unit of your base currency against major global currencies instantly.</p>
+          
+          <div class="space-y-2.5" id="rate-board">
+            <!-- Rate items loaded via JS -->
+            <div class="text-xs font-mono text-zinc-500 animate-pulse py-4 text-center">Loading exchange rate board...</div>
+          </div>
+        </div>
+
+        <!-- Historical Rate & Trend Spotter -->
+        <div class="bg-[#0d0d14] border border-white/[0.08] rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                <span class="text-[#2dd4bf]">📅</span> Historical Rate Lookup
+              </h2>
+              <span class="text-xs font-mono text-zinc-500">From 1999</span>
+            </div>
+            <p class="text-xs text-zinc-400 mb-4">Check official central bank reference rates for any past date.</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+              <div>
+                <label for="hist-date" class="block text-xs font-mono text-zinc-400 mb-1">Select Date</label>
+                <input
+                  type="date"
+                  id="hist-date"
+                  class="w-full bg-[#14141f] border border-white/[0.1] rounded-xl px-3 py-2 text-sm text-white font-mono focus:outline-none focus:border-[#2dd4bf]"
+                />
+              </div>
+              <div class="flex items-end">
+                <button
+                  type="button"
+                  id="fetch-hist-btn"
+                  class="w-full py-2 bg-[#2dd4bf]/10 hover:bg-[#2dd4bf]/20 text-[#2dd4bf] border border-[#2dd4bf]/30 rounded-xl font-mono text-xs font-bold transition-colors"
+                >
+                  Lookup Historical Rate
+                </button>
+              </div>
+            </div>
+
+            <div id="hist-result-box" class="p-4 bg-[#14141f] border border-white/[0.06] rounded-xl text-center hidden">
+              <p class="text-xs font-mono text-zinc-400 mb-1" id="hist-date-label">Rate on --</p>
+              <div class="text-2xl font-bold font-mono text-white" id="hist-rate-val">—</div>
+            </div>
+          </div>
+
+          <!-- Data Source Footer Badge -->
+          <div class="mt-6 pt-4 border-t border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-zinc-500">
+            <span>Source: 84 Central Banks (ECB, Fed, etc.)</span>
+            <span class="text-[#2dd4bf]">Frankfurter v2 API</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Information & Explanations -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-6 sm:p-8 mb-12">
+        <h2 class="text-2xl font-bold text-white mb-4">How Central Bank Reference Exchange Rates Work</h2>
+        <div class="prose prose-invert max-w-none text-zinc-300 text-sm leading-relaxed space-y-4">
+          <p>
+            Foreign exchange (forex) rates fluctuate continuously based on global supply, demand, interest rates, trade balances, and geopolitical stability. Official reference rates published daily by central banks (such as the European Central Bank, US Federal Reserve, Bank of England, and Reserve Bank of India) reflect unbiased mid-market benchmarks.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
+            <div class="p-4 bg-[#14141f] rounded-xl border border-white/[0.05]">
+              <h3 class="text-base font-bold text-white mb-1">Mid-Market Rate</h3>
+              <p class="text-xs text-zinc-400">The exact midpoint between buying (bid) and selling (ask) prices across global markets. Zero hidden fees.</p>
+            </div>
+            <div class="p-4 bg-[#14141f] rounded-xl border border-white/[0.05]">
+              <h3 class="text-base font-bold text-white mb-1">84 Central Banks</h3>
+              <p class="text-xs text-zinc-400">Rates are gathered directly from institutional central bank reports published daily around 16:00 CET.</p>
+            </div>
+            <div class="p-4 bg-[#14141f] rounded-xl border border-white/[0.05]">
+              <h3 class="text-base font-bold text-white mb-1">160+ Currencies</h3>
+              <p class="text-xs text-zinc-400">Covers major reserves (USD, EUR, GBP, JPY), regional currencies (AED, SAR, PKR, INR), and historical rates back to 1999.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <FAQAccordion items={faqItems} />
+
+      <!-- Related Tools -->
+      <div class="mt-12">
+        <h2 class="text-xl font-bold text-white mb-6">Explore Related Financial Tools</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {relatedTools.map(t => (
+            <a href={t.href} class="p-5 bg-[#0d0d14] border border-white/[0.06] hover:border-[#2dd4bf]/40 rounded-xl transition-all group">
+              <div class="text-2xl mb-2">{t.icon}</div>
+              <h3 class="text-white font-bold text-sm mb-1 group-hover:text-[#2dd4bf] transition-colors">{t.title}</h3>
+              <p class="text-xs text-zinc-400">{t.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <Footer />
+
+  <!-- Client-side Logic -->
+  <script>
+    (function() {
+      const API_BASE = 'https://api.frankfurter.dev/v2';
+
+      // Domestic & major currencies data
+      const POPULAR_CURRENCIES = ['USD', 'EUR', 'GBP', 'PKR', 'INR', 'AED', 'SAR', 'CAD', 'AUD', 'JPY', 'CNY', 'CHF'];
+      const SYMBOLS = {
+        USD: '$', EUR: '€', GBP: '£', PKR: 'Rs', INR: '₹', AED: 'AED', SAR: 'SAR',
+        CAD: 'CA$', AUD: 'A$', JPY: '¥', CNY: '¥', CHF: 'CHF', BRL: 'R$', MXN: 'MX$'
+      };
+
+      let fullCurrencyList = {};
+      let currentRate = 1;
+
+      // Elements
+      const amountInput = document.getElementById('amount');
+      const fromSelect = document.getElementById('from-currency');
+      const toSelect = document.getElementById('to-currency');
+      const swapBtn = document.getElementById('swap-btn');
+      const spinner = document.getElementById('loading-spinner');
+
+      const outAmountFrom = document.getElementById('out-amount-from');
+      const outCodeFrom = document.getElementById('out-code-from');
+      const outVal = document.getElementById('out-val');
+      const outCodeTo = document.getElementById('out-code-to');
+      const unitBase = document.getElementById('unit-base');
+      const unitRate = document.getElementById('unit-rate');
+      const unitTarget = document.getElementById('unit-target');
+      const fromSymbolPrefix = document.getElementById('from-symbol-prefix');
+
+      const rateBoard = document.getElementById('rate-board');
+      const boardBaseLabel = document.getElementById('board-base-label');
+
+      const histDate = document.getElementById('hist-date');
+      const fetchHistBtn = document.getElementById('fetch-hist-btn');
+      const histResultBox = document.getElementById('hist-result-box');
+      const histDateLabel = document.getElementById('hist-date-label');
+      const histRateVal = document.getElementById('hist-rate-val');
+
+      // Set yesterday as default max date for historical lookup
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      if (histDate) {
+        histDate.max = yesterday.toISOString().split('T')[0];
+        histDate.value = yesterday.toISOString().split('T')[0];
+      }
+
+      // Populate Currencies Dropdowns from Frankfurter API
+      async function loadCurrencies() {
+        try {
+          const res = await fetch(`${API_BASE}/currencies`);
+          if (!res.ok) throw new Error('Failed to load currencies');
+          fullCurrencyList = await res.json();
+
+          // Build option list sorted by code
+          const keys = Object.keys(fullCurrencyList).sort();
+          if (keys.length > 0) {
+            let optionsHTML = '';
+            keys.forEach(code => {
+              const name = fullCurrencyList[code]?.name || fullCurrencyList[code] || code;
+              optionsHTML += `<option value="${code}">${code} — ${name}</option>`;
+            });
+
+            const currentFrom = fromSelect.value;
+            const currentTo = toSelect.value;
+
+            fromSelect.innerHTML = optionsHTML;
+            toSelect.innerHTML = optionsHTML;
+
+            fromSelect.value = currentFrom || 'USD';
+            toSelect.value = currentTo || 'PKR';
+          }
+        } catch (e) {
+          console.warn('Using fallback static currency list', e);
+        }
+      }
+
+      // Fetch Rate & Update UI
+      async function updateConversion() {
+        const from = fromSelect.value;
+        const to = toSelect.value;
+        const amount = parseFloat(amountInput.value) || 0;
+
+        // Update prefix symbol
+        if (fromSymbolPrefix) {
+          fromSymbolPrefix.textContent = SYMBOLS[from] || from;
+        }
+
+        if (from === to) {
+          currentRate = 1;
+          renderResult(amount, 1, from, to);
+          updateRateBoard(from);
+          return;
+        }
+
+        if (spinner) spinner.classList.remove('hidden');
+
+        try {
+          const res = await fetch(`${API_BASE}/rate/${from}/${to}`);
+          if (!res.ok) throw new Error('API error');
+          const data = await res.json();
+          currentRate = data.rate || (1 / data.rate);
+
+          renderResult(amount, currentRate, from, to);
+          updateRateBoard(from);
+        } catch (err) {
+          console.error('Error fetching rate:', err);
+          outVal.textContent = 'Error fetching rate';
+        } finally {
+          if (spinner) spinner.classList.add('hidden');
+        }
+      }
+
+      function renderResult(amount, rate, from, to) {
+        const total = (amount * rate).toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 4
+        });
+
+        if (outAmountFrom) outAmountFrom.textContent = amount.toLocaleString();
+        if (outCodeFrom) outCodeFrom.textContent = from;
+        if (outVal) outVal.textContent = total;
+        if (outCodeTo) outCodeTo.textContent = to;
+
+        if (unitBase) unitBase.textContent = from;
+        if (unitRate) unitRate.textContent = rate.toFixed(4);
+        if (unitTarget) unitTarget.textContent = to;
+
+        // Global save utility payload setup
+        window.currentConversionPayload = {
+          from,
+          to,
+          amount,
+          result: total,
+          rate
+        };
+      }
+
+      // Populate Quick Multi-Currency Board
+      async function updateRateBoard(base) {
+        if (!rateBoard) return;
+        if (boardBaseLabel) boardBaseLabel.textContent = `Base: 1 ${base}`;
+
+        const targets = POPULAR_CURRENCIES.filter(c => c !== base).slice(0, 7);
+
+        try {
+          const res = await fetch(`${API_BASE}/rates?base=${base}&quotes=${targets.join(',')}`);
+          if (!res.ok) throw new Error('Board rate fetch failed');
+          const data = await res.json();
+          const rates = data.rates || {};
+
+          let html = '';
+          targets.forEach(code => {
+            const r = rates[code];
+            if (r) {
+              const formattedRate = r < 0.01 ? r.toFixed(6) : r.toFixed(3);
+              html += `
+                <div class="flex items-center justify-between p-2.5 bg-[#14141f] rounded-lg border border-white/[0.05] hover:border-white/[0.1] transition-colors">
+                  <div class="flex items-center gap-2 font-mono text-xs text-white">
+                    <span class="px-1.5 py-0.5 rounded bg-white/[0.08] text-zinc-300 font-bold">${code}</span>
+                    <span class="text-zinc-400">${fullCurrencyList[code]?.name || code}</span>
+                  </div>
+                  <div class="font-mono text-xs font-bold text-[#2dd4bf]">
+                    ${SYMBOLS[code] || ''} ${formattedRate}
+                  </div>
+                </div>
+              `;
+            }
+          });
+          rateBoard.innerHTML = html || '<div class="text-xs text-zinc-500 p-2">Rates unavailable</div>';
+        } catch (e) {
+          rateBoard.innerHTML = '<div class="text-xs text-zinc-500 p-2">Failed to load multi-currency board</div>';
+        }
+      }
+
+      // Historical rate lookup
+      if (fetchHistBtn) {
+        fetchHistBtn.addEventListener('click', async () => {
+          const d = histDate.value;
+          const from = fromSelect.value;
+          const to = toSelect.value;
+          if (!d) return;
+
+          fetchHistBtn.textContent = 'Fetching...';
+
+          try {
+            const res = await fetch(`${API_BASE}/rates?date=${d}&base=${from}&quotes=${to}`);
+            if (!res.ok) throw new Error('No historical data');
+            const data = await res.json();
+            const rate = data.rates?.[to];
+
+            if (histResultBox) histResultBox.classList.remove('hidden');
+            if (histDateLabel) histDateLabel.textContent = `Official rate on ${d} (${from} → ${to})`;
+            if (histRateVal) histRateVal.textContent = rate ? `1 ${from} = ${rate.toFixed(4)} ${to}` : 'No rate record on this date';
+          } catch (e) {
+            if (histResultBox) histResultBox.classList.remove('hidden');
+            if (histRateVal) histRateVal.textContent = 'Date unavailable';
+          } finally {
+            fetchHistBtn.textContent = 'Lookup Historical Rate';
+          }
+        });
+      }
+
+      // Swap currencies handler
+      if (swapBtn) {
+        swapBtn.addEventListener('click', () => {
+          const temp = fromSelect.value;
+          fromSelect.value = toSelect.value;
+          toSelect.value = temp;
+          updateConversion();
+        });
+      }
+
+      // Presets
+      document.querySelectorAll('.preset-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const val = e.target.getAttribute('data-val');
+          if (val && amountInput) {
+            amountInput.value = val;
+            updateConversion();
+          }
+        });
+      });
+
+      // Pin tool button handler
+      const pinBtn = document.getElementById('pin-this-tool');
+      if (pinBtn) {
+        const path = window.location.pathname;
+        const title = 'Live Currency Converter';
+        if (window.isPinned && window.isPinned(path)) {
+          pinBtn.textContent = '⭐ Pinned';
+        }
+        pinBtn.addEventListener('click', () => {
+          if (window.pinTool) {
+            const isNowPinned = window.pinTool(title, path);
+            pinBtn.textContent = isNowPinned ? '⭐ Pinned' : '⭐ Pin Tool';
+          }
+        });
+      }
+
+      // Event listeners
+      if (amountInput) amountInput.addEventListener('input', updateConversion);
+      if (fromSelect) fromSelect.addEventListener('change', updateConversion);
+      if (toSelect) toSelect.addEventListener('change', updateConversion);
+
+      // Initial execution
+      loadCurrencies().then(updateConversion);
+
+    })();
+  </script>
+</BaseLayout>

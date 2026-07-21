@@ -104,6 +104,7 @@ const LASTMOD_MAP = {
   'https://solverspro.com/text/lorem-ipsum/':            '2026-05-20',
 
   // ── Finance Tools ───────────────────────────────────────────────────────
+  'https://solverspro.com/finance/currency-converter/':  '2026-07-22',
   'https://solverspro.com/finance/compound-interest/':   '2026-05-10',
   'https://solverspro.com/finance/cash-on-cash-return/': '2026-05-10',
   'https://solverspro.com/finance/simple-interest/':     '2026-05-10',
