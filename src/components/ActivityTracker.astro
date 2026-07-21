@@ -9,7 +9,11 @@
       const path = window.location.pathname;
       
       // Only track actual tool categories, skip static pages like /about, /contact, or /dashboard itself
-      const validPrefixes = ['/math/', '/finance/', '/health/', '/trades/', '/developer/', '/tools/'];
+      const validPrefixes = [
+        '/math/', '/finance/', '/health/', '/trades/',
+        '/developer/', '/pdf/', '/text/', '/network/',
+        '/qr/', '/security/', '/search'
+      ];
       if (!validPrefixes.some(prefix => path.startsWith(prefix))) return;
 
       // Clean up the title (remove " | SolversPro")

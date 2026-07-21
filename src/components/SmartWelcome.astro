@@ -1,0 +1,498 @@
+---
+// SmartWelcome.astro
+// Dynamic personalization panel shown on the homepage.
+// All data is 100% client-side: IP via ipapi.co, history via localStorage.
+// No data is stored server-side.
+---
+
+<!-- Smart Welcome Panel -->
+<section id="smart-welcome-panel" class="py-10 border-b border-white/[0.06]" style="background: linear-gradient(180deg, #0a0a0f 0%, #0d0d14 100%);">
+  <div class="container mx-auto px-4 max-w-7xl">
+
+    <!-- Section Header -->
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-3">
+        <span class="w-2 h-2 rounded-full bg-[#2dd4bf] animate-pulse inline-block"></span>
+        <p class="text-xs font-semibold uppercase tracking-widest text-zinc-500" style="font-family: 'JetBrains Mono', monospace;">Your Session</p>
+      </div>
+      <!-- Dismiss button -->
+      <button id="sw-dismiss" class="text-xs text-zinc-600 hover:text-zinc-400 transition-colors flex items-center gap-1.5" title="Hide this panel">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        Hide
+      </button>
+    </div>
+
+    <!-- Widget Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="sw-grid">
+
+      <!-- ── Widget 1: IP & Location ───────────────────────────────── -->
+      <div class="sw-card relative bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-5 overflow-hidden group hover:border-[#2dd4bf]/30 transition-all duration-300">
+        <div class="sw-glow absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style="background: radial-gradient(ellipse at 50% 0%, rgba(45,212,191,0.05) 0%, transparent 70%);"></div>
+        <div class="flex items-start gap-3">
+          <div class="w-9 h-9 rounded-xl bg-[#2dd4bf]/10 flex items-center justify-center shrink-0 text-[#2dd4bf]">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-1.5" style="font-family: 'JetBrains Mono', monospace;">Your Network</p>
+            <div id="sw-ip" class="font-mono text-base font-bold text-white truncate">
+              <span class="sw-skeleton"></span>
+            </div>
+            <div id="sw-location" class="text-xs text-zinc-500 mt-1 flex items-center gap-1.5">
+              <span class="sw-skeleton" style="width:140px;"></span>
+            </div>
+            <a href="/network/ip-lookup" class="mt-3 inline-flex items-center gap-1 text-xs text-[#2dd4bf] hover:text-[#5eead4] transition-colors font-mono">
+              Lookup this IP →
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Widget 2: Last Tools Used ─────────────────────────────── -->
+      <div class="sw-card relative bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-5 overflow-hidden group hover:border-[#ff6b35]/30 transition-all duration-300">
+        <div class="sw-glow absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style="background: radial-gradient(ellipse at 50% 0%, rgba(255,107,53,0.05) 0%, transparent 70%);"></div>
+        <div class="flex items-start gap-3">
+          <div class="w-9 h-9 rounded-xl bg-[#ff6b35]/10 flex items-center justify-center shrink-0 text-[#ff6b35]">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-2" style="font-family: 'JetBrains Mono', monospace;">Resume Where You Left Off</p>
+            <div id="sw-recent" class="space-y-1.5">
+              <!-- Filled by JS -->
+              <p class="text-xs text-zinc-600 italic" id="sw-recent-empty">No tools used yet — try one below!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Widget 3: Session Stats ────────────────────────────────── -->
+      <div class="sw-card relative bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-5 overflow-hidden group hover:border-[#a78bfa]/30 transition-all duration-300">
+        <div class="sw-glow absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style="background: radial-gradient(ellipse at 50% 0%, rgba(167,139,250,0.05) 0%, transparent 70%);"></div>
+        <div class="flex items-start gap-3">
+          <div class="w-9 h-9 rounded-xl bg-[#a78bfa]/10 flex items-center justify-center shrink-0 text-[#a78bfa]">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="18" y="3" width="4" height="18"/><rect x="10" y="8" width="4" height="13"/><rect x="2" y="13" width="4" height="8"/></svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3" style="font-family: 'JetBrains Mono', monospace;">Your Stats</p>
+            <div class="grid grid-cols-2 gap-x-4 gap-y-2">
+              <div>
+                <div id="sw-stat-total" class="text-2xl font-bold text-white font-mono">0</div>
+                <div class="text-xs text-zinc-600">Tools tried</div>
+              </div>
+              <div>
+                <div id="sw-stat-saved" class="text-2xl font-bold text-white font-mono">0</div>
+                <div class="text-xs text-zinc-600">Saved results</div>
+              </div>
+              <div>
+                <div id="sw-stat-pinned" class="text-2xl font-bold text-white font-mono">0</div>
+                <div class="text-xs text-zinc-600">Pinned tools</div>
+              </div>
+              <div>
+                <div id="sw-stat-categories" class="text-2xl font-bold text-white font-mono">0</div>
+                <div class="text-xs text-zinc-600">Categories</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Widget 4: Pinned Tools ─────────────────────────────────── -->
+      <div class="sw-card relative bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-5 overflow-hidden group hover:border-[#eab308]/30 transition-all duration-300">
+        <div class="sw-glow absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style="background: radial-gradient(ellipse at 50% 0%, rgba(234,179,8,0.05) 0%, transparent 70%);"></div>
+        <div class="flex items-start gap-3">
+          <div class="w-9 h-9 rounded-xl bg-[#eab308]/10 flex items-center justify-center shrink-0 text-[#eab308]">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-2" style="font-family: 'JetBrains Mono', monospace;">Pinned Tools</p>
+            <div id="sw-pinned" class="space-y-1.5">
+              <p class="text-xs text-zinc-600 italic" id="sw-pinned-empty">No pins yet. Click ⭐ on any tool page.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Widget 5: New This Week ────────────────────────────────── -->
+      <div class="sw-card relative bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-5 overflow-hidden group hover:border-[#22c55e]/30 transition-all duration-300">
+        <div class="sw-glow absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style="background: radial-gradient(ellipse at 50% 0%, rgba(34,197,94,0.05) 0%, transparent 70%);"></div>
+        <div class="flex items-start gap-3">
+          <div class="w-9 h-9 rounded-xl bg-[#22c55e]/10 flex items-center justify-center shrink-0 text-[#22c55e]">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-2 flex items-center gap-2" style="font-family: 'JetBrains Mono', monospace;">
+              New This Week
+              <span class="px-1.5 py-0.5 text-[10px] font-bold bg-[#22c55e]/20 text-[#22c55e] rounded-full border border-[#22c55e]/30">NEW</span>
+            </p>
+            <div id="sw-new" class="space-y-1.5">
+              <!-- Filled by JS from NEW_TOOLS constant -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Widget 6: Clipboard Sniffer ───────────────────────────── -->
+      <div class="sw-card relative bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-5 overflow-hidden group hover:border-[#06b6d4]/30 transition-all duration-300" id="sw-clipboard-card">
+        <div class="sw-glow absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style="background: radial-gradient(ellipse at 50% 0%, rgba(6,182,212,0.05) 0%, transparent 70%);"></div>
+        <div class="flex items-start gap-3">
+          <div class="w-9 h-9 rounded-xl bg-[#06b6d4]/10 flex items-center justify-center shrink-0 text-[#06b6d4]">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M9 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-3"/></svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-2" style="font-family: 'JetBrains Mono', monospace;">Clipboard Sniffer</p>
+            <div id="sw-clipboard-idle" class="text-xs text-zinc-500 leading-relaxed">
+              Copy any IP, URL, JSON, or UUID — we'll suggest the right tool instantly.
+            </div>
+            <div id="sw-clipboard-match" class="hidden">
+              <p class="text-xs text-zinc-400 mb-2" id="sw-clipboard-label"></p>
+              <a id="sw-clipboard-link" href="#" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-[#06b6d4]/10 text-[#06b6d4] hover:bg-[#06b6d4]/20 transition-colors border border-[#06b6d4]/20">
+                Open Tool →
+              </a>
+            </div>
+            <button id="sw-clipboard-btn" class="mt-3 text-xs text-[#06b6d4] hover:text-[#22d3ee] transition-colors font-mono flex items-center gap-1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M9 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-3"/></svg>
+              Paste &amp; Analyze
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /sw-grid -->
+  </div>
+</section>
+
+<style>
+  .sw-skeleton {
+    display: inline-block;
+    height: 14px;
+    width: 120px;
+    background: linear-gradient(90deg, #1a1a2e 25%, #252535 50%, #1a1a2e 75%);
+    background-size: 200% 100%;
+    animation: sw-shimmer 1.4s infinite;
+    border-radius: 4px;
+  }
+  @keyframes sw-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  .sw-recent-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #a1a1aa;
+    text-decoration: none;
+    padding: 4px 6px;
+    border-radius: 8px;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sw-recent-item:hover {
+    background: rgba(255,255,255,0.04);
+    color: #e4e4e7;
+  }
+  .sw-recent-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ff6b35;
+    flex-shrink: 0;
+  }
+  .sw-pin-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    font-size: 12px;
+    padding: 4px 6px;
+    border-radius: 8px;
+    transition: background 0.15s;
+  }
+  .sw-pin-item:hover { background: rgba(255,255,255,0.04); }
+  .sw-pin-item a { color: #a1a1aa; text-decoration: none; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sw-pin-item a:hover { color: #e4e4e7; }
+  .sw-unpin-btn {
+    color: #3f3f46;
+    cursor: pointer;
+    transition: color 0.15s;
+    background: none;
+    border: none;
+    padding: 0;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .sw-unpin-btn:hover { color: #ef4444; }
+  .sw-new-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #a1a1aa;
+    text-decoration: none;
+    padding: 4px 6px;
+    border-radius: 8px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .sw-new-item:hover { background: rgba(255,255,255,0.04); color: #e4e4e7; }
+  .sw-new-badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 99px;
+    background: rgba(34,197,94,0.15);
+    color: #22c55e;
+    border: 1px solid rgba(34,197,94,0.3);
+    flex-shrink: 0;
+  }
+</style>
+
+<script>
+(function() {
+  // ── Constants ────────────────────────────────────────────────────────────
+
+  // Recently launched tools — update this array when you add new tools
+  const NEW_TOOLS = [
+    { title: 'IP Address Lookup', href: '/network/ip-lookup', tag: 'Network' },
+    { title: 'Statistics Calculator', href: '/math/statistics-calculator', tag: 'Math' },
+    { title: 'Geometry Calculator', href: '/math/geometry-calculator', tag: 'Math' },
+    { title: 'Text Diff', href: '/developer/text-diff', tag: 'Developer' },
+    { title: 'HTML Beautifier', href: '/developer/html-beautifier', tag: 'Developer' },
+  ];
+
+  const LS_RECENT = 'solversPro_recent';
+  const LS_SAVED  = 'solversPro_saved';
+  const LS_PINNED = 'solversPro_pinned';
+  const LS_HIDDEN = 'solversPro_welcome_hidden';
+
+  // ── Dismiss ──────────────────────────────────────────────────────────────
+  const panel = document.getElementById('smart-welcome-panel');
+  const dismissBtn = document.getElementById('sw-dismiss');
+  if (dismissBtn && panel) {
+    // Check if previously dismissed (only for this session)
+    if (sessionStorage.getItem(LS_HIDDEN)) {
+      panel.style.display = 'none';
+    }
+    dismissBtn.addEventListener('click', () => {
+      panel.style.transition = 'opacity 0.4s, max-height 0.5s';
+      panel.style.opacity = '0';
+      panel.style.maxHeight = panel.offsetHeight + 'px';
+      setTimeout(() => { panel.style.maxHeight = '0'; panel.style.overflow = 'hidden'; }, 50);
+      setTimeout(() => { panel.style.display = 'none'; }, 550);
+      sessionStorage.setItem(LS_HIDDEN, '1');
+    });
+  }
+
+  // ── Widget 1: IP & Location ──────────────────────────────────────────────
+  (async function loadIP() {
+    const ipEl  = document.getElementById('sw-ip');
+    const locEl = document.getElementById('sw-location');
+    if (!ipEl || !locEl) return;
+    try {
+      const r = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(4000) });
+      const d = await r.json();
+      ipEl.textContent = d.ip || '—';
+      const flag = d.country_code ? String.fromCodePoint(...[...d.country_code].map(c => 0x1F1E0 + c.charCodeAt(0) - 65)) : '';
+      locEl.innerHTML = `${flag} <span>${[d.city, d.region, d.country_name].filter(Boolean).join(', ')}</span>`;
+    } catch {
+      ipEl.textContent = 'Unavailable';
+      locEl.textContent = '';
+    }
+  })();
+
+  // ── Widget 2: Last Tools Used ────────────────────────────────────────────
+  (function loadRecent() {
+    const container = document.getElementById('sw-recent');
+    const empty     = document.getElementById('sw-recent-empty');
+    if (!container) return;
+    try {
+      const raw   = localStorage.getItem(LS_RECENT);
+      const items = raw ? JSON.parse(raw) : [];
+      // Update Activity tracker to cover new paths too
+      const validPrefixes = ['/math/', '/finance/', '/health/', '/trades/', '/developer/', '/pdf/', '/text/', '/network/', '/qr/', '/security/', '/search'];
+      if (items.length === 0) { if(empty) empty.style.display='block'; return; }
+      if (empty) empty.style.display = 'none';
+      // Show max 4
+      items.slice(0, 4).forEach(item => {
+        const a = document.createElement('a');
+        a.className = 'sw-recent-item';
+        a.href = item.path;
+        a.innerHTML = `<span class="sw-recent-dot"></span><span class="truncate">${item.title}</span>`;
+        container.appendChild(a);
+      });
+    } catch {}
+  })();
+
+  // ── Widget 3: Session Stats ──────────────────────────────────────────────
+  (function loadStats() {
+    try {
+      const recent  = JSON.parse(localStorage.getItem(LS_RECENT)  || '[]');
+      const saved   = JSON.parse(localStorage.getItem(LS_SAVED)   || '[]');
+      const pinned  = JSON.parse(localStorage.getItem(LS_PINNED)  || '[]');
+      const cats    = new Set(recent.map(i => (i.path.match(/^\/([^/]+)/) || [])[1])).size;
+      const setEl = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+      setEl('sw-stat-total',      recent.length);
+      setEl('sw-stat-saved',      saved.length);
+      setEl('sw-stat-pinned',     pinned.length);
+      setEl('sw-stat-categories', cats);
+    } catch {}
+  })();
+
+  // ── Widget 4: Pinned Tools ───────────────────────────────────────────────
+  (function loadPinned() {
+    const container = document.getElementById('sw-pinned');
+    const empty     = document.getElementById('sw-pinned-empty');
+    if (!container) return;
+    try {
+      const pinned = JSON.parse(localStorage.getItem(LS_PINNED) || '[]');
+      if (pinned.length === 0) { if(empty) empty.style.display='block'; return; }
+      if(empty) empty.style.display = 'none';
+      pinned.slice(0, 4).forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'sw-pin-item';
+        row.innerHTML = `
+          <a href="${item.path}">${item.title}</a>
+          <button class="sw-unpin-btn" data-path="${item.path}" title="Unpin">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>`;
+        container.appendChild(row);
+      });
+      // Unpin handler
+      container.addEventListener('click', e => {
+        const btn = e.target.closest('.sw-unpin-btn');
+        if (!btn) return;
+        const path = btn.dataset.path;
+        let p = JSON.parse(localStorage.getItem(LS_PINNED) || '[]');
+        p = p.filter(x => x.path !== path);
+        localStorage.setItem(LS_PINNED, JSON.stringify(p));
+        btn.closest('.sw-pin-item').remove();
+        if(container.querySelectorAll('.sw-pin-item').length === 0 && empty) empty.style.display='block';
+      });
+    } catch {}
+  })();
+
+  // ── Widget 5: New This Week ──────────────────────────────────────────────
+  (function loadNew() {
+    const container = document.getElementById('sw-new');
+    if (!container) return;
+    NEW_TOOLS.slice(0, 4).forEach(tool => {
+      const a = document.createElement('a');
+      a.className = 'sw-new-item';
+      a.href = tool.href;
+      a.innerHTML = `<span class="truncate flex-1">${tool.title}</span><span class="sw-new-badge">${tool.tag}</span>`;
+      container.appendChild(a);
+    });
+  })();
+
+  // ── Widget 6: Clipboard Sniffer ──────────────────────────────────────────
+  (function initClipboard() {
+    const btn       = document.getElementById('sw-clipboard-btn');
+    const idle      = document.getElementById('sw-clipboard-idle');
+    const matchDiv  = document.getElementById('sw-clipboard-match');
+    const labelEl   = document.getElementById('sw-clipboard-label');
+    const linkEl    = document.getElementById('sw-clipboard-link');
+    if (!btn) return;
+
+    function sniff(text) {
+      text = text.trim();
+      // IPv4
+      if (/^(\d{1,3}\.){3}\d{1,3}(\/\d+)?$/.test(text)) {
+        const isCIDR = text.includes('/');
+        return {
+          label: isCIDR ? `Detected CIDR: ${text}` : `Detected IP: ${text}`,
+          href: isCIDR ? `/network/ip-subnet-calculator` : `/network/ip-lookup`,
+          name: isCIDR ? 'IP Subnet Calculator' : 'IP Lookup'
+        };
+      }
+      // UUID
+      if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(text)) {
+        return { label: `Detected UUID: ${text.slice(0,13)}…`, href: '/developer/uuid-generator', name: 'UUID Generator' };
+      }
+      // URL
+      if (/^https?:\/\/[^\s]+$/.test(text)) {
+        return { label: `Detected URL`, href: '/text/url-encoder', name: 'URL Encoder/Decoder' };
+      }
+      // Base64
+      if (/^[A-Za-z0-9+/]{20,}={0,2}$/.test(text) && text.length % 4 === 0) {
+        return { label: 'Detected Base64 string', href: '/developer/base64-converter', name: 'Base64 Decoder' };
+      }
+      // JWT
+      if (/^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/.test(text)) {
+        return { label: 'Detected JWT token', href: '/developer/jwt-decoder', name: 'JWT Decoder' };
+      }
+      // JSON
+      try { JSON.parse(text); return { label: 'Detected JSON', href: '/developer/json-tools', name: 'JSON Formatter' }; } catch {}
+      // XML
+      if (text.startsWith('<') && text.endsWith('>')) {
+        return { label: 'Detected XML', href: '/developer/xml-tools', name: 'XML Formatter' };
+      }
+      // Hex color
+      if (/^#?([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(text)) {
+        return { label: `Detected color: ${text}`, href: '/developer/color-converter', name: 'Color Converter' };
+      }
+      // Number
+      if (/^-?\d+(\.\d+)?$/.test(text) && text.length <= 20) {
+        return { label: `Detected number: ${text}`, href: '/math/scientific-calculator', name: 'Scientific Calculator' };
+      }
+      return null;
+    }
+
+    function show(match) {
+      if (idle) idle.classList.add('hidden');
+      if (matchDiv) matchDiv.classList.remove('hidden');
+      if (labelEl) labelEl.textContent = match.label;
+      if (linkEl) { linkEl.href = match.href; linkEl.childNodes[0].textContent = match.name + ' →'; }
+    }
+
+    btn.addEventListener('click', async () => {
+      try {
+        const text = await navigator.clipboard.readText();
+        const match = sniff(text);
+        if (match) {
+          show(match);
+        } else {
+          if (labelEl) labelEl.textContent = '';
+          if (idle) idle.textContent = 'Nothing recognizable copied — try copying an IP, UUID, JSON, or URL.';
+          if (idle) idle.classList.remove('hidden');
+          if (matchDiv) matchDiv.classList.add('hidden');
+        }
+      } catch {
+        if (idle) idle.textContent = 'Clipboard access denied. Please allow clipboard permissions.';
+      }
+    });
+
+    // Auto-detect on focus (when user returns to the tab)
+    document.addEventListener('visibilitychange', async () => {
+      if (document.visibilityState !== 'visible') return;
+      try {
+        const text = await navigator.clipboard.readText();
+        const match = sniff(text);
+        if (match) show(match);
+      } catch {}
+    });
+  })();
+
+  // ── Global: expose pin utility for tool pages ────────────────────────────
+  window.pinTool = function(title, path) {
+    try {
+      let pins = JSON.parse(localStorage.getItem('solversPro_pinned') || '[]');
+      if (pins.some(p => p.path === path)) {
+        // Already pinned — unpin
+        pins = pins.filter(p => p.path !== path);
+        localStorage.setItem('solversPro_pinned', JSON.stringify(pins));
+        return false; // now unpinned
+      }
+      pins.unshift({ title, path });
+      if (pins.length > 12) pins = pins.slice(0, 12);
+      localStorage.setItem('solversPro_pinned', JSON.stringify(pins));
+      return true; // now pinned
+    } catch { return false; }
+  };
+  window.isPinned = function(path) {
+    try {
+      const pins = JSON.parse(localStorage.getItem('solversPro_pinned') || '[]');
+      return pins.some(p => p.path === path);
+    } catch { return false; }
+  };
+})();
+</script>
