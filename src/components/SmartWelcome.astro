@@ -245,7 +245,7 @@
     border: 1px solid rgba(34,197,94,0.3);
     flex-shrink: 0;
   }
-</style>
+</style is:global>
 
 <script>
 (function() {
@@ -288,16 +288,42 @@
     const ipEl  = document.getElementById('sw-ip');
     const locEl = document.getElementById('sw-location');
     if (!ipEl || !locEl) return;
-    try {
-      const r = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(4000) });
-      const d = await r.json();
-      ipEl.textContent = d.ip || '—';
-      const flag = d.country_code ? String.fromCodePoint(...[...d.country_code].map(c => 0x1F1E0 + c.charCodeAt(0) - 65)) : '';
-      locEl.innerHTML = `${flag} <span>${[d.city, d.region, d.country_name].filter(Boolean).join(', ')}</span>`;
-    } catch {
-      ipEl.textContent = 'Unavailable';
-      locEl.textContent = '';
+
+    // Try multiple free IP APIs in order until one succeeds
+    const apis = [
+      async () => {
+        const r = await fetch('https://ipwho.is/', { signal: AbortSignal.timeout(4000) });
+        const d = await r.json();
+        if (!d.success) throw new Error('ipwho failed');
+        return { ip: d.ip, city: d.city, region: d.region, country: d.country, code: d.country_code };
+      },
+      async () => {
+        const r = await fetch('https://ip-api.com/json/?fields=status,message,country,countryCode,regionName,city,query', { signal: AbortSignal.timeout(4000) });
+        const d = await r.json();
+        if (d.status !== 'success') throw new Error('ip-api failed');
+        return { ip: d.query, city: d.city, region: d.regionName, country: d.country, code: d.countryCode };
+      },
+      async () => {
+        const r = await fetch('https://api64.ipify.org?format=json', { signal: AbortSignal.timeout(4000) });
+        const d = await r.json();
+        return { ip: d.ip, city: '', region: '', country: '', code: '' };
+      },
+    ];
+
+    for (const api of apis) {
+      try {
+        const d = await api();
+        ipEl.textContent = d.ip || '—';
+        const flag = d.code ? String.fromCodePoint(...[...d.code.toUpperCase()].map(c => 0x1F1E0 + c.charCodeAt(0) - 65)) : '';
+        const loc  = [d.city, d.region, d.country].filter(Boolean).join(', ');
+        locEl.innerHTML = loc ? `${flag} <span>${loc}</span>` : `<span>${d.ip}</span>`;
+        return;
+      } catch { /* try next */ }
     }
+
+    // All APIs failed
+    ipEl.textContent = 'Unavailable';
+    locEl.textContent = 'Could not detect location';
   })();
 
   // ── Widget 2: Last Tools Used ────────────────────────────────────────────
@@ -312,12 +338,13 @@
       const validPrefixes = ['/math/', '/finance/', '/health/', '/trades/', '/developer/', '/pdf/', '/text/', '/network/', '/qr/', '/security/', '/search'];
       if (items.length === 0) { if(empty) empty.style.display='block'; return; }
       if (empty) empty.style.display = 'none';
-      // Show max 4
+      // Show max 4 — trim long titles (strip em-dash and everything after)
       items.slice(0, 4).forEach(item => {
+        const shortTitle = item.title.split(/\s[—–-]{1,2}\s/)[0].trim();
         const a = document.createElement('a');
         a.className = 'sw-recent-item';
         a.href = item.path;
-        a.innerHTML = `<span class="sw-recent-dot"></span><span class="truncate">${item.title}</span>`;
+        a.innerHTML = `<span class="sw-recent-dot"></span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${shortTitle}</span>`;
         container.appendChild(a);
       });
     } catch {}
