@@ -107,7 +107,8 @@ const testimonials = [
   title="SolversPro | Solve Anything. Instantly."
   description="Free, lightning-fast, client-side calculation engines for engineering, finance, and health. All running at the speed of light, right in your browser."
 >
-  <link rel="preload" as="image" href="/hero-dark-tech.webp" fetchpriority="high" slot="head" />
+  <link rel="preload" as="image" href="/hero-dark-tech-mobile.webp" type="image/webp" media="(max-width: 768px)" fetchpriority="high" slot="head" />
+  <link rel="preload" as="image" href="/hero-dark-tech.webp" type="image/webp" media="(min-width: 769px)" fetchpriority="high" slot="head" />
   <Header />
 
   <main id="main-content" class="flex-1">
@@ -115,7 +116,10 @@ const testimonials = [
   <section class="relative pt-24 pb-32 overflow-hidden border-b border-white/[0.06]">
     <!-- Abstract Background Element -->
     <div class="absolute inset-0 w-full h-full pointer-events-none z-0">
-      <img src="/hero-dark-tech.webp" alt="SolversPro precision computing background" fetchpriority="high" loading="eager" decoding="async" class="w-full h-full object-cover object-top opacity-50 mix-blend-screen" />
+      <picture>
+        <source media="(max-width: 768px)" srcset="/hero-dark-tech-mobile.webp" type="image/webp" width="768" height="432" />
+        <img src="/hero-dark-tech.webp" alt="SolversPro precision computing background" width="1920" height="1080" fetchpriority="high" loading="eager" decoding="async" class="w-full h-full object-cover object-top opacity-50 mix-blend-screen" />
+      </picture>
     </div>
 
     <div class="container mx-auto px-4 relative z-10">
@@ -521,205 +525,192 @@ const testimonials = [
   </section>
 
 <script>
-  const words = ['Math', 'Finance', 'Engineering', 'Health', 'Trades'];
-  let i = 0;
-  const el = document.getElementById('hero-dynamic-text');
-  
-  if (el) {
-    setInterval(() => {
-      // Fade out
-      el.style.opacity = '0';
+  function initHomepageInteractivity() {
+    const words = ['Math', 'Finance', 'Engineering', 'Health', 'Trades'];
+    let i = 0;
+    const el = document.getElementById('hero-dynamic-text');
+    
+    if (el) {
+      setInterval(() => {
+        el.style.opacity = '0';
+        setTimeout(() => {
+          i = (i + 1) % words.length;
+          el.textContent = words[i];
+          el.style.opacity = '1';
+        }, 300);
+      }, 2500);
+    }
+
+    // --- AI Typing Effect Logic ---
+    const typingTextEl = document.getElementById('ai-typing-text');
+    const aiResponseBox = document.getElementById('ai-response-box');
+    const cursorEl = document.getElementById('ai-typing-cursor');
+    
+    if (typingTextEl && aiResponseBox && cursorEl) {
+      const textToType = "Solve the derivative of 4x^2 + 3x";
+      let charIndex = 0;
       
-      // Change word and fade in
       setTimeout(() => {
-        i = (i + 1) % words.length;
-        el.textContent = words[i];
-        el.style.opacity = '1';
-      }, 300); // Wait for fade out to complete
-    }, 2500); // Change every 2.5 seconds
-  }
-
-  // --- AI Typing Effect Logic ---
-  const typingTextEl = document.getElementById('ai-typing-text');
-  const aiResponseBox = document.getElementById('ai-response-box');
-  const cursorEl = document.getElementById('ai-typing-cursor');
-  
-  if (typingTextEl && aiResponseBox && cursorEl) {
-    const textToType = "Solve the derivative of 4x^2 + 3x";
-    let charIndex = 0;
-    
-    // Start typing after a short delay
-    setTimeout(() => {
-      const typeInterval = setInterval(() => {
-        typingTextEl.textContent += textToType.charAt(charIndex);
-        charIndex++;
-        if (charIndex >= textToType.length) {
-          clearInterval(typeInterval);
-          cursorEl.style.display = 'none'; // hide cursor when done typing
-          // Show the response box after a brief "thinking" pause
-          setTimeout(() => {
-            aiResponseBox.classList.remove('hidden');
-            // Trigger reflow to ensure transition works
-            void aiResponseBox.offsetWidth;
-            aiResponseBox.classList.remove('opacity-0');
-          }, 600);
-        }
-      }, 50); // Typing speed
-    }, 1000);
-  }
-
-  // --- World Clock Logic ---
-  const tzSelect = document.getElementById('tz-select') as HTMLSelectElement;
-  const tzPills = document.querySelectorAll('.tz-pill');
-
-  function updateClock() {
-    const now = new Date();
-    
-    // Update Local Time
-    const localTimeEl = document.getElementById('local-time');
-    const localAmPmEl = document.getElementById('local-ampm');
-    const localDateEl = document.getElementById('local-date');
-    const localTzNameEl = document.getElementById('local-tz-name');
-    const localOffsetEl = document.getElementById('local-offset');
-
-    if (localTimeEl) {
-      localTimeEl.textContent = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      localAmPmEl!.textContent = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit' }).split(' ')[1].toUpperCase();
-      localDateEl!.textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-      
-      const tzName = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      localTzNameEl!.textContent = tzName;
-      
-      const offsetMin = -now.getTimezoneOffset();
-      const offsetSign = offsetMin >= 0 ? '+' : '-';
-      const offsetHours = Math.floor(Math.abs(offsetMin) / 60).toString().padStart(2, '0');
-      const offsetMins = (Math.abs(offsetMin) % 60).toString().padStart(2, '0');
-      localOffsetEl!.textContent = `UTC${offsetSign}${offsetHours}:${offsetMins}`;
-    }
-
-    // Update Selected Timezone
-    if (tzSelect) {
-      const selectedTz = tzSelect.value;
-      updateSelectedTz(selectedTz);
-    }
-  }
-
-  function updateSelectedTz(tz: string) {
-    try {
-      const now = new Date();
-      
-      // Get formatted strings for the target timezone
-      const timeStr = now.toLocaleTimeString('en-US', { timeZone: tz, hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      const ampmStr = now.toLocaleTimeString('en-US', { timeZone: tz, hour12: true, hour: '2-digit' }).split(' ')[1].toUpperCase();
-      const dateStr = now.toLocaleDateString('en-US', { timeZone: tz, weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-
-      document.getElementById('tz-time')!.textContent = timeStr;
-      document.getElementById('tz-ampm')!.textContent = ampmStr;
-      document.getElementById('tz-date')!.textContent = dateStr;
-
-      // Calculate difference
-      const localDate = new Date();
-      const localTimeValue = localDate.getTime();
-      
-      // Get local offset in ms
-      const localOffsetMs = localDate.getTimezoneOffset() * 60000;
-      
-      // Get target timezone offset by parsing the locale string back to a date
-      const tzDateString = localDate.toLocaleString('en-US', { timeZone: tz });
-      const tzDate = new Date(tzDateString);
-      
-      // Calculate diff in hours
-      const diffMs = tzDate.getTime() - localDate.getTime();
-      let diffHours = diffMs / 3600000;
-      
-      const diffWrap = document.getElementById('tz-diff-wrap');
-      const diffEl = document.getElementById('tz-diff');
-      const sameEl = document.getElementById('tz-same');
-      
-      if (diffWrap && diffEl && sameEl) {
-          if (Math.abs(diffHours) < 0.01) {
-              diffEl.style.display = 'none';
-              sameEl.style.display = 'block';
-          } else {
-              diffEl.style.display = 'inline-flex';
-              sameEl.style.display = 'none';
-              
-              const isAhead = diffHours > 0;
-              const absHours = Math.abs(diffHours);
-              const hrs = Math.floor(absHours);
-              const mins = Math.round((absHours - hrs) * 60);
-              
-              let diffText = isAhead ? '+' : '-';
-              if (hrs > 0) diffText += `${hrs}h `;
-              if (mins > 0 || hrs === 0) diffText += `${mins}m`;
-              
-              diffEl.textContent = diffText;
-              
-              if (isAhead) {
-                  diffEl.className = 'inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold border transition-all text-green-400 border-green-400/30 bg-green-400/10';
-              } else {
-                  diffEl.className = 'inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold border transition-all text-red-400 border-red-400/30 bg-red-400/10';
-              }
+        const typeInterval = setInterval(() => {
+          typingTextEl.textContent += textToType.charAt(charIndex);
+          charIndex++;
+          if (charIndex >= textToType.length) {
+            clearInterval(typeInterval);
+            cursorEl.style.display = 'none';
+            setTimeout(() => {
+              aiResponseBox.classList.remove('hidden');
+              void aiResponseBox.offsetWidth;
+              aiResponseBox.classList.remove('opacity-0');
+            }, 600);
           }
+        }, 50);
+      }, 1000);
+    }
+
+    // --- World Clock Logic ---
+    const tzSelect = document.getElementById('tz-select') as HTMLSelectElement;
+    const tzPills = document.querySelectorAll('.tz-pill');
+
+    function updateClock() {
+      const now = new Date();
+      const localTimeEl = document.getElementById('local-time');
+      const localAmPmEl = document.getElementById('local-ampm');
+      const localDateEl = document.getElementById('local-date');
+      const localTzNameEl = document.getElementById('local-tz-name');
+      const localOffsetEl = document.getElementById('local-offset');
+
+      if (localTimeEl) {
+        localTimeEl.textContent = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        if (localAmPmEl) localAmPmEl.textContent = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit' }).split(' ')[1].toUpperCase();
+        if (localDateEl) localDateEl.textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        
+        const tzName = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if (localTzNameEl) localTzNameEl.textContent = tzName;
+        
+        const offsetMin = -now.getTimezoneOffset();
+        const offsetSign = offsetMin >= 0 ? '+' : '-';
+        const offsetHours = Math.floor(Math.abs(offsetMin) / 60).toString().padStart(2, '0');
+        const offsetMins = (Math.abs(offsetMin) % 60).toString().padStart(2, '0');
+        if (localOffsetEl) localOffsetEl.textContent = `UTC${offsetSign}${offsetHours}:${offsetMins}`;
       }
-    } catch (e) {
-      console.error("Timezone error:", e);
+
+      if (tzSelect) {
+        const selectedTz = tzSelect.value;
+        updateSelectedTz(selectedTz);
+      }
+    }
+
+    function updateSelectedTz(tz: string) {
+      try {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('en-US', { timeZone: tz, hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const ampmStr = now.toLocaleTimeString('en-US', { timeZone: tz, hour12: true, hour: '2-digit' }).split(' ')[1].toUpperCase();
+        const dateStr = now.toLocaleDateString('en-US', { timeZone: tz, weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+        const tzTime = document.getElementById('tz-time');
+        const tzAmPm = document.getElementById('tz-ampm');
+        const tzDate = document.getElementById('tz-date');
+        if (tzTime) tzTime.textContent = timeStr;
+        if (tzAmPm) tzAmPm.textContent = ampmStr;
+        if (tzDate) tzDate.textContent = dateStr;
+
+        const localDate = new Date();
+        const tzDateString = localDate.toLocaleString('en-US', { timeZone: tz });
+        const tzParsedDate = new Date(tzDateString);
+        
+        const diffMs = tzParsedDate.getTime() - localDate.getTime();
+        let diffHours = diffMs / 3600000;
+        
+        const diffWrap = document.getElementById('tz-diff-wrap');
+        const diffEl = document.getElementById('tz-diff');
+        const sameEl = document.getElementById('tz-same');
+        
+        if (diffWrap && diffEl && sameEl) {
+            if (Math.abs(diffHours) < 0.01) {
+                diffEl.style.display = 'none';
+                sameEl.style.display = 'block';
+            } else {
+                diffEl.style.display = 'inline-flex';
+                sameEl.style.display = 'none';
+                
+                const isAhead = diffHours > 0;
+                const absHours = Math.abs(diffHours);
+                const hrs = Math.floor(absHours);
+                const mins = Math.round((absHours - hrs) * 60);
+                
+                let diffText = isAhead ? '+' : '-';
+                if (hrs > 0) diffText += `${hrs}h `;
+                if (mins > 0 || hrs === 0) diffText += `${mins}m`;
+                
+                diffEl.textContent = diffText;
+                
+                if (isAhead) {
+                    diffEl.className = 'inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold border transition-all text-green-400 border-green-400/30 bg-green-400/10';
+                } else {
+                    diffEl.className = 'inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold border transition-all text-red-400 border-red-400/30 bg-red-400/10';
+                }
+            }
+        }
+      } catch (e) {
+        console.error("Timezone error:", e);
+      }
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    if (tzSelect) {
+      const defaultTz = 'UTC';
+      tzSelect.value = defaultTz;
+      
+      const updatePills = (activeTz: string) => {
+          tzPills.forEach(pill => {
+              if ((pill as HTMLElement).dataset.tz === activeTz) {
+                  pill.classList.add('bg-[#2dd4bf]/20', 'text-[#2dd4bf]', 'border-[#2dd4bf]/50');
+                  pill.classList.remove('bg-white/[0.04]', 'text-zinc-400', 'border-white/[0.06]');
+              } else {
+                  pill.classList.remove('bg-[#2dd4bf]/20', 'text-[#2dd4bf]', 'border-[#2dd4bf]/50');
+                  pill.classList.add('bg-white/[0.04]', 'text-zinc-400', 'border-white/[0.06]');
+              }
+          });
+      };
+      
+      updatePills(defaultTz);
+
+      tzSelect.addEventListener('change', (e) => {
+        const newTz = (e.target as HTMLSelectElement).value;
+        updateSelectedTz(newTz);
+        updatePills(newTz);
+      });
+
+      tzPills.forEach(pill => {
+          pill.addEventListener('click', (e) => {
+              const tz = (e.target as HTMLElement).dataset.tz;
+              if (tz) {
+                  let found = false;
+                  Array.from(tzSelect.options).forEach(opt => {
+                      if (opt.value === tz) {
+                          tzSelect.value = tz;
+                          found = true;
+                      }
+                  });
+                  if (!found) {
+                       const option = new Option(tz, tz, true, true);
+                       tzSelect.add(option);
+                  }
+                  
+                  updateSelectedTz(tz);
+                  updatePills(tz);
+              }
+          });
+      });
     }
   }
 
-  // Start local clock unconditionally — independent of tzSelect
-  updateClock();
-  setInterval(updateClock, 1000);
-
-  if (tzSelect) {
-    // Initial selection
-    const defaultTz = 'UTC';
-    tzSelect.value = defaultTz;
-    
-    // Update pills styling based on selection
-    const updatePills = (activeTz: string) => {
-        tzPills.forEach(pill => {
-            if ((pill as HTMLElement).dataset.tz === activeTz) {
-                pill.classList.add('bg-[#2dd4bf]/20', 'text-[#2dd4bf]', 'border-[#2dd4bf]/50');
-                pill.classList.remove('bg-white/[0.04]', 'text-zinc-400', 'border-white/[0.06]');
-            } else {
-                pill.classList.remove('bg-[#2dd4bf]/20', 'text-[#2dd4bf]', 'border-[#2dd4bf]/50');
-                pill.classList.add('bg-white/[0.04]', 'text-zinc-400', 'border-white/[0.06]');
-            }
-        });
-    };
-    
-    updatePills(defaultTz);
-
-    tzSelect.addEventListener('change', (e) => {
-      const newTz = (e.target as HTMLSelectElement).value;
-      updateSelectedTz(newTz);
-      updatePills(newTz);
-    });
-
-    tzPills.forEach(pill => {
-        pill.addEventListener('click', (e) => {
-            const tz = (e.target as HTMLElement).dataset.tz;
-            if (tz) {
-                // Find and set the option in select (if it exists)
-                let found = false;
-                Array.from(tzSelect.options).forEach(opt => {
-                    if (opt.value === tz) {
-                        tzSelect.value = tz;
-                        found = true;
-                    }
-                });
-                // If not found in select, add it temporarily (edge case)
-                if (!found) {
-                     const option = new Option(tz, tz, true, true);
-                     tzSelect.add(option);
-                }
-                
-                updateSelectedTz(tz);
-                updatePills(tz);
-            }
-        });
-    });
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(initHomepageInteractivity, { timeout: 2000 });
+  } else {
+    window.addEventListener('load', () => setTimeout(initHomepageInteractivity, 300));
   }
 </script>
 

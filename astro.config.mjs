@@ -4,7 +4,26 @@ import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 import cloudflare from '@astrojs/cloudflare';
 import AstroPWA from '@vite-pwa/astro';
+import path from 'path';
 import imageSitemapPlugin from './scripts/generate-image-sitemap.mjs';
+import { optimizeHtmlFilesInDir } from './scripts/optimize-html.mjs';
+
+function htmlOptimizationPlugin() {
+  return {
+    name: 'html-optimization-plugin',
+    hooks: {
+      'astro:build:done': async () => {
+        try {
+          const distDir = path.resolve('dist/client');
+          optimizeHtmlFilesInDir(distDir);
+          console.log('[html-optimization] Inlined critical CSS and optimized HTML delivery.');
+        } catch (e) {
+          console.error('[html-optimization] Error optimizing HTML:', e);
+        }
+      }
+    }
+  };
+}
 
 // ---------------------------------------------------------------------------
 // Per-URL lastmod date map.
@@ -207,6 +226,7 @@ export default defineConfig({
       }
     }),
     imageSitemapPlugin(),
+    htmlOptimizationPlugin(),
     react(),
     AstroPWA({
       registerType: 'autoUpdate',
