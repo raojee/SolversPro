@@ -1,4 +1,9 @@
 ---
+import '../styles/global.css';
+import ActivityTracker from '../components/ActivityTracker.astro';
+import GoogleAnalytics from '../components/GoogleAnalytics.astro';
+import Toast from '../components/Toast.astro';
+
 interface Props {
   title: string;
   description?: string;
@@ -19,10 +24,96 @@ const {
 
 const canonicalUrl = canonical || Astro.url.href;
 
-import '../styles/global.css';
-import ActivityTracker from '../components/ActivityTracker.astro';
-import GoogleAnalytics from '../components/GoogleAnalytics.astro';
-import Toast from '../components/Toast.astro';
+// ── Dynamic SoftwareApplication Schema for Tool Pages ───────────────────────
+const TOOL_CATEGORIES = new Set([
+  'developer',
+  'pdf',
+  'math',
+  'text',
+  'finance',
+  'trades',
+  'network',
+  'health',
+  'qr',
+  'security',
+]);
+
+const CATEGORY_SCHEMA_MAP: Record<string, string> = {
+  developer: 'DeveloperApplication',
+  finance: 'FinanceApplication',
+  health: 'HealthApplication',
+  security: 'SecurityApplication',
+  pdf: 'UtilitiesApplication',
+  text: 'UtilitiesApplication',
+  math: 'EducationalApplication',
+  trades: 'UtilitiesApplication',
+  network: 'DeveloperApplication',
+  qr: 'UtilitiesApplication',
+};
+
+// Scan public/images/tools at build-time using Vite's import.meta.glob
+const toolScreenshots = import.meta.glob('/public/images/tools/*.{png,jpg,webp,svg}', { eager: true });
+const existingScreenshotPaths = new Set(
+  Object.keys(toolScreenshots).map((key) => key.replace('/public', ''))
+);
+
+const pathSegments = Astro.url.pathname.replace(/\/$/, '').split('/').filter(Boolean);
+const isToolPage =
+  pathSegments.length === 2 &&
+  TOOL_CATEGORIES.has(pathSegments[0]) &&
+  pathSegments[1] !== 'index';
+
+let softwareAppSchema: Record<string, any> | null = null;
+
+if (isToolPage) {
+  const [category, toolSlug] = pathSegments;
+  const toolName = title.split('|')[0].replace(/—.*$/, '').trim();
+  const applicationCategory = CATEGORY_SCHEMA_MAP[category] || 'UtilitiesApplication';
+  const siteOrigin = Astro.site ? Astro.site.origin : 'https://solverspro.com';
+  
+  // Format canonical URL ensuring trailing slash for tool URLs
+  const formattedUrl = canonicalUrl.endsWith('/') ? canonicalUrl : `${canonicalUrl}/`;
+
+  // Check if tool screenshot exists in public/images/tools/
+  let screenshotUrl: string | undefined = undefined;
+  const extensions = ['.png', '.jpg', '.webp', '.svg'];
+  for (const ext of extensions) {
+    const relPath = `/images/tools/${toolSlug}${ext}`;
+    if (existingScreenshotPaths.has(relPath)) {
+      screenshotUrl = `${siteOrigin}${relPath}`;
+      break;
+    }
+  }
+
+  // Standard SoftwareApplication Schema
+  softwareAppSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    'name': toolName,
+    'description': description,
+    'applicationCategory': applicationCategory,
+    'operatingSystem': 'Any',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'USD',
+    },
+    'url': formattedUrl,
+  };
+
+  if (screenshotUrl) {
+    softwareAppSchema['screenshot'] = screenshotUrl;
+  }
+
+  // Merge with custom schema if passed via props, ensuring mapped applicationCategory is preserved
+  if (schema && typeof schema === 'object') {
+    softwareAppSchema = {
+      ...softwareAppSchema,
+      ...schema,
+      applicationCategory: applicationCategory,
+    };
+  }
+}
 ---
 
 <!DOCTYPE html>
@@ -43,7 +134,7 @@ import Toast from '../components/Toast.astro';
   <meta property="og:type" content="website" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+  <meta property="og:image" content={new URL(ogImage, Astro.site || 'https://solverspro.com')} />
   <meta property="og:url" content={canonicalUrl} />
   <meta property="og:site_name" content="SolversPro" />
 
@@ -51,7 +142,7 @@ import Toast from '../components/Toast.astro';
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
+  <meta name="twitter:image" content={new URL(ogImage, Astro.site || 'https://solverspro.com')} />
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -64,9 +155,14 @@ import Toast from '../components/Toast.astro';
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- Schema.org -->
-  {schema && (
-    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <!-- SoftwareApplication Schema for Tool Pages -->
+  {softwareAppSchema && (
+    <script type="application/ld+json" is:raw set:html={JSON.stringify(softwareAppSchema, null, 2)} />
+  )}
+
+  <!-- Custom Page Schema (for non-tool pages e.g. category hub FAQs) -->
+  {!isToolPage && schema && (
+    <script type="application/ld+json" is:raw set:html={JSON.stringify(schema, null, 2)} />
   )}
 
   <!-- Website Schema -->
