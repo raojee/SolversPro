@@ -51,13 +51,62 @@ const tools = toolsByCategory['health'] || [];
     <p>Don't guess when it comes to your health. Use our scientifically-backed formulas to plan your fitness journey with confidence. Select a calculator below to get started.</p>
   </div>
 
- <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
- {tools.map((tool) => (
- <ToolCard {...tool} />
- ))}
- </div>
- </div>
- </main>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+  {tools.map((tool) => (
+  <ToolCard {...tool} />
+  ))}
+  </div>
 
- <Footer />
+  <section class="mt-16 bg-zinc-900/60 rounded-xl p-8 border border-zinc-800">
+    <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+    <div class="space-y-6 text-zinc-300">
+      <div>
+        <h3 class="text-lg font-semibold text-white mb-2">What is TDEE and why is it important for weight management?</h3>
+        <p class="text-zinc-400">TDEE stands for Total Daily Energy Expenditure. It represents the total number of calories your body burns per day based on your basal metabolic rate (BMR) and physical activity level. Understanding your TDEE helps you set realistic calorie targets for weight loss, muscle gain, or weight maintenance.</p>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-white mb-2">Is my health data stored or tracked on SolversPro?</h3>
+        <p class="text-zinc-400">No. All health calculations run 100% locally in your web browser. No personal measurements, weight, height, or health data are ever saved or transmitted to any server.</p>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-white mb-2">How is Body Mass Index (BMI) calculated?</h3>
+        <p class="text-zinc-400">BMI is calculated by dividing your weight in kilograms by your height in meters squared (kg/m²). It provides a general indicator of whether an adult is underweight, normal weight, overweight, or obese.</p>
+      </div>
+    </div>
+  </section>
+  </div>
+  </main>
+
+  <script type="application/ld+json" is:raw set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is TDEE and why is it important for weight management?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "TDEE stands for Total Daily Energy Expenditure. It represents the total number of calories your body burns per day based on your basal metabolic rate (BMR) and physical activity level. Understanding your TDEE helps you set realistic calorie targets for weight loss, muscle gain, or weight maintenance."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my health data stored or tracked on SolversPro?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. All health calculations run 100% locally in your web browser. No personal measurements, weight, height, or health data are ever saved or transmitted to any server."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is Body Mass Index (BMI) calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "BMI is calculated by dividing your weight in kilograms by your height in meters squared (kg/m²). It provides a general indicator of whether an adult is underweight, normal weight, overweight, or obese."
+        }
+      }
+    ]
+  })}></script>
+
+  <Footer />
 </BaseLayout>

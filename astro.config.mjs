@@ -94,6 +94,8 @@ const LASTMOD_MAP = {
   'https://solverspro.com/math/matrix-calculator/':      '2026-05-20',
   'https://solverspro.com/math/percentage-calculator/':  '2026-05-20',
   'https://solverspro.com/math/unit-converter/':         '2026-05-20',
+  'https://solverspro.com/math/geometry-calculator/':    '2026-05-20',
+  'https://solverspro.com/math/statistics-calculator/':  '2026-05-20',
 
   // ── Text Tools ──────────────────────────────────────────────────────────
   'https://solverspro.com/text/number-to-words/':        '2026-05-20',
@@ -108,6 +110,8 @@ const LASTMOD_MAP = {
   'https://solverspro.com/finance/compound-interest/':   '2026-05-10',
   'https://solverspro.com/finance/cash-on-cash-return/': '2026-05-10',
   'https://solverspro.com/finance/simple-interest/':     '2026-05-10',
+  'https://solverspro.com/finance/mortgage-calculator/': '2026-05-10',
+  'https://solverspro.com/finance/roi-calculator/':      '2026-05-10',
 
   // ── Trades Tools ────────────────────────────────────────────────────────
   'https://solverspro.com/trades/concrete-slab/':        '2026-05-10',
@@ -170,10 +174,12 @@ export default defineConfig({
   output: 'static',
   integrations: [
     sitemap({
-      // Exclude auth-gated and dynamic/app pages from the sitemap
+      // Exclude auth-gated, dynamic, and noindexed thin category hubs from sitemap
       filter: (page) =>
         !page.includes('/dashboard') &&
-        !page.includes('/search'),
+        !page.includes('/search') &&
+        !page.endsWith('/qr/') &&
+        !page.endsWith('/security/'),
 
       serialize(item) {
         // Use the per-URL date if available; otherwise omit lastmod rather
