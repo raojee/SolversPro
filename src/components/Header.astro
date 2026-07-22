@@ -83,7 +83,7 @@
       <!-- Search Button -->
       <button
         id="search-trigger"
-        class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm text-zinc-500 border border-white/[0.08] transition-all hover:border-[#ff6b35]/40 hover:text-[#ff6b35]"
+        class="flex items-center gap-2 px-3 py-2 min-h-[44px] rounded-md text-sm text-zinc-500 border border-white/[0.08] transition-all hover:border-[#ff6b35]/40 hover:text-[#ff6b35]"
         aria-label="Search tools"
         style="font-family: 'JetBrains Mono', monospace; font-size: 12px;"
       >
@@ -105,8 +105,8 @@
       <!-- Mobile Menu Toggle -->
       <button
         id="mobile-menu-toggle"
-        class="md:hidden p-2 rounded-md text-zinc-500 hover:text-[#ff6b35] transition-colors"
-        aria-label="Open menu"
+        class="md:hidden p-3 min-w-[48px] min-h-[48px] rounded-md text-zinc-400 hover:text-[#ff6b35] transition-colors flex items-center justify-center"
+        aria-label="Open main navigation menu"
         aria-expanded="false"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -122,7 +122,7 @@
   <div id="mobile-drawer" class="md:hidden hidden fixed inset-0 z-50">
     <div class="mobile-backdrop absolute inset-0 bg-black/70" style="backdrop-filter: blur(8px);"></div>
     <div class="mobile-panel absolute right-0 top-0 h-full w-72 shadow-xl p-6 flex flex-col gap-6 transform translate-x-full transition-transform duration-300 bg-[#0d0d14] border-l border-white/[0.06]">
-      <button id="mobile-menu-close" class="self-end p-2 rounded-md text-zinc-500 hover:text-[#ff6b35]" aria-label="Close menu">
+      <button id="mobile-menu-close" class="self-end p-3 min-w-[48px] min-h-[48px] rounded-md text-zinc-400 hover:text-[#ff6b35] flex items-center justify-center" aria-label="Close main navigation menu">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"/>
           <line x1="6" y1="6" x2="18" y2="18"/>
