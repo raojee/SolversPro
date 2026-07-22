@@ -148,6 +148,7 @@ const LASTMOD_MAP = {
   'https://solverspro.com/blog/how-to-merge-split-and-protect-pdfs-online/':                  '2026-07-22',
   'https://solverspro.com/blog/bmi-vs-tdee-understanding-your-health-metrics/':               '2026-07-22',
   'https://solverspro.com/blog/10-developer-tools-every-frontend-engineer-should-bookmark/': '2026-07-22',
+  'https://solverspro.com/blog/how-to-convert-currency-accurately/':                           '2026-07-22',
 };
 
 // ---------------------------------------------------------------------------
