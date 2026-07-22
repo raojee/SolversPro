@@ -107,8 +107,7 @@ const testimonials = [
   title="SolversPro | Solve Anything. Instantly."
   description="Free, lightning-fast, client-side calculation engines for engineering, finance, and health. All running at the speed of light, right in your browser."
 >
-  <link rel="preload" as="image" href="/hero-dark-tech-mobile.webp" type="image/webp" media="(max-width: 768px)" fetchpriority="high" slot="head" />
-  <link rel="preload" as="image" href="/hero-dark-tech.webp" type="image/webp" media="(min-width: 769px)" fetchpriority="high" slot="head" />
+  <link rel="preload" as="image" href="/hero-dark-tech.webp" fetchpriority="high" slot="head" />
   <Header />
 
   <main id="main-content" class="flex-1">
@@ -116,10 +115,7 @@ const testimonials = [
   <section class="relative pt-24 pb-32 overflow-hidden border-b border-white/[0.06]">
     <!-- Abstract Background Element -->
     <div class="absolute inset-0 w-full h-full pointer-events-none z-0">
-      <picture>
-        <source media="(max-width: 768px)" srcset="/hero-dark-tech-mobile.webp" type="image/webp" width="768" height="432" />
-        <img src="/hero-dark-tech.webp" alt="SolversPro precision computing background" width="1920" height="1080" fetchpriority="high" loading="eager" decoding="async" class="w-full h-full object-cover object-top opacity-50 mix-blend-screen" />
-      </picture>
+      <img src="/hero-dark-tech.webp" alt="SolversPro precision computing background" width="1920" height="1080" fetchpriority="high" loading="eager" decoding="async" class="w-full h-full object-cover object-top opacity-50 mix-blend-screen" />
     </div>
 
     <div class="container mx-auto px-4 relative z-10">
@@ -708,9 +704,9 @@ const testimonials = [
   }
 
   if ('requestIdleCallback' in window) {
-    requestIdleCallback(initHomepageInteractivity, { timeout: 2000 });
+    requestIdleCallback(initHomepageInteractivity, { timeout: 1500 });
   } else {
-    window.addEventListener('load', () => setTimeout(initHomepageInteractivity, 300));
+    window.addEventListener('load', () => setTimeout(initHomepageInteractivity, 200));
   }
 </script>
 
