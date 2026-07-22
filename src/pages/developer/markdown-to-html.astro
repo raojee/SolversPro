@@ -40,19 +40,20 @@ const schema = {
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">📝 Markdown to HTML</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Convert Markdown text into clean HTML code instantly. Real-time preview and raw HTML generation, powered by marked.js.</p>
+        <p class="text-zinc-300 text-lg max-w-2xl">Convert Markdown text into clean HTML code instantly. Real-time preview and raw HTML generation, powered by marked.js.</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <!-- Input -->
         <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 flex flex-col h-full min-h-[400px]">
           <div class="flex justify-between items-center mb-3">
-             <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Markdown Input</label>
-             <button id="btn-clear" class="text-xs font-semibold text-zinc-500 hover:text-zinc-300 transition-colors">Clear</button>
+             <label for="md-input" class="text-sm font-semibold uppercase tracking-wider text-zinc-300">Markdown Input</label>
+             <button id="btn-clear" aria-label="Clear Markdown input text" class="text-xs font-semibold text-zinc-300 hover:text-white transition-colors cursor-pointer">Clear</button>
           </div>
           <textarea
             id="md-input"
-            class="w-full flex-1 p-4 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-sm text-zinc-300 resize-none"
+            aria-label="Markdown Input Textarea"
+            class="w-full flex-1 p-4 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-sm text-zinc-300 placeholder:text-zinc-400 resize-none"
             placeholder="# Hello World\n\nWrite some **markdown** here..."
             spellcheck="false"
           ># Hello World
@@ -73,22 +74,29 @@ console.log("Hello SolversPro!");
         <!-- Output Tabs -->
         <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 flex flex-col h-full min-h-[400px]">
           <div class="flex justify-between items-center mb-3 border-b border-white/[0.06] pb-3">
-             <div class="flex gap-4">
-               <button id="tab-html" class="text-sm font-semibold tracking-wider text-[#2dd4bf] uppercase">HTML Code</button>
-               <button id="tab-preview" class="text-sm font-semibold tracking-wider text-zinc-500 hover:text-zinc-300 uppercase transition-colors">Preview</button>
+             <div class="flex gap-4" role="tablist" aria-label="Markdown output display modes">
+               <button id="tab-html" role="tab" aria-selected="true" aria-controls="md-output-html" class="text-sm font-semibold tracking-wider text-[#2dd4bf] uppercase cursor-pointer">HTML Code</button>
+               <button id="tab-preview" role="tab" aria-selected="false" aria-controls="md-output-preview" class="text-sm font-semibold tracking-wider text-zinc-400 hover:text-white uppercase transition-colors cursor-pointer">Preview</button>
              </div>
-             <button id="btn-copy" class="text-xs font-semibold text-[#2dd4bf] hover:text-[#5eead4] transition-colors">Copy HTML</button>
+             <button id="btn-copy" aria-label="Copy generated HTML to clipboard" class="text-xs font-semibold text-[#2dd4bf] hover:text-[#5eead4] transition-colors cursor-pointer">Copy HTML</button>
           </div>
           
+          <label for="md-output-html" class="sr-only">Generated HTML Output Code</label>
           <textarea
             id="md-output-html"
+            role="tabpanel"
+            aria-labelledby="tab-html"
+            aria-label="Generated HTML Code Output"
             readonly
             class="w-full flex-1 p-4 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:outline-none font-mono text-sm text-[#2dd4bf] resize-none cursor-text"
           ></textarea>
 
           <div 
             id="md-output-preview" 
-            class="hidden w-full flex-1 p-4 bg-[#1a1a24] border border-white/[0.06] rounded-xl overflow-y-auto prose prose-invert max-w-none"
+            role="tabpanel"
+            aria-labelledby="tab-preview"
+            aria-label="Markdown Live HTML Preview"
+            class="hidden w-full flex-1 p-4 bg-[#1a1a24] border border-white/[0.06] rounded-xl overflow-y-auto prose prose-invert max-w-none text-zinc-300"
           ></div>
         </div>
       </div>
@@ -112,39 +120,48 @@ console.log("Hello SolversPro!");
   const btnCopy = document.getElementById('btn-copy') as HTMLButtonElement;
 
   function convert() {
+    if (!inputEl) return;
     const md = inputEl.value;
-    // marked is loaded via CDN globally
-    const html = (window as any).marked.parse(md);
-    
-    outputHtmlEl.value = html;
-    outputPreviewEl.innerHTML = html;
+    if ((window as any).marked) {
+      const html = (window as any).marked.parse(md);
+      if (outputHtmlEl) outputHtmlEl.value = html;
+      if (outputPreviewEl) outputPreviewEl.innerHTML = html;
+    }
   }
 
-  inputEl.addEventListener('input', convert);
+  if (inputEl) inputEl.addEventListener('input', convert);
 
   document.getElementById('btn-clear')?.addEventListener('click', () => {
-    inputEl.value = '';
-    convert();
+    if (inputEl) {
+      inputEl.value = '';
+      convert();
+    }
   });
 
-  tabHtml.addEventListener('click', () => {
-    outputHtmlEl.classList.remove('hidden');
-    outputPreviewEl.classList.add('hidden');
-    tabHtml.classList.replace('text-zinc-500', 'text-[#2dd4bf]');
-    tabPreview.classList.replace('text-[#2dd4bf]', 'text-zinc-500');
-    btnCopy.style.display = 'block';
-  });
+  if (tabHtml && tabPreview && btnCopy) {
+    tabHtml.addEventListener('click', () => {
+      outputHtmlEl?.classList.remove('hidden');
+      outputPreviewEl?.classList.add('hidden');
+      tabHtml.classList.replace('text-zinc-400', 'text-[#2dd4bf]');
+      tabPreview.classList.replace('text-[#2dd4bf]', 'text-zinc-400');
+      tabHtml.setAttribute('aria-selected', 'true');
+      tabPreview.setAttribute('aria-selected', 'false');
+      btnCopy.style.display = 'block';
+    });
 
-  tabPreview.addEventListener('click', () => {
-    outputPreviewEl.classList.remove('hidden');
-    outputHtmlEl.classList.add('hidden');
-    tabPreview.classList.replace('text-zinc-500', 'text-[#2dd4bf]');
-    tabHtml.classList.replace('text-[#2dd4bf]', 'text-zinc-500');
-    btnCopy.style.display = 'none';
-  });
+    tabPreview.addEventListener('click', () => {
+      outputPreviewEl?.classList.remove('hidden');
+      outputHtmlEl?.classList.add('hidden');
+      tabPreview.classList.replace('text-zinc-400', 'text-[#2dd4bf]');
+      tabHtml.classList.replace('text-[#2dd4bf]', 'text-zinc-400');
+      tabPreview.setAttribute('aria-selected', 'true');
+      tabHtml.setAttribute('aria-selected', 'false');
+      btnCopy.style.display = 'none';
+    });
+  }
 
-  btnCopy.addEventListener('click', () => {
-    if (outputHtmlEl.value) copyToClipboard(outputHtmlEl.value);
+  btnCopy?.addEventListener('click', () => {
+    if (outputHtmlEl?.value) copyToClipboard(outputHtmlEl.value);
   });
 
   // Initial conversion

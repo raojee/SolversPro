@@ -89,6 +89,7 @@ const shareLinks = [
           rel="noopener noreferrer"
           class={`w-10 h-10 flex items-center justify-center rounded-xl transition-colors ${link.bg} ${link.hover} ${link.color}`}
           title={link.title}
+          aria-label={link.title}
         >
           <svg class="w-5 h-5" fill={link.id === 'copy' || link.id === 'email' || link.id === 'whatsapp' ? 'none' : 'currentColor'} stroke={link.id === 'copy' || link.id === 'email' || link.id === 'whatsapp' ? 'currentColor' : 'none'} viewBox="0 0 24 24" set:html={link.icon} />
         </a>
@@ -97,6 +98,7 @@ const shareLinks = [
           id={`tool-share-btn-${link.id}`}
           class={`w-10 h-10 flex items-center justify-center rounded-xl transition-colors ${link.bg} ${link.hover} ${link.color}`}
           title={link.title}
+          aria-label={link.title}
           data-url={url}
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" set:html={link.icon} />
