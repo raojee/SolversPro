@@ -246,9 +246,9 @@ const testimonials = [
         <div class="relative bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-8 overflow-hidden group hover:border-white/[0.12] transition-all">
           <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style="background: radial-gradient(ellipse at 50% 0%, rgba(255,107,53,0.06) 0%, transparent 70%);"></div>
 
-          <p class="text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-4">Compare With Timezone</p>
+          <label for="tz-select" class="block text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-4">Compare With Timezone</label>
 
-          <select id="tz-select"
+          <select id="tz-select" aria-label="Compare with timezone"
             class="w-full p-3 bg-[#1a1a24] border border-white/[0.08] rounded-xl text-sm text-zinc-300 focus:ring-1 focus:ring-[#ff6b35] focus:outline-none cursor-pointer mb-6 font-mono">
             <optgroup label="Africa">
               <option value="Africa/Cairo">Cairo (Egypt)</option>

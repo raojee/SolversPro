@@ -23,11 +23,13 @@
         <circle cx="11" cy="11" r="8"/>
         <line x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
+      <label for="search-input" class="sr-only">Search all tools</label>
       <input
         id="search-input"
         type="text"
         placeholder="SEARCH_TOOLS..."
-        class="w-full pl-16 pr-6 py-5 text-2xl md:text-3xl font-medium bg-[#1a1a2e] border border-slate-700 rounded-xl text-white focus:outline-none focus:border-[#06b6d4] transition-all shadow-2xl placeholder-zinc-500"
+        aria-label="Search all tools"
+        class="w-full pl-16 pr-6 py-5 text-2xl md:text-3xl font-medium bg-[#1a1a2e] border border-slate-700 rounded-xl text-white focus:outline-none focus:border-[#06b6d4] transition-all shadow-2xl placeholder-zinc-400"
         autocomplete="off"
         style="font-family: 'JetBrains Mono', monospace;"
       />

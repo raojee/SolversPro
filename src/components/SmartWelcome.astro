@@ -13,10 +13,10 @@
     <div class="flex items-center justify-between mb-6">
       <div class="flex items-center gap-3">
         <span class="w-2 h-2 rounded-full bg-[#2dd4bf] animate-pulse inline-block"></span>
-        <p class="text-xs font-semibold uppercase tracking-widest text-zinc-500" style="font-family: 'JetBrains Mono', monospace;">Your Session</p>
+        <p class="text-xs font-semibold uppercase tracking-widest text-zinc-400" style="font-family: 'JetBrains Mono', monospace;">Your Session</p>
       </div>
       <!-- Dismiss button -->
-      <button id="sw-dismiss" class="text-xs text-zinc-600 hover:text-zinc-400 transition-colors flex items-center gap-1.5" title="Hide this panel">
+      <button id="sw-dismiss" class="text-xs text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer p-2" aria-label="Hide session panel" title="Hide this panel">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
         Hide
       </button>
@@ -33,11 +33,11 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
           </div>
           <div class="flex-1 min-w-0">
-            <p class="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-1.5" style="font-family: 'JetBrains Mono', monospace;">Your Network</p>
+            <p class="text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-1.5" style="font-family: 'JetBrains Mono', monospace;">Your Network</p>
             <div id="sw-ip" class="font-mono text-base font-bold text-white truncate">
               <span class="sw-skeleton"></span>
             </div>
-            <div id="sw-location" class="text-xs text-zinc-500 mt-1 flex items-center gap-1.5">
+            <div id="sw-location" class="text-xs text-zinc-400 mt-1 flex items-center gap-1.5">
               <span class="sw-skeleton" style="width:140px;"></span>
             </div>
             <a href="/network/ip-lookup" class="mt-3 inline-flex items-center gap-1 text-xs text-[#2dd4bf] hover:text-[#5eead4] transition-colors font-mono">

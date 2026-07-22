@@ -14,14 +14,14 @@
 
     <div class="bg-[#13131d] border border-white/[0.08] rounded-2xl overflow-hidden shadow-2xl">
       <!-- Tabs -->
-      <div class="flex border-b border-white/[0.08] bg-[#0d0d14]" id="demo-tabs">
-        <button class="flex-1 py-4 text-sm font-semibold text-white border-b-2 border-[#2dd4bf] bg-white/[0.02] transition-colors demo-tab" data-target="demo-password">
+      <div class="flex border-b border-white/[0.08] bg-[#0d0d14]" id="demo-tabs" role="tablist" aria-label="Interactive tool demos">
+        <button role="tab" aria-selected="true" aria-controls="demo-password" class="flex-1 py-4 text-sm font-semibold text-white border-b-2 border-[#2dd4bf] bg-white/[0.02] transition-colors demo-tab cursor-pointer" data-target="demo-password">
           Password Generator
         </button>
-        <button class="flex-1 py-4 text-sm font-semibold text-zinc-500 border-b-2 border-transparent hover:text-zinc-300 hover:bg-white/[0.02] transition-colors demo-tab" data-target="demo-json">
+        <button role="tab" aria-selected="false" aria-controls="demo-json" class="flex-1 py-4 text-sm font-semibold text-zinc-400 border-b-2 border-transparent hover:text-zinc-200 hover:bg-white/[0.02] transition-colors demo-tab cursor-pointer" data-target="demo-json">
           JSON Formatter
         </button>
-        <button class="flex-1 py-4 text-sm font-semibold text-zinc-500 border-b-2 border-transparent hover:text-zinc-300 hover:bg-white/[0.02] transition-colors demo-tab" data-target="demo-loan">
+        <button role="tab" aria-selected="false" aria-controls="demo-loan" class="flex-1 py-4 text-sm font-semibold text-zinc-400 border-b-2 border-transparent hover:text-zinc-200 hover:bg-white/[0.02] transition-colors demo-tab cursor-pointer" data-target="demo-loan">
           Loan Calculator
         </button>
       </div>
@@ -30,61 +30,62 @@
       <div class="p-8">
         
         <!-- Password Generator -->
-        <div id="demo-password" class="demo-content block">
+        <div id="demo-password" role="tabpanel" class="demo-content block">
           <div class="max-w-md mx-auto">
             <div class="relative mb-6">
-              <input type="text" id="demo-pwd-output" class="w-full bg-[#0d0d14] border border-white/[0.1] rounded-xl py-4 px-4 text-2xl font-mono text-center text-[#2dd4bf] tracking-widest focus:outline-none" readonly value="Click Generate" />
+              <label for="demo-pwd-output" class="sr-only">Generated Password Output</label>
+              <input type="text" id="demo-pwd-output" aria-label="Generated Password" class="w-full bg-[#0d0d14] border border-white/[0.1] rounded-xl py-4 px-4 text-2xl font-mono text-center text-[#2dd4bf] tracking-widest focus:outline-none" readonly value="Click Generate" />
             </div>
             <div class="flex items-center justify-between mb-6">
-              <label class="text-sm font-medium text-zinc-300">Length: <span id="demo-pwd-len-val" class="text-white">16</span></label>
-              <input type="range" id="demo-pwd-length" min="8" max="32" value="16" class="w-1/2 accent-[#2dd4bf]" />
+              <label for="demo-pwd-length" class="text-sm font-medium text-zinc-300">Length: <span id="demo-pwd-len-val" class="text-white">16</span></label>
+              <input type="range" id="demo-pwd-length" aria-label="Password Length Slider" min="8" max="32" value="16" class="w-1/2 accent-[#2dd4bf]" />
             </div>
-            <button id="demo-pwd-btn" class="w-full py-3.5 bg-[#2dd4bf] hover:bg-[#5eead4] text-slate-900 rounded-xl font-bold text-sm transition-all shadow-[0_0_15px_rgba(45,212,191,0.2)]">
+            <button id="demo-pwd-btn" class="w-full py-3.5 bg-[#2dd4bf] hover:bg-[#5eead4] text-slate-900 rounded-xl font-bold text-sm transition-all shadow-[0_0_15px_rgba(45,212,191,0.2)] cursor-pointer">
               Generate Secure Password
             </button>
           </div>
         </div>
 
         <!-- JSON Formatter -->
-        <div id="demo-json" class="demo-content hidden">
+        <div id="demo-json" role="tabpanel" class="demo-content hidden">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-semibold uppercase text-zinc-500 mb-2 font-mono">Minified JSON</label>
+              <label for="demo-json-input" class="block text-xs font-semibold uppercase text-zinc-400 mb-2 font-mono">Minified JSON</label>
               <textarea id="demo-json-input" class="w-full h-48 bg-[#0d0d14] border border-white/[0.1] rounded-xl p-4 text-sm font-mono text-zinc-300 focus:border-[#ff6b35] focus:outline-none resize-none" placeholder="Paste JSON here..."></textarea>
             </div>
             <div>
-              <label class="block text-xs font-semibold uppercase text-zinc-500 mb-2 font-mono">Formatted Output</label>
+              <label for="demo-json-output" class="block text-xs font-semibold uppercase text-zinc-400 mb-2 font-mono">Formatted Output</label>
               <pre id="demo-json-output" class="w-full h-48 bg-[#0d0d14] border border-[#ff6b35]/30 rounded-xl p-4 text-sm font-mono text-[#ff6b35] overflow-auto"></pre>
             </div>
           </div>
           <div class="mt-4 flex justify-center">
-            <button id="demo-json-btn" class="px-8 py-3 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white rounded-xl font-bold text-sm transition-all shadow-[0_0_15px_rgba(255,107,53,0.3)]">
+            <button id="demo-json-btn" class="px-8 py-3 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white rounded-xl font-bold text-sm transition-all shadow-[0_0_15px_rgba(255,107,53,0.3)] cursor-pointer">
               Format JSON Instantly
             </button>
           </div>
         </div>
 
         <!-- Loan Calculator -->
-        <div id="demo-loan" class="demo-content hidden">
+        <div id="demo-loan" role="tabpanel" class="demo-content hidden">
           <div class="max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
             <div class="space-y-4 min-w-0">
               <div>
-                <label class="block text-xs font-semibold uppercase text-zinc-500 mb-1 font-mono">Loan Amount ($)</label>
+                <label for="demo-loan-amount" class="block text-xs font-semibold uppercase text-zinc-400 mb-1 font-mono">Loan Amount ($)</label>
                 <input type="number" id="demo-loan-amount" value="50000" class="w-full bg-[#0d0d14] border border-white/[0.1] rounded-lg py-2.5 px-3 text-white focus:border-[#2dd4bf] focus:outline-none font-mono" />
               </div>
               <div>
-                <label class="block text-xs font-semibold uppercase text-zinc-500 mb-1 font-mono">Interest Rate (%)</label>
+                <label for="demo-loan-rate" class="block text-xs font-semibold uppercase text-zinc-400 mb-1 font-mono">Interest Rate (%)</label>
                 <input type="number" id="demo-loan-rate" value="5.5" step="0.1" class="w-full bg-[#0d0d14] border border-white/[0.1] rounded-lg py-2.5 px-3 text-white focus:border-[#2dd4bf] focus:outline-none font-mono" />
               </div>
               <div>
-                <label class="block text-xs font-semibold uppercase text-zinc-500 mb-1 font-mono">Loan Term (Years)</label>
+                <label for="demo-loan-term" class="block text-xs font-semibold uppercase text-zinc-400 mb-1 font-mono">Loan Term (Years)</label>
                 <input type="number" id="demo-loan-term" value="5" class="w-full bg-[#0d0d14] border border-white/[0.1] rounded-lg py-2.5 px-3 text-white focus:border-[#2dd4bf] focus:outline-none font-mono" />
               </div>
             </div>
             <div class="bg-[#0d0d14] border border-[#2dd4bf]/30 rounded-xl p-6 flex flex-col justify-center items-center text-center min-w-0">
-              <p class="text-sm font-medium text-zinc-400 mb-2">Estimated Monthly Payment</p>
+              <p class="text-sm font-medium text-zinc-300 mb-2">Estimated Monthly Payment</p>
               <div id="demo-loan-result" class="text-4xl sm:text-5xl font-bold text-[#2dd4bf] font-mono tabular-nums tracking-tight mb-4">$955.05</div>
-              <p class="text-xs text-zinc-500">Calculated entirely in your browser.</p>
+              <p class="text-xs text-zinc-400">Calculated entirely in your browser.</p>
             </div>
           </div>
         </div>
@@ -101,110 +102,104 @@
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      // Reset all tabs
+      const targetId = tab.getAttribute('data-target');
+
+      // Update tabs
       tabs.forEach(t => {
         t.classList.remove('text-white', 'border-[#2dd4bf]', 'bg-white/[0.02]');
-        t.classList.add('text-zinc-500', 'border-transparent');
+        t.classList.add('text-zinc-400', 'border-transparent');
+        t.setAttribute('aria-selected', 'false');
       });
-      // Set active tab
+      tab.classList.remove('text-zinc-400', 'border-transparent');
       tab.classList.add('text-white', 'border-[#2dd4bf]', 'bg-white/[0.02]');
-      tab.classList.remove('text-zinc-500', 'border-transparent');
+      tab.setAttribute('aria-selected', 'true');
 
-      // Hide all content
-      contents.forEach(c => c.classList.add('hidden'));
-      contents.forEach(c => c.classList.remove('block'));
-
-      // Show active content
-      const targetId = (tab as HTMLElement).dataset.target;
-      if (targetId) {
-        document.getElementById(targetId)?.classList.remove('hidden');
-        document.getElementById(targetId)?.classList.add('block');
-      }
+      // Update content
+      contents.forEach(content => {
+        if (content.id === targetId) {
+          content.classList.remove('hidden');
+          content.classList.add('block');
+        } else {
+          content.classList.remove('block');
+          content.classList.add('hidden');
+        }
+      });
     });
   });
 
   // Password Generator Logic
   const pwdBtn = document.getElementById('demo-pwd-btn');
-  const pwdOutput = document.getElementById('demo-pwd-output') as HTMLInputElement;
-  const pwdLength = document.getElementById('demo-pwd-length') as HTMLInputElement;
+  const pwdLen = document.getElementById('demo-pwd-length') as HTMLInputElement;
   const pwdLenVal = document.getElementById('demo-pwd-len-val');
+  const pwdOut = document.getElementById('demo-pwd-output') as HTMLInputElement;
 
-  if (pwdLength && pwdLenVal) {
-    pwdLength.addEventListener('input', (e) => {
-      pwdLenVal.textContent = (e.target as HTMLInputElement).value;
-    });
+  function genPwd() {
+    const len = parseInt(pwdLen.value) || 16;
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=';
+    let res = '';
+    const array = new Uint32Array(len);
+    crypto.getRandomValues(array);
+    for (let i = 0; i < len; i++) {
+      res += chars[array[i] % chars.length];
+    }
+    if (pwdOut) pwdOut.value = res;
   }
 
-  if (pwdBtn && pwdOutput && pwdLength) {
-    pwdBtn.addEventListener('click', () => {
-      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
-      let password = "";
-      for (let i = 0; i < parseInt(pwdLength.value); i++) {
-        password += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      pwdOutput.value = password;
+  if (pwdLen && pwdLenVal) {
+    pwdLen.addEventListener('input', () => {
+      pwdLenVal.textContent = pwdLen.value;
+      genPwd();
     });
-    // Generate initial password on load
-    pwdBtn.click();
   }
+  if (pwdBtn) pwdBtn.addEventListener('click', genPwd);
+  genPwd();
 
   // JSON Formatter Logic
   const jsonBtn = document.getElementById('demo-json-btn');
   const jsonInput = document.getElementById('demo-json-input') as HTMLTextAreaElement;
-  const jsonOutput = document.getElementById('demo-json-output');
+  const jsonOut = document.getElementById('demo-json-output');
 
-  if (jsonInput) {
-    jsonInput.value = '{"user":{"id":1,"name":"Alex","roles":["admin","user"],"active":true}}';
-  }
+  const sampleJson = '{"name":"SolversPro","type":"Engine","features":["Fast","Free","Private"],"active":true}';
+  if (jsonInput) jsonInput.value = sampleJson;
 
-  if (jsonBtn && jsonInput && jsonOutput) {
-    jsonBtn.addEventListener('click', () => {
-      try {
-        const parsed = JSON.parse(jsonInput.value);
-        jsonOutput.textContent = JSON.stringify(parsed, null, 2);
-        jsonOutput.classList.remove('text-red-400');
-        jsonOutput.classList.add('text-[#ff6b35]');
-      } catch (e: any) {
-        jsonOutput.textContent = "Invalid JSON: " + e.message;
-        jsonOutput.classList.add('text-red-400');
-        jsonOutput.classList.remove('text-[#ff6b35]');
-      }
-    });
+  function formatJson() {
+    if (!jsonInput || !jsonOut) return;
+    try {
+      const obj = JSON.parse(jsonInput.value);
+      jsonOut.textContent = JSON.stringify(obj, null, 2);
+      jsonOut.classList.remove('text-red-400');
+      jsonOut.classList.add('text-[#ff6b35]');
+    } catch (e: any) {
+      jsonOut.textContent = 'Invalid JSON: ' + e.message;
+      jsonOut.classList.remove('text-[#ff6b35]');
+      jsonOut.classList.add('text-red-400');
+    }
   }
+  if (jsonBtn) jsonBtn.addEventListener('click', formatJson);
+  formatJson();
 
   // Loan Calculator Logic
-  const loanAmount = document.getElementById('demo-loan-amount') as HTMLInputElement;
+  const loanAmt = document.getElementById('demo-loan-amount') as HTMLInputElement;
   const loanRate = document.getElementById('demo-loan-rate') as HTMLInputElement;
   const loanTerm = document.getElementById('demo-loan-term') as HTMLInputElement;
-  const loanResult = document.getElementById('demo-loan-result');
+  const loanRes = document.getElementById('demo-loan-result');
 
-  function calculateLoan() {
-    if (!loanAmount || !loanRate || !loanTerm || !loanResult) return;
-    
-    const principal = parseFloat(loanAmount.value);
-    const calculatedInterest = parseFloat(loanRate.value) / 100 / 12;
-    const calculatedPayments = parseFloat(loanTerm.value) * 12;
+  function calcLoan() {
+    if (!loanAmt || !loanRate || !loanTerm || !loanRes) return;
+    const P = parseFloat(loanAmt.value) || 0;
+    const r = (parseFloat(loanRate.value) || 0) / 100 / 12;
+    const n = (parseFloat(loanTerm.value) || 0) * 12;
 
-    if (isNaN(principal) || isNaN(calculatedInterest) || isNaN(calculatedPayments)) {
-      loanResult.textContent = "$0.00";
+    if (P <= 0 || r <= 0 || n <= 0) {
+      loanRes.textContent = '$0.00';
       return;
     }
 
-    const x = Math.pow(1 + calculatedInterest, calculatedPayments);
-    const monthly = (principal * x * calculatedInterest) / (x - 1);
-
-    if (isFinite(monthly)) {
-      loanResult.textContent = "$" + monthly.toFixed(2);
-    } else {
-      loanResult.textContent = "$0.00";
-    }
+    const pmt = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+    loanRes.textContent = '$' + pmt.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
-  if (loanAmount && loanRate && loanTerm) {
-    loanAmount.addEventListener('input', calculateLoan);
-    loanRate.addEventListener('input', calculateLoan);
-    loanTerm.addEventListener('input', calculateLoan);
-    // Initial calculation
-    calculateLoan();
-  }
+  [loanAmt, loanRate, loanTerm].forEach(input => {
+    if (input) input.addEventListener('input', calcLoan);
+  });
 </script>
