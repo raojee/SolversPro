@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://solverspro.com/sitemap-index.xml
+Sitemap: https://solverspro.com/sitemap-0.xml
+Sitemap: https://solverspro.com/sitemap-images.xml

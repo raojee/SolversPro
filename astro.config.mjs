@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 import cloudflare from '@astrojs/cloudflare';
 import AstroPWA from '@vite-pwa/astro';
+import imageSitemapPlugin from './scripts/generate-image-sitemap.mjs';
 
 // ---------------------------------------------------------------------------
 // Per-URL lastmod date map.
@@ -199,6 +200,7 @@ export default defineConfig({
         return item;
       }
     }),
+    imageSitemapPlugin(),
     react(),
     AstroPWA({
       registerType: 'autoUpdate',
