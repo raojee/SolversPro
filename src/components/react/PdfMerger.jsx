@@ -107,14 +107,14 @@ export default function PdfMerger() {
             <line x1="9" y1="15" x2="15" y2="15"></line>
           </svg>
         </div>
-        <h3 className="text-lg font-semibold text-white mb-2">Drag & Drop PDFs Here</h3>
+        <h2 className="text-lg font-semibold text-white mb-2">Drag & Drop PDFs Here</h2>
         <p className="text-sm text-zinc-500">or click to select files from your device</p>
       </div>
 
       {/* File List */}
       {files.length > 0 && (
         <div className="mt-8">
-          <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Files to Merge ({files.length})</h4>
+          <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Files to Merge ({files.length})</h3>
           <ul className="space-y-3 mb-8">
             {files.map((file, index) => (
               <li key={`${file.name}-${index}`} className="flex items-center justify-between p-4 bg-white/[0.02] border border-white/[0.06] rounded-lg shadow-sm">
