@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import { PDFDocument } from 'pdf-lib';
 
 export default function PdfMerger() {
   const [files, setFiles] = useState([]);
@@ -7,10 +6,15 @@ export default function PdfMerger() {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
 
+  const preloadPdfLib = () => {
+    import('pdf-lib').catch(() => {});
+  };
+
   const handleFileSelect = (e) => {
     const selectedFiles = Array.from(e.target.files).filter(f => f.type === 'application/pdf');
     if (selectedFiles.length > 0) {
       setFiles(prev => [...prev, ...selectedFiles]);
+      preloadPdfLib();
     }
     // Reset input so the same file can be uploaded again if removed
     if (fileInputRef.current) {
@@ -35,6 +39,7 @@ export default function PdfMerger() {
       const droppedFiles = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
       if (droppedFiles.length > 0) {
         setFiles(prev => [...prev, ...droppedFiles]);
+        preloadPdfLib();
       }
     }
   };
@@ -51,6 +56,8 @@ export default function PdfMerger() {
 
     setIsProcessing(true);
     try {
+      // Dynamic import to code-split pdf-lib out of initial bundle
+      const { PDFDocument } = await import('pdf-lib');
       const mergedPdf = await PDFDocument.create();
 
       for (const file of files) {
@@ -90,6 +97,7 @@ export default function PdfMerger() {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={() => fileInputRef.current && fileInputRef.current.click()}
+        onMouseEnter={preloadPdfLib}
       >
         <input
           type="file"
