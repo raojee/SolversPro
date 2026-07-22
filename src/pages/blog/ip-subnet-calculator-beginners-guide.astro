@@ -1,0 +1,185 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import BlogRating from '../../components/BlogRating.astro';
+import BlogShare from '../../components/BlogShare.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "IP Subnet Calculator: A Beginner's Guide to Network Addressing",
+  "description": "Master IPv4 subnetting, CIDR notation, subnet masks, and network boundaries with our clear beginner's guide and free online network tools.",
+  "author": {
+    "@type": "Organization",
+    "name": "SolversPro Team"
+  },
+  "datePublished": "2026-07-22",
+  "image": "https://solverspro.com/images/blog/ip-subnet-calculator-beginners-guide.png"
+};
+---
+
+<BaseLayout
+  title="IP Subnet Calculator: A Beginner's Guide to Network Addressing | SolversPro Blog"
+  description="Master IPv4 subnetting, CIDR notation, subnet masks, and network boundaries with our clear beginner's guide and free online network tools."
+  ogImage="/images/blog/ip-subnet-calculator-beginners-guide.png"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-16 px-6">
+    <article class="max-w-4xl mx-auto">
+      <!-- Header -->
+      <header class="mb-12">
+        <nav aria-label="breadcrumb" class="mb-6">
+          <ol class="flex items-center space-x-2 text-sm text-zinc-400">
+            <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <a href="/blog" class="hover:text-white transition-colors">Blog</a>
+            </li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <span class="text-[#ff6b35]">Network Admin</span>
+            </li>
+          </ol>
+        </nav>
+        
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">IP Subnet Calculator: A Beginner's Guide to Network Addressing</h1>
+        
+        <div class="flex items-center gap-4 text-sm text-zinc-400 mb-8 pb-8 border-b border-white/[0.06]">
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            July 22, 2026
+          </span>
+          <span class="text-zinc-600">•</span>
+          <span>By SolversPro Team</span>
+          <span class="text-zinc-600">•</span>
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            6 min read
+          </span>
+        </div>
+      </header>
+
+      <!-- Article Content -->
+      <div class="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-a:text-[#2dd4bf] hover:prose-a:text-[#5eead4] prose-strong:text-white">
+        <p class="lead text-xl text-zinc-300 mb-8">
+          Subnetting is one of the core foundational skills in network engineering and system administration. Whether you are configuring VPC networks in AWS or Google Cloud, setting up home lab routers, or studying for Network+ or CCNA certifications, understanding how IP address spaces are divided into subnets is essential.
+        </p>
+
+        <p>
+          In this guide, we break down how IPv4 subnetting works, explain CIDR notation, and show you how to compute network boundaries effortlessly using our free web tools.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">What is Subnetting and Why Do We Need It?</h2>
+        <p>
+          An IPv4 address consists of 32 bits divided into 4 octets separated by dots (e.g., <code>192.168.1.1</code>). Subnetting is the practice of logically partitioning a single large IP network into smaller, isolated subnets.
+        </p>
+        <p>Key benefits of subnetting include:</p>
+        <ul>
+          <li><strong>Network Performance:</strong> Reduces broadcast domain sizes, preventing broadcast storms from degrading network performance.</li>
+          <li><strong>Security Isolation:</strong> Enables firewalls and access control lists (ACLs) to restrict traffic between departments or environments (e.g., separating database servers from public web servers).</li>
+          <li><strong>Address Conservation:</strong> Prevents wasting valuable public and private IP ranges.</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Understanding CIDR Notation and Subnet Masks</h2>
+        <p>
+          Historically, networks were divided into rigid Classes (Class A, B, C). Today, modern networking relies on <strong>CIDR (Classless Inter-Domain Routing)</strong> notation, expressed as a forward slash followed by a prefix length (such as <code>/24</code> or <code>/16</code>).
+        </p>
+
+        <div class="overflow-x-auto my-6">
+          <table class="min-w-full text-sm text-left border border-white/[0.1] rounded-lg">
+            <thead class="bg-zinc-800 text-white">
+              <tr>
+                <th class="px-4 py-2 border-b border-white/[0.1]">CIDR</th>
+                <th class="px-4 py-2 border-b border-white/[0.1]">Subnet Mask</th>
+                <th class="px-4 py-2 border-b border-white/[0.1]">Total IP Addresses</th>
+                <th class="px-4 py-2 border-b border-white/[0.1]">Usable Host IPs</th>
+              </tr>
+            </thead>
+            <tbody class="text-zinc-300 divide-y divide-white/[0.06]">
+              <tr>
+                <td class="px-4 py-2 font-mono text-[#2dd4bf]">/24</td>
+                <td class="px-4 py-2 font-mono">255.255.255.0</td>
+                <td class="px-4 py-2">256</td>
+                <td class="px-4 py-2">254</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2 font-mono text-[#2dd4bf]">/28</td>
+                <td class="px-4 py-2 font-mono">255.255.255.240</td>
+                <td class="px-4 py-2">16</td>
+                <td class="px-4 py-2">14</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2 font-mono text-[#2dd4bf]">/16</td>
+                <td class="px-4 py-2 font-mono">255.255.0.0</td>
+                <td class="px-4 py-2">65,536</td>
+                <td class="px-4 py-2">65,534</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">How to Calculate Subnets Instantly</h2>
+        <p>
+          Calculating network addresses, broadcast addresses, wildcard masks, and host ranges manually involves converting decimal IP octets into 8-bit binary blocks.
+        </p>
+        <p>
+          Instead of performing binary math by hand, you can use our free online <a href="/network/ip-subnet-calculator/">IP Subnet Calculator</a>. Enter any IP address and CIDR prefix (such as <code>10.0.0.0/24</code>) to get the exact network ID, broadcast address, subnet mask, wildcard mask, and total usable IP range instantly.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Inspecting Network Traffic & IP Geolocation</h2>
+        <p>
+          Once your network boundaries are configured, monitoring and investigating incoming network traffic is equally important.
+        </p>
+        <p>
+          Using our <a href="/network/ip-lookup/">IP Address Lookup & Geolocation Tool</a>, network administrators can inspect incoming IP addresses to identify ISP details, country, city, domain ASN, and potential security risks in real time.
+        </p>
+
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-8 my-12">
+          <h3 class="text-xl font-bold text-white mb-4 mt-0">Pro Tip for Network Admins</h3>
+          <p class="mb-0 text-zinc-400">
+            Always remember that in standard IPv4 subnetting, the first address in a block is reserved for the <strong>Network Address</strong> and the last address is reserved for the <strong>Broadcast Address</strong>. Therefore, the total usable host capacity is always <code>2^(32 - prefix) - 2</code>.
+          </p>
+        </div>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Explore Free Network Administration Tools</h2>
+        <p>
+          Simplify your daily networking tasks with SolversPro's suite of 100% free, privacy-first web utilities:
+        </p>
+        <ul>
+          <li><a href="/network/ip-subnet-calculator/">IP Subnet & CIDR Calculator</a></li>
+          <li><a href="/network/ip-lookup/">IP Geolocation & ISP Lookup</a></li>
+          <li><a href="/network/my-ip/">What Is My IP Address Tool</a></li>
+        </ul>
+
+        <!-- FAQ Section -->
+        <section class="mt-16 bg-zinc-900/60 rounded-xl p-8 border border-zinc-800">
+          <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+          <div class="space-y-6 text-zinc-300">
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-2">Why are 2 IP addresses subtracted from every subnet?</h3>
+              <p class="text-zinc-400">The first address in any subnet represents the Network Identifier, and the final address is used for network-wide Broadcasts. Neither can be assigned to host devices.</p>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-2">What is the most common local subnet size?</h3>
+              <p class="text-zinc-400">A <code>/24</code> subnet (subnet mask <code>255.255.255.0</code>) is the standard for home and office networks, offering up to 254 usable host IP addresses.</p>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-2">Does the IP Subnet Calculator work for private IP ranges?</h3>
+              <p class="text-zinc-400">Yes. It supports RFC 1918 private ranges (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) as well as public IP ranges.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <BlogShare url="https://solverspro.com/blog/ip-subnet-calculator-beginners-guide" title="IP Subnet Calculator: A Beginner's Guide to Network Addressing" />
+      <BlogRating />
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>

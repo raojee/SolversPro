@@ -137,11 +137,17 @@ const LASTMOD_MAP = {
   'https://solverspro.com/security/password-generator/': '2026-06-01',
 
   // ── Blog Posts ──────────────────────────────────────────────────────────
-  'https://solverspro.com/blog/70-free-online-tools-in-one-place/':            '2026-07-10',
-  'https://solverspro.com/blog/developer-and-math-solver-tools-guide/':         '2026-07-05',
-  'https://solverspro.com/blog/essential-network-tools-ip-subnet-calculator/':  '2026-07-08',
-  'https://solverspro.com/blog/how-to-calculate-roi-and-cash-on-cash-return/':  '2026-07-03',
-  'https://solverspro.com/blog/top-5-free-online-pdf-tools/':                   '2026-07-01',
+  'https://solverspro.com/blog/70-free-online-tools-in-one-place/':                          '2026-07-10',
+  'https://solverspro.com/blog/developer-and-math-solver-tools-guide/':                       '2026-07-05',
+  'https://solverspro.com/blog/essential-network-tools-ip-subnet-calculator/':                '2026-07-08',
+  'https://solverspro.com/blog/how-to-calculate-roi-and-cash-on-cash-return/':                '2026-07-03',
+  'https://solverspro.com/blog/top-5-free-online-pdf-tools/':                                 '2026-07-01',
+  'https://solverspro.com/blog/how-to-convert-json-to-python-java-go-csharp/':                '2026-07-22',
+  'https://solverspro.com/blog/ip-subnet-calculator-beginners-guide/':                       '2026-07-22',
+  'https://solverspro.com/blog/mortgage-vs-simple-vs-compound-interest-calculators/':         '2026-07-22',
+  'https://solverspro.com/blog/how-to-merge-split-and-protect-pdfs-online/':                  '2026-07-22',
+  'https://solverspro.com/blog/bmi-vs-tdee-understanding-your-health-metrics/':               '2026-07-22',
+  'https://solverspro.com/blog/10-developer-tools-every-frontend-engineer-should-bookmark/': '2026-07-22',
 };
 
 // ---------------------------------------------------------------------------
