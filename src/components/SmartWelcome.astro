@@ -335,7 +335,7 @@
       const raw   = localStorage.getItem(LS_RECENT);
       const items = raw ? JSON.parse(raw) : [];
       // Update Activity tracker to cover new paths too
-      const validPrefixes = ['/math/', '/finance/', '/health/', '/trades/', '/developer/', '/pdf/', '/text/', '/network/', '/qr/', '/security/', '/search'];
+      const validPrefixes = ['/math/', '/finance/', '/health/', '/trades/', '/developer/', '/pdf/', '/text/', '/network/', '/qr/', '/security/', '/free-ai-solver'];
       if (items.length === 0) { if(empty) empty.style.display='block'; return; }
       if (empty) empty.style.display = 'none';
       // Show max 4 — trim long titles (strip em-dash and everything after)

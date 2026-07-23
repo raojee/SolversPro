@@ -13,7 +13,7 @@ import imageSitemapPlugin from './scripts/generate-image-sitemap.mjs';
 //   - Tool pages: set to their approximate launch/last-update date
 //   - Static pages (privacy, terms, faq, about, contact, docs): set once
 //   - Blog posts: set to publish date
-//   - /search/ and /dashboard/: excluded from sitemap (dynamic / auth-gated)
+//   - /free-ai-solver/ and /dashboard/: excluded from sitemap (dynamic / auth-gated)
 // ---------------------------------------------------------------------------
 const LASTMOD_MAP = {
   // ── Static / Informational ──────────────────────────────────────────────
@@ -185,7 +185,7 @@ export default defineConfig({
       // Exclude auth-gated, dynamic, and noindexed thin category hubs from sitemap
       filter: (page) =>
         !page.includes('/dashboard') &&
-        !page.includes('/search') &&
+        !page.includes('/free-ai-solver') &&
         !page.endsWith('/qr/') &&
         !page.endsWith('/security/'),
 

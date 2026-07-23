@@ -1,4 +1,8 @@
 /developer-solver-tools /developer 301
 /math-solver-tools /math 301
 /tools/* /pdf/:splat 301
-/solve /search 301
+/solve /free-ai-solver 301
+/search /free-ai-solver 301
+/solver /free-ai-solver 301
+/ai-solver /free-ai-solver 301
+
