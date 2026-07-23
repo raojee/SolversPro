@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ToolShare from '../../components/ToolShare.astro';
 import SimilarTools from '../../components/SimilarTools.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
@@ -18,11 +19,26 @@ const schema = {
   "description": "Merge multiple PDF files into a single document instantly in your browser. 100% free, no uploads, secure and fast.",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
 };
+
+const faqs = [
+  {
+    question: "Is there a limit on how many PDF files I can merge?",
+    answer: "No, you can merge as many PDF files as you need. Processing occurs entirely in your browser, so performance depends on your device's memory."
+  },
+  {
+    question: "Are my confidential PDF documents uploaded to a remote server?",
+    answer: "No! SolversPro processes all PDF operations 100% locally in your web browser using WebAssembly. Your files are never uploaded, stored, or transmitted over the internet."
+  },
+  {
+    question: "Is this online PDF Merger completely free to use?",
+    answer: "Yes, our PDF Merger is 100% free with no watermarks, file restrictions, or registration required."
+  }
+];
 ---
 
 <BaseLayout
-  title="Merge PDFs Online — 100% Free & Secure | SolversPro"
-  description="Combine multiple PDF files into one instantly. 100% secure—your files never leave your browser. Fast, free, and no sign-up required."
+  title="Merge PDFs Online — 100% Free & Secure Client-Side Tool | SolversPro"
+  description="Combine multiple PDF files into one document instantly. 100% secure—your files never leave your browser. Fast, free, and no sign-up required."
   canonical="https://solverspro.com/pdf/pdf-merger"
   schema={schema}
 >
@@ -33,48 +49,59 @@ const schema = {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'Tools', href: '/tools' },
+        { label: 'PDF Tools', href: '/pdf' },
         { label: 'PDF Merger' },
       ]} />
 
-      <div class="max-w-3xl mx-auto">
-        <div class="mb-8 text-center">
-          <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
-            Merge PDFs Online
-          </h1>
-          <p class="text-lg text-zinc-400">
-            Combine multiple PDF files into one instantly. <br class="hidden sm:block" />
-            <span class="font-semibold text-[#2dd4bf]">100% secure</span>—your files never leave your browser.
-          </p>
-        </div>
+      <!-- Hero Section -->
+      <div class="max-w-4xl mx-auto mb-10 text-center">
+        <h1 class="text-3xl md:text-5xl font-bold text-white mb-4">
+          📄 Merge PDFs Online
+        </h1>
+        <p class="text-lg text-zinc-300 leading-relaxed">
+          Merge multiple PDF documents into a single, organized PDF file online in seconds. Our free PDF Merger is crafted for students, office professionals, legal teams, and job applicants who need to combine reports, receipts, contracts, or application attachments into one seamless file. Reorder pages, combine unlimited PDF files, and download your consolidated document instantly without watermarks or file limits. Processing happens entirely within your web browser using client-side WebAssembly technology—meaning your confidential documents, legal contracts, and sensitive financial PDFs are never uploaded to an external server, guaranteeing total privacy and enterprise-grade security.
+        </p>
+      </div>
 
+      <div class="max-w-3xl mx-auto">
         <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 md:p-10 shadow-sm mb-12">
           <PdfMerger client:load />
         </div>
         
-        <div class="mb-12">
-          <h2 class="text-2xl font-bold text-white mb-6 text-center">How It Works</h2>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="text-center p-4">
-              <div class="w-12 h-12 rounded-full bg-[#ff6b35]/10 flex items-center justify-center text-[#2dd4bf] font-bold mx-auto mb-4 text-xl">1</div>
-              <h3 class="font-semibold text-white mb-2">Upload Files</h3>
-              <p class="text-sm text-zinc-500">Drag and drop your PDFs into the upload zone or click to select them from your device.</p>
-            </div>
-            <div class="text-center p-4">
-              <div class="w-12 h-12 rounded-full bg-[#ff6b35]/10 flex items-center justify-center text-[#2dd4bf] font-bold mx-auto mb-4 text-xl">2</div>
-              <h3 class="font-semibold text-white mb-2">Review & Merge</h3>
-              <p class="text-sm text-zinc-500">Check the list of files to merge. Click the "Merge PDFs" button to start the process instantly.</p>
-            </div>
-            <div class="text-center p-4">
-              <div class="w-12 h-12 rounded-full bg-[#ff6b35]/10 flex items-center justify-center text-[#2dd4bf] font-bold mx-auto mb-4 text-xl">3</div>
-              <h3 class="font-semibold text-white mb-2">Download Safe</h3>
-              <p class="text-sm text-zinc-500">Your merged file downloads immediately. Processing happens directly in your browser.</p>
-            </div>
+        <!-- How to Use & Common Use Cases Sections -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-16">
+          <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 md:p-8">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <span class="text-[#ff6b35]">📖</span> How to Use the PDF Merger
+            </h2>
+            <ol class="space-y-3 text-zinc-300 text-sm list-decimal list-inside leading-relaxed">
+              <li><strong>Upload PDFs:</strong> Drag and drop your PDF files into the dropzone or click to select files from your computer or phone.</li>
+              <li><strong>Reorder Sequence:</strong> Drag and drop files to arrange them in the exact order you want them merged.</li>
+              <li><strong>Merge & Download:</strong> Click <strong>Merge PDFs</strong> to compile your document and download your merged PDF file instantly.</li>
+            </ol>
+          </div>
+
+          <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 md:p-8">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <span class="text-[#2dd4bf]">🚀</span> Common Use Cases
+            </h2>
+            <ul class="space-y-3 text-zinc-300 text-sm list-disc list-inside leading-relaxed">
+              <li><strong>Job Applications:</strong> Combining cover letters, resumes, and portfolio credentials into a single attachment.</li>
+              <li><strong>Financial & Tax Accounting:</strong> Grouping monthly bank statements, receipts, and invoices for tax preparation.</li>
+              <li><strong>Legal & Real Estate Contracts:</strong> Merging lease agreements, disclosures, and signed signature pages.</li>
+              <li><strong>Academic Manuscripts:</strong> Consolidating research papers, data charts, and bibliography appendices into one file.</li>
+            </ul>
           </div>
         </div>
+
+        <!-- FAQ Section -->
+        <ToolFAQ faqs={faqs} />
       </div>
-      <ToolShare title="Merge PDFs Online — 100% Free & Secure" url="https://solverspro.com/pdf/pdf-merger" />
-      <SimilarTools category="pdf" currentPath="/pdf/pdf-merger" />
+
+      <div class="mt-12 max-w-4xl mx-auto">
+        <ToolShare title="Merge PDFs Online — 100% Free & Secure" url="https://solverspro.com/pdf/pdf-merger" />
+        <SimilarTools category="pdf" currentPath="/pdf/pdf-merger" />
+      </div>
     
     </div>
   </main>
