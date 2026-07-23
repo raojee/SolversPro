@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import BlogRating from '../../components/BlogRating.astro';
+import BlogShare from '../../components/BlogShare.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Concrete Slab Calculator: How Much Concrete Do You Need?",
+  "description": "Learn how to calculate concrete volume in cubic yards for patios, driveways, sheds, and footings. Master the concrete formula and 10% waste estimation.",
+  "author": {
+    "@type": "Organization",
+    "name": "SolversPro"
+  },
+  "datePublished": "2026-07-30",
+};
+---
+
+<BaseLayout
+  title="Concrete Slab Calculator: How Much Concrete Do You Need? | SolversPro Blog"
+  description="Calculate cubic yards of concrete for driveways, patios, sheds, and footings. Learn the concrete slab volume formula and estimate pre-mix bags effortlessly."
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-16 px-6">
+    <article class="max-w-4xl mx-auto">
+      <!-- Header -->
+      <header class="mb-12">
+        <nav aria-label="breadcrumb" class="mb-6">
+          <ol class="flex items-center space-x-2 text-sm text-zinc-400">
+            <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <a href="/blog" class="hover:text-white transition-colors">Blog</a>
+            </li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <span class="text-[#ff6b35]">Trades & Construction</span>
+            </li>
+          </ol>
+        </nav>
+        
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">Concrete Slab Calculator: How Much Concrete Do You Need?</h1>
+        
+        <div class="flex items-center gap-4 text-sm text-zinc-400 mb-8 pb-8 border-b border-white/[0.06]">
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            July 30, 2026
+          </span>
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            6 min read
+          </span>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-a:text-[#2dd4bf] hover:prose-a:text-[#5eead4] prose-strong:text-white">
+        <p class="lead text-xl text-zinc-300 mb-8">
+          Pouring a concrete slab for a patio, driveway, garage floor, or garden shed is one of the most durable home improvements you can make. However, ordering concrete requires precision: order too little and your pour hardens with a cold joint; order too much and you waste hundreds of dollars on ready-mix truck overage fees.
+        </p>
+
+        <p>
+          In this guide, we'll walk through how to calculate concrete volume in cubic yards, convert dimensions accurately, estimate pre-mixed bag quantities (60lb vs 80lb), and use our <a href="/trades/concrete-slab">Free Concrete Slab Calculator</a> for instant results.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">The Concrete Slab Formula (Cubic Yards)</h2>
+        <p>
+          Ready-mix concrete suppliers sell concrete by the <strong>cubic yard</strong> (cu. yd. or yd³). One cubic yard equals 27 cubic feet (3 ft × 3 ft × 3 ft).
+        </p>
+
+        <p>To calculate the cubic yards needed for a rectangular slab:</p>
+
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 font-mono text-center text-[#ff6b35]">
+          Volume (cu. yd.) = [Length (ft) × Width (ft) × Depth (ft)] / 27
+        </div>
+
+        <p class="mt-4">
+          Since slab thickness (depth) is almost always measured in <strong>inches</strong>, convert depth to feet first by dividing by 12:
+        </p>
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 font-mono text-center text-[#2dd4bf]">
+          Volume (cu. yd.) = [Length (ft) × Width (ft) × (Thickness (in) / 12)] / 27
+        </div>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Step-by-Step Example Calculation</h2>
+        <p>Suppose you are pouring a 10 ft × 20 ft patio slab that is 4 inches thick:</p>
+
+        <ol>
+          <li><strong>Convert thickness to feet:</strong> <code>4 inches / 12 = 0.333 feet</code>.</li>
+          <li><strong>Calculate cubic feet:</strong> <code>10 ft × 20 ft × 0.333 ft = 66.67 cubic feet</code>.</li>
+          <li><strong>Convert to cubic yards:</strong> <code>66.67 cu. ft. / 27 = 2.47 cubic yards</code>.</li>
+        </ol>
+
+        <h3 class="text-xl font-bold mt-8 mb-4">Adding the 10% Waste Factor</h3>
+        <p>
+          Subgrade excavation is rarely perfectly flat, and forms often flex under heavy wet concrete. Always add a <strong>10% safety margin (waste factor)</strong>:
+        </p>
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 font-mono text-center text-white">
+          Total Order = 2.47 cu. yd. × 1.10 = 2.72 cubic yards (Order 2.75 cu. yd. from supplier)
+        </div>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">How Many Pre-Mixed Concrete Bags Do You Need?</h2>
+        <p>
+          For smaller DIY jobs (like sidewalk repairs or small shed bases), buying pre-mixed concrete bags from a home improvement store is often cheaper than ordering a ready-mix truck (which usually requires a 3 to 4 cu. yd. minimum order).
+        </p>
+
+        <div class="overflow-x-auto my-6">
+          <table class="w-full text-left border-collapse border border-white/[0.08] text-sm">
+            <thead>
+              <tr class="bg-white/[0.04]">
+                <th class="p-3 border border-white/[0.08] text-white">Bag Size (Weight)</th>
+                <th class="p-3 border border-white/[0.08] text-white">Volume Yield per Bag</th>
+                <th class="p-3 border border-white/[0.08] text-white">Bags per Cubic Yard (27 cu. ft.)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="p-3 border border-white/[0.08]">40 lb Bag</td>
+                <td class="p-3 border border-white/[0.08]">0.30 cu. ft.</td>
+                <td class="p-3 border border-white/[0.08] text-[#2dd4bf]">90 Bags</td>
+              </tr>
+              <tr>
+                <td class="p-3 border border-white/[0.08]">60 lb Bag</td>
+                <td class="p-3 border border-white/[0.08]">0.45 cu. ft.</td>
+                <td class="p-3 border border-white/[0.08] text-[#2dd4bf]">60 Bags</td>
+              </tr>
+              <tr>
+                <td class="p-3 border border-white/[0.08]">80 lb Bag</td>
+                <td class="p-3 border border-white/[0.08]">0.60 cu. ft.</td>
+                <td class="p-3 border border-white/[0.08] text-[#2dd4bf]">45 Bags</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Recommended Slab Thickness Guidelines</h2>
+        <p>Choosing the right slab thickness ensures your concrete can handle intended weight loads without cracking:</p>
+
+        <ul>
+          <li><strong>4 Inches (Standard):</strong> Sidewalks, residential patios, garden sheds, and lightweight floors.</li>
+          <li><strong>5 to 6 Inches (Heavy-Duty):</strong> Residential driveways for cars and SUVs, heavy equipment sheds, and hot tub pads.</li>
+          <li><strong>6 to 8 Inches (Commercial):</strong> Commercial parking pads, heavy truck driveways, and industrial shop floors.</li>
+        </ul>
+
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-8 my-12">
+          <h3 class="text-xl font-bold text-white mb-4 mt-0">Calculate Your Concrete Job in Seconds</h3>
+          <p class="text-zinc-400 mb-6">
+            Planning a pour? Input your length, width, and thickness into our free online calculator to instantly get cubic yards, total weight, estimated cost, and required 60lb/80lb bag counts.
+          </p>
+          <a href="/trades/concrete-slab" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#ff6b35] text-white font-semibold hover:bg-[#ff8c5a] transition-colors no-underline">
+            Use Free Concrete Slab Calculator →
+          </a>
+        </div>
+      </div>
+
+      <BlogShare url="https://solverspro.com/blog/concrete-slab-calculator-how-much-concrete-do-you-need" title="Concrete Slab Calculator: How Much Concrete Do You Need?" />
+      <BlogRating />
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>

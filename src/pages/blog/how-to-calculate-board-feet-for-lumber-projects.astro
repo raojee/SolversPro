@@ -1,0 +1,179 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import BlogRating from '../../components/BlogRating.astro';
+import BlogShare from '../../components/BlogShare.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How to Calculate Board Feet for Lumber Projects",
+  "description": "Learn how to calculate board feet for woodworking and construction. Master the board foot formula, estimating lumber costs, and planning waste factors.",
+  "author": {
+    "@type": "Organization",
+    "name": "SolversPro"
+  },
+  "datePublished": "2026-07-27",
+};
+---
+
+<BaseLayout
+  title="How to Calculate Board Feet for Lumber Projects | SolversPro Blog"
+  description="Master board feet calculations for woodworking and construction. Learn the board foot formula, estimate lumber costs, and calculate waste factors with our free calculator."
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-16 px-6">
+    <article class="max-w-4xl mx-auto">
+      <!-- Header -->
+      <header class="mb-12">
+        <nav aria-label="breadcrumb" class="mb-6">
+          <ol class="flex items-center space-x-2 text-sm text-zinc-400">
+            <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <a href="/blog" class="hover:text-white transition-colors">Blog</a>
+            </li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <span class="text-[#ff6b35]">Trades & Construction</span>
+            </li>
+          </ol>
+        </nav>
+        
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">How to Calculate Board Feet for Lumber Projects</h1>
+        
+        <div class="flex items-center gap-4 text-sm text-zinc-400 mb-8 pb-8 border-b border-white/[0.06]">
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            July 27, 2026
+          </span>
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            6 min read
+          </span>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-a:text-[#2dd4bf] hover:prose-a:text-[#5eead4] prose-strong:text-white">
+        <p class="lead text-xl text-zinc-300 mb-8">
+          Whether you're building custom cabinetry, framing a deck, or buying rough-sawn hardwood at a lumber yard, understanding how to calculate <strong>board feet</strong> is essential. Unlike dimensional softwood (like 2x4s sold by the linear foot), hardwoods are priced and sold by volume using board feet.
+        </p>
+
+        <p>
+          Buying wood without calculating board feet accurately often leads to costly overspending or frustrating mid-project shortages. In this guide, we'll break down the board foot formula, provide real-world examples, and show you how to calculate lumber requirements in seconds with our <a href="/trades/board-feet">Free Board Feet Calculator</a>.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">What is a Board Foot?</h2>
+        <p>
+          A <strong>board foot</strong> (BF or FBM for "Foot Board Measure") is a unit of volume measurement used in the lumber industry across North America. One board foot represents a piece of lumber that is:
+        </p>
+
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 text-center text-xl text-[#ff6b35] font-mono">
+          1 Board Foot = 12 inches wide × 12 inches long × 1 inch thick (144 cubic inches)
+        </div>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">The Board Foot Formula</h2>
+        <p>
+          Calculating board feet depends on whether your length measurement is in inches or feet:
+        </p>
+
+        <h3 class="text-xl font-bold mt-8 mb-4">Formula 1: Length in Inches</h3>
+        <p>If all three dimensions (Thickness, Width, Length) are measured in <strong>inches</strong>:</p>
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 font-mono text-center text-[#2dd4bf]">
+          Board Feet = (Thickness in inches × Width in inches × Length in inches) / 144
+        </div>
+
+        <h3 class="text-xl font-bold mt-8 mb-4">Formula 2: Length in Feet</h3>
+        <p>If Thickness and Width are in <strong>inches</strong>, but Length is measured in <strong>feet</strong>:</p>
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 font-mono text-center text-[#2dd4bf]">
+          Board Feet = (Thickness in inches × Width in inches × Length in feet) / 12
+        </div>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Step-by-Step Example Calculations</h2>
+        <p>Let's look at two practical examples you'll encounter in woodworking:</p>
+
+        <h3 class="text-xl font-bold mt-6 mb-4">Example 1: Single Hardwood Board</h3>
+        <p>Suppose you are buying a piece of rough oak that is 2 inches thick, 8 inches wide, and 8 feet long:</p>
+        <ul>
+          <li><strong>Thickness:</strong> 2 in.</li>
+          <li><strong>Width:</strong> 8 in.</li>
+          <li><strong>Length:</strong> 8 ft.</li>
+        </ul>
+        <p>Using Formula 2: <code>(2 × 8 × 8) / 12 = 128 / 12 = 10.67 Board Feet</code>.</p>
+        <p>If the lumber yard charges <strong>$7.50 per board foot</strong>, this board will cost: <code>10.67 BF × $7.50 = $80.03</code>.</p>
+
+        <h3 class="text-xl font-bold mt-6 mb-4">Example 2: Multiple Boards for a Dining Table</h3>
+        <p>Suppose you need 6 walnut boards, each 1.5 inches thick, 6 inches wide, and 72 inches long:</p>
+        <ul>
+          <li><strong>Board Volume:</strong> <code>(1.5 × 6 × 72) / 144 = 4.5 Board Feet per board</code>.</li>
+          <li><strong>Total Volume (6 boards):</strong> <code>4.5 × 6 = 27 Board Feet</code>.</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Accounting for Waste Factor</h2>
+        <p>
+          When working with rough lumber, knots, sapwood, warping, and mill planning reduce the usable material. You should always add a <strong>waste factor</strong> to your estimated board footage before making a purchase:
+        </p>
+
+        <div class="overflow-x-auto my-6">
+          <table class="w-full text-left border-collapse border border-white/[0.08] text-sm">
+            <thead>
+              <tr class="bg-white/[0.04]">
+                <th class="p-3 border border-white/[0.08] text-white">Wood Type / Quality</th>
+                <th class="p-3 border border-white/[0.08] text-white">Recommended Waste Factor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="p-3 border border-white/[0.08]">FAS (First and Seconds) High Grade</td>
+                <td class="p-3 border border-white/[0.08] text-[#2dd4bf]">10% – 15%</td>
+              </tr>
+              <tr>
+                <td class="p-3 border border-white/[0.08]">Select / #1 Common Grade</td>
+                <td class="p-3 border border-white/[0.08] text-[#2dd4bf]">15% – 20%</td>
+              </tr>
+              <tr>
+                <td class="p-3 border border-white/[0.08]">Rough Sawn or Rustic Grade</td>
+                <td class="p-3 border border-white/[0.08] text-[#2dd4bf]">20% – 30%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Understanding Quarter Notation (4/4, 8/4)</h2>
+        <p>
+          At lumber yards, rough hardwood thickness is often measured in quarters of an inch:
+        </p>
+        <ul>
+          <li><strong>4/4 ("four-quarter"):</strong> Nominal 1 inch thick (surfaces to ~3/4 in.)</li>
+          <li><strong>5/4 ("five-quarter"):</strong> Nominal 1.25 inches thick (surfaces to ~1 in.)</li>
+          <li><strong>6/4 ("six-quarter"):</strong> Nominal 1.5 inches thick (surfaces to ~1.25 in.)</li>
+          <li><strong>8/4 ("eight-quarter"):</strong> Nominal 2 inches thick (surfaces to ~1.75 in.)</li>
+        </ul>
+        <p>
+          When calculating board feet for rough lumber, always use the <strong>nominal quarter thickness</strong> (e.g., 4 for 4/4 or 8 for 8/4) to determine the volume billed by the lumber yard.
+        </p>
+
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-8 my-12">
+          <h3 class="text-xl font-bold text-white mb-4 mt-0">Calculate Instantly with SolversPro</h3>
+          <p class="text-zinc-400 mb-6">
+            Skip the manual math! Input your board dimensions, quantity, price per board foot, and waste factor into our interactive tool to instantly compute your exact costs.
+          </p>
+          <a href="/trades/board-feet" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#ff6b35] text-white font-semibold hover:bg-[#ff8c5a] transition-colors no-underline">
+            Use Free Board Feet Calculator →
+          </a>
+        </div>
+      </div>
+
+      <BlogShare url="https://solverspro.com/blog/how-to-calculate-board-feet-for-lumber-projects" title="How to Calculate Board Feet for Lumber Projects" />
+      <BlogRating />
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>

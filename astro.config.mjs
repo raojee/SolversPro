@@ -149,6 +149,8 @@ const LASTMOD_MAP = {
   'https://solverspro.com/blog/bmi-vs-tdee-understanding-your-health-metrics/':               '2026-07-22',
   'https://solverspro.com/blog/10-developer-tools-every-frontend-engineer-should-bookmark/': '2026-07-22',
   'https://solverspro.com/blog/how-to-convert-currency-accurately/':                           '2026-07-22',
+  'https://solverspro.com/blog/how-to-calculate-board-feet-for-lumber-projects/':             '2026-07-27',
+  'https://solverspro.com/blog/concrete-slab-calculator-how-much-concrete-do-you-need/':     '2026-07-30',
 };
 
 // ---------------------------------------------------------------------------
