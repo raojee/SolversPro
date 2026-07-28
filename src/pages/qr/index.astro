@@ -7,22 +7,105 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 import { toolsByCategory } from '../../data/tools';
 const tools = toolsByCategory['qr'] || [];
+
+const faqItems = [
+  {
+    question: "What file formats can I download QR codes in?",
+    answer: "Our QR Code Generator lets you download your QR code as a high-resolution PNG file, ready for print or digital use at any size without quality loss."
+  },
+  {
+    question: "Do QR codes generated on SolversPro expire?",
+    answer: "No. Because your QR code is generated entirely in your browser and is a static, self-contained image, it never expires. The encoded data is permanently embedded in the QR pattern."
+  },
+  {
+    question: "Can I customize the colors of my QR code?",
+    answer: "Yes. Our QR Code Generator supports full foreground and background color customization, letting you match your brand colors while keeping the code scannable."
+  }
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(f => ({
+    "@type": "Question",
+    "name": f.question,
+    "acceptedAnswer": { "@type": "Answer", "text": f.answer }
+  }))
+};
+
+const relatedTools = [
+  { title: 'Random Password Generator', description: 'Generate secure passwords for QR-encoded WiFi credentials.', icon: '🔐', href: '/security/password-generator' },
+  { title: 'URL Encoder & Decoder', description: 'Encode URLs before embedding them in QR codes.', icon: '🔗', href: '/text/url-encoder' },
+  { title: 'Word Counter', description: 'Measure your QR message length before encoding.', icon: '📝', href: '/text/word-counter' },
+];
 ---
 <BaseLayout
-  title="QR Code Tools | SolversPro"
-  description="Free online QR code tools. Generate QR codes for URLs, text, email, phone, and WiFi. Customize and download as PNG. 100% free."
-  robots="noindex, follow"
+  title="Free QR Code Generator — Create QR Codes for URLs, WiFi & More | SolversPro"
+  description="Generate custom QR codes instantly for URLs, text, email, phone numbers, and WiFi credentials. Customize colors, download as PNG. 100% free, runs in your browser."
+  canonical="https://solverspro.com/qr/"
+  schema={faqSchema}
 >
   <Header />
   <div class="container mx-auto px-4 py-12 max-w-6xl">
     <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'QR Code Tools' }]} />
-    <div class="mb-12 mt-4">
-      <h1 class="text-4xl font-bold text-white mb-4">QR Code Tools</h1>
-      <p class="text-zinc-400 text-lg max-w-2xl">Generate and scan QR codes for any content. Fast, free, and runs entirely in your browser.</p>
+
+    <div class="mb-8 mt-4">
+      <div class="flex items-center gap-4 mb-4">
+        <div class="w-14 h-14 rounded-lg flex items-center justify-center text-3xl" style="background-color: #0f172a; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);">
+          📱
+        </div>
+        <div>
+          <h1 class="text-3xl md:text-4xl font-bold text-white">QR Code Tools</h1>
+          <p class="text-zinc-500 mt-1">Instant QR code generation — no server uploads, fully private.</p>
+        </div>
+      </div>
     </div>
+
+    <!-- Rich intro content -->
+    <div class="prose prose-invert max-w-none mb-10 text-zinc-300">
+      <h2>Free Online QR Code Generator</h2>
+      <p>
+        QR codes (Quick Response codes) are two-dimensional barcodes that smartphones can scan instantly to open a website, connect to WiFi, send an email, or dial a phone number — all without manual typing. From business cards and product packaging to restaurant menus and event check-ins, QR codes bridge the physical and digital worlds.
+      </p>
+      <p>
+        Our free QR Code Generator runs entirely inside your browser. No files are ever uploaded to a server, which means your encoded data — including WiFi passwords or private URLs — is processed locally and never leaves your device. Generate a QR code in seconds, customize the foreground and background colors to match your brand, and download a crisp high-resolution PNG ready for print at any size.
+      </p>
+      <h3>What You Can Encode in a QR Code</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><strong>Website URLs</strong> — Direct users to any web page with a single scan.</li>
+        <li><strong>Plain text</strong> — Display short messages, addresses, or instructions.</li>
+        <li><strong>Email addresses</strong> — Open the user's mail app pre-populated with a recipient.</li>
+        <li><strong>Phone numbers</strong> — Trigger a call prompt on any smartphone.</li>
+        <li><strong>WiFi credentials</strong> — Let guests connect to your network without typing a password.</li>
+      </ul>
+      <p>Select a tool below to get started — no account, no signup, no cost.</p>
+    </div>
+
+    <!-- Tools grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
       {tools.map(tool => <ToolCard {...tool} />)}
     </div>
+
+    <!-- Related Tools -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-white mb-6">Related Tools</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {relatedTools.map(tool => <ToolCard {...tool} />)}
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="bg-zinc-900/60 rounded-xl p-8 border border-zinc-800">
+      <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+      <div class="space-y-6">
+        {faqItems.map(faq => (
+          <div>
+            <h3 class="text-lg font-semibold text-white mb-2">{faq.question}</h3>
+            <p class="text-zinc-400">{faq.answer}</p>
+          </div>
+        ))}
+      </div>
+    </section>
   </div>
   <Footer />
 </BaseLayout>

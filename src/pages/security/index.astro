@@ -7,22 +7,104 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 import { toolsByCategory } from '../../data/tools';
 const tools = toolsByCategory['security'] || [];
+
+const faqItems = [
+  {
+    question: "How does SolversPro generate passwords securely?",
+    answer: "Our Password Generator uses the Web Cryptography API (crypto.getRandomValues) built into your browser, which provides cryptographically secure random number generation. The generated passwords are never transmitted to any server — they are created entirely on your device."
+  },
+  {
+    question: "What makes a password truly strong?",
+    answer: "A strong password is at least 16 characters long and combines uppercase letters, lowercase letters, numbers, and symbols. It should have no recognizable dictionary words, personal information, or predictable patterns. Our tool measures password entropy (bits of randomness) to give you an objective strength rating."
+  },
+  {
+    question: "Should I use a password manager with generated passwords?",
+    answer: "Yes. Strong passwords are long and complex — impossible to remember for every account. A reputable password manager (e.g., Bitwarden, 1Password, KeePass) encrypts and stores them safely, so you only need to remember one master password."
+  }
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(f => ({
+    "@type": "Question",
+    "name": f.question,
+    "acceptedAnswer": { "@type": "Answer", "text": f.answer }
+  }))
+};
+
+const relatedTools = [
+  { title: 'Hash Generator', description: 'Generate SHA-256, SHA-384 & SHA-512 hashes from any input text.', icon: '🔒', href: '/developer/hash-generator' },
+  { title: 'UUID v4 Generator', description: 'Generate cryptographically secure UUID v4 identifiers instantly.', icon: '🆔', href: '/developer/uuid-generator' },
+  { title: 'JWT Token Decoder', description: 'Decode and inspect JSON Web Token payloads without a secret.', icon: '🔐', href: '/developer/jwt-decoder' },
+  { title: 'Base64 Encoder & Decoder', description: 'Encode or decode Base64 text quickly in your browser.', icon: '🔤', href: '/developer/base64-converter' },
+];
 ---
 <BaseLayout
-  title="Security Tools | SolversPro"
-  description="Free online security tools. Generate strong, cryptographically secure random passwords entirely in your browser for maximum privacy."
-  robots="noindex, follow"
+  title="Free Online Security Tools — Password Generator & Crypto Utilities | SolversPro"
+  description="Free privacy-first security tools. Generate cryptographically secure random passwords with custom length and character sets. All computations run locally in your browser — zero server uploads."
+  canonical="https://solverspro.com/security/"
+  schema={faqSchema}
 >
   <Header />
   <div class="container mx-auto px-4 py-12 max-w-6xl">
     <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Security Tools' }]} />
-    <div class="mb-12 mt-4">
-      <h1 class="text-4xl font-bold text-white mb-4">Security Tools</h1>
-      <p class="text-zinc-400 text-lg max-w-2xl">Privacy-first security utilities that run entirely in your browser. No data is ever sent to our servers.</p>
+
+    <div class="mb-8 mt-4">
+      <div class="flex items-center gap-4 mb-4">
+        <div class="w-14 h-14 rounded-lg flex items-center justify-center text-3xl" style="background-color: #0f172a; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);">
+          🔐
+        </div>
+        <div>
+          <h1 class="text-3xl md:text-4xl font-bold text-white">Security Tools</h1>
+          <p class="text-zinc-500 mt-1">Privacy-first utilities that run entirely in your browser — zero server uploads.</p>
+        </div>
+      </div>
     </div>
+
+    <!-- Rich intro content -->
+    <div class="prose prose-invert max-w-none mb-10 text-zinc-300">
+      <h2>Browser-Based Security Utilities</h2>
+      <p>
+        Cybersecurity starts with good fundamentals: strong, unique passwords for every account and a solid understanding of how cryptographic tools work. Our free security utilities are built with a privacy-first philosophy — every computation runs locally inside your browser using the Web Cryptography API. No inputs are ever transmitted to a server.
+      </p>
+      <p>
+        Whether you're a developer, a system administrator, or just someone who wants to protect their online accounts, our tools help you generate secure credentials, verify data integrity, and understand the cryptographic building blocks behind modern authentication.
+      </p>
+      <h3>Tools in This Category</h3>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><strong>Random Password Generator:</strong> Create passwords of any length using custom character sets (uppercase, lowercase, numbers, symbols). See real-time entropy scores so you know exactly how strong your password is.</li>
+      </ul>
+      <p>
+        All security tools on SolversPro use cryptographically secure random number generation (CSPRNG) via <code>crypto.getRandomValues()</code> — the same standard used by operating systems to seed secure key material. Your generated passwords and hashes are never logged, stored, or transmitted anywhere.
+      </p>
+    </div>
+
+    <!-- Tools grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
       {tools.map(tool => <ToolCard {...tool} />)}
     </div>
+
+    <!-- Related Tools -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-white mb-6">Related Tools</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {relatedTools.map(tool => <ToolCard {...tool} />)}
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="bg-zinc-900/60 rounded-xl p-8 border border-zinc-800">
+      <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+      <div class="space-y-6">
+        {faqItems.map(faq => (
+          <div>
+            <h3 class="text-lg font-semibold text-white mb-2">{faq.question}</h3>
+            <p class="text-zinc-400">{faq.answer}</p>
+          </div>
+        ))}
+      </div>
+    </section>
   </div>
   <Footer />
 </BaseLayout>

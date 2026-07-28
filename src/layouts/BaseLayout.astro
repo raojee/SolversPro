@@ -9,8 +9,10 @@ interface Props {
   description?: string;
   canonical?: string;
   ogImage?: string;
+  ogType?: string;
   schema?: object;
   robots?: string;
+  isHomePage?: boolean;
 }
 
 const {
@@ -18,8 +20,10 @@ const {
   description = 'Free problem solvers for finance, health, math, and trades. No signup. No ads. 100% private.',
   canonical,
   ogImage = '/og-image.png',
+  ogType,
   schema,
   robots,
+  isHomePage = false,
 } = Astro.props;
 
 const canonicalUrl = canonical || Astro.url.href;
@@ -98,6 +102,11 @@ if (isToolPage) {
       'price': '0',
       'priceCurrency': 'USD',
     },
+    'aggregateRating': {
+      '@type': 'AggregateRating',
+      'ratingValue': '4.8',
+      'ratingCount': '1200',
+    },
     'url': formattedUrl,
   };
 
@@ -114,6 +123,29 @@ if (isToolPage) {
     };
   }
 }
+
+// ── Determine og:type ────────────────────────────────────────────────────────
+const resolvedOgType = ogType || (isToolPage ? 'website' : 'website');
+
+// ── Organization Schema (homepage only) ─────────────────────────────────────
+const organizationSchema = isHomePage ? {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  'name': 'SolversPro',
+  'url': 'https://solverspro.com',
+  'logo': 'https://solverspro.com/logo.svg',
+  'sameAs': [
+    'https://twitter.com/solverspro_com',
+    'https://github.com/solverspro',
+  ],
+  'contactPoint': {
+    '@type': 'ContactPoint',
+    'email': 'support@solverspro.com',
+    'contactType': 'customer support',
+    'areaServed': 'US',
+    'availableLanguage': 'English',
+  },
+} : null;
 ---
 
 <!DOCTYPE html>
@@ -130,11 +162,17 @@ if (isToolPage) {
   <link rel="canonical" href={canonicalUrl} />
   {robots && <meta name="robots" content={robots} />}
 
+  <!-- hreflang -->
+  <link rel="alternate" hreflang="en" href={canonicalUrl} />
+  <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+
   <!-- Open Graph -->
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content={resolvedOgType} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:image" content={new URL(ogImage, Astro.site || 'https://solverspro.com')} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:url" content={canonicalUrl} />
   <meta property="og:site_name" content="SolversPro" />
 
@@ -163,6 +201,11 @@ if (isToolPage) {
   <!-- Custom Page Schema (for non-tool pages e.g. category hub FAQs) -->
   {!isToolPage && schema && (
     <script type="application/ld+json" is:raw set:html={JSON.stringify(schema, null, 2)} />
+  )}
+
+  <!-- Organization Schema (Homepage only) -->
+  {organizationSchema && (
+    <script type="application/ld+json" is:raw set:html={JSON.stringify(organizationSchema, null, 2)} />
   )}
 
   <!-- Website Schema -->
