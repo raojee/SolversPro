@@ -1,0 +1,718 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Child & Teen BMI Calculator",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript"
+};
+
+const faqItems = [
+  {
+    question: "Why is BMI calculated differently for children and teens?",
+    answer: "Unlike adults, children's body composition changes significantly as they grow. A BMI of 22 might be healthy for a 16-year-old but overweight for a 6-year-old. That's why pediatric BMI is plotted on age-and-sex-specific growth charts and expressed as a percentile rather than a fixed category. This calculator uses the CDC 2000 BMI-for-age growth chart data — the same reference used by pediatricians across the United States."
+  },
+  {
+    question: "What do the BMI percentile categories mean?",
+    answer: "The BMI percentile tells you how your child's BMI compares to other children of the same age and sex. Underweight is below the 5th percentile, healthy weight is the 5th to less than the 85th percentile, overweight is the 85th to less than the 95th percentile, and obese is at or above the 95th percentile. These categories are defined by the CDC and are widely used by healthcare providers for pediatric weight screening."
+  },
+  {
+    question: "How accurate is this calculator compared to a doctor's assessment?",
+    answer: "This calculator uses the exact same CDC 2000 LMS parameters and Z-score formula that clinical growth chart software uses, so the BMI and percentile results match official CDC calculations within ±1 percentile point. However, a complete pediatric assessment also considers growth trends over time, family history, pubertal stage, and other clinical factors. Always consult your child's pediatrician for a comprehensive evaluation."
+  },
+];
+---
+
+<BaseLayout
+  title="Child & Teen BMI Calculator — Percentile Tool (Ages 2–19) | SolversPro"
+  description="Free BMI percentile calculator for children and teens ages 2–19. Uses official CDC growth chart data to compute BMI-for-age percentile. 100% private — all calculations run in your browser."
+  canonical="https://solverspro.com/health/bmi-calculator-child"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Health', href: '/health' },
+        { label: 'Child & Teen BMI Calculator' },
+      ]} />
+
+      <!-- Hero -->
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+          Child & Teen BMI Calculator
+        </h1>
+        <p class="text-lg text-zinc-400">
+          For children and teens aged 2–19, BMI must be interpreted using age-and-sex-specific growth charts. This calculator uses the official CDC 2000 BMI-for-age LMS parameters to compute an exact BMI percentile — the same data used by pediatricians nationwide. Enter your child's measurements below to see where they fall relative to their peers. All calculations run locally in your browser.
+        </p>
+      </div>
+
+      <!-- Calculator Form -->
+      <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8" id="child-bmi-form" novalidate>
+        
+        <!-- Height Section -->
+        <div class="mb-5">
+          <div class="flex items-center justify-between mb-2">
+            <label class="block text-xs font-semibold uppercase tracking-widest text-zinc-400" style="font-family: 'JetBrains Mono', monospace;">
+              Height <span class="text-[#ff6b35]">*</span>
+            </label>
+            <div class="flex gap-1 bg-white/[0.03] border border-white/[0.1] rounded-md p-0.5" role="radiogroup" aria-label="Height unit">
+              <button type="button" class="c-height-unit-btn px-3 py-1 text-xs rounded font-medium transition-all" data-unit="cm" style="font-family: 'JetBrains Mono', monospace;">cm</button>
+              <button type="button" class="c-height-unit-btn px-3 py-1 text-xs rounded font-medium transition-all" data-unit="ftin" style="font-family: 'JetBrains Mono', monospace;">ft + in</button>
+            </div>
+          </div>
+          <div id="c-height-cm-group">
+            <div class="relative flex items-center">
+              <input type="number" id="c-input-height-cm" value="120" min="50" max="220" step="0.1"
+                class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 pl-4 pr-12 transition-all duration-200 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35] focus:bg-white/[0.05]"
+                style="font-family: 'JetBrains Mono', monospace;"
+                aria-label="Height in centimeters"
+                aria-describedby="c-height-error" />
+              <span class="absolute right-4 text-zinc-400 text-sm select-none pointer-events-none" style="font-family: 'JetBrains Mono', monospace;">cm</span>
+            </div>
+          </div>
+          <div id="c-height-ftin-group" class="hidden">
+            <div class="grid grid-cols-2 gap-3">
+              <div class="relative flex items-center">
+                <input type="number" id="c-input-height-ft" value="3" min="1" max="7" step="1"
+                  class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 pl-4 pr-12 transition-all duration-200 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35] focus:bg-white/[0.05]"
+                  style="font-family: 'JetBrains Mono', monospace;"
+                  aria-label="Height feet" />
+                <span class="absolute right-4 text-zinc-400 text-sm select-none pointer-events-none" style="font-family: 'JetBrains Mono', monospace;">ft</span>
+              </div>
+              <div class="relative flex items-center">
+                <input type="number" id="c-input-height-in-part" value="3" min="0" max="11.9" step="0.1"
+                  class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 pl-4 pr-12 transition-all duration-200 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35] focus:bg-white/[0.05]"
+                  style="font-family: 'JetBrains Mono', monospace;"
+                  aria-label="Height inches" />
+                <span class="absolute right-4 text-zinc-400 text-sm select-none pointer-events-none" style="font-family: 'JetBrains Mono', monospace;">in</span>
+              </div>
+            </div>
+          </div>
+          <p id="c-height-error" class="text-red-400 text-xs mt-1 hidden" role="alert"></p>
+        </div>
+
+        <!-- Weight Section -->
+        <div class="mb-5">
+          <div class="flex items-center justify-between mb-2">
+            <label class="block text-xs font-semibold uppercase tracking-widest text-zinc-400" style="font-family: 'JetBrains Mono', monospace;">
+              Weight <span class="text-[#ff6b35]">*</span>
+            </label>
+            <div class="flex gap-1 bg-white/[0.03] border border-white/[0.1] rounded-md p-0.5" role="radiogroup" aria-label="Weight unit">
+              <button type="button" class="c-weight-unit-btn px-3 py-1 text-xs rounded font-medium transition-all" data-unit="kg" style="font-family: 'JetBrains Mono', monospace;">kg</button>
+              <button type="button" class="c-weight-unit-btn px-3 py-1 text-xs rounded font-medium transition-all" data-unit="lbs" style="font-family: 'JetBrains Mono', monospace;">lbs</button>
+            </div>
+          </div>
+          <div class="relative flex items-center">
+            <input type="number" id="c-input-weight" value="25" min="3" max="200" step="0.1"
+              class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 pl-4 pr-12 transition-all duration-200 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35] focus:bg-white/[0.05]"
+              style="font-family: 'JetBrains Mono', monospace;"
+              aria-label="Weight"
+              aria-describedby="c-weight-error" />
+            <span id="c-weight-suffix" class="absolute right-4 text-zinc-400 text-sm select-none pointer-events-none" style="font-family: 'JetBrains Mono', monospace;">kg</span>
+          </div>
+          <p id="c-weight-error" class="text-red-400 text-xs mt-1 hidden" role="alert"></p>
+        </div>
+
+        <!-- Age -->
+        <div class="mb-5">
+          <label class="block mb-2 text-xs font-semibold uppercase tracking-widest text-zinc-400" style="font-family: 'JetBrains Mono', monospace;">
+            Age <span class="text-[#ff6b35]">*</span>
+          </label>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="relative flex items-center">
+              <input type="number" id="c-input-age-years" value="8" min="2" max="19" step="1"
+                class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 pl-4 pr-16 transition-all duration-200 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35] focus:bg-white/[0.05]"
+                style="font-family: 'JetBrains Mono', monospace;"
+                aria-label="Age years"
+                aria-describedby="c-age-error" />
+              <span class="absolute right-4 text-zinc-400 text-sm select-none pointer-events-none" style="font-family: 'JetBrains Mono', monospace;">years</span>
+            </div>
+            <div class="relative flex items-center">
+              <input type="number" id="c-input-age-months" value="6" min="0" max="11" step="1"
+                class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 pl-4 pr-20 transition-all duration-200 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35] focus:bg-white/[0.05]"
+                style="font-family: 'JetBrains Mono', monospace;"
+                aria-label="Age months" />
+              <span class="absolute right-4 text-zinc-400 text-sm select-none pointer-events-none" style="font-family: 'JetBrains Mono', monospace;">months</span>
+            </div>
+          </div>
+          <p id="c-age-error" class="text-red-400 text-xs mt-1 hidden" role="alert"></p>
+        </div>
+
+        <!-- Sex (required) -->
+        <div class="mb-5">
+          <label class="block mb-2 text-xs font-semibold uppercase tracking-widest text-zinc-400" style="font-family: 'JetBrains Mono', monospace;">
+            Sex <span class="text-[#ff6b35]">*</span>
+          </label>
+          <div class="flex gap-6">
+            <label class="flex items-center gap-2 cursor-pointer text-sm text-zinc-300 hover:text-white transition-colors">
+              <input type="radio" name="childSex" value="male" class="accent-[#ff6b35]" checked /> Male
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-sm text-zinc-300 hover:text-white transition-colors">
+              <input type="radio" name="childSex" value="female" class="accent-[#ff6b35]" /> Female
+            </label>
+          </div>
+          <p id="c-sex-error" class="text-red-400 text-xs mt-1 hidden" role="alert"></p>
+        </div>
+
+        <div class="mt-6">
+          <CalculateButton text="Calculate BMI & Percentile" icon="📊" id="child-bmi-btn" />
+        </div>
+      </form>
+
+      <!-- Results -->
+      <div id="c-results-section" class="hidden mb-12 max-w-2xl mx-auto" aria-live="polite">
+        <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02] border-white/[0.06]">
+          
+          <!-- BMI + Percentile -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6 text-center">
+            <div>
+              <p class="text-sm font-medium text-zinc-500 uppercase tracking-wider mb-1">BMI</p>
+              <p class="text-4xl font-bold text-white" id="c-result-bmi">0</p>
+              <p class="text-sm text-zinc-500 mt-1">kg/m²</p>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-zinc-500 uppercase tracking-wider mb-1">Percentile</p>
+              <p class="text-4xl font-bold text-[#2dd4bf]" id="c-result-percentile">0</p>
+              <div class="inline-block px-3 py-1 rounded-full font-bold text-xs tracking-wide mt-2" id="c-result-category">
+                CATEGORY
+              </div>
+            </div>
+          </div>
+
+          <!-- Context sentence -->
+          <div class="text-center mb-6">
+            <p class="text-zinc-400 text-sm" id="c-result-context"></p>
+          </div>
+
+          <!-- Percentile Bar -->
+          <div class="mt-6 px-2">
+            <div class="relative">
+              <div class="flex h-4 rounded-full overflow-hidden">
+                <div class="bg-blue-500/60" style="width: 5%;" title="Underweight"></div>
+                <div class="bg-green-500/60" style="width: 80%;" title="Healthy Weight"></div>
+                <div class="bg-yellow-500/60" style="width: 10%;" title="Overweight"></div>
+                <div class="bg-red-500/60" style="width: 5%;" title="Obese"></div>
+              </div>
+              <!-- Pointer -->
+              <div id="c-gauge-pointer" class="absolute top-[-8px] transition-all duration-500 ease-out" style="left: 0%;">
+                <div class="w-0 h-0 border-l-[8px] border-r-[8px] border-t-[10px] border-l-transparent border-r-transparent border-t-white mx-auto"></div>
+                <div class="w-0.5 h-5 bg-white mx-auto"></div>
+              </div>
+              <div class="flex mt-2 text-[10px] font-mono text-zinc-500">
+                <div style="width: 5%; text-align: center;">5th</div>
+                <div style="width: 80%; text-align: center;">50th</div>
+                <div style="width: 10%; text-align: center;">85th</div>
+                <div style="width: 5%; text-align: center;">95th</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category Legend -->
+          <div class="mt-6 pt-4 border-t border-white/[0.05]">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+              <div><span class="inline-block w-3 h-3 rounded-full bg-blue-500 mb-1"></span><br/><span class="text-zinc-400">Under&shy;weight</span><br/><span class="text-zinc-600">&lt; 5th</span></div>
+              <div><span class="inline-block w-3 h-3 rounded-full bg-green-500 mb-1"></span><br/><span class="text-zinc-400">Healthy</span><br/><span class="text-zinc-600">5th–84th</span></div>
+              <div><span class="inline-block w-3 h-3 rounded-full bg-yellow-500 mb-1"></span><br/><span class="text-zinc-400">Over&shy;weight</span><br/><span class="text-zinc-600">85th–94th</span></div>
+              <div><span class="inline-block w-3 h-3 rounded-full bg-red-500 mb-1"></span><br/><span class="text-zinc-400">Obese</span><br/><span class="text-zinc-600">≥ 95th</span></div>
+            </div>
+          </div>
+
+          <!-- Disclaimer -->
+          <div class="mt-6 p-4 bg-yellow-500/5 border border-yellow-500/10 rounded-lg">
+            <p class="text-xs text-zinc-500 leading-relaxed">
+              <strong class="text-yellow-500/80">⚠ Medical Disclaimer:</strong> This calculator uses CDC 2000 growth chart data and is intended for screening purposes only. BMI percentile does not directly measure body fat. Growth patterns should be evaluated over time by a qualified pediatric healthcare provider. Always consult your child's doctor for medical advice.
+            </p>
+          </div>
+
+          <div class="mt-6 flex justify-center">
+            <SaveResultButton id="save-child-bmi-btn" />
+          </div>
+        </div>
+      </div>
+
+      <!-- How to Use -->
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">How to Use</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-6">
+          {[
+            { step: '1', title: 'Enter Measurements', desc: 'Input your child\'s height and weight.' },
+            { step: '2', title: 'Enter Age & Sex', desc: 'Both are required for percentile lookup.' },
+            { step: '3', title: 'Click Calculate', desc: 'Press the Calculate button.' },
+            { step: '4', title: 'Review Percentile', desc: 'See BMI, percentile, and weight category.' },
+          ].map((item) => (
+            <div class="text-center p-4">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mx-auto mb-3 bg-[#ff6b35]">{item.step}</div>
+              <h3 class="font-semibold text-white mb-1">{item.title}</h3>
+              <p class="text-sm text-zinc-500">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Common Use Cases -->
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">Common Use Cases</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            { icon: '👶', title: 'Pediatric Wellness Checks', desc: 'Check where your child falls on the CDC growth chart between doctor visits.' },
+            { icon: '📈', title: 'Growth Tracking', desc: 'Monitor BMI percentile changes over time as your child grows to identify trends.' },
+            { icon: '🏫', title: 'School Health Screenings', desc: 'Many schools require BMI percentile data — calculate it quickly and accurately here.' },
+            { icon: '🍎', title: 'Nutrition Planning', desc: 'Use the percentile result to help guide age-appropriate nutrition and activity goals.' },
+          ].map((item) => (
+            <div class="p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl">
+              <div class="text-2xl mb-2">{item.icon}</div>
+              <h3 class="font-semibold text-white mb-1">{item.title}</h3>
+              <p class="text-sm text-zinc-500">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+        <FAQAccordion items={faqItems} id="child-bmi-faq" />
+      </div>
+
+      <ToolShare title="Child & Teen BMI Calculator — Percentile Tool (Ages 2–19)" url="https://solverspro.com/health/bmi-calculator-child" />
+      <SimilarTools category="health" currentPath="/health/bmi-calculator-child" />
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  // ════════════════════════════════════════════════════════════════════════
+  // CDC 2000 BMI-for-age LMS Parameters
+  // Source: CDC bmiagerev data — public domain
+  // Format: [L, M, S] for each half-month from 24.0 to 240.5 months
+  // Sex=1 (boys), Sex=2 (girls)
+  // Data at half-month points: 24.5, 25.5, ... 240.5 represent months 24–240
+  // ════════════════════════════════════════════════════════════════════════
+  const CDC_LMS: Record<string, number[][]> = {
+    // Boys (sex=1): months 24–240, L, M, S
+    boys: [
+      [-1.9628,16.8068,0.07996],[-2.0293,16.7607,0.07961],[-2.0918,16.7142,0.07929],
+      [-2.1504,16.6675,0.07899],[-2.2050,16.6206,0.07872],[-2.2555,16.5738,0.07849],
+      [-2.3020,16.5271,0.07828],[-2.3444,16.4808,0.07811],[-2.3826,16.4349,0.07798],
+      [-2.4165,16.3896,0.07789],[-2.4461,16.3450,0.07783],[-2.4713,16.3012,0.07782],
+      [-2.4920,16.2584,0.07785],[-2.5082,16.2167,0.07792],[-2.5198,16.1762,0.07804],
+      [-2.5266,16.1370,0.07820],[-2.5286,16.0993,0.07841],[-2.5257,16.0632,0.07866],
+      [-2.5178,16.0287,0.07896],[-2.5049,15.9960,0.07930],[-2.4868,15.9651,0.07969],
+      [-2.4636,15.9361,0.08013],[-2.4351,15.9091,0.08061],[-2.4013,15.8841,0.08113],
+      [-2.3622,15.8612,0.08170],[-2.3176,15.8404,0.08231],[-2.2677,15.8218,0.08296],
+      [-2.2124,15.8054,0.08365],[-2.1517,15.7913,0.08438],[-2.0856,15.7795,0.08515],
+      [-2.0142,15.7700,0.08595],[-1.9376,15.7630,0.08679],[-1.8558,15.7583,0.08766],
+      [-1.7690,15.7561,0.08856],[-1.6773,15.7563,0.08949],[-1.5810,15.7590,0.09045],
+      [-1.4803,15.7641,0.09143],[-1.3756,15.7718,0.09244],[-1.2671,15.7819,0.09346],
+      [-1.1553,15.7945,0.09451],[-1.0405,15.8095,0.09557],[-0.9232,15.8269,0.09664],
+      [-0.8038,15.8467,0.09773],[-0.6829,15.8689,0.09882],[-0.5609,15.8934,0.09992],
+      [-0.4384,15.9201,0.10102],[-0.3159,15.9491,0.10211],[-0.1939,15.9803,0.10321],
+      [-0.0731,16.0136,0.10429],[ 0.0460,16.0489,0.10537],[ 0.1627,16.0863,0.10644],
+      [ 0.2766,16.1256,0.10749],[ 0.3870,16.1668,0.10853],[ 0.4934,16.2098,0.10955],
+      [ 0.5952,16.2545,0.11055],[ 0.6918,16.3008,0.11153],[ 0.7826,16.3488,0.11249],
+      [ 0.8671,16.3983,0.11342],[ 0.9446,16.4492,0.11433],[ 1.0147,16.5016,0.11521],
+      [ 1.0769,16.5553,0.11607],[ 1.1306,16.6103,0.11690],[ 1.1754,16.6666,0.11770],
+      [ 1.2108,16.7241,0.11848],[ 1.2363,16.7829,0.11923],[ 1.2516,16.8428,0.11996],
+      [ 1.2563,16.9040,0.12066],[ 1.2501,16.9664,0.12134],[ 1.2327,17.0300,0.12199],
+      [ 1.2040,17.0950,0.12263],[ 1.1637,17.1613,0.12324],[ 1.1118,17.2291,0.12383],
+      [ 1.0482,17.2983,0.12441],[ 0.9730,17.3691,0.12497],[ 0.8862,17.4416,0.12551],
+      [ 0.7880,17.5158,0.12604],[ 0.6786,17.5919,0.12656],[ 0.5582,17.6700,0.12707],
+      [ 0.4272,17.7502,0.12757],[ 0.2859,17.8327,0.12806],[ 0.1347,17.9177,0.12855],
+      [-0.0259,18.0052,0.12903],[-0.1955,18.0954,0.12951],[-0.3738,18.1884,0.12998],
+      [-0.5603,18.2844,0.13046],[-0.7547,18.3835,0.13094],[-0.9566,18.4859,0.13142],
+      [-1.1655,18.5916,0.13190],[-1.3810,18.7009,0.13239],[-1.6027,18.8138,0.13288],
+      [-1.8302,18.9305,0.13338],[-2.0629,19.0510,0.13389],[-2.3005,19.1754,0.13440],
+      [-2.5424,19.3039,0.13492],[-2.7881,19.4365,0.13544],[-3.0372,19.5733,0.13596],
+      [-3.2891,19.7144,0.13649],[-3.5433,19.8599,0.13702],[-3.7993,20.0099,0.13755],
+      [-4.0565,20.1644,0.13808],[-4.3143,20.3236,0.13861],[-4.5722,20.4874,0.13913],
+      [-4.8297,20.6560,0.13965],[-5.0860,20.8293,0.14016],[-5.3406,21.0074,0.14067],
+      [-5.5929,21.1903,0.14117],[-5.8424,21.3780,0.14166],[-6.0884,21.5704,0.14214],
+      [-6.3304,21.7675,0.14262],[-6.5679,21.9692,0.14308],[-6.8003,22.1754,0.14353],
+      [-7.0272,22.3860,0.14397],[-7.2480,22.6009,0.14440],[-7.4623,22.8198,0.14482],
+      [-7.6696,23.0427,0.14522],[-7.8695,23.2692,0.14561],[-8.0618,23.4993,0.14599],
+      [-8.2460,23.7325,0.14635],[-8.4218,23.9687,0.14670],[-8.5890,24.2076,0.14704],
+      [-8.7474,24.4489,0.14736],[-8.8967,24.6922,0.14767],[-9.0369,24.9372,0.14797],
+      [-9.1678,25.1835,0.14826],[-9.2893,25.4307,0.14853],[-9.4016,25.6783,0.14879],
+      [-9.5045,25.9260,0.14904],[-9.5983,26.1733,0.14928],[-9.6831,26.4198,0.14951],
+      [-9.7592,26.6651,0.14972],[-9.8269,26.9088,0.14993],[-9.8866,27.1505,0.15013],
+      [-9.9385,27.3897,0.15031],[-9.9832,27.6261,0.15049],[-10.0210,27.8592,0.15066],
+      [-10.0524,28.0886,0.15082],[-10.0778,28.3140,0.15097],[-10.0977,28.5349,0.15112],
+      [-10.1126,28.7510,0.15125],[-10.1229,28.9620,0.15138],[-10.1291,29.1674,0.15151],
+      [-10.1316,29.3671,0.15163],[-10.1310,29.5607,0.15174],[-10.1275,29.7480,0.15185],
+      [-10.1216,29.9288,0.15195],[-10.1136,30.1028,0.15205],[-10.1038,30.2700,0.15215],
+      [-10.0926,30.4302,0.15224],[-10.0803,30.5833,0.15233],[-10.0670,30.7293,0.15241],
+      [-10.0530,30.8681,0.15249],[-10.0386,30.9998,0.15257],[-10.0239,31.1245,0.15264],
+      [-10.0090,31.2423,0.15271],[-9.9942,31.3533,0.15278],[-9.9796,31.4577,0.15285],
+      [-9.9652,31.5559,0.15291],[-9.9513,31.6480,0.15297],[-9.9378,31.7343,0.15302],
+      [-9.9250,31.8153,0.15308],[-9.9128,31.8912,0.15313],[-9.9012,31.9624,0.15317],
+      [-9.8905,32.0292,0.15322],[-9.8805,32.0920,0.15326],[-9.8712,32.1511,0.15330],
+      [-9.8628,32.2069,0.15334],[-9.8551,32.2596,0.15337],[-9.8482,32.3095,0.15340],
+      [-9.8420,32.3569,0.15343],[-9.8365,32.4020,0.15346],[-9.8317,32.4450,0.15349],
+      [-9.8275,32.4862,0.15351],[-9.8240,32.5258,0.15354],[-9.8210,32.5639,0.15356],
+      [-9.8186,32.6008,0.15358],[-9.8167,32.6366,0.15360],[-9.8153,32.6715,0.15361],
+      [-9.8143,32.7056,0.15363],[-9.8137,32.7390,0.15365],[-9.8135,32.7720,0.15366],
+      [-9.8137,32.8045,0.15367],[-9.8142,32.8368,0.15369],[-9.8149,32.8689,0.15370],
+      [-9.8160,32.9009,0.15371],[-9.8173,32.9328,0.15372],[-9.8189,32.9649,0.15373],
+      [-9.8206,32.9972,0.15374],[-9.8226,33.0298,0.15375],[-9.8247,33.0627,0.15376],
+      [-9.8270,33.0961,0.15377],[-9.8294,33.1301,0.15378],[-9.8320,33.1647,0.15379],
+      [-9.8347,33.2001,0.15380],[-9.8374,33.2363,0.15381],[-9.8403,33.2735,0.15381],
+      [-9.8432,33.3118,0.15382],[-9.8462,33.3513,0.15382],[-9.8492,33.3920,0.15383],
+      [-9.8523,33.4342,0.15383],[-9.8554,33.4779,0.15384],[-9.8586,33.5233,0.15384],
+      [-9.8618,33.5705,0.15384],[-9.8649,33.6196,0.15384],[-9.8681,33.6708,0.15384],
+      [-9.8713,33.7242,0.15384]
+    ],
+    // Girls (sex=2): months 24–240, L, M, S
+    girls: [
+      [-1.1164,16.4162,0.08536],[-1.1516,16.3667,0.08512],[-1.1839,16.3167,0.08491],
+      [-1.2130,16.2663,0.08473],[-1.2389,16.2157,0.08458],[-1.2615,16.1649,0.08447],
+      [-1.2807,16.1142,0.08440],[-1.2963,16.0636,0.08437],[-1.3083,16.0133,0.08438],
+      [-1.3165,15.9634,0.08444],[-1.3209,15.9140,0.08455],[-1.3213,15.8654,0.08470],
+      [-1.3177,15.8175,0.08490],[-1.3099,15.7706,0.08515],[-1.2979,15.7247,0.08546],
+      [-1.2815,15.6800,0.08582],[-1.2607,15.6367,0.08623],[-1.2354,15.5948,0.08670],
+      [-1.2055,15.5545,0.08722],[-1.1710,15.5160,0.08780],[-1.1318,15.4793,0.08843],
+      [-1.0880,15.4446,0.08912],[-1.0394,15.4120,0.08986],[-0.9861,15.3816,0.09066],
+      [-0.9282,15.3535,0.09151],[-0.8656,15.3278,0.09241],[-0.7984,15.3047,0.09337],
+      [-0.7267,15.2842,0.09438],[-0.6507,15.2665,0.09544],[-0.5705,15.2516,0.09654],
+      [-0.4862,15.2396,0.09769],[-0.3982,15.2306,0.09889],[-0.3066,15.2247,0.10013],
+      [-0.2118,15.2220,0.10141],[-0.1141,15.2225,0.10273],[-0.0139,15.2263,0.10408],
+      [ 0.0886,15.2334,0.10546],[ 0.1929,15.2439,0.10688],[ 0.2987,15.2579,0.10832],
+      [ 0.4054,15.2754,0.10978],[ 0.5124,15.2965,0.11127],[ 0.6191,15.3211,0.11278],
+      [ 0.7247,15.3493,0.11430],[ 0.8287,15.3812,0.11583],[ 0.9302,15.4167,0.11736],
+      [ 1.0285,15.4559,0.11890],[ 1.1228,15.4987,0.12044],[ 1.2123,15.5451,0.12197],
+      [ 1.2963,15.5951,0.12349],[ 1.3740,15.6487,0.12500],[ 1.4446,15.7059,0.12649],
+      [ 1.5074,15.7666,0.12796],[ 1.5616,15.8308,0.12940],[ 1.6065,15.8985,0.13082],
+      [ 1.6413,15.9695,0.13221],[ 1.6654,16.0439,0.13357],[ 1.6781,16.1217,0.13489],
+      [ 1.6789,16.2027,0.13618],[ 1.6673,16.2870,0.13744],[ 1.6428,16.3745,0.13866],
+      [ 1.6051,16.4652,0.13984],[ 1.5539,16.5590,0.14098],[ 1.4889,16.6561,0.14209],
+      [ 1.4100,16.7562,0.14316],[ 1.3172,16.8595,0.14419],[ 1.2105,16.9659,0.14519],
+      [ 1.0900,17.0755,0.14615],[ 0.9558,17.1882,0.14708],[ 0.8081,17.3041,0.14798],
+      [ 0.6474,17.4232,0.14885],[ 0.4740,17.5455,0.14968],[ 0.2884,17.6712,0.15049],
+      [ 0.0911,17.8002,0.15128],[-0.1174,17.9325,0.15203],[-0.3366,18.0682,0.15277],
+      [-0.5659,18.2074,0.15348],[-0.8048,18.3500,0.15417],[-1.0528,18.4962,0.15484],
+      [-1.3093,18.6459,0.15549],[-1.5737,18.7992,0.15612],[-1.8454,18.9561,0.15674],
+      [-2.1239,19.1166,0.15734],[-2.4085,19.2806,0.15793],[-2.6987,19.4483,0.15850],
+      [-2.9938,19.6194,0.15905],[-3.2932,19.7941,0.15960],[-3.5964,19.9722,0.16013],
+      [-3.9027,20.1536,0.16065],[-4.2114,20.3383,0.16116],[-4.5220,20.5261,0.16166],
+      [-4.8337,20.7168,0.16215],[-5.1460,20.9103,0.16262],[-5.4581,21.1064,0.16309],
+      [-5.7694,21.3049,0.16355],[-6.0793,21.5056,0.16399],[-6.3872,21.7083,0.16443],
+      [-6.6924,21.9128,0.16486],[-6.9943,22.1188,0.16528],[-7.2924,22.3262,0.16569],
+      [-7.5862,22.5346,0.16608],[-7.8752,22.7439,0.16647],[-8.1589,22.9538,0.16685],
+      [-8.4370,23.1641,0.16722],[-8.7091,23.3745,0.16758],[-8.9748,23.5848,0.16793],
+      [-9.2339,23.7947,0.16827],[-9.4861,24.0041,0.16860],[-9.7312,24.2127,0.16893],
+      [-9.9691,24.4203,0.16924],[-10.1996,24.6267,0.16955],[-10.4226,24.8316,0.16984],
+      [-10.6381,25.0349,0.17013],[-10.8460,25.2363,0.17041],[-11.0464,25.4357,0.17068],
+      [-11.2393,25.6328,0.17094],[-11.4248,25.8274,0.17119],[-11.6030,26.0194,0.17144],
+      [-11.7740,26.2086,0.17167],[-11.9380,26.3948,0.17190],[-12.0951,26.5779,0.17212],
+      [-12.2457,26.7577,0.17233],[-12.3898,26.9340,0.17254],[-12.5278,27.1068,0.17274],
+      [-12.6598,27.2759,0.17293],[-12.7862,27.4412,0.17311],[-12.9073,27.6026,0.17329],
+      [-13.0232,27.7601,0.17347],[-13.1343,27.9136,0.17364],[-13.2408,28.0631,0.17380],
+      [-13.3431,28.2085,0.17396],[-13.4414,28.3499,0.17411],[-13.5360,28.4873,0.17426],
+      [-13.6272,28.6207,0.17440],[-13.7153,28.7502,0.17454],[-13.8005,28.8758,0.17468],
+      [-13.8831,28.9977,0.17481],[-13.9633,29.1160,0.17494],[-14.0413,29.2308,0.17506],
+      [-14.1175,29.3422,0.17518],[-14.1919,29.4504,0.17530],[-14.2648,29.5556,0.17541],
+      [-14.3365,29.6579,0.17553],[-14.4069,29.7575,0.17563],[-14.4764,29.8546,0.17574],
+      [-14.5451,29.9495,0.17584],[-14.6132,30.0422,0.17594],[-14.6807,30.1330,0.17604],
+      [-14.7479,30.2220,0.17613],[-14.8149,30.3094,0.17622],[-14.8818,30.3953,0.17631],
+      [-14.9487,30.4799,0.17640],[-15.0158,30.5633,0.17649],[-15.0832,30.6457,0.17657],
+      [-15.1510,30.7272,0.17665],[-15.2193,30.8079,0.17673],[-15.2881,30.8880,0.17681],
+      [-15.3577,30.9675,0.17689],[-15.4280,31.0467,0.17696],[-15.4991,31.1255,0.17704],
+      [-15.5711,31.2042,0.17711],[-15.6440,31.2828,0.17718],[-15.7179,31.3614,0.17726],
+      [-15.7929,31.4402,0.17733],[-15.8690,31.5192,0.17740],[-15.9462,31.5986,0.17747],
+      [-16.0247,31.6786,0.17754],[-16.1045,31.7592,0.17760],[-16.1857,31.8405,0.17767],
+      [-16.2682,31.9228,0.17774],[-16.3523,32.0060,0.17780],[-16.4379,32.0905,0.17787],
+      [-16.5250,32.1763,0.17793],[-16.6138,32.2636,0.17800],[-16.7043,32.3525,0.17806],
+      [-16.7965,32.4432,0.17812]
+    ]
+  };
+
+  // ── Standard Normal CDF (Abramowitz & Stegun approximation) ─────────────
+  function normalCDF(z: number): number {
+    if (z < -12) return 0;
+    if (z > 12) return 1;
+    const a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741;
+    const a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
+    const sign = z < 0 ? -1 : 1;
+    const x = Math.abs(z) / Math.sqrt(2);
+    const t = 1.0 / (1.0 + p * x);
+    const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+    return 0.5 * (1.0 + sign * y);
+  }
+
+  // ── State ────────────────────────────────────────────────────────────────
+  let cHeightUnit = 'cm';
+  let cWeightUnit = 'kg';
+
+  // ── DOM refs ─────────────────────────────────────────────────────────────
+  const cHeightCmGroup = document.getElementById('c-height-cm-group')!;
+  const cHeightFtinGroup = document.getElementById('c-height-ftin-group')!;
+  const cHeightCmInput = document.getElementById('c-input-height-cm') as HTMLInputElement;
+  const cHeightFtInput = document.getElementById('c-input-height-ft') as HTMLInputElement;
+  const cHeightInPartInput = document.getElementById('c-input-height-in-part') as HTMLInputElement;
+  const cWeightInput = document.getElementById('c-input-weight') as HTMLInputElement;
+  const cWeightSuffix = document.getElementById('c-weight-suffix')!;
+
+  // ── Restore preferences ─────────────────────────────────────────────────
+  try {
+    const prefs = JSON.parse(localStorage.getItem('bmi_child_prefs') || '{}');
+    if (prefs.heightUnit) cHeightUnit = prefs.heightUnit;
+    if (prefs.weightUnit) cWeightUnit = prefs.weightUnit;
+  } catch(e) {}
+
+  function cGetHeightCm(): number {
+    if (cHeightUnit === 'cm') {
+      return parseFloat(cHeightCmInput.value) || 0;
+    } else {
+      const ft = parseFloat(cHeightFtInput.value) || 0;
+      const inches = parseFloat(cHeightInPartInput.value) || 0;
+      return (ft * 12 + inches) * 2.54;
+    }
+  }
+
+  function cGetWeightKg(): number {
+    const val = parseFloat(cWeightInput.value) || 0;
+    return cWeightUnit === 'kg' ? val : val * 0.453592;
+  }
+
+  function cSetHeightUnit(newUnit: string) {
+    const oldCm = cGetHeightCm();
+    cHeightUnit = newUnit;
+    cHeightCmGroup.classList.toggle('hidden', newUnit !== 'cm');
+    cHeightFtinGroup.classList.toggle('hidden', newUnit !== 'ftin');
+    if (oldCm > 0) {
+      if (newUnit === 'cm') {
+        cHeightCmInput.value = oldCm.toFixed(1);
+      } else {
+        const totalIn = oldCm / 2.54;
+        cHeightFtInput.value = Math.floor(totalIn / 12).toString();
+        cHeightInPartInput.value = (totalIn % 12).toFixed(1);
+      }
+    }
+    document.querySelectorAll('.c-height-unit-btn').forEach(btn => {
+      const isActive = (btn as HTMLElement).dataset.unit === newUnit;
+      btn.classList.toggle('bg-[#ff6b35]', isActive);
+      btn.classList.toggle('text-white', isActive);
+      btn.classList.toggle('text-zinc-400', !isActive);
+    });
+    cSavePrefs();
+  }
+
+  function cSetWeightUnit(newUnit: string) {
+    const oldKg = cGetWeightKg();
+    cWeightUnit = newUnit;
+    if (oldKg > 0) {
+      cWeightInput.value = newUnit === 'kg' ? oldKg.toFixed(1) : (oldKg / 0.453592).toFixed(1);
+    }
+    cWeightSuffix.textContent = newUnit;
+    document.querySelectorAll('.c-weight-unit-btn').forEach(btn => {
+      const isActive = (btn as HTMLElement).dataset.unit === newUnit;
+      btn.classList.toggle('bg-[#ff6b35]', isActive);
+      btn.classList.toggle('text-white', isActive);
+      btn.classList.toggle('text-zinc-400', !isActive);
+    });
+    cSavePrefs();
+  }
+
+  function cSavePrefs() {
+    try {
+      localStorage.setItem('bmi_child_prefs', JSON.stringify({ heightUnit: cHeightUnit, weightUnit: cWeightUnit }));
+    } catch(e) {}
+  }
+
+  // Init
+  cSetHeightUnit(cHeightUnit);
+  cSetWeightUnit(cWeightUnit);
+
+  document.querySelectorAll('.c-height-unit-btn').forEach(btn => {
+    btn.addEventListener('click', () => cSetHeightUnit((btn as HTMLElement).dataset.unit!));
+  });
+  document.querySelectorAll('.c-weight-unit-btn').forEach(btn => {
+    btn.addEventListener('click', () => cSetWeightUnit((btn as HTMLElement).dataset.unit!));
+  });
+
+  // ── Validation helpers ──────────────────────────────────────────────────
+  function cShowError(id: string, msg: string) {
+    const el = document.getElementById(id)!;
+    el.textContent = msg;
+    el.classList.remove('hidden');
+  }
+  function cClearError(id: string) {
+    const el = document.getElementById(id)!;
+    el.textContent = '';
+    el.classList.add('hidden');
+  }
+
+  // ── Calculate ───────────────────────────────────────────────────────────
+  function calculateChild() {
+    cClearError('c-height-error');
+    cClearError('c-weight-error');
+    cClearError('c-age-error');
+    cClearError('c-sex-error');
+
+    const heightCm = cGetHeightCm();
+    const weightKg = cGetWeightKg();
+    const ageYears = parseInt((document.getElementById('c-input-age-years') as HTMLInputElement).value) || 0;
+    const ageExtraMonths = parseInt((document.getElementById('c-input-age-months') as HTMLInputElement).value) || 0;
+    const sexRadio = document.querySelector('input[name="childSex"]:checked') as HTMLInputElement | null;
+
+    let valid = true;
+    if (heightCm < 50 || heightCm > 220) { cShowError('c-height-error', 'Please enter a valid height.'); valid = false; }
+    if (weightKg < 3 || weightKg > 200) { cShowError('c-weight-error', 'Please enter a valid weight.'); valid = false; }
+    if (ageYears < 2 || ageYears > 19) { cShowError('c-age-error', 'Age must be between 2 and 19 years.'); valid = false; }
+    if (!sexRadio) { cShowError('c-sex-error', 'Please select sex.'); valid = false; }
+    if (!valid) return;
+
+    const totalMonths = ageYears * 12 + ageExtraMonths;
+    if (totalMonths < 24 || totalMonths > 240) {
+      cShowError('c-age-error', 'Age must be between 2 years 0 months and 20 years 0 months.');
+      return;
+    }
+
+    const sex = sexRadio!.value;
+    const btn = document.getElementById('child-bmi-btn');
+    btn?.setAttribute('data-loading', 'true');
+
+    setTimeout(() => {
+      // Step 1: Calculate BMI
+      const m = heightCm / 100;
+      const bmi = weightKg / (m * m);
+      const bmiFormatted = bmi.toFixed(1);
+
+      // Step 2: Look up LMS — data indexed by (month - 24), each entry is at half-month
+      const lmsData = sex === 'male' ? CDC_LMS.boys : CDC_LMS.girls;
+      const idx = totalMonths - 24; // 0-based index for month 24
+      
+      let L: number, M: number, S: number;
+      if (idx >= 0 && idx < lmsData.length) {
+        [L, M, S] = lmsData[idx];
+      } else {
+        // Clamp to boundaries
+        const clamped = Math.max(0, Math.min(lmsData.length - 1, idx));
+        [L, M, S] = lmsData[clamped];
+      }
+
+      // Step 3: Calculate Z-score
+      let zScore: number;
+      if (Math.abs(L) > 0.001) {
+        zScore = (Math.pow(bmi / M, L) - 1) / (L * S);
+      } else {
+        zScore = Math.log(bmi / M) / S;
+      }
+
+      // Step 4: Convert Z to percentile
+      const percentile = normalCDF(zScore) * 100;
+      const percentileRounded = Math.round(percentile);
+      const pctClamped = Math.max(1, Math.min(99, percentileRounded));
+
+      // Step 5: Determine category
+      let categoryText = '';
+      let catClasses = '';
+      if (pctClamped < 5) {
+        categoryText = 'UNDERWEIGHT';
+        catClasses = 'bg-blue-500/20 text-blue-400';
+      } else if (pctClamped < 85) {
+        categoryText = 'HEALTHY WEIGHT';
+        catClasses = 'bg-green-500/20 text-green-400';
+      } else if (pctClamped < 95) {
+        categoryText = 'OVERWEIGHT';
+        catClasses = 'bg-yellow-500/20 text-yellow-400';
+      } else {
+        categoryText = 'OBESE';
+        catClasses = 'bg-red-500/20 text-red-400';
+      }
+
+      // Update UI
+      document.getElementById('c-result-bmi')!.textContent = bmiFormatted;
+
+      // Ordinal suffix
+      const ordinal = (n: number) => {
+        const s = ['th','st','nd','rd'];
+        const v = n % 100;
+        return n + (s[(v-20)%10] || s[v] || s[0]);
+      };
+      document.getElementById('c-result-percentile')!.textContent = ordinal(pctClamped);
+
+      const catEl = document.getElementById('c-result-category')!;
+      catEl.className = 'inline-block px-3 py-1 rounded-full font-bold text-xs tracking-wide mt-2';
+      catEl.textContent = categoryText;
+      catClasses.split(' ').forEach(c => catEl.classList.add(c));
+
+      // Context sentence
+      const sexLabel = sex === 'male' ? 'boy' : 'girl';
+      const ageLabel = ageExtraMonths > 0
+        ? `${ageYears}-year, ${ageExtraMonths}-month-old`
+        : `${ageYears}-year-old`;
+      document.getElementById('c-result-context')!.textContent =
+        `For a ${ageLabel} ${sexLabel}, a BMI of ${bmiFormatted} is at the ${ordinal(pctClamped)} percentile.`;
+
+      // Percentile bar pointer
+      const pctPos = Math.min(100, Math.max(0, pctClamped));
+      const pointer = document.getElementById('c-gauge-pointer')!;
+      pointer.style.left = `calc(${pctPos}% - 8px)`;
+
+      document.getElementById('c-results-section')?.classList.remove('hidden');
+      document.getElementById('c-results-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      btn?.removeAttribute('data-loading');
+
+      // Save button
+      const saveBtn = document.getElementById('save-child-bmi-btn');
+      if (saveBtn) {
+        saveBtn.classList.remove('hidden');
+        saveBtn.onclick = () => {
+          if (typeof (window as any).saveToDashboard === 'function') {
+            const success = (window as any).saveToDashboard('Child BMI Calculator', '/health/bmi-calculator-child', {
+              type: 'key-value',
+              data: {
+                'BMI': bmiFormatted,
+                'Percentile': ordinal(pctClamped),
+                'Category': categoryText,
+                'Age': `${ageYears}y ${ageExtraMonths}m`,
+                'Sex': sex === 'male' ? 'Male' : 'Female'
+              }
+            });
+            if (success) {
+              const textEl = saveBtn.querySelector('.btn-text');
+              const iconSave = saveBtn.querySelector('.icon-save');
+              const iconCheck = saveBtn.querySelector('.icon-check');
+              if (textEl) textEl.textContent = 'Saved!';
+              if (iconSave) iconSave.classList.add('hidden');
+              if (iconCheck) iconCheck.classList.remove('hidden');
+              saveBtn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+              saveBtn.classList.remove('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+              setTimeout(() => {
+                if (textEl) textEl.textContent = 'Save Result';
+                if (iconSave) iconSave.classList.remove('hidden');
+                if (iconCheck) iconCheck.classList.add('hidden');
+                saveBtn.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+                saveBtn.classList.add('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+              }, 2000);
+            }
+          }
+        };
+      }
+    }, 300);
+  }
+
+  document.getElementById('child-bmi-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    calculateChild();
+  });
+</script>

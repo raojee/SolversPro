@@ -1,0 +1,528 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Adult BMI Calculator",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript"
+};
+
+const faqItems = [
+  {
+    question: "How accurate is BMI as a health indicator?",
+    answer: "BMI is a useful screening tool but has limitations. It does not directly measure body fat and cannot distinguish between muscle mass and fat mass. Athletes or muscular individuals may have a high BMI despite having low body fat. BMI should be used alongside other measurements — such as waist circumference, body fat percentage, and bloodwork — for a complete health assessment. Consult your healthcare provider for personalized advice."
+  },
+  {
+    question: "What is the difference between BMI categories for adults vs. children?",
+    answer: "For adults aged 20 and older, BMI categories are fixed numeric thresholds (underweight < 18.5, healthy 18.5–24.9, overweight 25–29.9, obese ≥ 30). For children and teens (ages 2–19), BMI is interpreted using age-and-sex-specific percentiles from CDC growth charts because body composition changes significantly during growth. Use our Child & Teen BMI Calculator for pediatric assessments."
+  },
+  {
+    question: "Does BMI differ by age and sex for adults?",
+    answer: "The standard BMI formula and category thresholds are the same for all adults regardless of age and sex. However, at the same BMI, women typically have more body fat than men, and older adults tend to have more body fat than younger adults. Some health organizations have proposed adjusted thresholds for different populations, but the WHO standard categories remain the most widely used clinical reference."
+  },
+];
+---
+
+<BaseLayout
+  title="Adult BMI Calculator — Free Body Mass Index Tool | SolversPro"
+  description="Calculate your adult Body Mass Index (BMI) instantly with our free online calculator. Supports metric and imperial units, shows 6 weight categories with a visual gauge. 100% private — no data stored."
+  canonical="https://solverspro.com/health/bmi-calculator-adult"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Health', href: '/health' },
+        { label: 'Adult BMI Calculator' },
+      ]} />
+
+      <!-- Hero -->
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+          Adult BMI Calculator
+        </h1>
+        <p class="text-lg text-zinc-400">
+          Body Mass Index (BMI) is a widely used screening metric that estimates body fat based on your weight and height. This calculator supports both metric and imperial units, displays your result across six WHO-defined weight categories, and includes a visual gauge so you can see exactly where you fall. All calculations run locally in your browser — your data never leaves your device.
+        </p>
+      </div>
+
+      <!-- Calculator Form -->
+      <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8" id="adult-bmi-form" novalidate>
+        
+        <!-- Height Section -->
+        <div class="mb-5">
+          <div class="flex items-center justify-between mb-2">
+            <label class="block text-xs font-semibold uppercase tracking-widest text-zinc-400" style="font-family: 'JetBrains Mono', monospace;">
+              Height <span class="text-[#ff6b35]">*</span>
+            </label>
+            <div class="flex gap-1 bg-white/[0.03] border border-white/[0.1] rounded-md p-0.5" role="radiogroup" aria-label="Height unit">
+              <button type="button" class="height-unit-btn px-3 py-1 text-xs rounded font-medium transition-all" data-unit="cm" style="font-family: 'JetBrains Mono', monospace;">cm</button>
+              <button type="button" class="height-unit-btn px-3 py-1 text-xs rounded font-medium transition-all" data-unit="ftin" style="font-family: 'JetBrains Mono', monospace;">ft + in</button>
+              <button type="button" class="height-unit-btn px-3 py-1 text-xs rounded font-medium transition-all" data-unit="in" style="font-family: 'JetBrains Mono', monospace;">in</button>
+            </div>
+          </div>
+          <div id="height-cm-group">
+            <div class="relative flex items-center">
+              <input type="number" id="input-height-cm" name="heightCm" value="175" min="50" max="280" step="0.1"
+                class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 pl-4 pr-12 transition-all duration-200 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35] focus:bg-white/[0.05]"
+                style="font-family: 'JetBrains Mono', monospace;"
+                aria-describedby="height-error" />
+              <span class="absolute right-4 text-zinc-400 text-sm select-none pointer-events-none" style="font-family: 'JetBrains Mono', monospace;">cm</span>
+            </div>
+          </div>
+          <div id="height-ftin-group" class="hidden">
+            <div class="grid grid-cols-2 gap-3">
+              <div class="relative flex items-center">
+                <input type="number" id="input-height-ft" name="heightFt" value="5" min="1" max="8" step="1"
+                  class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 pl-4 pr-12 transition-all duration-200 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35] focus:bg-white/[0.05]"
+                  style="font-family: 'JetBrains Mono', monospace;"
+                  aria-label="Height feet" />
+                <span class="absolute right-4 text-zinc-400 text-sm select-none pointer-events-none" style="font-family: 'JetBrains Mono', monospace;">ft</span>
+              </div>
+              <div class="relative flex items-center">
+                <input type="number" id="input-height-in-part" name="heightInPart" value="9" min="0" max="11.9" step="0.1"
+                  class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 pl-4 pr-12 transition-all duration-200 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35] focus:bg-white/[0.05]"
+                  style="font-family: 'JetBrains Mono', monospace;"
+                  aria-label="Height inches" />
+                <span class="absolute right-4 text-zinc-400 text-sm select-none pointer-events-none" style="font-family: 'JetBrains Mono', monospace;">in</span>
+              </div>
+            </div>
+          </div>
+          <div id="height-in-group" class="hidden">
+            <div class="relative flex items-center">
+              <input type="number" id="input-height-in" name="heightIn" value="69" min="20" max="110" step="0.1"
+                class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 pl-4 pr-12 transition-all duration-200 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35] focus:bg-white/[0.05]"
+                style="font-family: 'JetBrains Mono', monospace;" />
+              <span class="absolute right-4 text-zinc-400 text-sm select-none pointer-events-none" style="font-family: 'JetBrains Mono', monospace;">in</span>
+            </div>
+          </div>
+          <p id="height-error" class="text-red-400 text-xs mt-1 hidden" role="alert"></p>
+        </div>
+
+        <!-- Weight Section -->
+        <div class="mb-5">
+          <div class="flex items-center justify-between mb-2">
+            <label class="block text-xs font-semibold uppercase tracking-widest text-zinc-400" style="font-family: 'JetBrains Mono', monospace;">
+              Weight <span class="text-[#ff6b35]">*</span>
+            </label>
+            <div class="flex gap-1 bg-white/[0.03] border border-white/[0.1] rounded-md p-0.5" role="radiogroup" aria-label="Weight unit">
+              <button type="button" class="weight-unit-btn px-3 py-1 text-xs rounded font-medium transition-all" data-unit="kg" style="font-family: 'JetBrains Mono', monospace;">kg</button>
+              <button type="button" class="weight-unit-btn px-3 py-1 text-xs rounded font-medium transition-all" data-unit="lbs" style="font-family: 'JetBrains Mono', monospace;">lbs</button>
+            </div>
+          </div>
+          <div class="relative flex items-center">
+            <input type="number" id="input-weight" name="weight" value="70" min="1" max="700" step="0.1"
+              class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 pl-4 pr-12 transition-all duration-200 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35] focus:bg-white/[0.05]"
+              style="font-family: 'JetBrains Mono', monospace;"
+              aria-describedby="weight-error" />
+            <span id="weight-suffix" class="absolute right-4 text-zinc-400 text-sm select-none pointer-events-none" style="font-family: 'JetBrains Mono', monospace;">kg</span>
+          </div>
+          <p id="weight-error" class="text-red-400 text-xs mt-1 hidden" role="alert"></p>
+        </div>
+
+        <!-- Optional: Age & Sex -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
+          <div class="mb-5">
+            <label for="input-age" class="block mb-2 text-xs font-semibold uppercase tracking-widest text-zinc-400" style="font-family: 'JetBrains Mono', monospace;">
+              Age <span class="text-zinc-600 text-[10px] normal-case">(optional)</span>
+            </label>
+            <div class="relative flex items-center">
+              <input type="number" id="input-age" name="age" placeholder="e.g. 30" min="20" max="120" step="1"
+                class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 pl-4 pr-16 transition-all duration-200 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35] focus:bg-white/[0.05]"
+                style="font-family: 'JetBrains Mono', monospace;" />
+              <span class="absolute right-4 text-zinc-400 text-sm select-none pointer-events-none" style="font-family: 'JetBrains Mono', monospace;">years</span>
+            </div>
+          </div>
+          <div class="mb-5">
+            <label class="block mb-2 text-xs font-semibold uppercase tracking-widest text-zinc-400" style="font-family: 'JetBrains Mono', monospace;">
+              Sex <span class="text-zinc-600 text-[10px] normal-case">(optional)</span>
+            </label>
+            <div class="flex gap-3 mt-1">
+              <label class="flex items-center gap-2 cursor-pointer text-sm text-zinc-300 hover:text-white transition-colors">
+                <input type="radio" name="sex" value="male" class="accent-[#ff6b35]" /> Male
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer text-sm text-zinc-300 hover:text-white transition-colors">
+                <input type="radio" name="sex" value="female" class="accent-[#ff6b35]" /> Female
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer text-sm text-zinc-300 hover:text-white transition-colors">
+                <input type="radio" name="sex" value="other" class="accent-[#ff6b35]" /> Prefer not to say
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <CalculateButton text="Calculate BMI" icon="⚖️" id="adult-bmi-btn" />
+        </div>
+      </form>
+
+      <!-- Results -->
+      <div id="results-section" class="hidden mb-12 max-w-2xl mx-auto" aria-live="polite">
+        <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02] border-white/[0.06]">
+          <!-- BMI Number -->
+          <div class="text-center mb-6">
+            <p class="text-sm font-medium text-zinc-500 uppercase tracking-wider mb-2">Your BMI</p>
+            <p class="text-6xl font-bold text-white mb-3" id="result-bmi">0</p>
+            <div class="inline-block px-4 py-2 rounded-full font-bold text-sm tracking-wide" id="result-category">
+              CATEGORY
+            </div>
+          </div>
+
+          <!-- Visual Gauge -->
+          <div class="mt-8 px-2">
+            <div class="relative">
+              <!-- Gauge Bar -->
+              <div class="flex h-4 rounded-full overflow-hidden">
+                <div class="flex-1 bg-blue-500/60" title="Underweight"></div>
+                <div class="flex-1 bg-green-500/60" title="Healthy"></div>
+                <div class="flex-1 bg-yellow-500/60" title="Overweight"></div>
+                <div class="flex-1 bg-orange-500/60" title="Obesity I"></div>
+                <div class="flex-1 bg-red-500/60" title="Obesity II"></div>
+                <div class="flex-1 bg-purple-500/60" title="Obesity III"></div>
+              </div>
+              <!-- Pointer -->
+              <div id="gauge-pointer" class="absolute top-[-8px] transition-all duration-500 ease-out" style="left: 0%;">
+                <div class="w-0 h-0 border-l-[8px] border-r-[8px] border-t-[10px] border-l-transparent border-r-transparent border-t-white mx-auto"></div>
+                <div class="w-0.5 h-5 bg-white mx-auto"></div>
+              </div>
+              <!-- Labels -->
+              <div class="flex justify-between mt-2 text-[10px] font-mono text-zinc-500">
+                <span>10</span>
+                <span>18.5</span>
+                <span>25</span>
+                <span>30</span>
+                <span>35</span>
+                <span>40</span>
+                <span>50+</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category Legend -->
+          <div class="mt-8 pt-6 border-t border-white/[0.05]">
+            <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 text-center text-xs">
+              <div><span class="inline-block w-3 h-3 rounded-full bg-blue-500 mb-1"></span><br/><span class="text-zinc-400">Under&shy;weight</span><br/><span class="text-zinc-600">&lt; 18.5</span></div>
+              <div><span class="inline-block w-3 h-3 rounded-full bg-green-500 mb-1"></span><br/><span class="text-zinc-400">Healthy</span><br/><span class="text-zinc-600">18.5–24.9</span></div>
+              <div><span class="inline-block w-3 h-3 rounded-full bg-yellow-500 mb-1"></span><br/><span class="text-zinc-400">Over&shy;weight</span><br/><span class="text-zinc-600">25–29.9</span></div>
+              <div><span class="inline-block w-3 h-3 rounded-full bg-orange-500 mb-1"></span><br/><span class="text-zinc-400">Obesity I</span><br/><span class="text-zinc-600">30–34.9</span></div>
+              <div><span class="inline-block w-3 h-3 rounded-full bg-red-500 mb-1"></span><br/><span class="text-zinc-400">Obesity II</span><br/><span class="text-zinc-600">35–39.9</span></div>
+              <div><span class="inline-block w-3 h-3 rounded-full bg-purple-500 mb-1"></span><br/><span class="text-zinc-400">Obesity III</span><br/><span class="text-zinc-600">40+</span></div>
+            </div>
+          </div>
+
+          <!-- Disclaimer -->
+          <div class="mt-6 p-4 bg-yellow-500/5 border border-yellow-500/10 rounded-lg">
+            <p class="text-xs text-zinc-500 leading-relaxed">
+              <strong class="text-yellow-500/80">⚠ Medical Disclaimer:</strong> BMI is a screening tool, not a diagnostic measure. It does not account for muscle mass, bone density, age, sex, or ethnicity. Always consult a qualified healthcare professional for medical advice, diagnosis, or treatment.
+            </p>
+          </div>
+
+          <div class="mt-6 flex justify-center">
+            <SaveResultButton id="save-adult-bmi-btn" />
+          </div>
+        </div>
+      </div>
+
+      <!-- How to Use -->
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">How to Use</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-6">
+          {[
+            { step: '1', title: 'Enter Height', desc: 'Input your height in cm, feet+inches, or inches.' },
+            { step: '2', title: 'Enter Weight', desc: 'Input your weight in kilograms or pounds.' },
+            { step: '3', title: 'Click Calculate', desc: 'Press the Calculate BMI button.' },
+            { step: '4', title: 'View Results', desc: 'See your BMI, category, and visual gauge.' },
+          ].map((item) => (
+            <div class="text-center p-4">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mx-auto mb-3 bg-[#ff6b35]">{item.step}</div>
+              <h3 class="font-semibold text-white mb-1">{item.title}</h3>
+              <p class="text-sm text-zinc-500">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Common Use Cases -->
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">Common Use Cases</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            { icon: '🏥', title: 'Health Screening', desc: 'Quickly assess whether your weight falls within a healthy range as part of routine health monitoring.' },
+            { icon: '🏋️', title: 'Fitness Planning', desc: 'Set a baseline BMI before starting a diet or workout program to track progress over time.' },
+            { icon: '📋', title: 'Insurance & Medical Forms', desc: 'Many insurance applications and medical intake forms require your BMI — calculate it accurately here.' },
+            { icon: '📊', title: 'Research & Education', desc: 'Students and researchers use BMI to understand population-level weight trends and health metrics.' },
+          ].map((item) => (
+            <div class="p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl">
+              <div class="text-2xl mb-2">{item.icon}</div>
+              <h3 class="font-semibold text-white mb-1">{item.title}</h3>
+              <p class="text-sm text-zinc-500">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+        <FAQAccordion items={faqItems} id="adult-bmi-faq" />
+      </div>
+
+      <ToolShare title="Adult BMI Calculator — Free Body Mass Index Tool" url="https://solverspro.com/health/bmi-calculator-adult" />
+      <SimilarTools category="health" currentPath="/health/bmi-calculator-adult" />
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  // ── State ────────────────────────────────────────────────────────────────
+  let heightUnit = 'cm';
+  let weightUnit = 'kg';
+
+  // ── DOM refs ─────────────────────────────────────────────────────────────
+  const heightCmGroup = document.getElementById('height-cm-group')!;
+  const heightFtinGroup = document.getElementById('height-ftin-group')!;
+  const heightInGroup = document.getElementById('height-in-group')!;
+  const heightCmInput = document.getElementById('input-height-cm') as HTMLInputElement;
+  const heightFtInput = document.getElementById('input-height-ft') as HTMLInputElement;
+  const heightInPartInput = document.getElementById('input-height-in-part') as HTMLInputElement;
+  const heightInInput = document.getElementById('input-height-in') as HTMLInputElement;
+  const weightInput = document.getElementById('input-weight') as HTMLInputElement;
+  const weightSuffix = document.getElementById('weight-suffix')!;
+  const heightError = document.getElementById('height-error')!;
+  const weightError = document.getElementById('weight-error')!;
+
+  // ── Restore preferences ─────────────────────────────────────────────────
+  try {
+    const prefs = JSON.parse(localStorage.getItem('bmi_adult_prefs') || '{}');
+    if (prefs.heightUnit) heightUnit = prefs.heightUnit;
+    if (prefs.weightUnit) weightUnit = prefs.weightUnit;
+  } catch(e) {}
+
+  // ── Helper: get height in cm ─────────────────────────────────────────────
+  function getHeightCm(): number {
+    if (heightUnit === 'cm') {
+      return parseFloat(heightCmInput.value) || 0;
+    } else if (heightUnit === 'ftin') {
+      const ft = parseFloat(heightFtInput.value) || 0;
+      const inches = parseFloat(heightInPartInput.value) || 0;
+      return (ft * 12 + inches) * 2.54;
+    } else {
+      return (parseFloat(heightInInput.value) || 0) * 2.54;
+    }
+  }
+
+  // ── Helper: get weight in kg ─────────────────────────────────────────────
+  function getWeightKg(): number {
+    const val = parseFloat(weightInput.value) || 0;
+    return weightUnit === 'kg' ? val : val * 0.453592;
+  }
+
+  // ── Unit toggle: height ──────────────────────────────────────────────────
+  function setHeightUnit(newUnit: string) {
+    const oldCm = getHeightCm();
+    heightUnit = newUnit;
+
+    // Show/hide groups
+    heightCmGroup.classList.toggle('hidden', newUnit !== 'cm');
+    heightFtinGroup.classList.toggle('hidden', newUnit !== 'ftin');
+    heightInGroup.classList.toggle('hidden', newUnit !== 'in');
+
+    // Convert value
+    if (oldCm > 0) {
+      if (newUnit === 'cm') {
+        heightCmInput.value = oldCm.toFixed(1);
+      } else if (newUnit === 'ftin') {
+        const totalIn = oldCm / 2.54;
+        heightFtInput.value = Math.floor(totalIn / 12).toString();
+        heightInPartInput.value = (totalIn % 12).toFixed(1);
+      } else {
+        heightInInput.value = (oldCm / 2.54).toFixed(1);
+      }
+    }
+
+    // Update button styles
+    document.querySelectorAll('.height-unit-btn').forEach(btn => {
+      const isActive = (btn as HTMLElement).dataset.unit === newUnit;
+      btn.classList.toggle('bg-[#ff6b35]', isActive);
+      btn.classList.toggle('text-white', isActive);
+      btn.classList.toggle('text-zinc-400', !isActive);
+    });
+
+    savePrefs();
+  }
+
+  // ── Unit toggle: weight ──────────────────────────────────────────────────
+  function setWeightUnit(newUnit: string) {
+    const oldKg = getWeightKg();
+    weightUnit = newUnit;
+
+    if (oldKg > 0) {
+      weightInput.value = newUnit === 'kg'
+        ? oldKg.toFixed(1)
+        : (oldKg / 0.453592).toFixed(1);
+    }
+    weightSuffix.textContent = newUnit;
+
+    document.querySelectorAll('.weight-unit-btn').forEach(btn => {
+      const isActive = (btn as HTMLElement).dataset.unit === newUnit;
+      btn.classList.toggle('bg-[#ff6b35]', isActive);
+      btn.classList.toggle('text-white', isActive);
+      btn.classList.toggle('text-zinc-400', !isActive);
+    });
+
+    savePrefs();
+  }
+
+  function savePrefs() {
+    try {
+      localStorage.setItem('bmi_adult_prefs', JSON.stringify({ heightUnit, weightUnit }));
+    } catch(e) {}
+  }
+
+  // ── Init unit buttons ────────────────────────────────────────────────────
+  setHeightUnit(heightUnit);
+  setWeightUnit(weightUnit);
+
+  document.querySelectorAll('.height-unit-btn').forEach(btn => {
+    btn.addEventListener('click', () => setHeightUnit((btn as HTMLElement).dataset.unit!));
+  });
+  document.querySelectorAll('.weight-unit-btn').forEach(btn => {
+    btn.addEventListener('click', () => setWeightUnit((btn as HTMLElement).dataset.unit!));
+  });
+
+  // ── Validation ───────────────────────────────────────────────────────────
+  function showError(el: HTMLElement, msg: string) {
+    el.textContent = msg;
+    el.classList.remove('hidden');
+  }
+  function clearError(el: HTMLElement) {
+    el.textContent = '';
+    el.classList.add('hidden');
+  }
+
+  // ── Calculate ────────────────────────────────────────────────────────────
+  function calculate() {
+    clearError(heightError);
+    clearError(weightError);
+
+    const heightCm = getHeightCm();
+    const weightKg = getWeightKg();
+    let valid = true;
+
+    if (heightCm < 50 || heightCm > 280 || isNaN(heightCm)) {
+      showError(heightError, 'Please enter a valid height.');
+      valid = false;
+    }
+    if (weightKg < 1 || weightKg > 320 || isNaN(weightKg)) {
+      showError(weightError, 'Please enter a valid weight.');
+      valid = false;
+    }
+    if (!valid) return;
+
+    const btn = document.getElementById('adult-bmi-btn');
+    btn?.setAttribute('data-loading', 'true');
+
+    setTimeout(() => {
+      const m = heightCm / 100;
+      const bmi = weightKg / (m * m);
+      const bmiFormatted = bmi.toFixed(1);
+
+      // Update display
+      document.getElementById('result-bmi')!.textContent = bmiFormatted;
+
+      const catEl = document.getElementById('result-category')!;
+      // Remove all category classes
+      catEl.className = 'inline-block px-4 py-2 rounded-full font-bold text-sm tracking-wide';
+
+      let categoryText = '';
+      let catClasses = '';
+
+      if (bmi < 18.5) {
+        categoryText = 'UNDERWEIGHT';
+        catClasses = 'bg-blue-500/20 text-blue-400';
+      } else if (bmi < 25) {
+        categoryText = 'HEALTHY WEIGHT';
+        catClasses = 'bg-green-500/20 text-green-400';
+      } else if (bmi < 30) {
+        categoryText = 'OVERWEIGHT';
+        catClasses = 'bg-yellow-500/20 text-yellow-400';
+      } else if (bmi < 35) {
+        categoryText = 'OBESITY CLASS I';
+        catClasses = 'bg-orange-500/20 text-orange-400';
+      } else if (bmi < 40) {
+        categoryText = 'OBESITY CLASS II';
+        catClasses = 'bg-red-500/20 text-red-400';
+      } else {
+        categoryText = 'OBESITY CLASS III';
+        catClasses = 'bg-purple-500/20 text-purple-400';
+      }
+
+      catEl.textContent = categoryText;
+      catClasses.split(' ').forEach(c => catEl.classList.add(c));
+
+      // Gauge pointer — map BMI 10–50 to 0–100%
+      const pct = Math.min(100, Math.max(0, ((bmi - 10) / 40) * 100));
+      const pointer = document.getElementById('gauge-pointer')!;
+      pointer.style.left = `calc(${pct}% - 8px)`;
+
+      document.getElementById('results-section')?.classList.remove('hidden');
+      document.getElementById('results-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      btn?.removeAttribute('data-loading');
+
+      // Save button
+      const saveBtn = document.getElementById('save-adult-bmi-btn');
+      if (saveBtn) {
+        saveBtn.classList.remove('hidden');
+        saveBtn.onclick = () => {
+          if (typeof (window as any).saveToDashboard === 'function') {
+            const success = (window as any).saveToDashboard('Adult BMI Calculator', '/health/bmi-calculator-adult', {
+              type: 'key-value',
+              data: { 'Your BMI': bmiFormatted, 'Category': categoryText }
+            });
+            if (success) {
+              const textEl = saveBtn.querySelector('.btn-text');
+              const iconSave = saveBtn.querySelector('.icon-save');
+              const iconCheck = saveBtn.querySelector('.icon-check');
+              if (textEl) textEl.textContent = 'Saved!';
+              if (iconSave) iconSave.classList.add('hidden');
+              if (iconCheck) iconCheck.classList.remove('hidden');
+              saveBtn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+              saveBtn.classList.remove('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+              setTimeout(() => {
+                if (textEl) textEl.textContent = 'Save Result';
+                if (iconSave) iconSave.classList.remove('hidden');
+                if (iconCheck) iconCheck.classList.add('hidden');
+                saveBtn.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+                saveBtn.classList.add('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+              }, 2000);
+            }
+          }
+        };
+      }
+    }, 300);
+  }
+
+  document.getElementById('adult-bmi-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    calculate();
+  });
+</script>

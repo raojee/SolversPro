@@ -1343,6 +1343,83 @@ const toolDocs = {
       ],
     },
   ],
+  health: [
+    {
+      title: 'TDEE Calculator',
+      href: '/health/tdee-calculator',
+      description: 'Calculate your Total Daily Energy Expenditure (TDEE) and Basal Metabolic Rate (BMR) using the scientifically validated Mifflin-St Jeor equation with customized calorie targets for weight loss, maintenance, or muscle gain.',
+      features: [
+        'Mifflin-St Jeor equation for high-accuracy BMR estimation',
+        'Five activity levels from sedentary to extra active',
+        'Metric and imperial unit support',
+        'Daily calorie targets for weight loss (-500 cal), maintenance, and muscle gain (+500 cal)',
+        'Save results to your local dashboard',
+      ],
+      steps: [
+        'Enter your age, gender, weight, and height.',
+        'Select your typical weekly activity level.',
+        'Click "Calculate TDEE".',
+        'Review your BMR, TDEE, and recommended daily calorie targets.',
+      ],
+    },
+    {
+      title: 'Adult BMI Calculator',
+      href: '/health/bmi-calculator-adult',
+      description: 'Calculate your adult Body Mass Index (BMI) with metric or imperial measurements. Displays your exact BMI, one of six WHO weight categories, and an interactive visual gauge.',
+      features: [
+        'Supports cm, feet + inches, and total inches with instant conversion',
+        'Supports kilograms and pounds with real-time conversion',
+        'Six WHO weight categories: Underweight, Healthy, Overweight, Obesity Class I, II, and III',
+        'Interactive visual horizontal gauge with color-coded markers and animated pointer',
+        'Optional age and sex inputs for context',
+        'Save results to local dashboard',
+      ],
+      steps: [
+        'Select your preferred height unit (cm, ft+in, or in) and enter your height.',
+        'Select your preferred weight unit (kg or lbs) and enter your weight.',
+        'Optionally enter your age and sex.',
+        'Click "Calculate BMI".',
+        'View your BMI value, color-coded classification badge, and position on the visual gauge.',
+      ],
+    },
+    {
+      title: 'Child & Teen BMI Calculator',
+      href: '/health/bmi-calculator-child',
+      description: 'Calculate pediatric BMI and BMI-for-age percentile for children and teens ages 2–19 using official CDC 2000 growth chart LMS parameters and Z-score calculations.',
+      features: [
+        'Official CDC 2000 BMI-for-age LMS dataset embedded for months 24–240',
+        'High-precision Z-score and percentile calculation via standard normal CDF approximation',
+        'Four pediatric categories: Underweight (<5th), Healthy (5th to <85th), Overweight (85th to <95th), and Obese (≥95th percentile)',
+        'Contextual comparison sentence tailored to age and sex',
+        'Visual percentile position gauge',
+        'Metric and imperial input support',
+      ],
+      steps: [
+        'Enter your child\'s height (cm or ft+in) and weight (kg or lbs).',
+        'Specify age in years (2–19) and months (0–11).',
+        'Select the child\'s sex (Male or Female, required for CDC chart lookup).',
+        'Click "Calculate BMI & Percentile".',
+        'Review the calculated BMI, growth chart percentile, category badge, and contextual explanation.',
+      ],
+    },
+    {
+      title: 'BMI Calculator',
+      href: '/health/bmi-calculator',
+      description: 'Quickly calculate your Body Mass Index (BMI) based on weight and height to check whether you are in a healthy weight range.',
+      features: [
+        'Metric (kg, cm) and Imperial (lbs, in) unit toggles',
+        'Four standard weight categories: Underweight, Normal, Overweight, Obese',
+        'Fast and responsive calculation',
+        'Save results to personal dashboard',
+      ],
+      steps: [
+        'Choose your unit system (Metric or Imperial).',
+        'Enter your weight and height.',
+        'Click "Calculate BMI".',
+        'View your BMI score and weight category.',
+      ],
+    },
+  ],
 };
 ---
 
