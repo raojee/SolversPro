@@ -1,0 +1,458 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Tip Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript"
+};
+
+const faqItems = [
+  {
+    question: "Is tipping mandatory?",
+    answer: "In the United States and Canada, tipping is customary and culturally expected for sit-down restaurant dining, food delivery, bartending, and personal care services (such as hair salons and barbershops), where service staff often rely on tips as a core part of their income. In many European, Asian, and Oceanic countries, service charges may already be included in the bill or tipping is discretionary for exceptional service."
+  },
+  {
+    question: "What should I tip if the service was subpar?",
+    answer: "If service was noticeably poor, it is standard in the US to tip 10%–15% while politely explaining the issue to a manager so they have the opportunity to address it. A tip below 10% or leaving nothing is generally reserved only for egregious or hostile service. For average service, 15% is standard, while 18%–22% is customary for good to outstanding service."
+  },
+  {
+    question: "How do I split a bill unevenly among a group?",
+    answer: "When group members ordered items of significantly different values, use this calculator to determine the base tip percentage (e.g., 18% or 20%), then apply that exact percentage to each person's individual subtotal. If alcohol or shared appetizers were ordered, divide those shared items equally before applying the tip percentage to each person's share."
+  }
+];
+---
+
+<BaseLayout
+  title="Tip Calculator — Free Bill Splitter & Gratuity Calculator | SolversPro"
+  description="Free tip calculator and bill splitter. Calculate custom tip percentages, split bills evenly among multiple people, and round up totals instantly in your browser."
+  canonical="https://solverspro.com/finance/tip-calculator"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Finance', href: '/finance' },
+        { label: 'Tip Calculator' },
+      ]} />
+
+      <!-- Hero -->
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+          Tip Calculator
+        </h1>
+        <p class="text-lg text-zinc-400">
+          Calculating the right tip shouldn't require mental gymnastics after an enjoyable meal or service. Whether you're dining out at a restaurant, ordering food delivery, visiting your barber, or sharing drinks with friends, our free online tip calculator computes exact gratuity amounts, splits the bill fairly, and rounds totals cleanly. All computations run 100% locally on your device with complete privacy.
+        </p>
+      </div>
+
+      <!-- Calculator Form -->
+      <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8" id="tip-form" novalidate>
+        
+        <!-- Bill Amount -->
+        <div class="mb-5">
+          <label for="input-bill" class="block mb-2 text-xs font-semibold uppercase tracking-widest text-zinc-400" style="font-family: 'JetBrains Mono', monospace;">
+            Bill Amount <span class="text-[#ff6b35]">*</span>
+          </label>
+          <div class="relative flex items-center">
+            <span class="absolute left-4 text-zinc-400 font-medium select-none pointer-events-none" style="font-family: 'JetBrains Mono', monospace;">
+              $
+            </span>
+            <input
+              type="number"
+              id="input-bill"
+              name="bill"
+              placeholder="0.00"
+              value="50.00"
+              min="0"
+              step="0.01"
+              required
+              class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 pl-9 pr-4 transition-all duration-200 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35] focus:bg-white/[0.05]"
+              style="font-family: 'JetBrains Mono', monospace;"
+              aria-describedby="bill-error"
+            />
+          </div>
+          <p id="bill-error" class="text-red-400 text-xs mt-1 hidden" role="alert"></p>
+        </div>
+
+        <!-- Tip Percentage Slider + Input + Presets -->
+        <div class="mb-5">
+          <div class="flex items-center justify-between mb-2">
+            <label for="input-tip-pct" class="block text-xs font-semibold uppercase tracking-widest text-zinc-400" style="font-family: 'JetBrains Mono', monospace;">
+              Tip Percentage <span class="text-[#ff6b35]">*</span>
+            </label>
+            <div class="flex items-center gap-1">
+              <input
+                type="number"
+                id="input-tip-pct"
+                name="tipPercent"
+                value="18"
+                min="0"
+                max="100"
+                step="0.5"
+                class="w-16 text-right bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-1 px-2 text-xs transition-all duration-200 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35]"
+                style="font-family: 'JetBrains Mono', monospace;"
+                aria-label="Tip percentage value"
+              />
+              <span class="text-zinc-400 text-xs font-mono">%</span>
+            </div>
+          </div>
+
+          <!-- Slider -->
+          <input
+            type="range"
+            id="range-tip-pct"
+            min="0"
+            max="50"
+            step="1"
+            value="18"
+            class="w-full accent-[#ff6b35] cursor-pointer mb-3"
+            aria-label="Tip percentage slider"
+          />
+
+          <!-- Presets -->
+          <div class="grid grid-cols-5 gap-2" role="group" aria-label="Tip percentage presets">
+            {[10, 15, 18, 20, 25].map((pct) => (
+              <button
+                type="button"
+                class="tip-preset-btn py-1.5 text-xs rounded border transition-all font-mono font-medium"
+                data-pct={pct}
+              >
+                {pct}%
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Number of People -->
+        <div class="mb-5">
+          <label for="input-people" class="block mb-2 text-xs font-semibold uppercase tracking-widest text-zinc-400" style="font-family: 'JetBrains Mono', monospace;">
+            Number of People (Split Bill)
+          </label>
+          <div class="relative flex items-center">
+            <input
+              type="number"
+              id="input-people"
+              name="people"
+              value="1"
+              min="1"
+              max="100"
+              step="1"
+              class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 pl-4 pr-16 transition-all duration-200 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35] focus:bg-white/[0.05]"
+              style="font-family: 'JetBrains Mono', monospace;"
+              aria-describedby="people-error"
+            />
+            <span class="absolute right-4 text-zinc-400 text-sm select-none pointer-events-none" style="font-family: 'JetBrains Mono', monospace;">
+              people
+            </span>
+          </div>
+          <p id="people-error" class="text-red-400 text-xs mt-1 hidden" role="alert"></p>
+        </div>
+
+        <!-- Round Up Checkbox -->
+        <div class="mb-6 p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] flex items-center gap-3">
+          <input
+            type="checkbox"
+            id="check-roundup"
+            name="roundUp"
+            class="w-4 h-4 rounded border-zinc-700 bg-white/[0.05] accent-[#ff6b35] cursor-pointer"
+          />
+          <label for="check-roundup" class="text-sm text-zinc-300 cursor-pointer select-none">
+            <strong>Round up total</strong> to nearest whole dollar (adjusts tip automatically)
+          </label>
+        </div>
+
+        <div>
+          <CalculateButton text="Calculate Tip" icon="💵" id="tip-calc-btn" />
+        </div>
+      </form>
+
+      <!-- Results Display -->
+      <div id="tip-results" class="mb-12 max-w-2xl mx-auto" aria-live="polite">
+        <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02] border-white/[0.06]">
+          
+          <!-- Breakdown Sentence -->
+          <div class="text-center mb-6">
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-mono font-semibold bg-[#ff6b35]/10 text-[#ff6b35] border border-[#ff6b35]/20 mb-3" id="result-breakdown-badge">
+              GRATUITY BREAKDOWN
+            </span>
+            <p class="text-base text-zinc-300 font-medium" id="result-sentence">
+              18% tip on $50.00 = $9.00
+            </p>
+          </div>
+
+          <!-- Primary Metric Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div class="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] text-center">
+              <p class="text-xs uppercase tracking-wider text-zinc-500 font-mono mb-1">Tip Amount</p>
+              <p class="text-3xl sm:text-4xl font-bold text-[#2dd4bf]" id="result-tip-amount">$9.00</p>
+            </div>
+            <div class="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] text-center">
+              <p class="text-xs uppercase tracking-wider text-zinc-500 font-mono mb-1">Total Bill</p>
+              <p class="text-3xl sm:text-4xl font-bold text-white" id="result-total-amount">$59.00</p>
+            </div>
+          </div>
+
+          <!-- Per Person (conditionally visible if people > 1) -->
+          <div id="per-person-card" class="p-4 rounded-xl bg-[#ff6b35]/5 border border-[#ff6b35]/20 text-center mb-6 hidden">
+            <p class="text-xs uppercase tracking-wider text-[#ff6b35] font-mono mb-1">Each Person Pays</p>
+            <p class="text-3xl font-bold text-white" id="result-per-person">$0.00</p>
+            <p class="text-xs text-zinc-400 mt-1" id="result-per-person-sub">Includes bill and tip split equally</p>
+          </div>
+
+          <div class="flex justify-center pt-2 border-t border-white/[0.05]">
+            <SaveResultButton id="save-tip-btn" />
+          </div>
+        </div>
+      </div>
+
+      <!-- How to Use -->
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">How to Use</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-6">
+          {[
+            { step: '1', title: 'Enter Bill', desc: 'Type in your pre-tip check total.' },
+            { step: '2', title: 'Select Tip %', desc: 'Use the slider or one-click preset buttons.' },
+            { step: '3', title: 'Split Bill', desc: 'Specify number of people to divide evenly.' },
+            { step: '4', title: 'See Total', desc: 'View tip, total bill, and per-person amounts.' },
+          ].map((item) => (
+            <div class="text-center p-4">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mx-auto mb-3 bg-[#ff6b35]">{item.step}</div>
+              <h3 class="font-semibold text-white mb-1">{item.title}</h3>
+              <p class="text-sm text-zinc-500">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Common Use Cases -->
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">Common Use Cases</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            { icon: '🍽️', title: 'Dining Out', desc: 'Calculate the appropriate 15%–20% gratuity for sit-down dinner and lunch service.' },
+            { icon: '🚗', title: 'Food Delivery', desc: 'Tip your delivery driver fairly based on weather, distance, and order size.' },
+            { icon: '✂️', title: 'Hair Salon & Barber', desc: 'Tip your barber, stylist, or spa professional customary 20% amounts cleanly.' },
+            { icon: '👥', title: 'Group Dinners', desc: 'Split the final bill with friends quickly without awkward end-of-meal calculations.' },
+          ].map((item) => (
+            <div class="p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl">
+              <div class="text-2xl mb-2">{item.icon}</div>
+              <h3 class="font-semibold text-white mb-1">{item.title}</h3>
+              <p class="text-sm text-zinc-500">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+        <FAQAccordion items={faqItems} id="tip-faq" />
+      </div>
+
+      <ToolShare title="Tip Calculator — Free Bill Splitter & Gratuity Calculator" url="https://solverspro.com/finance/tip-calculator" />
+      <SimilarTools category="finance" currentPath="/finance/tip-calculator" />
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  // DOM References
+  const billInput = document.getElementById('input-bill') as HTMLInputElement;
+  const tipPctInput = document.getElementById('input-tip-pct') as HTMLInputElement;
+  const tipRange = document.getElementById('range-tip-pct') as HTMLInputElement;
+  const peopleInput = document.getElementById('input-people') as HTMLInputElement;
+  const roundUpCheck = document.getElementById('check-roundup') as HTMLInputElement;
+  const presetBtns = document.querySelectorAll('.tip-preset-btn');
+  const billError = document.getElementById('bill-error')!;
+  const peopleError = document.getElementById('people-error')!;
+
+  const resultTipAmount = document.getElementById('result-tip-amount')!;
+  const resultTotalAmount = document.getElementById('result-total-amount')!;
+  const resultSentence = document.getElementById('result-sentence')!;
+  const perPersonCard = document.getElementById('per-person-card')!;
+  const resultPerPerson = document.getElementById('result-per-person')!;
+  const resultPerPersonSub = document.getElementById('result-per-person-sub')!;
+
+  // Restore Preferences
+  try {
+    const saved = JSON.parse(localStorage.getItem('tip_calc_prefs') || '{}');
+    if (saved.tipPercent !== undefined) {
+      tipPctInput.value = saved.tipPercent;
+      tipRange.value = saved.tipPercent;
+    }
+    if (saved.roundUp !== undefined) {
+      roundUpCheck.checked = saved.roundUp;
+    }
+  } catch (e) {}
+
+  function updatePresetStyles(currentPct: number) {
+    presetBtns.forEach((btn) => {
+      const p = parseFloat((btn as HTMLElement).dataset.pct || '0');
+      const isMatch = Math.abs(p - currentPct) < 0.01;
+      if (isMatch) {
+        btn.classList.add('bg-[#ff6b35]', 'text-white', 'border-[#ff6b35]');
+        btn.classList.remove('bg-white/[0.03]', 'text-zinc-400', 'border-white/[0.1]');
+      } else {
+        btn.classList.remove('bg-[#ff6b35]', 'text-white', 'border-[#ff6b35]');
+        btn.classList.add('bg-white/[0.03]', 'text-zinc-400', 'border-white/[0.1]');
+      }
+    });
+  }
+
+  function formatCurrency(amount: number): string {
+    return '$' + amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function calculateTip() {
+    // Clear errors
+    billError.textContent = '';
+    billError.classList.add('hidden');
+    peopleError.textContent = '';
+    peopleError.classList.add('hidden');
+
+    const bill = parseFloat(billInput.value);
+    const tipPct = parseFloat(tipPctInput.value);
+    const people = parseInt(peopleInput.value, 10);
+    const roundUp = roundUpCheck.checked;
+
+    let hasError = false;
+
+    if (isNaN(bill) || bill < 0) {
+      billError.textContent = 'Please enter a valid bill amount ($0 or greater).';
+      billError.classList.remove('hidden');
+      hasError = true;
+    }
+
+    if (isNaN(people) || people < 1) {
+      peopleError.textContent = 'Number of people must be at least 1.';
+      peopleError.classList.remove('hidden');
+      hasError = true;
+    }
+
+    if (hasError) return;
+
+    let tip = bill * (tipPct / 100);
+    let total = bill + tip;
+
+    if (roundUp && total > 0) {
+      const roundedTotal = Math.ceil(total);
+      // If already a whole number, keep it; otherwise round up
+      if (roundedTotal > total) {
+        total = roundedTotal;
+        tip = total - bill;
+      }
+    }
+
+    const perPerson = total / people;
+
+    // Update UI
+    resultTipAmount.textContent = formatCurrency(tip);
+    resultTotalAmount.textContent = formatCurrency(total);
+    resultSentence.textContent = `${tipPct}% tip on ${formatCurrency(bill)} = ${formatCurrency(tip)}`;
+
+    if (people > 1) {
+      perPersonCard.classList.remove('hidden');
+      resultPerPerson.textContent = formatCurrency(perPerson);
+      resultPerPersonSub.textContent = `Total ${formatCurrency(total)} split equally among ${people} people`;
+    } else {
+      perPersonCard.classList.add('hidden');
+    }
+
+    updatePresetStyles(tipPct);
+
+    // Save preferences
+    try {
+      localStorage.setItem('tip_calc_prefs', JSON.stringify({
+        tipPercent: tipPct,
+        roundUp: roundUp
+      }));
+    } catch (e) {}
+
+    // Attach save button handler
+    const saveBtn = document.getElementById('save-tip-btn');
+    if (saveBtn) {
+      saveBtn.onclick = () => {
+        if (typeof (window as any).saveToDashboard === 'function') {
+          const success = (window as any).saveToDashboard('Tip Calculator', '/finance/tip-calculator', {
+            type: 'key-value',
+            data: {
+              'Bill Amount': formatCurrency(bill),
+              'Tip Percentage': `${tipPct}%`,
+              'Tip Amount': formatCurrency(tip),
+              'Total Bill': formatCurrency(total),
+              ...(people > 1 ? { 'Per Person': formatCurrency(perPerson) } : {})
+            }
+          });
+          if (success) {
+            const textEl = saveBtn.querySelector('.btn-text');
+            const iconSave = saveBtn.querySelector('.icon-save');
+            const iconCheck = saveBtn.querySelector('.icon-check');
+            if (textEl) textEl.textContent = 'Saved!';
+            if (iconSave) iconSave.classList.add('hidden');
+            if (iconCheck) iconCheck.classList.remove('hidden');
+            saveBtn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+            saveBtn.classList.remove('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+            setTimeout(() => {
+              if (textEl) textEl.textContent = 'Save Result';
+              if (iconSave) iconSave.classList.remove('hidden');
+              if (iconCheck) iconCheck.classList.add('hidden');
+              saveBtn.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
+              saveBtn.classList.add('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
+            }, 2000);
+          }
+        }
+      };
+    }
+  }
+
+  // Event Listeners for live update
+  billInput.addEventListener('input', calculateTip);
+  peopleInput.addEventListener('input', calculateTip);
+  roundUpCheck.addEventListener('change', calculateTip);
+
+  tipRange.addEventListener('input', (e) => {
+    tipPctInput.value = (e.target as HTMLInputElement).value;
+    calculateTip();
+  });
+
+  tipPctInput.addEventListener('input', (e) => {
+    tipRange.value = (e.target as HTMLInputElement).value;
+    calculateTip();
+  });
+
+  presetBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const p = (btn as HTMLElement).dataset.pct || '18';
+      tipPctInput.value = p;
+      tipRange.value = p;
+      calculateTip();
+    });
+  });
+
+  document.getElementById('tip-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    calculateTip();
+  });
+
+  // Initial calculation
+  calculateTip();
+</script>

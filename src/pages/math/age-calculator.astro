@@ -1,0 +1,429 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CalculateButton from '../../components/CalculateButton.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+import SaveResultButton from '../../components/SaveResultButton.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Age Calculator",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires HTML5/JavaScript"
+};
+
+const faqItems = [
+  {
+    question: "Does this calculator accurately account for leap years?",
+    answer: "Yes, completely. This calculator utilizes calendar-aware JavaScript Date arithmetic rather than multiplying by an average 365.25 days per year. It respects 29-day leap Februaries, 30- and 31-day months, and variable year lengths, ensuring exact day, month, and year counts without drift."
+  },
+  {
+    question: "Can I calculate how old I will be on a future date?",
+    answer: "Yes! By modifying the optional 'As of Date' input to any future date (e.g., retirement day, a milestone wedding anniversary, or January 1, 2030), the calculator will determine exactly how many years, months, and days old you will be on that specific date."
+  },
+  {
+    question: "What is the difference between chronological and biological age?",
+    answer: "Chronological age is the exact amount of time that has elapsed since your birth date—the metric calculated by this tool. Biological age (also known as physiological age) reflects how well your body and cells are functioning relative to physical benchmarks, influenced by genetics, nutrition, exercise, and lifestyle factors."
+  }
+];
+---
+
+<BaseLayout
+  title="Age Calculator — Exact Age in Years, Months, Days & Next Birthday | SolversPro"
+  description="Free chronological age calculator. Calculate your exact age down to the day, month, hour, and minute, plus discover days remaining until your next birthday. 100% private."
+  canonical="https://solverspro.com/math/age-calculator"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Math', href: '/math' },
+        { label: 'Age Calculator' },
+      ]} />
+
+      <!-- Hero -->
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+          Age Calculator
+        </h1>
+        <p class="text-lg text-zinc-400">
+          Determine your exact chronological age in calendar years, months, and days with down-to-the-minute precision. Whether you are checking legal age thresholds for driving or voting, planning a milestone birthday party, tracking developmental milestones for children, or calculating age on a future date, this tool computes exact calendar differences while respecting leap years. Fast, free, and 100% private in your browser.
+        </p>
+      </div>
+
+      <!-- Calculator Form -->
+      <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8" id="age-form" novalidate>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+          <!-- Birth Date -->
+          <div>
+            <label for="input-birthdate" class="block mb-2 text-xs font-semibold uppercase tracking-widest text-zinc-400 font-mono">
+              Date of Birth <span class="text-[#ff6b35]">*</span>
+            </label>
+            <input
+              type="date"
+              id="input-birthdate"
+              name="birthdate"
+              value="2000-01-01"
+              required
+              class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 px-4 font-mono transition-all focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35] cursor-pointer"
+              aria-describedby="birthdate-error"
+            />
+            <p id="birthdate-error" class="text-red-400 text-xs mt-1 hidden" role="alert"></p>
+          </div>
+
+          <!-- As of Date -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <label for="input-asofdate" class="block text-xs font-semibold uppercase tracking-widest text-zinc-400 font-mono">
+                Age as of Date
+              </label>
+              <button
+                type="button"
+                id="btn-today"
+                class="text-[11px] text-[#2dd4bf] hover:underline font-mono"
+              >
+                Today
+              </button>
+            </div>
+            <input
+              type="date"
+              id="input-asofdate"
+              name="asofdate"
+              class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 px-4 font-mono transition-all focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35] cursor-pointer"
+              aria-describedby="asofdate-error"
+            />
+            <p id="asofdate-error" class="text-red-400 text-xs mt-1 hidden" role="alert"></p>
+          </div>
+        </div>
+
+        <div>
+          <CalculateButton text="Calculate Age" icon="🎂" id="age-calc-btn" />
+        </div>
+      </form>
+
+      <!-- Results Display -->
+      <div id="age-results" class="mb-12 max-w-2xl mx-auto" aria-live="polite">
+        <div class="result-surface p-6 md:p-8 rounded-xl border bg-white/[0.02] border-white/[0.06]">
+          
+          <!-- Primary Age Announcement -->
+          <div class="text-center mb-8">
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-mono font-semibold bg-[#ff6b35]/10 text-[#ff6b35] border border-[#ff6b35]/20 mb-3">
+              EXACT CHRONOLOGICAL AGE
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-bold text-white mb-2" id="primary-age-text">
+              You are <span class="text-[#2dd4bf]">26 years</span>, <span class="text-[#2dd4bf]">8 months</span>, and <span class="text-[#2dd4bf]">2 days</span> old.
+            </h2>
+            <p class="text-xs text-zinc-400 font-mono" id="asof-reference-text">As of today</p>
+          </div>
+
+          <!-- Next Birthday Banner -->
+          <div class="p-4 rounded-xl bg-gradient-to-r from-[#ff6b35]/10 to-[#2dd4bf]/10 border border-white/[0.08] mb-6 flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-white/[0.05] flex items-center justify-center text-2xl shrink-0">
+              🎉
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-wider text-zinc-400 font-mono">Next Birthday</p>
+              <p class="text-base sm:text-lg font-bold text-white mt-0.5" id="next-bday-text">
+                Your next birthday is in <span class="text-[#ff6b35]">119 days</span> (January 1, 2027). You will turn 27.
+              </p>
+            </div>
+          </div>
+
+          <!-- Breakdown Cards Grid -->
+          <h3 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 mb-3">// LIFETIME BREAKDOWN</h3>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+            <div class="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.05] text-center">
+              <p class="text-xs text-zinc-500 font-mono uppercase">Total Days</p>
+              <p class="text-xl font-bold text-white font-mono mt-1" id="breakdown-days">0</p>
+            </div>
+            <div class="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.05] text-center">
+              <p class="text-xs text-zinc-500 font-mono uppercase">Total Months</p>
+              <p class="text-xl font-bold text-white font-mono mt-1" id="breakdown-months">0</p>
+            </div>
+            <div class="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.05] text-center">
+              <p class="text-xs text-zinc-500 font-mono uppercase">Total Weeks</p>
+              <p class="text-xl font-bold text-white font-mono mt-1" id="breakdown-weeks">0</p>
+            </div>
+            <div class="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.05] text-center">
+              <p class="text-xs text-zinc-500 font-mono uppercase">Total Hours</p>
+              <p class="text-xl font-bold text-white font-mono mt-1" id="breakdown-hours">0</p>
+            </div>
+            <div class="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.05] text-center sm:col-span-2">
+              <p class="text-xs text-zinc-500 font-mono uppercase">Total Minutes</p>
+              <p class="text-xl font-bold text-white font-mono mt-1" id="breakdown-minutes">0</p>
+            </div>
+          </div>
+
+          <div class="flex justify-center pt-2 border-t border-white/[0.05]">
+            <SaveResultButton id="save-age-btn" />
+          </div>
+        </div>
+      </div>
+
+      <!-- How to Use -->
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">How to Use</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-6">
+          {[
+            { step: '1', title: 'Birth Date', desc: 'Select your year, month, and day of birth.' },
+            { step: '2', title: 'Target Date', desc: 'Leave as today or pick any past/future date.' },
+            { step: '3', title: 'Calculate', desc: 'Click the button to process calendar math.' },
+            { step: '4', title: 'View Age', desc: 'See years, months, days, and your next birthday.' },
+          ].map((item) => (
+            <div class="text-center p-4">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mx-auto mb-3 bg-[#ff6b35]">{item.step}</div>
+              <h3 class="font-semibold text-white mb-1">{item.title}</h3>
+              <p class="text-sm text-zinc-500">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Common Use Cases -->
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">Common Use Cases</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            { icon: '🪪', title: 'Legal Age Verification', desc: 'Confirm exact age compliance for driver licenses, voter registration, or retirement benefits.' },
+            { icon: '🎈', title: 'Milestone Birthdays', desc: 'Count down exact days until your 18th, 21st, 30th, 50th, or 65th birthday celebration.' },
+            { icon: '👶', title: 'Pediatric Development', desc: 'Track your child\'s exact age in months and days for pediatric health checkups and vaccinations.' },
+            { icon: '🔮', title: 'Age Gap & Astrology', desc: 'Calculate the exact time difference between two people for astrological charts or family records.' },
+          ].map((item) => (
+            <div class="p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl">
+              <div class="text-2xl mb-2">{item.icon}</div>
+              <h3 class="font-semibold text-white mb-1">{item.title}</h3>
+              <p class="text-sm text-zinc-500">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+        <FAQAccordion items={faqItems} id="age-faq" />
+      </div>
+
+      <ToolShare title="Age Calculator — Exact Age in Years, Months, and Days" url="https://solverspro.com/math/age-calculator" />
+      <SimilarTools category="math" currentPath="/math/age-calculator" />
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  const birthInput = document.getElementById('input-birthdate') as HTMLInputElement;
+  const asOfInput = document.getElementById('input-asofdate') as HTMLInputElement;
+  const btnToday = document.getElementById('btn-today');
+  const birthError = document.getElementById('birthdate-error')!;
+  const asOfError = document.getElementById('asofdate-error')!;
+
+  const primaryAgeText = document.getElementById('primary-age-text')!;
+  const asOfRefText = document.getElementById('asof-reference-text')!;
+  const nextBdayText = document.getElementById('next-bday-text')!;
+  const breakdownDays = document.getElementById('breakdown-days')!;
+  const breakdownMonths = document.getElementById('breakdown-months')!;
+  const breakdownWeeks = document.getElementById('breakdown-weeks')!;
+  const breakdownHours = document.getElementById('breakdown-hours')!;
+  const breakdownMinutes = document.getElementById('breakdown-minutes')!;
+
+  function getTodayString(): string {
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  // Set default asOf date to today and birth max to today
+  const todayStr = getTodayString();
+  if (!asOfInput.value) {
+    asOfInput.value = todayStr;
+  }
+  birthInput.max = todayStr;
+
+  btnToday?.addEventListener('click', () => {
+    asOfInput.value = getTodayString();
+    calculateAge();
+  });
+
+  // Restore saved preference
+  try {
+    const saved = localStorage.getItem('age_calc_birthdate');
+    if (saved) birthInput.value = saved;
+  } catch (e) {}
+
+  function parseLocalDate(str: string): Date | null {
+    if (!str) return null;
+    const parts = str.split('-');
+    if (parts.length !== 3) return null;
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const day = parseInt(parts[2], 10);
+    const date = new Date(year, month, day);
+    if (isNaN(date.getTime())) return null;
+    return date;
+  }
+
+  function formatDateFriendly(d: Date): string {
+    return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  }
+
+  function calculateAge() {
+    birthError.textContent = '';
+    birthError.classList.add('hidden');
+    asOfError.textContent = '';
+    asOfError.classList.add('hidden');
+
+    const birthDate = parseLocalDate(birthInput.value);
+    const asOfDate = parseLocalDate(asOfInput.value || todayStr);
+
+    if (!birthDate) {
+      birthError.textContent = 'Please enter a valid birth date.';
+      birthError.classList.remove('hidden');
+      return;
+    }
+
+    if (!asOfDate) {
+      asOfError.textContent = 'Please enter a valid target date.';
+      asOfError.classList.remove('hidden');
+      return;
+    }
+
+    if (birthDate.getTime() > asOfDate.getTime()) {
+      asOfError.textContent = 'The "as of" date cannot be earlier than your date of birth.';
+      asOfError.classList.remove('hidden');
+      return;
+    }
+
+    try {
+      localStorage.setItem('age_calc_birthdate', birthInput.value);
+    } catch (e) {}
+
+    // Calendar Difference Calculation
+    const bYear = birthDate.getFullYear();
+    const bMonth = birthDate.getMonth();
+    const bDay = birthDate.getDate();
+
+    const aYear = asOfDate.getFullYear();
+    const aMonth = asOfDate.getMonth();
+    const aDay = asOfDate.getDate();
+
+    let years = aYear - bYear;
+    let months = aMonth - bMonth;
+    let days = aDay - bDay;
+
+    if (days < 0) {
+      // Days in previous month relative to asOfDate
+      const prevMonthDays = new Date(aYear, aMonth, 0).getDate();
+      days += prevMonthDays;
+      months--;
+    }
+
+    if (months < 0) {
+      months += 12;
+      years--;
+    }
+
+    // Absolute Difference
+    const diffMs = asOfDate.getTime() - birthDate.getTime();
+    const totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const totalWeeks = Math.floor(totalDays / 7);
+    const totalMonths = years * 12 + months;
+    const totalHours = totalDays * 24;
+    const totalMinutes = totalHours * 60;
+
+    // Is Future target date?
+    const isFuture = asOfDate.getTime() > new Date(todayStr).getTime();
+    const formattedAsOf = formatDateFriendly(asOfDate);
+
+    if (isFuture) {
+      primaryAgeText.innerHTML = `On ${formattedAsOf}, you will be <span class="text-[#2dd4bf]">${years} years</span>, <span class="text-[#2dd4bf]">${months} months</span>, and <span class="text-[#2dd4bf]">${days} days</span> old.`;
+      asOfRefText.textContent = `Calculated relative to future date (${formattedAsOf})`;
+    } else {
+      primaryAgeText.innerHTML = `You are <span class="text-[#2dd4bf]">${years} years</span>, <span class="text-[#2dd4bf]">${months} months</span>, and <span class="text-[#2dd4bf]">${days} days</span> old.`;
+      asOfRefText.textContent = `Calculated as of ${formattedAsOf}`;
+    }
+
+    // Next Birthday Calculation
+    let nextBdayYear = aYear;
+    let nextBday = new Date(nextBdayYear, bMonth, bDay);
+    
+    // Check leap-day birth edge case (Feb 29 on non-leap year)
+    if (bMonth === 1 && bDay === 29) {
+      const isLeap = (year: number) => (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+      if (!isLeap(nextBdayYear)) {
+        nextBday = new Date(nextBdayYear, 1, 28);
+      }
+    }
+
+    if (nextBday.getTime() < asOfDate.getTime()) {
+      nextBdayYear++;
+      nextBday = new Date(nextBdayYear, bMonth, bDay);
+      if (bMonth === 1 && bDay === 29) {
+        const isLeap = (year: number) => (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+        if (!isLeap(nextBdayYear)) {
+          nextBday = new Date(nextBdayYear, 1, 28);
+        }
+      }
+    }
+
+    const turningAge = nextBdayYear - bYear;
+    const msToNextBday = nextBday.getTime() - asOfDate.getTime();
+    const daysToNextBday = Math.round(msToNextBday / (1000 * 60 * 60 * 24));
+
+    if (daysToNextBday === 0) {
+      nextBdayText.innerHTML = `🎉 Today is your birthday! Happy Birthday! You are turning <span class="text-[#ff6b35]">${turningAge}</span>!`;
+    } else {
+      nextBdayText.innerHTML = `Your next birthday is in <span class="text-[#ff6b35] font-mono">${daysToNextBday} days</span> (${formatDateFriendly(nextBday)}). You will turn <strong>${turningAge}</strong>.`;
+    }
+
+    // Populate Lifetime Breakdown
+    breakdownDays.textContent = totalDays.toLocaleString();
+    breakdownMonths.textContent = totalMonths.toLocaleString();
+    breakdownWeeks.textContent = totalWeeks.toLocaleString();
+    breakdownHours.textContent = totalHours.toLocaleString();
+    breakdownMinutes.textContent = totalMinutes.toLocaleString();
+
+    // Setup Save Button
+    const saveBtn = document.getElementById('save-age-btn');
+    if (saveBtn) {
+      saveBtn.onclick = () => {
+        if (typeof (window as any).saveToDashboard === 'function') {
+          (window as any).saveToDashboard('Age Calculator', '/math/age-calculator', {
+            type: 'key-value',
+            data: {
+              'Birth Date': formatDateFriendly(birthDate),
+              'Age': `${years} years, ${months} months, ${days} days`,
+              'Total Days': totalDays.toLocaleString(),
+              'Next Birthday': `In ${daysToNextBday} days (${formatDateFriendly(nextBday)})`
+            }
+          });
+        }
+      };
+    }
+  }
+
+  birthInput.addEventListener('change', calculateAge);
+  asOfInput.addEventListener('change', calculateAge);
+  document.getElementById('age-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    calculateAge();
+  });
+
+  // Initial calculation
+  calculateAge();
+</script>

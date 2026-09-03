@@ -6,7 +6,6 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import InputField from '../../components/InputField.astro';
 import CalculateButton from '../../components/CalculateButton.astro';
 import FAQAccordion from '../../components/FAQAccordion.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
@@ -22,23 +21,23 @@ const schema = {
 
 const faqItems = [
   {
-    question: "What is a percentage?",
-    answer: "A percentage is a number or ratio expressed as a fraction of 100. It is often denoted using the percent sign (%). For example, 45% is equal to 45/100 or 0.45."
+    question: "How do I calculate a 20% discount on a price?",
+    answer: "To calculate a 20% discount, use Mode 1 ('What is X% of Y?'). Enter 20 as the percentage and the original price as the number. The result is your total savings. To find your final discounted price, simply subtract that discount amount from the original price (or directly calculate 80% of the original price)."
   },
   {
-    question: "How do you calculate percentage increase?",
-    answer: "To calculate percentage increase, subtract the original number from the new number, divide that difference by the original number, and then multiply by 100."
+    question: "What is the formula for percentage increase or decrease?",
+    answer: "The formula for percentage change is: ((New Value - Original Value) / |Original Value|) × 100. If the resulting number is positive, it indicates a percentage increase. If negative, it represents a percentage decrease. Mode 3 computes both the exact percentage change and the absolute difference automatically."
   },
   {
-    question: "Is X% of Y the same as Y% of X?",
-    answer: "Yes! In mathematics, percentages are commutative. For example, 8% of 50 is exactly the same as 50% of 8 (both equal 4). Sometimes swapping the numbers makes it easier to calculate in your head."
+    question: "Can I use this calculator for VAT, GST, or sales tax?",
+    answer: "Yes! To find sales tax, VAT, or GST, use Mode 1 ('What is X% of Y?'). Enter your local tax rate (e.g., 7% or 20%) and the pre-tax subtotal. The calculated result is your tax amount. Add this figure to your subtotal to get the final bill including tax."
   }
 ];
 ---
 
 <BaseLayout
-  title="Percentage Calculator | SolversPro"
-  description="Free percentage calculator. Easily find X% of Y, calculate what percentage one number is of another, or find percentage increase/decrease."
+  title="Percentage Calculator — Three Common Modes with Instant Results | SolversPro"
+  description="Free percentage calculator with 3 interactive modes: calculate percentage of a number, find what percent one number is of another, and compute percentage increase or decrease."
   canonical="https://solverspro.com/math/percentage-calculator"
   schema={schema}
 >
@@ -53,69 +52,323 @@ const faqItems = [
         { label: 'Percentage Calculator' },
       ]} />
 
+      <!-- Hero -->
       <div class="mb-8 max-w-3xl mx-auto text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
           Percentage Calculator
         </h1>
         <p class="text-lg text-zinc-400">
-          Quickly solve any percentage problem with our three calculators.
+          Percentages are part of everyday life — from flash retail discounts, tipped restaurant bills, and sales tax to academic grading, stock returns, and salary negotiations. This versatile tool handles all three fundamental percentage operations: finding a percentage of a quantity, discovering what portion one value is of another, and computing percentage increase or decrease. Fast, accurate, and completely private in your browser.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-        <!-- Calculator 1 -->
-        <form class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm" id="calc1-form" onsubmit="event.preventDefault();">
-          <h2 class="text-xl font-bold text-white mb-4">What is X% of Y?</h2>
-          <InputField label="Percentage (X)" name="c1_x" suffix="%" value={20} step={0.01} />
-          <InputField label="Number (Y)" name="c1_y" value={150} step={0.01} />
-          <CalculateButton text="Calculate" id="btn-c1" icon="📊" />
-          
-          <div id="res1-container" class="mt-6 pt-6 border-t border-white/[0.06] hidden">
-            <p class="text-sm font-medium text-zinc-500 uppercase tracking-wider mb-1">Result</p>
-            <p class="text-3xl font-bold text-[#2dd4bf]" id="res1-val">0</p>
-            <p class="text-zinc-400 mt-1" id="res1-text"></p>
-            <div class="mt-4 flex">
-              <SaveResultButton id="save-perc-btn" />
+      <!-- Main Calculator Container with Tab Switcher -->
+      <div class="max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-12">
+        
+        <!-- Tab Navigation -->
+        <div class="flex flex-wrap border-b border-white/[0.08] pb-4 mb-6 gap-2" role="tablist" aria-label="Percentage Calculator Modes">
+          <button
+            type="button"
+            class="tab-btn flex-1 py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition-all text-center"
+            data-tab="mode1"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel-mode1"
+            id="tab-mode1"
+            style="font-family: 'JetBrains Mono', monospace;"
+          >
+            X% of Y
+          </button>
+          <button
+            type="button"
+            class="tab-btn flex-1 py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition-all text-center"
+            data-tab="mode2"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-mode2"
+            id="tab-mode2"
+            style="font-family: 'JetBrains Mono', monospace;"
+          >
+            X is what % of Y?
+          </button>
+          <button
+            type="button"
+            class="tab-btn flex-1 py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition-all text-center"
+            data-tab="mode3"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-mode3"
+            id="tab-mode3"
+            style="font-family: 'JetBrains Mono', monospace;"
+          >
+            % Change (↑/↓)
+          </button>
+        </div>
+
+        <!-- MODE 1 PANEL: What is X% of Y? -->
+        <div id="panel-mode1" role="tabpanel" aria-labelledby="tab-mode1" class="tab-panel">
+          <form id="form-mode1" novalidate>
+            <div class="mb-4">
+              <span class="text-xs font-mono text-[#ff6b35] uppercase font-bold tracking-wider">// MODE 1: PERCENTAGE OF A NUMBER</span>
+              <h2 class="text-xl font-bold text-white mt-1">What is X% of Y?</h2>
+              <p class="text-xs text-zinc-400 mt-1">Formula: <code class="font-mono text-zinc-300">Result = (X / 100) × Y</code></p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label for="m1-x" class="block mb-2 text-xs font-semibold uppercase tracking-widest text-zinc-400 font-mono">
+                  Percentage (X) <span class="text-[#ff6b35]">*</span>
+                </label>
+                <div class="relative flex items-center">
+                  <input
+                    type="number"
+                    id="m1-x"
+                    value="20"
+                    step="any"
+                    required
+                    class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 pl-4 pr-10 font-mono transition-all focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35]"
+                    aria-describedby="m1-x-error"
+                  />
+                  <span class="absolute right-3.5 text-zinc-400 font-mono text-sm pointer-events-none">%</span>
+                </div>
+                <p id="m1-x-error" class="text-red-400 text-xs mt-1 hidden"></p>
+              </div>
+
+              <div>
+                <label for="m1-y" class="block mb-2 text-xs font-semibold uppercase tracking-widest text-zinc-400 font-mono">
+                  Number (Y) <span class="text-[#ff6b35]">*</span>
+                </label>
+                <input
+                  type="number"
+                  id="m1-y"
+                  value="150"
+                  step="any"
+                  required
+                  class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 px-4 font-mono transition-all focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35]"
+                  aria-describedby="m1-y-error"
+                />
+                <p id="m1-y-error" class="text-red-400 text-xs mt-1 hidden"></p>
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <CalculateButton text="Calculate Result" icon="⚡" id="m1-btn" />
+            </div>
+          </form>
+
+          <!-- Mode 1 Results Card -->
+          <div class="p-5 rounded-xl bg-white/[0.02] border border-white/[0.06] text-center" aria-live="polite">
+            <p class="text-xs uppercase tracking-wider text-zinc-500 font-mono mb-1">Result (Z)</p>
+            <p class="text-4xl font-bold text-[#2dd4bf] mb-2" id="m1-result">30</p>
+            <p class="text-sm text-zinc-400 font-mono mb-4" id="m1-equation">20% of 150 = 30</p>
+            <div class="flex flex-wrap items-center justify-center gap-3">
+              <button
+                type="button"
+                id="m1-copy-btn"
+                class="px-4 py-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-zinc-300 hover:text-white border border-white/[0.1] text-xs font-mono font-semibold transition-all flex items-center gap-1.5"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <span class="copy-text">Copy Result</span>
+              </button>
+              <SaveResultButton id="save-m1-btn" />
             </div>
           </div>
-        </form>
+        </div>
 
-        <!-- Calculator 2 -->
-        <form class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm" id="calc2-form" onsubmit="event.preventDefault();">
-          <h2 class="text-xl font-bold text-white mb-4">X is what % of Y?</h2>
-          <InputField label="Number (X)" name="c2_x" value={30} step={0.01} />
-          <InputField label="Number (Y)" name="c2_y" value={150} step={0.01} />
-          <CalculateButton text="Calculate" id="btn-c2" icon="📊" />
-          
-          <div id="res2-container" class="mt-6 pt-6 border-t border-white/[0.06] hidden">
-            <p class="text-sm font-medium text-zinc-500 uppercase tracking-wider mb-1">Result</p>
-            <p class="text-3xl font-bold text-[#2dd4bf]" id="res2-val">0%</p>
-            <p class="text-zinc-400 mt-1" id="res2-text"></p>
-          </div>
-        </form>
+        <!-- MODE 2 PANEL: X is what percent of Y? -->
+        <div id="panel-mode2" role="tabpanel" aria-labelledby="tab-mode2" class="tab-panel hidden">
+          <form id="form-mode2" novalidate>
+            <div class="mb-4">
+              <span class="text-xs font-mono text-[#ff6b35] uppercase font-bold tracking-wider">// MODE 2: FRACTION TO PERCENT</span>
+              <h2 class="text-xl font-bold text-white mt-1">X is what percent of Y?</h2>
+              <p class="text-xs text-zinc-400 mt-1">Formula: <code class="font-mono text-zinc-300">Percentage = (Part / Whole) × 100</code></p>
+            </div>
 
-        <!-- Calculator 3 -->
-        <form class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm" id="calc3-form" onsubmit="event.preventDefault();">
-          <h2 class="text-xl font-bold text-white mb-4">% Increase / Decrease</h2>
-          <InputField label="From Value" name="c3_x" value={50} step={0.01} />
-          <InputField label="To Value" name="c3_y" value={75} step={0.01} />
-          <CalculateButton text="Calculate" id="btn-c3" icon="📈" />
-          
-          <div id="res3-container" class="mt-6 pt-6 border-t border-white/[0.06] hidden">
-            <p class="text-sm font-medium text-zinc-500 uppercase tracking-wider mb-1">Result</p>
-            <p class="text-3xl font-bold text-[#2dd4bf]" id="res3-val">0%</p>
-            <p class="text-zinc-400 mt-1 font-semibold" id="res3-text"></p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label for="m2-x" class="block mb-2 text-xs font-semibold uppercase tracking-widest text-zinc-400 font-mono">
+                  Part (X) <span class="text-[#ff6b35]">*</span>
+                </label>
+                <input
+                  type="number"
+                  id="m2-x"
+                  value="30"
+                  step="any"
+                  required
+                  class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 px-4 font-mono transition-all focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35]"
+                  aria-describedby="m2-x-error"
+                />
+                <p id="m2-x-error" class="text-red-400 text-xs mt-1 hidden"></p>
+              </div>
+
+              <div>
+                <label for="m2-y" class="block mb-2 text-xs font-semibold uppercase tracking-widest text-zinc-400 font-mono">
+                  Whole / Total (Y) <span class="text-[#ff6b35]">*</span>
+                </label>
+                <input
+                  type="number"
+                  id="m2-y"
+                  value="150"
+                  step="any"
+                  required
+                  class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 px-4 font-mono transition-all focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35]"
+                  aria-describedby="m2-y-error"
+                />
+                <p id="m2-y-error" class="text-red-400 text-xs mt-1 hidden"></p>
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <CalculateButton text="Calculate Percentage" icon="⚡" id="m2-btn" />
+            </div>
+          </form>
+
+          <!-- Mode 2 Results Card -->
+          <div class="p-5 rounded-xl bg-white/[0.02] border border-white/[0.06] text-center" aria-live="polite">
+            <p class="text-xs uppercase tracking-wider text-zinc-500 font-mono mb-1">Percentage (Z%)</p>
+            <p class="text-4xl font-bold text-[#2dd4bf] mb-2" id="m2-result">20%</p>
+            <p class="text-sm text-zinc-400 font-mono mb-4" id="m2-equation">30 is 20% of 150</p>
+            <div class="flex flex-wrap items-center justify-center gap-3">
+              <button
+                type="button"
+                id="m2-copy-btn"
+                class="px-4 py-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-zinc-300 hover:text-white border border-white/[0.1] text-xs font-mono font-semibold transition-all flex items-center gap-1.5"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <span class="copy-text">Copy Result</span>
+              </button>
+              <SaveResultButton id="save-m2-btn" />
+            </div>
           </div>
-        </form>
+        </div>
+
+        <!-- MODE 3 PANEL: Percentage Increase / Decrease -->
+        <div id="panel-mode3" role="tabpanel" aria-labelledby="tab-mode3" class="tab-panel hidden">
+          <form id="form-mode3" novalidate>
+            <div class="mb-4">
+              <span class="text-xs font-mono text-[#ff6b35] uppercase font-bold tracking-wider">// MODE 3: PERCENTAGE CHANGE</span>
+              <h2 class="text-xl font-bold text-white mt-1">Percentage Increase / Decrease</h2>
+              <p class="text-xs text-zinc-400 mt-1">Formula: <code class="font-mono text-zinc-300">((New - Original) / |Original|) × 100</code></p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label for="m3-orig" class="block mb-2 text-xs font-semibold uppercase tracking-widest text-zinc-400 font-mono">
+                  Original Value <span class="text-[#ff6b35]">*</span>
+                </label>
+                <input
+                  type="number"
+                  id="m3-orig"
+                  value="50"
+                  step="any"
+                  required
+                  class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 px-4 font-mono transition-all focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35]"
+                  aria-describedby="m3-orig-error"
+                />
+                <p id="m3-orig-error" class="text-red-400 text-xs mt-1 hidden"></p>
+              </div>
+
+              <div>
+                <label for="m3-new" class="block mb-2 text-xs font-semibold uppercase tracking-widest text-zinc-400 font-mono">
+                  New Value <span class="text-[#ff6b35]">*</span>
+                </label>
+                <input
+                  type="number"
+                  id="m3-new"
+                  value="75"
+                  step="any"
+                  required
+                  class="w-full bg-white/[0.03] border border-white/[0.1] text-white rounded-md py-2.5 px-4 font-mono transition-all focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35]"
+                  aria-describedby="m3-new-error"
+                />
+                <p id="m3-new-error" class="text-red-400 text-xs mt-1 hidden"></p>
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <CalculateButton text="Calculate % Change" icon="📈" id="m3-btn" />
+            </div>
+          </form>
+
+          <!-- Mode 3 Results Card -->
+          <div class="p-5 rounded-xl bg-white/[0.02] border border-white/[0.06] text-center" aria-live="polite">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <div class="p-3 rounded-lg bg-white/[0.02] border border-white/[0.05]">
+                <p class="text-xs uppercase tracking-wider text-zinc-500 font-mono mb-1">Percentage Change</p>
+                <p class="text-3xl font-bold text-green-400" id="m3-result">+50%</p>
+                <span class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-xs font-mono font-semibold bg-green-500/10 text-green-400" id="m3-badge">Increase</span>
+              </div>
+              <div class="p-3 rounded-lg bg-white/[0.02] border border-white/[0.05]">
+                <p class="text-xs uppercase tracking-wider text-zinc-500 font-mono mb-1">Absolute Difference</p>
+                <p class="text-3xl font-bold text-white" id="m3-diff">+25</p>
+                <span class="inline-block mt-1 text-xs text-zinc-400 font-mono" id="m3-diff-sub">75 - 50 = 25</span>
+              </div>
+            </div>
+            
+            <p class="text-sm text-zinc-400 font-mono mb-4" id="m3-equation">From 50 to 75 is a 50% increase</p>
+
+            <div class="flex flex-wrap items-center justify-center gap-3">
+              <button
+                type="button"
+                id="m3-copy-btn"
+                class="px-4 py-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-zinc-300 hover:text-white border border-white/[0.1] text-xs font-mono font-semibold transition-all flex items-center gap-1.5"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <span class="copy-text">Copy Result</span>
+              </button>
+              <SaveResultButton id="save-m3-btn" />
+            </div>
+          </div>
+        </div>
+
       </div>
 
+      <!-- How to Use -->
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">How to Use</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-6">
+          {[
+            { step: '1', title: 'Pick Mode', desc: 'Select one of the 3 tabs matching your problem.' },
+            { step: '2', title: 'Enter Values', desc: 'Fill in your numbers with any decimals needed.' },
+            { step: '3', title: 'See Result', desc: 'Calculations execute instantly as you type.' },
+            { step: '4', title: 'Copy & Save', desc: 'Copy the answer with one click or save it.' },
+          ].map((item) => (
+            <div class="text-center p-4">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mx-auto mb-3 bg-[#ff6b35]">{item.step}</div>
+              <h3 class="font-semibold text-white mb-1">{item.title}</h3>
+              <p class="text-sm text-zinc-500">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Common Use Cases -->
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">Common Use Cases</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            { icon: '🏷️', title: 'Shopping Discounts', desc: 'Instantly calculate how much you save on 15%, 25%, or 40% store sales.' },
+            { icon: '🧾', title: 'Sales Tax & VAT', desc: 'Figure out the exact tax owed on invoices or consumer goods before checkout.' },
+            { icon: '🎓', title: 'Grade Tracking', desc: 'Convert test points into exact grade percentages to monitor academic progress.' },
+            { icon: '💼', title: 'Salary Raise Negotiations', desc: 'Calculate the percentage boost or exact dollar increase for your next salary adjustment.' },
+          ].map((item) => (
+            <div class="p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl">
+              <div class="text-2xl mb-2">{item.icon}</div>
+              <h3 class="font-semibold text-white mb-1">{item.title}</h3>
+              <p class="text-sm text-zinc-500">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- FAQ -->
       <div class="mb-12 max-w-3xl mx-auto">
         <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
-        <FAQAccordion items={faqItems} />
+        <FAQAccordion items={faqItems} id="percentage-faq" />
       </div>
-      <ToolShare title="Percentage Calculator" url="https://solverspro.com/math/percentage-calculator" />
+
+      <ToolShare title="Percentage Calculator — Free Online Math Tool" url="https://solverspro.com/math/percentage-calculator" />
       <SimilarTools category="math" currentPath="/math/percentage-calculator" />
-    
     </div>
   </main>
 
@@ -123,112 +376,230 @@ const faqItems = [
 </BaseLayout>
 
 <script>
-  function formatNum(n: number): string {
-    return Number(n.toFixed(4)).toString(); // Max 4 decimal places
+  function formatNumber(n: number, maxDecimals: number = 4): string {
+    if (!isFinite(n)) return '0';
+    return Number(n.toFixed(maxDecimals)).toLocaleString('en-US', { maximumFractionDigits: maxDecimals });
   }
 
-  // Calc 1
-  document.getElementById('calc1-form')?.addEventListener('submit', () => {
-    const btn = document.getElementById('btn-c1');
-    btn?.setAttribute('data-loading', 'true');
-    setTimeout(() => {
-      const x = parseFloat((document.querySelector('input[name="c1_x"]') as HTMLInputElement).value) || 0;
-      const y = parseFloat((document.querySelector('input[name="c1_y"]') as HTMLInputElement).value) || 0;
-      const res = (x / 100) * y;
-      
-      
-      const v = document.getElementById('res1-val');
-      const t = document.getElementById('res1-text');
-      const formattedRes = formatNum(res);
-      const textResult = `${x}% of ${y} is ${formattedRes}`;
-      if (v) v.textContent = formattedRes;
-      if (t) t.textContent = textResult;
-      
-      document.getElementById('res1-container')?.classList.remove('hidden');
-      
-      // Save Result feature
-      const saveBtn = document.getElementById('save-perc-btn');
-      if (saveBtn) {
-        saveBtn.classList.remove('hidden');
-        saveBtn.onclick = () => {
-          if (typeof window.saveToDashboard === 'function') {
-            const success = window.saveToDashboard('Percentage Calculator', '/math/percentage-calculator', {
-              type: 'text',
-              data: textResult
-            });
-            
-            if (success) {
-              const textEl = saveBtn.querySelector('.btn-text');
-              const iconSave = saveBtn.querySelector('.icon-save');
-              const iconCheck = saveBtn.querySelector('.icon-check');
-              
-              if (textEl) textEl.textContent = 'Saved!';
-              if (iconSave) iconSave.classList.add('hidden');
-              if (iconCheck) iconCheck.classList.remove('hidden');
-              
-              saveBtn.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/30');
-              saveBtn.classList.remove('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
-              
-              setTimeout(() => {
-                if (textEl) textEl.textContent = 'Save Result';
-                if (iconSave) iconSave.classList.remove('hidden');
-                if (iconCheck) iconCheck.classList.add('hidden');
-                saveBtn.classList.remove('bg-green-500/20', 'text-green-400', 'border-green-500/30');
-                saveBtn.classList.add('bg-white/[0.05]', 'text-zinc-300', 'border-white/[0.1]');
-              }, 2000);
+  // Tab Switcher
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+
+  function switchTab(targetTab: string) {
+    tabBtns.forEach((btn) => {
+      const isTarget = (btn as HTMLElement).dataset.tab === targetTab;
+      btn.setAttribute('aria-selected', isTarget ? 'true' : 'false');
+      if (isTarget) {
+        btn.classList.add('bg-[#ff6b35]', 'text-white', 'shadow-[0_0_15px_rgba(255,107,53,0.3)]');
+        btn.classList.remove('text-zinc-400', 'hover:text-white', 'bg-white/[0.02]');
+      } else {
+        btn.classList.remove('bg-[#ff6b35]', 'text-white', 'shadow-[0_0_15px_rgba(255,107,53,0.3)]');
+        btn.classList.add('text-zinc-400', 'hover:text-white', 'bg-white/[0.02]');
+      }
+    });
+
+    tabPanels.forEach((panel) => {
+      const isTarget = panel.id === `panel-${targetTab}`;
+      panel.classList.toggle('hidden', !isTarget);
+    });
+
+    try {
+      localStorage.setItem('percentage_calc_tab', targetTab);
+    } catch (e) {}
+  }
+
+  tabBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const tab = (btn as HTMLElement).dataset.tab || 'mode1';
+      switchTab(tab);
+    });
+  });
+
+  // Restore active tab
+  let initialTab = 'mode1';
+  try {
+    const savedTab = localStorage.getItem('percentage_calc_tab');
+    if (savedTab && ['mode1', 'mode2', 'mode3'].includes(savedTab)) {
+      initialTab = savedTab;
+    }
+  } catch (e) {}
+  switchTab(initialTab);
+
+  // Copy-to-clipboard Helper
+  function setupCopyBtn(btnId: string, getText: () => string) {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+    btn.addEventListener('click', async () => {
+      const text = getText();
+      try {
+        await navigator.clipboard.writeText(text);
+        const label = btn.querySelector('.copy-text');
+        if (label) label.textContent = 'Copied!';
+        btn.classList.add('text-[#2dd4bf]', 'border-[#2dd4bf]/40');
+        setTimeout(() => {
+          if (label) label.textContent = 'Copy Result';
+          btn.classList.remove('text-[#2dd4bf]', 'border-[#2dd4bf]/40');
+        }, 2000);
+      } catch (err) {
+        console.error('Clipboard copy failed:', err);
+      }
+    });
+  }
+
+  // --- MODE 1 LOGIC: What is X% of Y? ---
+  const m1X = document.getElementById('m1-x') as HTMLInputElement;
+  const m1Y = document.getElementById('m1-y') as HTMLInputElement;
+  const m1Result = document.getElementById('m1-result')!;
+  const m1Equation = document.getElementById('m1-equation')!;
+
+  function calcMode1() {
+    const x = parseFloat(m1X.value);
+    const y = parseFloat(m1Y.value);
+    if (isNaN(x) || isNaN(y)) {
+      m1Result.textContent = '—';
+      m1Equation.textContent = 'Please enter valid numbers.';
+      return;
+    }
+    const result = (x / 100) * y;
+    const resFormatted = formatNumber(result);
+    m1Result.textContent = resFormatted;
+    m1Equation.textContent = `${formatNumber(x)}% of ${formatNumber(y)} = ${resFormatted}`;
+
+    // Setup save button
+    const saveBtn = document.getElementById('save-m1-btn');
+    if (saveBtn) {
+      saveBtn.onclick = () => {
+        if (typeof (window as any).saveToDashboard === 'function') {
+          (window as any).saveToDashboard('Percentage Calculator (X% of Y)', '/math/percentage-calculator', {
+            type: 'text',
+            data: `${formatNumber(x)}% of ${formatNumber(y)} = ${resFormatted}`
+          });
+        }
+      };
+    }
+  }
+
+  m1X.addEventListener('input', calcMode1);
+  m1Y.addEventListener('input', calcMode1);
+  document.getElementById('form-mode1')?.addEventListener('submit', (e) => { e.preventDefault(); calcMode1(); });
+  setupCopyBtn('m1-copy-btn', () => m1Result.textContent || '');
+
+  // --- MODE 2 LOGIC: X is what percent of Y? ---
+  const m2X = document.getElementById('m2-x') as HTMLInputElement;
+  const m2Y = document.getElementById('m2-y') as HTMLInputElement;
+  const m2Result = document.getElementById('m2-result')!;
+  const m2Equation = document.getElementById('m2-equation')!;
+
+  function calcMode2() {
+    const x = parseFloat(m2X.value);
+    const y = parseFloat(m2Y.value);
+    if (isNaN(x) || isNaN(y)) {
+      m2Result.textContent = '—';
+      m2Equation.textContent = 'Please enter valid numbers.';
+      return;
+    }
+    if (y === 0) {
+      m2Result.textContent = 'Undefined';
+      m2Equation.textContent = 'Division by zero is undefined.';
+      return;
+    }
+    const result = (x / y) * 100;
+    const resFormatted = formatNumber(result) + '%';
+    m2Result.textContent = resFormatted;
+    m2Equation.textContent = `${formatNumber(x)} is ${resFormatted} of ${formatNumber(y)}`;
+
+    const saveBtn = document.getElementById('save-m2-btn');
+    if (saveBtn) {
+      saveBtn.onclick = () => {
+        if (typeof (window as any).saveToDashboard === 'function') {
+          (window as any).saveToDashboard('Percentage Calculator (X is % of Y)', '/math/percentage-calculator', {
+            type: 'text',
+            data: `${formatNumber(x)} is ${resFormatted} of ${formatNumber(y)}`
+          });
+        }
+      };
+    }
+  }
+
+  m2X.addEventListener('input', calcMode2);
+  m2Y.addEventListener('input', calcMode2);
+  document.getElementById('form-mode2')?.addEventListener('submit', (e) => { e.preventDefault(); calcMode2(); });
+  setupCopyBtn('m2-copy-btn', () => m2Result.textContent || '');
+
+  // --- MODE 3 LOGIC: Percentage Change ---
+  const m3Orig = document.getElementById('m3-orig') as HTMLInputElement;
+  const m3New = document.getElementById('m3-new') as HTMLInputElement;
+  const m3Result = document.getElementById('m3-result')!;
+  const m3Diff = document.getElementById('m3-diff')!;
+  const m3DiffSub = document.getElementById('m3-diff-sub')!;
+  const m3Badge = document.getElementById('m3-badge')!;
+  const m3Equation = document.getElementById('m3-equation')!;
+
+  function calcMode3() {
+    const orig = parseFloat(m3Orig.value);
+    const newVal = parseFloat(m3New.value);
+    if (isNaN(orig) || isNaN(newVal)) {
+      m3Result.textContent = '—';
+      m3Diff.textContent = '—';
+      m3Equation.textContent = 'Please enter valid numbers.';
+      return;
+    }
+    if (orig === 0) {
+      m3Result.textContent = 'Undefined';
+      m3Diff.textContent = formatNumber(newVal);
+      m3Equation.textContent = 'Cannot calculate percentage change from 0.';
+      return;
+    }
+
+    const diff = newVal - orig;
+    const pctChange = (diff / Math.abs(orig)) * 100;
+    const isIncrease = diff >= 0;
+
+    const pctSign = isIncrease ? '+' : '';
+    const diffSign = isIncrease ? '+' : '';
+
+    m3Result.textContent = `${pctSign}${formatNumber(pctChange)}%`;
+    m3Diff.textContent = `${diffSign}${formatNumber(diff)}`;
+    m3DiffSub.textContent = `${formatNumber(newVal)} - ${formatNumber(orig)} = ${formatNumber(diff)}`;
+
+    if (isIncrease) {
+      m3Result.className = 'text-3xl font-bold text-green-400';
+      m3Badge.className = 'inline-block mt-1 px-2.5 py-0.5 rounded-full text-xs font-mono font-semibold bg-green-500/10 text-green-400';
+      m3Badge.textContent = diff === 0 ? 'No Change' : 'Increase';
+    } else {
+      m3Result.className = 'text-3xl font-bold text-red-400';
+      m3Badge.className = 'inline-block mt-1 px-2.5 py-0.5 rounded-full text-xs font-mono font-semibold bg-red-500/10 text-red-400';
+      m3Badge.textContent = 'Decrease';
+    }
+
+    const directionWord = diff === 0 ? 'no change' : (isIncrease ? 'an increase' : 'a decrease');
+    m3Equation.textContent = `From ${formatNumber(orig)} to ${formatNumber(newVal)} is ${Math.abs(pctChange).toFixed(2)}% ${directionWord}`;
+
+    const saveBtn = document.getElementById('save-m3-btn');
+    if (saveBtn) {
+      saveBtn.onclick = () => {
+        if (typeof (window as any).saveToDashboard === 'function') {
+          (window as any).saveToDashboard('Percentage Change Calculator', '/math/percentage-calculator', {
+            type: 'key-value',
+            data: {
+              'Original Value': formatNumber(orig),
+              'New Value': formatNumber(newVal),
+              'Percentage Change': `${pctSign}${formatNumber(pctChange)}%`,
+              'Absolute Difference': `${diffSign}${formatNumber(diff)}`
             }
-          }
-        };
-      }
-      
-      btn?.removeAttribute('data-loading');
-    }, 200);
-  });
+          });
+        }
+      };
+    }
+  }
 
-  // Calc 2
-  document.getElementById('calc2-form')?.addEventListener('submit', () => {
-    const btn = document.getElementById('btn-c2');
-    btn?.setAttribute('data-loading', 'true');
-    setTimeout(() => {
-      const x = parseFloat((document.querySelector('input[name="c2_x"]') as HTMLInputElement).value) || 0;
-      const y = parseFloat((document.querySelector('input[name="c2_y"]') as HTMLInputElement).value) || 0;
-      if (y === 0) { btn?.removeAttribute('data-loading'); return; }
-      
-      const res = (x / y) * 100;
-      
-      const v = document.getElementById('res2-val');
-      const t = document.getElementById('res2-text');
-      if (v) v.textContent = formatNum(res) + '%';
-      if (t) t.textContent = `${x} is ${formatNum(res)}% of ${y}`;
-      
-      document.getElementById('res2-container')?.classList.remove('hidden');
-      btn?.removeAttribute('data-loading');
-    }, 200);
-  });
+  m3Orig.addEventListener('input', calcMode3);
+  m3New.addEventListener('input', calcMode3);
+  document.getElementById('form-mode3')?.addEventListener('submit', (e) => { e.preventDefault(); calcMode3(); });
+  setupCopyBtn('m3-copy-btn', () => `${m3Result.textContent} (${m3Diff.textContent})`);
 
-  // Calc 3
-  document.getElementById('calc3-form')?.addEventListener('submit', () => {
-    const btn = document.getElementById('btn-c3');
-    btn?.setAttribute('data-loading', 'true');
-    setTimeout(() => {
-      const x = parseFloat((document.querySelector('input[name="c3_x"]') as HTMLInputElement).value) || 0;
-      const y = parseFloat((document.querySelector('input[name="c3_y"]') as HTMLInputElement).value) || 0;
-      if (x === 0) { btn?.removeAttribute('data-loading'); return; }
-      
-      const diff = y - x;
-      const res = (diff / Math.abs(x)) * 100;
-      const type = diff >= 0 ? 'Increase' : 'Decrease';
-      
-      const v = document.getElementById('res3-val');
-      const t = document.getElementById('res3-text');
-      if (v) {
-        v.textContent = formatNum(Math.abs(res)) + '%';
-        v.className = diff >= 0 ? 'text-3xl font-bold text-green-600' : 'text-3xl font-bold text-red-600';
-      }
-      if (t) t.textContent = `${formatNum(Math.abs(res))}% ${type}`;
-      
-      document.getElementById('res3-container')?.classList.remove('hidden');
-      btn?.removeAttribute('data-loading');
-    }, 200);
-  });
+  // Run initial calculations
+  calcMode1();
+  calcMode2();
+  calcMode3();
 </script>

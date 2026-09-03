@@ -93,7 +93,8 @@ const LASTMOD_MAP = {
   'https://solverspro.com/math/scientific-calculator/':  '2026-05-20',
   'https://solverspro.com/math/quadratic-solver/':       '2026-05-20',
   'https://solverspro.com/math/matrix-calculator/':      '2026-05-20',
-  'https://solverspro.com/math/percentage-calculator/':  '2026-05-20',
+  'https://solverspro.com/math/percentage-calculator/':  '2026-09-03',
+  'https://solverspro.com/math/age-calculator/':         '2026-09-03',
   'https://solverspro.com/math/unit-converter/':         '2026-05-20',
   'https://solverspro.com/math/geometry-calculator/':    '2026-05-20',
   'https://solverspro.com/math/statistics-calculator/':  '2026-05-20',
@@ -108,6 +109,7 @@ const LASTMOD_MAP = {
 
   // ── Finance Tools ───────────────────────────────────────────────────────
   'https://solverspro.com/finance/currency-converter/':  '2026-07-22',
+  'https://solverspro.com/finance/tip-calculator/':       '2026-09-03',
   'https://solverspro.com/finance/compound-interest/':   '2026-05-10',
   'https://solverspro.com/finance/cash-on-cash-return/': '2026-05-10',
   'https://solverspro.com/finance/simple-interest/':     '2026-05-10',

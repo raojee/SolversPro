@@ -219,6 +219,12 @@ export const toolsByCategory: Record<string, Tool[]> = {
       href: '/finance/currency-converter',
     },
     {
+      title: 'Tip Calculator',
+      description: 'Calculate gratuity, custom tip percentages, and split restaurant or service bills evenly.',
+      icon: '💵',
+      href: '/finance/tip-calculator',
+    },
+    {
       title: 'Compound Interest Calculator',
       description: 'See how your money grows over time with the power of compound interest.',
       icon: '💰',
@@ -264,6 +270,12 @@ export const toolsByCategory: Record<string, Tool[]> = {
   },
 ],
   "math": [
+ {
+ title: 'Age Calculator',
+ description: 'Calculate your exact age in years, months, days, and discover your next birthday countdown.',
+ icon: '🎂',
+ href: '/math/age-calculator',
+ },
  {
  title: 'Random Number Generator',
  description: 'Generate random numbers within a specific range instantly. Support for multiple numbers, decimals, and custom separators.',
