@@ -286,17 +286,39 @@ input[type="number"] {
    ======================================================================== */
 
 /* Prevent Google Translate banner from pushing page down */
-body {
+html, body {
   top: 0px !important;
   position: static !important;
 }
 
+/* Hide Google Translate top banner, toolbar, and modern iframe classes */
+.VIpgJd-ZVi9od-ORHb-Oxf9gd,
+.VIpgJd-ZVi9od-ORHb-Oxf9gd-horizontal,
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf-ti6hGc,
+.VIpgJd-ZVi9od-xl07Ob-Oxf9gd,
+.VIpgJd-ZVi9od-vL7dpd-Oxf9gd,
 .goog-te-banner-frame,
+.goog-te-banner,
 .skiptranslate.goog-te-banner-frame,
+iframe.goog-te-banner-frame,
+iframe[id*=":1.container"],
+iframe[id*=":2.container"],
+iframe[name*=":1.container"],
+iframe[name*=":2.container"],
 #goog-gt-tt,
 .goog-te-balloon-frame {
   display: none !important;
   visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Suppress any injected top skiptranslate banner container */
+body > .skiptranslate:first-child {
+  display: none !important;
 }
 
 .goog-tooltip,
@@ -321,4 +343,5 @@ body {
   background: rgba(255, 255, 255, 0.15);
   border-radius: 4px;
 }
+
 

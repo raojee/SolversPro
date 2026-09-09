@@ -294,5 +294,37 @@ const organizationSchema = isHomePage ? {
   <!-- Hidden Google Translate Element & Script (Global Single Instance) -->
   <div id="google_translate_element" style="display:none;" aria-hidden="true"></div>
   <script is:inline src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
+
+  <!-- Clean Google Translate Banner & Body Offset -->
+  <script is:inline>
+    (function() {
+      function cleanGoogleUI() {
+        if (document.body) {
+          if (document.body.style.top && document.body.style.top !== '0px') {
+            document.body.style.setProperty('top', '0px', 'important');
+          }
+          if (document.body.style.position && document.body.style.position !== 'static') {
+            document.body.style.setProperty('position', 'static', 'important');
+          }
+        }
+        var banners = document.querySelectorAll(
+          '.goog-te-banner-frame, .VIpgJd-ZVi9od-ORHb-Oxf9gd, iframe[id*=":1.container"], iframe[id*=":2.container"], iframe[name*=":1.container"], .VIpgJd-ZVi9od-aZ2wEe-wOHMyf'
+        );
+        banners.forEach(function(el) {
+          el.style.setProperty('display', 'none', 'important');
+          el.style.setProperty('visibility', 'hidden', 'important');
+          el.style.setProperty('height', '0px', 'important');
+        });
+      }
+
+      var observer = new MutationObserver(cleanGoogleUI);
+      if (document.body) {
+        observer.observe(document.body, { attributes: true, attributeFilter: ['style'], childList: true });
+      }
+      cleanGoogleUI();
+      var interval = setInterval(cleanGoogleUI, 250);
+      setTimeout(function() { clearInterval(interval); }, 15000);
+    })();
+  </script>
 </body>
 </html>
