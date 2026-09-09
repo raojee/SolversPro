@@ -1,10 +1,11 @@
 ---
+import LanguageSwitcher from './LanguageSwitcher.astro';
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 w-full bg-[#0d0d14]/90 border-b border-white/[0.06] transition-all duration-300" style="backdrop-filter: blur(12px);" id="main-header" data-scrolled="false">
   <div class="container mx-auto px-4 h-16 flex items-center justify-between">
     <!-- Logo -->
-    <a href="/" class="flex items-center gap-3 no-underline group" id="header-logo">
+    <a href="/" class="flex items-center gap-3 no-underline group notranslate" id="header-logo">
       <div class="relative flex items-center justify-center w-9 h-9 border border-white/[0.15] bg-[#0d0d14] overflow-hidden shadow-[0_0_15px_rgba(255,107,53,0.1)] group-hover:border-[#ff6b35]/60 group-hover:shadow-[0_0_20px_rgba(255,107,53,0.3)] transition-all duration-300" style="clip-path: polygon(25% 0, 100% 0, 100% 75%, 75% 100%, 0 100%, 0 25%);">
         <div class="absolute inset-0 bg-gradient-to-br from-[#ff6b35]/10 to-transparent"></div>
         <span class="text-[13px] font-bold tracking-widest relative z-10 translate-x-[1px]" style="font-family: 'JetBrains Mono', monospace;">
@@ -85,7 +86,10 @@
     </nav>
 
     <!-- Right Side Actions -->
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2 sm:gap-3">
+      <!-- Language Switcher (Desktop) -->
+      <LanguageSwitcher idPrefix="desktop-" class="hidden sm:inline-block" />
+
       <!-- Search Button -->
       <button
         id="search-trigger"
@@ -127,13 +131,16 @@
   <!-- Mobile Drawer -->
   <div id="mobile-drawer" class="md:hidden hidden fixed inset-0 z-50">
     <div class="mobile-backdrop absolute inset-0 bg-black/70" style="backdrop-filter: blur(8px);"></div>
-    <div class="mobile-panel absolute right-0 top-0 h-full w-72 shadow-xl p-6 flex flex-col gap-6 transform translate-x-full transition-transform duration-300 bg-[#0d0d14] border-l border-white/[0.06]">
-      <button id="mobile-menu-close" class="self-end p-3 min-w-[48px] min-h-[48px] rounded-md text-zinc-400 hover:text-[#ff6b35] flex items-center justify-center" aria-label="Close main navigation menu">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"/>
-          <line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
+    <div class="mobile-panel absolute right-0 top-0 h-full w-72 shadow-xl p-6 flex flex-col gap-6 transform translate-x-full transition-transform duration-300 bg-[#0d0d14] border-l border-white/[0.06] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-white/[0.06]">
+        <LanguageSwitcher idPrefix="mobile-" class="inline-block" />
+        <button id="mobile-menu-close" class="p-2 min-w-[40px] min-h-[40px] rounded-md text-zinc-400 hover:text-[#ff6b35] flex items-center justify-center" aria-label="Close main navigation menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
       <nav class="flex flex-col gap-4">
         <a href="/dashboard" class="text-lg font-medium text-[#ff6b35] hover:text-[#ff8c5a] transition-colors" style="font-family: 'JetBrains Mono', monospace;">Dashboard</a>
         <a href="/solve" class="text-lg font-medium text-[#2dd4bf] hover:text-[#5eead4] transition-colors" style="font-family: 'JetBrains Mono', monospace;">AI Solver</a>

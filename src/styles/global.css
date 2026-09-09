@@ -280,3 +280,45 @@ input[type="number"] {
 .prose a {
   color: #2dd4bf;
 }
+
+/* ========================================================================
+   Multi-Language & Translation Styles
+   ======================================================================== */
+
+/* Prevent Google Translate banner from pushing page down */
+body {
+  top: 0px !important;
+  position: static !important;
+}
+
+.goog-te-banner-frame,
+.skiptranslate.goog-te-banner-frame,
+#goog-gt-tt,
+.goog-te-balloon-frame {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+}
+
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+#google_translate_element {
+  display: none !important;
+}
+
+/* Custom scrollbar for language menu */
+.language-switcher-container [role="menu"]::-webkit-scrollbar {
+  width: 4px;
+}
+.language-switcher-container [role="menu"]::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
