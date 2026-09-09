@@ -230,10 +230,69 @@ const organizationSchema = isHomePage ? {
   <!-- Analytics -->
   <GoogleAnalytics />
 
+  <!-- Multi-Language Pre-flight Auto-Detection (Japanese Guests & Preferences) -->
+  <script is:inline>
+    (function() {
+      try {
+        var STORAGE_KEY = 'solverspro_lang';
+        var stored = localStorage.getItem(STORAGE_KEY);
+        var domain = window.location.hostname;
+
+        // Auto-detect Japanese browser visitors if no explicit preference exists
+        if (!stored) {
+          var navLang = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+          if (navLang.toLowerCase().indexOf('ja') === 0) {
+            stored = 'ja';
+            localStorage.setItem(STORAGE_KEY, 'ja');
+          }
+        }
+
+        // Apply cookie if non-English language is set
+        if (stored && stored !== 'en') {
+          document.cookie = 'googtrans=/en/' + stored + '; path=/;';
+          if (domain.includes('.')) {
+            document.cookie = 'googtrans=/en/' + stored + '; path=/; domain=.' + domain + ';';
+          }
+        }
+
+        // Asynchronously check Cloudflare edge trace for visitors physically in Japan
+        if (!stored) {
+          fetch('/cdn-cgi/trace')
+            .then(function(res) { return res.text(); })
+            .then(function(trace) {
+              if (!localStorage.getItem(STORAGE_KEY) && /loc=JP/i.test(trace)) {
+                localStorage.setItem(STORAGE_KEY, 'ja');
+                document.cookie = 'googtrans=/en/ja; path=/;';
+                if (domain.includes('.')) {
+                  document.cookie = 'googtrans=/en/ja; path=/; domain=.' + domain + ';';
+                }
+                window.location.reload();
+              }
+            })
+            .catch(function() {});
+        }
+      } catch (e) {}
+    })();
+
+    // Google Translate Initialization
+    function googleTranslateElementInit() {
+      if (window.google && window.google.translate) {
+        new window.google.translate.TranslateElement({
+          pageLanguage: 'en',
+          includedLanguages: 'en,ja,es,de,fr,zh-CN,pt,it,ko,ar,hi,ru',
+          autoDisplay: false
+        }, 'google_translate_element');
+      }
+    }
+  </script>
 </head>
 <body class="min-h-screen flex flex-col bg-[#0a0a0f] text-zinc-400 pt-16">
   <slot />
   <Toast />
   <ActivityTracker />
+
+  <!-- Hidden Google Translate Element & Script (Global Single Instance) -->
+  <div id="google_translate_element" style="display:none;" aria-hidden="true"></div>
+  <script is:inline src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
 </body>
 </html>

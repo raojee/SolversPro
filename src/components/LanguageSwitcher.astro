@@ -7,74 +7,74 @@ interface Props {
 const { class: className = '', idPrefix = 'desktop-' } = Astro.props;
 
 const LANGUAGES = [
-  { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸' },
-  { code: 'ja', name: 'Japanese', nativeName: '日本語', flag: '🇯🇵' },
-  { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸' },
-  { code: 'de', name: 'German', nativeName: 'Deutsch', flag: '🇩🇪' },
-  { code: 'fr', name: 'French', nativeName: 'Français', flag: '🇫🇷' },
-  { code: 'zh-CN', name: 'Chinese', nativeName: '简体中文', flag: '🇨🇳' },
-  { code: 'pt', name: 'Portuguese', nativeName: 'Português', flag: '🇵🇹' },
-  { code: 'it', name: 'Italian', nativeName: 'Italiano', flag: '🇮🇹' },
-  { code: 'ko', name: 'Korean', nativeName: '한국어', flag: '🇰🇷' },
-  { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦' },
-  { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी', flag: '🇮🇳' },
-  { code: 'ru', name: 'Russian', nativeName: 'Русский', flag: '🇷🇺' },
+  { code: 'en', label: 'EN', name: 'English', nativeName: 'English' },
+  { code: 'ja', label: 'JA', name: 'Japanese', nativeName: '日本語' },
+  { code: 'es', label: 'ES', name: 'Spanish', nativeName: 'Español' },
+  { code: 'de', label: 'DE', name: 'German', nativeName: 'Deutsch' },
+  { code: 'fr', label: 'FR', name: 'French', nativeName: 'Français' },
+  { code: 'zh-CN', label: 'ZH', name: 'Chinese', nativeName: '简体中文' },
+  { code: 'pt', label: 'PT', name: 'Portuguese', nativeName: 'Português' },
+  { code: 'it', label: 'IT', name: 'Italian', nativeName: 'Italiano' },
+  { code: 'ko', label: 'KO', name: 'Korean', nativeName: '한국어' },
+  { code: 'ar', label: 'AR', name: 'Arabic', nativeName: 'العربية' },
+  { code: 'hi', label: 'HI', name: 'Hindi', nativeName: 'हिन्दी' },
+  { code: 'ru', label: 'RU', name: 'Russian', nativeName: 'Русский' },
 ];
 ---
 
-<div class={`relative inline-block language-switcher-container notranslate ${className}`} data-id-prefix={idPrefix}>
+<div class={`relative inline-block language-switcher-container notranslate ${className}`}>
   <!-- Trigger Button -->
   <button
     type="button"
-    id={`${idPrefix}lang-btn`}
-    class="flex items-center gap-2 px-2.5 py-1.5 min-h-[40px] rounded-md text-xs text-zinc-300 border border-white/[0.08] bg-white/[0.02] hover:border-[#ff6b35]/40 hover:text-white transition-all cursor-pointer select-none"
+    id={`${idPrefix}lang-toggle-btn`}
+    class="lang-dropdown-btn flex items-center gap-1.5 px-2.5 py-1.5 min-h-[38px] rounded-md text-xs text-zinc-300 border border-white/[0.1] bg-white/[0.03] hover:border-[#ff6b35]/50 hover:text-white transition-all cursor-pointer select-none"
     style="font-family: 'JetBrains Mono', monospace;"
-    aria-label="Select Language"
+    aria-label="Change site language"
     aria-expanded="false"
     aria-haspopup="true"
   >
     <!-- Globe Icon -->
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#ff6b35] flex-shrink-0">
       <circle cx="12" cy="12" r="10"></circle>
       <line x1="2" y1="12" x2="22" y2="12"></line>
-      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
     </svg>
-    <span class="lang-flag text-sm">🇺🇸</span>
-    <span class="lang-label uppercase font-medium tracking-wide">EN</span>
+    <span class="active-lang-label font-bold text-white tracking-wider">EN</span>
     <!-- Arrow -->
-    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon opacity-50 transition-transform duration-200">
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lang-arrow opacity-60 transition-transform duration-200">
       <path d="m6 9 6 6 6-6"></path>
     </svg>
   </button>
 
   <!-- Dropdown Menu -->
   <div
-    id={`${idPrefix}lang-menu`}
-    class="absolute right-0 top-full mt-1.5 w-52 opacity-0 invisible -translate-y-2 transition-all duration-200 z-[100] rounded-xl bg-[#13131d]/95 border border-white/[0.1] shadow-[0_12px_40px_rgba(0,0,0,0.6)] backdrop-blur-md py-1 max-h-72 overflow-y-auto"
+    class="lang-dropdown-menu hidden absolute right-0 top-full mt-2 w-56 z-[999] rounded-xl bg-[#13131d] border border-white/[0.12] shadow-[0_12px_40px_rgba(0,0,0,0.7)] backdrop-blur-xl py-1 max-h-80 overflow-y-auto"
     role="menu"
     aria-orientation="vertical"
   >
-    <div class="px-3 py-1.5 text-[11px] font-semibold text-zinc-500 uppercase tracking-wider border-b border-white/[0.06]" style="font-family: 'JetBrains Mono', monospace;">
-      Select Language
+    <div class="px-3 py-2 text-[10px] font-bold text-zinc-500 uppercase tracking-widest border-b border-white/[0.06] flex items-center justify-between" style="font-family: 'JetBrains Mono', monospace;">
+      <span>Language / 言語</span>
+      <span class="text-[#ff6b35]">•</span>
     </div>
     <div class="py-1">
       {LANGUAGES.map((lang) => (
         <button
           type="button"
-          data-lang={lang.code}
-          data-flag={lang.flag}
-          data-label={lang.code.toUpperCase().slice(0, 2)}
-          class="w-full flex items-center justify-between px-3 py-2 text-xs text-zinc-300 hover:text-white hover:bg-white/[0.05] transition-colors cursor-pointer text-left group"
+          data-lang-code={lang.code}
+          data-lang-label={lang.label}
+          class="lang-option-btn w-full flex items-center justify-between px-3 py-2 text-xs text-zinc-300 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer text-left group"
           role="menuitem"
         >
           <div class="flex items-center gap-2.5">
-            <span class="text-base">{lang.flag}</span>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-white/[0.05] border border-white/[0.08] text-zinc-400 group-hover:text-[#ff6b35] group-hover:border-[#ff6b35]/30 transition-colors">
+              {lang.label}
+            </span>
             <div>
-              <span class="font-medium block leading-tight">{lang.nativeName}</span>
+              <span class="font-medium text-white block leading-tight">{lang.nativeName}</span>
               <span class="text-[10px] text-zinc-500 font-normal">{lang.name}</span>
             </div>
           </div>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="check-icon text-[#ff6b35] opacity-0 transition-opacity">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="active-check text-[#ff6b35] opacity-0 transition-opacity">
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
         </button>
@@ -83,266 +83,139 @@ const LANGUAGES = [
   </div>
 </div>
 
-<!-- Hidden container for Google Translate Engine -->
-<div id="google_translate_element" style="display:none;" aria-hidden="true"></div>
-
 <script is:inline>
-  // Setup Google Translate Initialization Callback
-  if (!window.googleTranslateElementInit) {
-    window.googleTranslateElementInit = function() {
-      if (window.google && window.google.translate) {
-        new window.google.translate.TranslateElement({
-          pageLanguage: 'en',
-          includedLanguages: 'en,ja,es,de,fr,zh-CN,pt,it,ko,ar,hi,ru',
-          autoDisplay: false
-        }, 'google_translate_element');
-      }
-    };
-
-    // Load Google Translate script dynamically once
-    if (!document.getElementById('google-translate-script')) {
-      const script = document.createElement('script');
-      script.id = 'google-translate-script';
-      script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-      script.async = true;
-      document.head.appendChild(script);
-    }
-  }
-
   (function() {
-    const STORAGE_KEY = 'solverspro_lang';
-    const LANG_FLAGS = {
-      'en': '🇺🇸',
-      'ja': '🇯🇵',
-      'es': '🇪🇸',
-      'de': '🇩🇪',
-      'fr': '🇫🇷',
-      'zh-cn': '🇨🇳',
-      'zh-CN': '🇨🇳',
-      'pt': '🇵🇹',
-      'it': '🇮🇹',
-      'ko': '🇰🇷',
-      'ar': '🇸🇦',
-      'hi': '🇮🇳',
-      'ru': '🇷🇺'
-    };
+    // Shared Language Switcher Logic across all instances
+    window.__setupLanguageSwitchers = function() {
+      var current = localStorage.getItem('solverspro_lang') || 'en';
+      var currentUpper = current === 'zh-CN' ? 'ZH' : current.slice(0, 2).toUpperCase();
 
-    function getCookie(name) {
-      const v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-      return v ? v[2] : null;
-    }
+      // Update active labels and checkmarks
+      document.querySelectorAll('.language-switcher-container').forEach(function(container) {
+        var labelEl = container.querySelector('.active-lang-label');
+        if (labelEl) labelEl.textContent = currentUpper;
 
-    function setCookie(name, value, days) {
-      const d = new Date();
-      d.setTime(d.getTime() + 24*60*60*1000*days);
-      const domain = window.location.hostname;
-      document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
-      if (domain.includes('.')) {
-        document.cookie = name + "=" + value + ";path=/;domain=." + domain + ";expires=" + d.toGMTString();
-      }
-    }
-
-    function deleteCookie(name) {
-      document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-      const domain = window.location.hostname;
-      if (domain.includes('.')) {
-        document.cookie = name + '=; Path=/; Domain=.' + domain + '; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-      }
-    }
-
-    function getCurrentLanguage() {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) return stored;
-
-      const googtrans = getCookie('googtrans');
-      if (googtrans) {
-        const parts = googtrans.split('/');
-        if (parts.length >= 3 && parts[2]) {
-          return parts[2];
-        }
-      }
-      return null;
-    }
-
-    function updateSwitcherUI(langCode) {
-      const code = (langCode || 'en').toLowerCase();
-      const flag = LANG_FLAGS[code] || '🌐';
-      const label = code === 'zh-cn' ? 'ZH' : code.slice(0, 2).toUpperCase();
-
-      document.querySelectorAll('.language-switcher-container').forEach(container => {
-        const flagEl = container.querySelector('.lang-flag');
-        const labelEl = container.querySelector('.lang-label');
-        if (flagEl) flagEl.textContent = flag;
-        if (labelEl) labelEl.textContent = label;
-
-        container.querySelectorAll('[data-lang]').forEach(btn => {
-          const itemCode = btn.getAttribute('data-lang')?.toLowerCase();
-          const check = btn.querySelector('.check-icon');
-          if (itemCode === code) {
-            btn.classList.add('bg-white/[0.06]', 'text-white');
+        container.querySelectorAll('.lang-option-btn').forEach(function(btn) {
+          var code = btn.getAttribute('data-lang-code');
+          var check = btn.querySelector('.active-check');
+          if (code && code.toLowerCase() === current.toLowerCase()) {
+            btn.classList.add('bg-white/[0.08]');
             if (check) check.classList.remove('opacity-0');
           } else {
-            btn.classList.remove('bg-white/[0.06]', 'text-white');
+            btn.classList.remove('bg-white/[0.08]');
             if (check) check.classList.add('opacity-0');
           }
         });
       });
-    }
+    };
 
-    function applyLanguage(langCode, isUserAction = false) {
-      const code = langCode || 'en';
-      localStorage.setItem(STORAGE_KEY, code);
+    window.switchSolversProLanguage = function(code) {
+      var lang = code || 'en';
+      localStorage.setItem('solverspro_lang', lang);
+      var domain = window.location.hostname;
 
-      if (code === 'en') {
-        deleteCookie('googtrans');
-        setCookie('googtrans', '/en/en', 30);
+      if (lang === 'en') {
+        document.cookie = 'googtrans=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        document.cookie = 'googtrans=; Path=/; Domain=.' + domain + '; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        document.cookie = 'googtrans=/en/en; path=/;';
+        if (domain.includes('.')) {
+          document.cookie = 'googtrans=/en/en; path=/; domain=.' + domain + ';';
+        }
       } else {
-        setCookie('googtrans', '/en/' + code, 30);
+        document.cookie = 'googtrans=/en/' + lang + '; path=/;';
+        if (domain.includes('.')) {
+          document.cookie = 'googtrans=/en/' + lang + '; path=/; domain=.' + domain + ';';
+        }
       }
 
-      updateSwitcherUI(code);
-
-      // Trigger change in Google Translate combo element
-      const combo = document.querySelector('.goog-te-combo');
+      // If google combo already exists, trigger it
+      var combo = document.querySelector('.goog-te-combo');
       if (combo) {
-        combo.value = code;
+        combo.value = lang;
         combo.dispatchEvent(new Event('change'));
-      } else if (isUserAction) {
-        // If combo isn't ready and user explicitly clicked, reload to let Google Translate read the cookie
-        window.location.reload();
-      }
-    }
-
-    // Auto-detect Japanese visitors (browser language or Cloudflare IP location)
-    function checkAutoDetection() {
-      const existing = getCurrentLanguage();
-      if (existing) {
-        updateSwitcherUI(existing);
-        return;
       }
 
-      // Check browser language
-      const browserLang = (navigator.languages && navigator.languages.length)
-        ? navigator.languages[0]
-        : (navigator.language || '');
+      // Reload to ensure crisp full-page translation
+      window.location.reload();
+    };
 
-      if (browserLang.toLowerCase().startsWith('ja')) {
-        applyLanguage('ja', false);
-        return;
-      }
+    // Attach click listeners globally once
+    if (!window.__langSwitchersInitialized) {
+      window.__langSwitchersInitialized = true;
 
-      // Check Cloudflare edge trace for guests physically in Japan
-      fetch('/cdn-cgi/trace')
-        .then(res => res.text())
-        .then(data => {
-          if (!getCurrentLanguage()) {
-            if (/loc=JP/i.test(data)) {
-              applyLanguage('ja', false);
-            } else {
-              updateSwitcherUI('en');
-            }
-          }
-        })
-        .catch(() => {
-          updateSwitcherUI('en');
-        });
-    }
+      document.addEventListener('click', function(e) {
+        var toggleBtn = e.target.closest('.lang-dropdown-btn');
+        var optionBtn = e.target.closest('.lang-option-btn');
+        var container = e.target.closest('.language-switcher-container');
 
-    // Setup UI Click and Keyboard Listeners
-    function setupSwitchers() {
-      const activeLang = getCurrentLanguage() || 'en';
-      updateSwitcherUI(activeLang);
-
-      document.querySelectorAll('.language-switcher-container').forEach(container => {
-        const btn = container.querySelector('button[aria-haspopup="true"]');
-        const menu = container.querySelector('[role="menu"]');
-        const arrow = container.querySelector('.arrow-icon');
-
-        if (!btn || !menu) return;
-
-        function openMenu() {
-          menu.classList.remove('opacity-0', 'invisible', '-translate-y-2');
-          arrow?.classList.add('rotate-180');
-          btn.setAttribute('aria-expanded', 'true');
-        }
-
-        function closeMenu() {
-          menu.classList.add('opacity-0', 'invisible', '-translate-y-2');
-          arrow?.classList.remove('rotate-180');
-          btn.setAttribute('aria-expanded', 'false');
-        }
-
-        btn.addEventListener('click', (e) => {
+        if (toggleBtn) {
           e.stopPropagation();
-          const isOpen = btn.getAttribute('aria-expanded') === 'true';
-          // Close other open menus
-          document.querySelectorAll('.language-switcher-container [role="menu"]').forEach(m => {
-            m.classList.add('opacity-0', 'invisible', '-translate-y-2');
+          var menu = toggleBtn.nextElementSibling;
+          var isOpen = toggleBtn.getAttribute('aria-expanded') === 'true';
+          var arrow = toggleBtn.querySelector('.lang-arrow');
+
+          // Close all open menus first
+          document.querySelectorAll('.lang-dropdown-menu').forEach(function(m) {
+            m.classList.add('hidden');
           });
-          document.querySelectorAll('.language-switcher-container .arrow-icon').forEach(a => {
-            a.classList.remove('rotate-180');
-          });
-          document.querySelectorAll('.language-switcher-container button[aria-haspopup="true"]').forEach(b => {
+          document.querySelectorAll('.lang-dropdown-btn').forEach(function(b) {
             b.setAttribute('aria-expanded', 'false');
+            var arr = b.querySelector('.lang-arrow');
+            if (arr) arr.classList.remove('rotate-180');
           });
 
-          if (!isOpen) {
-            openMenu();
+          if (!isOpen && menu) {
+            menu.classList.remove('hidden');
+            toggleBtn.setAttribute('aria-expanded', 'true');
+            if (arrow) arrow.classList.add('rotate-180');
           }
-        });
+          return;
+        }
 
-        menu.querySelectorAll('[data-lang]').forEach(item => {
-          item.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const chosenLang = item.getAttribute('data-lang');
-            closeMenu();
-            if (chosenLang) {
-              applyLanguage(chosenLang, true);
-            }
+        if (optionBtn) {
+          e.stopPropagation();
+          var code = optionBtn.getAttribute('data-lang-code');
+          // Close menus
+          document.querySelectorAll('.lang-dropdown-menu').forEach(function(m) {
+            m.classList.add('hidden');
           });
-        });
-      });
+          if (code) {
+            window.switchSolversProLanguage(code);
+          }
+          return;
+        }
 
-      // Close dropdowns on outside click
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('.language-switcher-container')) {
-          document.querySelectorAll('.language-switcher-container [role="menu"]').forEach(m => {
-            m.classList.add('opacity-0', 'invisible', '-translate-y-2');
+        // Click outside closes all menus
+        if (!container) {
+          document.querySelectorAll('.lang-dropdown-menu').forEach(function(m) {
+            m.classList.add('hidden');
           });
-          document.querySelectorAll('.language-switcher-container .arrow-icon').forEach(a => {
-            a.classList.remove('rotate-180');
-          });
-          document.querySelectorAll('.language-switcher-container button[aria-haspopup="true"]').forEach(b => {
+          document.querySelectorAll('.lang-dropdown-btn').forEach(function(b) {
             b.setAttribute('aria-expanded', 'false');
+            var arr = b.querySelector('.lang-arrow');
+            if (arr) arr.classList.remove('rotate-180');
           });
         }
       });
 
-      // Close on Escape key
-      document.addEventListener('keydown', (e) => {
+      document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-          document.querySelectorAll('.language-switcher-container [role="menu"]').forEach(m => {
-            m.classList.add('opacity-0', 'invisible', '-translate-y-2');
+          document.querySelectorAll('.lang-dropdown-menu').forEach(function(m) {
+            m.classList.add('hidden');
           });
-          document.querySelectorAll('.language-switcher-container .arrow-icon').forEach(a => {
-            a.classList.remove('rotate-180');
-          });
-          document.querySelectorAll('.language-switcher-container button[aria-haspopup="true"]').forEach(b => {
+          document.querySelectorAll('.lang-dropdown-btn').forEach(function(b) {
             b.setAttribute('aria-expanded', 'false');
+            var arr = b.querySelector('.lang-arrow');
+            if (arr) arr.classList.remove('rotate-180');
           });
         }
       });
     }
 
-    // Run setup
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
-        setupSwitchers();
-        checkAutoDetection();
-      });
+      document.addEventListener('DOMContentLoaded', window.__setupLanguageSwitchers);
     } else {
-      setupSwitchers();
-      checkAutoDetection();
+      window.__setupLanguageSwitchers();
     }
   })();
 </script>
