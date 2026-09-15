@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Internet Speed Test — SolversPro</title>
+    <meta
+      name="description"
+      content="Accurate, free internet speed test powered by Cloudflare's global edge network. Measure real-time download, upload, ping, jitter, and bufferbloat."
+    />
+    <link rel="icon" type="image/svg+xml" href="https://solverspro.com/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div class="background-glow"></div>
+
+    <!-- Header Navigation -->
+    <header class="app-header">
+      <div class="header-inner">
+        <a href="https://solverspro.com" class="brand-logo" title="SolversPro Home">
+          <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+          <div class="brand-text">
+            <span class="brand-title">Solvers<span class="highlight">Pro</span></span>
+            <span class="brand-sub">Speed Test</span>
+          </div>
+        </a>
+
+        <div class="header-badges">
+          <span class="edge-badge">
+            <span class="status-pulse"></span>
+            Cloudflare Edge Engine
+          </span>
+          <a href="https://solverspro.com/all-tools/" class="btn-ghost" target="_blank" rel="noopener">
+            All SolversPro Tools &rarr;
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-content">
+      <div class="content-wrapper">
+
+        <!-- Top Network Telemetry Bar -->
+        <section class="telemetry-bar">
+          <div class="telemetry-item">
+            <span class="telemetry-label">Your IP</span>
+            <span id="client-ip" class="telemetry-value">Detecting...</span>
+          </div>
+          <div class="telemetry-divider"></div>
+          <div class="telemetry-item">
+            <span class="telemetry-label">Service Provider</span>
+            <span id="client-isp" class="telemetry-value">Detecting...</span>
+          </div>
+          <div class="telemetry-divider"></div>
+          <div class="telemetry-item">
+            <span class="telemetry-label">Server Location</span>
+            <span id="server-location" class="telemetry-value">Cloudflare Edge (Auto)</span>
+          </div>
+        </section>
+
+        <!-- Speed Gauge Card -->
+        <section class="gauge-card">
+          <div class="gauge-container">
+            <svg class="gauge-svg" viewBox="0 0 320 220">
+              <defs>
+                <linearGradient id="gaugeTrackGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#1e2438" />
+                  <stop offset="100%" stop-color="#2a3352" />
+                </linearGradient>
+                <linearGradient id="gaugeProgressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#8CC0EB" />
+                  <stop offset="50%" stop-color="#5A9FD4" />
+                  <stop offset="100%" stop-color="#22c55e" />
+                </linearGradient>
+                <filter id="needleGlow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#8CC0EB" flood-opacity="0.8"/>
+                </filter>
+              </defs>
+
+              <!-- Outer Gauge Track -->
+              <path
+                class="gauge-track"
+                d="M 40 180 A 120 120 0 1 1 280 180"
+                fill="none"
+                stroke="url(#gaugeTrackGradient)"
+                stroke-width="18"
+                stroke-linecap="round"
+              />
+
+              <!-- Active Gauge Progress Arc -->
+              <path
+                id="gauge-progress"
+                class="gauge-progress"
+                d="M 40 180 A 120 120 0 1 1 280 180"
+                fill="none"
+                stroke="url(#gaugeProgressGradient)"
+                stroke-width="18"
+                stroke-linecap="round"
+                stroke-dasharray="471"
+                stroke-dashoffset="471"
+              />
+
+              <!-- Needle Indicator -->
+              <g id="needle-group" transform="rotate(-120 160 180)">
+                <line x1="160" y1="180" x2="160" y2="70" stroke="#8CC0EB" stroke-width="4" stroke-linecap="round" filter="url(#needleGlow)" />
+                <circle cx="160" cy="180" r="10" fill="#FFF9D2" />
+                <circle cx="160" cy="180" r="5" fill="#1a1a2e" />
+              </g>
+
+              <!-- Gauge Scale Ticks -->
+              <text x="35" y="202" class="gauge-scale">0</text>
+              <text x="70" y="105" class="gauge-scale">25</text>
+              <text x="150" y="45" class="gauge-scale">100</text>
+              <text x="245" y="105" class="gauge-scale">500</text>
+              <text x="275" y="202" class="gauge-scale">1G+</text>
+            </svg>
+
+            <!-- Digital Readout inside Gauge -->
+            <div class="gauge-center">
+              <div id="test-phase-badge" class="phase-badge">READY</div>
+              <div class="speed-value-wrap">
+                <span id="live-speed" class="speed-number">0.0</span>
+                <span class="speed-unit">Mbps</span>
+              </div>
+              <div id="test-substatus" class="test-substatus">Click start to measure speed</div>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div class="gauge-controls">
+            <button id="start-btn" class="btn-start" type="button">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <span>Start Speed Test</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Live Primary Metrics Grid -->
+        <section class="metrics-grid">
+          <!-- Download -->
+          <div class="metric-card" id="card-download">
+            <div class="metric-header">
+              <div class="metric-icon-wrap download">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+              </div>
+              <span class="metric-title">Download</span>
+            </div>
+            <div class="metric-body">
+              <div class="metric-value-row">
+                <span id="metric-download" class="metric-number">—</span>
+                <span class="metric-unit">Mbps</span>
+              </div>
+              <div class="metric-meta">
+                <span>Peak: <strong id="metric-download-peak">—</strong> Mbps</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Upload -->
+          <div class="metric-card" id="card-upload">
+            <div class="metric-header">
+              <div class="metric-icon-wrap upload">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                </svg>
+              </div>
+              <span class="metric-title">Upload</span>
+            </div>
+            <div class="metric-body">
+              <div class="metric-value-row">
+                <span id="metric-upload" class="metric-number">—</span>
+                <span class="metric-unit">Mbps</span>
+              </div>
+              <div class="metric-meta">
+                <span>Peak: <strong id="metric-upload-peak">—</strong> Mbps</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Latency (Ping) -->
+          <div class="metric-card" id="card-latency">
+            <div class="metric-header">
+              <div class="metric-icon-wrap latency">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="9" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3" />
+                </svg>
+              </div>
+              <span class="metric-title">Latency (Ping)</span>
+            </div>
+            <div class="metric-body">
+              <div class="metric-value-row">
+                <span id="metric-latency" class="metric-number">—</span>
+                <span class="metric-unit">ms</span>
+              </div>
+              <div class="metric-meta">
+                <span>Jitter: <strong id="metric-jitter">—</strong> ms</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loaded Latency (Bufferbloat) -->
+          <div class="metric-card" id="card-bufferbloat">
+            <div class="metric-header">
+              <div class="metric-icon-wrap bufferbloat">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <span class="metric-title">Loaded Ping (Bufferbloat)</span>
+            </div>
+            <div class="metric-body">
+              <div class="metric-value-row">
+                <span id="metric-loaded-ping" class="metric-number">—</span>
+                <span class="metric-unit">ms</span>
+              </div>
+              <div class="metric-meta">
+                <span>Under Load Latency</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Experience & Use-Case Scores -->
+        <section class="scores-section">
+          <div class="section-title-wrap">
+            <h2 class="section-title">Experience Quality Scores</h2>
+            <p class="section-desc">Performance ratings based on latency, jitter, and bandwidth stability</p>
+          </div>
+
+          <div class="scores-grid">
+            <!-- Gaming -->
+            <div class="score-card">
+              <div class="score-icon-wrap">🎮</div>
+              <div class="score-details">
+                <h3 class="score-name">Online Gaming</h3>
+                <p class="score-desc">Requires ultra-low latency & consistent ping</p>
+              </div>
+              <div class="score-badge-wrap">
+                <span id="score-gaming" class="score-badge badge-pending">PENDING</span>
+              </div>
+            </div>
+
+            <!-- Streaming -->
+            <div class="score-card">
+              <div class="score-icon-wrap">🎬</div>
+              <div class="score-details">
+                <h3 class="score-name">4K Video Streaming</h3>
+                <p class="score-desc">Requires high continuous download bandwidth</p>
+              </div>
+              <div class="score-badge-wrap">
+                <span id="score-streaming" class="score-badge badge-pending">PENDING</span>
+              </div>
+            </div>
+
+            <!-- Video Calls -->
+            <div class="score-card">
+              <div class="score-icon-wrap">📹</div>
+              <div class="score-details">
+                <h3 class="score-name">Video Calls & Conferencing</h3>
+                <p class="score-desc">Requires low jitter & balanced two-way speed</p>
+              </div>
+              <div class="score-badge-wrap">
+                <span id="score-rtc" class="score-badge badge-pending">PENDING</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Results Action Footer -->
+        <section id="results-actions" class="results-actions hidden">
+          <button id="btn-copy-summary" class="btn-action" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy Results Summary</span>
+          </button>
+          <button id="btn-share" class="btn-action" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+            <span>Share Test</span>
+          </button>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-inner">
+        <p>
+          Measurement engine powered by Cloudflare Edge Network. Built for accuracy with zero bloat.
+        </p>
+        <div class="footer-links">
+          <a href="https://solverspro.com" target="_blank" rel="noopener">SolversPro Home</a>
+          <span>•</span>
+          <a href="https://solverspro.com/network/" target="_blank" rel="noopener">Network Tools</a>
+          <span>•</span>
+          <a href="https://solverspro.com/privacy/" target="_blank" rel="noopener">Privacy</a>
+          <span>•</span>
+          <a href="https://solverspro.com/terms/" target="_blank" rel="noopener">Terms</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
