@@ -189,6 +189,19 @@ const organizationSchema = isHomePage ? {
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#1a1a2e" />
 
+  <!-- AI Agent Discovery & RFC 8288 Link Relations -->
+  <link rel="api-catalog" type="application/linkset+json" href="/.well-known/api-catalog" />
+  <link rel="service-doc" href="/docs" />
+  <link rel="service-desc" type="application/vnd.oai.openapi+json" href="/api/openapi.json" />
+  <link rel="agent-skills" type="application/json" href="/.well-known/agent-skills/index.json" />
+  <link rel="mcp-server-card" type="application/json" href="/.well-known/mcp/server-card.json" />
+  <link rel="oauth-protected-resource" type="application/json" href="/.well-known/oauth-protected-resource" />
+  <link rel="author-doc" type="text/markdown" href="/auth.md" />
+  <link rel="alternate" type="application/json" href="/.well-known/ai-catalog.json" title="ARD AI Catalog Manifest" />
+
+  <!-- WebMCP (In-browser Agent Tools) -->
+  <script is:inline src="/scripts/webmcp.js" defer></script>
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

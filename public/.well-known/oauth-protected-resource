@@ -1,0 +1,15 @@
+{
+  "resource": "https://solverspro.com",
+  "authorization_servers": [
+    "https://solverspro.com"
+  ],
+  "scopes_supported": [
+    "read",
+    "solve",
+    "tools:execute"
+  ],
+  "bearer_methods_supported": [
+    "header"
+  ],
+  "resource_documentation": "https://solverspro.com/docs"
+}

@@ -1,0 +1,25 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://solverspro.com/api",
+      "service-desc": [
+        {
+          "href": "https://solverspro.com/api/openapi.json",
+          "type": "application/vnd.oai.openapi+json;version=3.1.0"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://solverspro.com/docs",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://solverspro.com/api/health",
+          "type": "application/json"
+        }
+      ]
+    }
+  ]
+}

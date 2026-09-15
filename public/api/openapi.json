@@ -1,0 +1,101 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SolversPro API",
+    "version": "1.0.0",
+    "description": "Public APIs and AI problem solving endpoints for SolversPro.",
+    "contact": {
+      "name": "SolversPro Support",
+      "url": "https://solverspro.com/contact",
+      "email": "support@solverspro.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://solverspro.com",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/api/solve": {
+      "post": {
+        "summary": "AI Problem Solver",
+        "description": "Submit a problem prompt or image to receive a step-by-step mathematical and logical solution.",
+        "operationId": "solveProblem",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "prompt": {
+                    "type": "string",
+                    "description": "The question or problem to solve."
+                  },
+                  "image": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "string",
+                        "description": "Base64-encoded image data."
+                      },
+                      "mimeType": {
+                        "type": "string",
+                        "description": "MIME type of the image."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Streamed text solution with LaTeX notation.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing prompt or image."
+          }
+        }
+      }
+    },
+    "/api/health": {
+      "get": {
+        "summary": "Health Status",
+        "description": "Returns operational status and timestamp of the API.",
+        "operationId": "getHealth",
+        "responses": {
+          "200": {
+            "description": "API is operational.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

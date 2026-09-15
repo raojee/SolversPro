@@ -1,0 +1,77 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schema/server-card.json",
+  "serverInfo": {
+    "name": "SolversPro MCP Server",
+    "version": "1.0.0",
+    "description": "Unified MCP server providing mathematical solvers, financial calculators, health metrics, and developer tools."
+  },
+  "transport": {
+    "type": "streamable-http",
+    "endpoint": "https://solverspro.com/api/solve"
+  },
+  "capabilities": {
+    "tools": {
+      "listChanged": true
+    },
+    "resources": {
+      "subscribe": false
+    },
+    "prompts": {
+      "listChanged": false
+    }
+  },
+  "tools": [
+    {
+      "name": "solve_problem",
+      "description": "Solves complex math, financial, engineering, trade, and developer problems step-by-step with LaTeX formatting.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "The natural language problem statement or query."
+          }
+        },
+        "required": ["prompt"]
+      }
+    },
+    {
+      "name": "json_tools",
+      "description": "Format, validate, minify, or convert JSON structures.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string",
+            "description": "JSON string to format or validate."
+          },
+          "action": {
+            "type": "string",
+            "enum": ["format", "minify", "validate"],
+            "description": "Action to perform."
+          }
+        },
+        "required": ["data", "action"]
+      }
+    },
+    {
+      "name": "base64_convert",
+      "description": "Encode or decode strings using Base64 encoding.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Text to encode or decode."
+          },
+          "mode": {
+            "type": "string",
+            "enum": ["encode", "decode"],
+            "description": "Convert mode."
+          }
+        },
+        "required": ["text", "mode"]
+      }
+    }
+  ]
+}

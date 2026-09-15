@@ -1,0 +1,12 @@
+{
+  "keys": [
+    {
+      "kty": "RSA",
+      "use": "sig",
+      "alg": "RS256",
+      "kid": "solverspro-2026",
+      "n": "uQn9sP...",
+      "e": "AQAB"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "issuer": "https://solverspro.com",
+  "authorization_endpoint": "https://solverspro.com/oauth/authorize",
+  "token_endpoint": "https://solverspro.com/oauth/token",
+  "userinfo_endpoint": "https://solverspro.com/oauth/userinfo",
+  "jwks_uri": "https://solverspro.com/.well-known/jwks.json",
+  "registration_endpoint": "https://solverspro.com/oauth/register",
+  "scopes_supported": [
+    "openid",
+    "profile",
+    "email",
+    "solve",
+    "tools:execute"
+  ],
+  "response_types_supported": [
+    "code",
+    "token",
+    "id_token"
+  ],
+  "subject_types_supported": [
+    "public"
+  ],
+  "id_token_signing_alg_values_supported": [
+    "RS256"
+  ],
+  "token_endpoint_auth_methods_supported": [
+    "client_secret_post",
+    "client_secret_basic",
+    "none"
+  ],
+  "service_documentation": "https://solverspro.com/docs",
+  "agent_auth": {
+    "register_uri": "https://solverspro.com/auth.md",
+    "supported_identity_types": [
+      "agent",
+      "service",
+      "user"
+    ],
+    "credential_types": [
+      "bearer",
+      "api_key"
+    ]
+  }
+}

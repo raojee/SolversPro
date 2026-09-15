@@ -1,0 +1,22 @@
+{
+  "$schema": "https://agentskills.io/schema/v0.2.0/index.json",
+  "name": "SolversPro Agent Skills Catalog",
+  "version": "1.0.0",
+  "description": "Agent skills index for SolversPro solvers, calculators, and developer tools.",
+  "skills": [
+    {
+      "name": "solverspro-suite",
+      "type": "skill",
+      "description": "Access SolversPro collection of online solvers, calculators, and converters for math, finance, health, trades, and developers.",
+      "url": "https://solverspro.com/.well-known/agent-skills/solverspro-suite/SKILL.md",
+      "sha256": "48ddc6e98a898b763bab7fa25755ce25249467fcf50b21e73f8b47c9cdbe4274"
+    },
+    {
+      "name": "developer-tools",
+      "type": "skill",
+      "description": "Format, validate, and convert developer data formats including JSON, XML, YAML, Base64, and JWTs using SolversPro.",
+      "url": "https://solverspro.com/.well-known/agent-skills/developer-tools/SKILL.md",
+      "sha256": "118a55cacf24b7683ad83e03b191d2f4574961e31f3471a3b7ebc038a143e130"
+    }
+  ]
+}
