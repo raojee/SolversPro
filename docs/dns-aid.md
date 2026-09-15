@@ -8,38 +8,35 @@ This guide documents the DNS-AID records and DNSSEC configuration for `solverspr
 
 DNS-AID allows autonomous AI agents and resolver clients to discover AI capabilities, entrypoints, and authentication endpoints directly through standard DNS queries before initiating HTTP requests.
 
-Records are published under the `_agents` subdomain using ServiceMode `HTTPS` or `SVCB` records.
+Records are published under the `_agents` subdomain using ServiceMode `SVCB` records (or `HTTPS` records for HTTPS endpoints), with `alpn` and endpoint connection parameters.
 
 ---
 
-## 2. Recommended DNS Records (Cloudflare DNS / BIND Zone)
+## 2. Recommended DNS Records
 
-Add the following records to your DNS provider (e.g. Cloudflare DNS):
+Add the following records to your Cloudflare DNS zone for `solverspro.com`:
 
 ### A. Index Discovery Record (`_index._agents.solverspro.com`)
-Points resolvers directly to your AI catalog manifest.
 
-```bind
-_index._agents.solverspro.com. 3600 IN HTTPS 1 solverspro.com. (
-    alpn="h2,h3"
-    port="443"
-    key65353="/.well-known/ai-catalog.json"
-)
+```dns
+_index._agents.solverspro.com. 3600 IN SVCB 1 solverspro.com. alpn="h2,h3" port=443 mandatory=alpn,port
 ```
 
-### B. Agent-to-Agent / MCP Discovery Record (`_a2a._agents.solverspro.com`)
-Points resolvers directly to your MCP server card or agent skills catalog.
+### B. Agent-to-Agent / A2A Discovery Record (`_a2a._agents.solverspro.com`)
 
-```bind
-_a2a._agents.solverspro.com. 3600 IN HTTPS 1 solverspro.com. (
-    alpn="h2,h3"
-    port="443"
-    key65353="/.well-known/mcp/server-card.json"
-)
+```dns
+_a2a._agents.solverspro.com. 3600 IN SVCB 1 solverspro.com. alpn="a2a" port=443 mandatory=alpn,port
 ```
 
-### C. Fallback TXT Records (For Resolvers without SVCB/HTTPS support)
-```bind
+### C. ARD AI Catalog DNS Record (`_catalog._agents.solverspro.com`)
+
+```dns
+_catalog._agents.solverspro.com. 3600 IN TXT "url=https://solverspro.com/.well-known/ai-catalog.json"
+```
+
+### D. Fallback TXT Record (`_agents.solverspro.com`)
+
+```dns
 _agents.solverspro.com. 3600 IN TXT "v=dnsaid1; ai-catalog=https://solverspro.com/.well-known/ai-catalog.json; mcp=https://solverspro.com/.well-known/mcp/server-card.json; skills=https://solverspro.com/.well-known/agent-skills/index.json"
 ```
 
@@ -49,24 +46,14 @@ _agents.solverspro.com. 3600 IN TXT "v=dnsaid1; ai-catalog=https://solverspro.co
 
 1. Open the [Cloudflare Dashboard](https://dash.cloudflare.com/) and navigate to your `solverspro.com` domain.
 2. Click **DNS** > **Records**.
-3. Click **Add record**:
-   - **Type**: `HTTPS`
-   - **Name**: `_index._agents`
-   - **Priority**: `1`
-   - **Target**: `solverspro.com`
-   - **Value**: `alpn="h2,h3" port="443" key65353="/.well-known/ai-catalog.json"`
-   - **TTL**: `Auto`
-4. Add another record:
-   - **Type**: `HTTPS`
-   - **Name**: `_a2a._agents`
-   - **Priority**: `1`
-   - **Target**: `solverspro.com`
-   - **Value**: `alpn="h2,h3" port="443" key65353="/.well-known/mcp/server-card.json"`
-   - **TTL**: `Auto`
-5. Add fallback TXT record:
-   - **Type**: `TXT`
-   - **Name**: `_agents`
-   - **Content**: `v=dnsaid1; ai-catalog=https://solverspro.com/.well-known/ai-catalog.json; mcp=https://solverspro.com/.well-known/mcp/server-card.json`
+3. Add the following records:
+
+| Type | Name | Priority | Target | Value/Content | TTL |
+|------|------|----------|--------|---------------|-----|
+| SVCB | `_index._agents` | 1 | `solverspro.com` | `alpn="h2,h3" port=443 mandatory=alpn,port` | Auto |
+| SVCB | `_a2a._agents` | 1 | `solverspro.com` | `alpn="a2a" port=443 mandatory=alpn,port` | Auto |
+| TXT | `_catalog._agents` | — | — | `url=https://solverspro.com/.well-known/ai-catalog.json` | Auto |
+| TXT | `_agents` | — | — | `v=dnsaid1; ai-catalog=https://solverspro.com/.well-known/ai-catalog.json; mcp=https://solverspro.com/.well-known/mcp/server-card.json; skills=https://solverspro.com/.well-known/agent-skills/index.json` | Auto |
 
 ---
 
@@ -78,5 +65,17 @@ To ensure validating resolvers return authenticated cryptographic data:
 3. Copy the DS record details (Key Tag, Algorithm, Digest Type, Digest) into your domain registrar's DNSSEC control panel.
 4. Verify validation using:
    ```bash
-   dig +dnssec _index._agents.solverspro.com HTTPS
+   dig +dnssec _index._agents.solverspro.com SVCB
+   dig _catalog._agents.solverspro.com TXT
    ```
+
+---
+
+## 5. Markdown for Agents (Cloudflare Dashboard)
+
+To pass the Markdown for Agents check, enable Cloudflare's built-in toggle:
+1. In the Cloudflare Dashboard, navigate to your zone (`solverspro.com`).
+2. Go to **Rules** > **Managed Transforms** (or search for "Markdown for Agents").
+3. Toggle **Markdown for Agents** to **On**.
+
+This automatically handles `Accept: text/markdown` content negotiation at the edge — no code changes required. The `functions/_middleware.ts` file in the repo serves as a fallback for non-Cloudflare deployments.

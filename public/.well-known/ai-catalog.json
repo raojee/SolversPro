@@ -1,16 +1,17 @@
 {
-  "specVersion": "1.0.0",
+  "specVersion": "1.0",
   "host": {
-    "name": "SolversPro",
+    "displayName": "SolversPro",
+    "identifier": "did:web:solverspro.com",
     "url": "https://solverspro.com",
     "description": "Comprehensive suite of free problem solvers, calculators, and developer tools for math, finance, health, trades, and software engineering."
   },
   "entries": [
     {
-      "id": "urn:air:solverspro.com:mcp:server-card",
+      "identifier": "urn:air:solverspro.com:mcp:server-card",
       "displayName": "SolversPro MCP Server Card",
       "description": "Model Context Protocol (MCP) server card advertising mathematical and developer tools for AI agents.",
-      "type": "application/vnd.mcp+json",
+      "type": "application/mcp-server-card+json",
       "url": "https://solverspro.com/.well-known/mcp/server-card.json",
       "representativeQueries": [
         "Connect to SolversPro via Model Context Protocol",
@@ -19,7 +20,7 @@
       ]
     },
     {
-      "id": "urn:air:solverspro.com:api:openapi",
+      "identifier": "urn:air:solverspro.com:api:openapi",
       "displayName": "SolversPro OpenAPI Specification",
       "description": "OpenAPI 3.1 schema for SolversPro problem solver and health check APIs.",
       "type": "application/vnd.oai.openapi+json;version=3.1.0",
@@ -31,7 +32,7 @@
       ]
     },
     {
-      "id": "urn:air:solverspro.com:skills:suite",
+      "identifier": "urn:air:solverspro.com:skills:suite",
       "displayName": "SolversPro Agent Skills Catalog",
       "description": "Agent Skills Discovery index defining capabilities, parameters, and invocation guides for autonomous agents.",
       "type": "application/json",
@@ -43,7 +44,7 @@
       ]
     },
     {
-      "id": "urn:air:solverspro.com:developer:tools",
+      "identifier": "urn:air:solverspro.com:developer:tools",
       "displayName": "Developer Utilities & Code Formatters",
       "description": "Utilities for formatting, validating, and converting JSON, XML, Base64, and JWTs.",
       "type": "text/html",
@@ -56,7 +57,7 @@
       ]
     },
     {
-      "id": "urn:air:solverspro.com:solvers:finance-math",
+      "identifier": "urn:air:solverspro.com:solvers:finance-math",
       "displayName": "Financial & Mathematical Solvers",
       "description": "Mortgage calculator, compound interest, quadratic solver, unit converter, and trade calculators.",
       "type": "text/html",
@@ -69,7 +70,7 @@
       ]
     },
     {
-      "id": "urn:air:solverspro.com:auth:auth-md",
+      "identifier": "urn:air:solverspro.com:auth:auth-md",
       "displayName": "SolversPro Agent Authentication Documentation",
       "description": "Agent registration, OAuth discovery, and machine-to-machine authentication parameters.",
       "type": "text/markdown",
