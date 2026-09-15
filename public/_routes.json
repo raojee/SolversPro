@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "include": [
+    "/*"
+  ],
+  "exclude": [
+    "/_astro/*",
+    "/images/*",
+    "/scripts/*",
+    "/favicon.ico",
+    "/favicon.svg",
+    "/icon-192x192.png",
+    "/icon-512x512.png",
+    "/og-image.png",
+    "/logo.svg",
+    "/hero-bg.webp",
+    "/hero-dark-tech.webp",
+    "/manifest.json",
+    "/manifest.webmanifest",
+    "/robots.txt",
+    "/sitemap*.xml",
+    "/BingSiteAuth.xml",
+    "/ads.txt"
+  ]
+}
