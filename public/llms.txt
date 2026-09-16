@@ -1,0 +1,28 @@
+# SolversPro
+
+> 100% free, fast, and secure problem-solving utilities and developer calculators running client-side in your web browser.
+
+## Core Hubs & Tool Categories
+
+- [All Tools Directory](https://solverspro.com/all-tools/): Complete searchable directory of 78+ free calculators and utilities.
+- [Internet Speed Test](https://speed.solverspro.com/): Accurate real-time internet speed test measuring download, upload, ping, jitter, and bufferbloat against Cloudflare edge network.
+- [Developer Tools](https://solverspro.com/developer/): Format converters, code minifiers, Base64 encoder/decoder, JWT debugger, regex tester, hash generator, JSON/XML tools.
+- [PDF Tools](https://solverspro.com/pdf/): Merge, split, protect, password unlock, flatten, compose, and convert PDF documents entirely in the browser.
+- [Math Tools](https://solverspro.com/math/): Scientific calculator, quadratic solver, matrix calculator, unit converter, geometry calculators, and statistics tools.
+- [Finance Calculators](https://solverspro.com/finance/): Mortgage calculator, compound interest, ROI calculator, cash-on-cash return, and currency converter.
+- [Health Calculators](https://solverspro.com/health/): TDEE calorie calculator, adult BMI with visual gauge, and pediatric CDC BMI-for-age percentiles.
+- [Trades Calculators](https://solverspro.com/trades/): Concrete slab calculator, electrical wire sizing, board feet lumber calculator, paint calculator, and solar panel estimator.
+- [Network Tools](https://solverspro.com/network/): IP subnet calculator, My IP checker, and IP address geolocation lookup.
+- [Text Tools](https://solverspro.com/text/): Word counter, text case converter, Morse code translator, URL encoder, and lorem ipsum generator.
+- [Universal AI Solver](https://solverspro.com/free-ai-solver/): Gemini-powered multimodal step-by-step problem solver for math, science, and engineering questions.
+
+## Documentation & Help
+
+- [Documentation & User Guides](https://solverspro.com/docs/): Complete feature documentation and step-by-step instructions for all tools.
+- [Frequently Asked Questions](https://solverspro.com/faq/): Answers to common questions about privacy, accuracy, and usage.
+- [About SolversPro](https://solverspro.com/about/): Background, mission, and client-side architecture principles.
+
+## Legal & Compliance
+
+- [Privacy Policy](https://solverspro.com/privacy/): Commitment to privacy, client-side execution, and zero unnecessary data storage.
+- [Terms of Service](https://solverspro.com/terms/): Terms governing the use of SolversPro free utilities.

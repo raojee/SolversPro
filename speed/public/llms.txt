@@ -1,0 +1,22 @@
+# SolversPro Internet Speed Test
+
+> Free, accurate, real-time internet speed test measuring download throughput, upload bandwidth, latency (ping), jitter, and bufferbloat against Cloudflare's global edge network across 330+ cities worldwide.
+
+## Speed Test Services
+
+- [Internet Speed Test](https://speed.solverspro.com/): Interactive real-time internet speed test measuring downstream throughput, upstream bandwidth, unloaded latency, jitter, and bufferbloat under load.
+- [Cloudflare Edge Telemetry API](https://speed.solverspro.com/api/meta): Real-time network telemetry API returning client IP, ISP/ASN, and closest Cloudflare datacenter colocation airport code.
+
+## Main Platform & Networking Tools
+
+- [SolversPro Home](https://solverspro.com/): Free problem solvers, developer utilities, engineering tools, and calculators.
+- [Network Tools Hub](https://solverspro.com/network/): Networking utilities including IP subnet calculator, public IP lookup, and speed diagnostics.
+- [IP Subnet Calculator](https://solverspro.com/network/ip-subnet-calculator): Calculate network ID, broadcast, subnet mask, and usable host ranges using CIDR notation.
+- [My IP Address Checker](https://solverspro.com/network/my-ip): Instant public IP detection with ISP, ASN, and geographic location.
+- [IP Address Lookup](https://solverspro.com/network/ip-lookup): Detailed IP intelligence and geolocation lookup for any IPv4 address.
+- [Documentation & API Reference](https://solverspro.com/docs/): Comprehensive documentation, features, and usage guides for all SolversPro utilities.
+
+## Legal & Policies
+
+- [Privacy Policy](https://solverspro.com/privacy/): Information on client-side data privacy and Cloudflare edge network measurements.
+- [Terms of Service](https://solverspro.com/terms/): Terms of service for SolversPro utilities.

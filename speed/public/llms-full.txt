@@ -1,0 +1,22 @@
+# SolversPro Internet Speed Test (Full Context)
+
+> SolversPro Internet Speed Test is an ad-free, high-accuracy network performance measurement tool powered by Cloudflare's global edge network.
+
+## Core Capabilities
+
+- **Download Bandwidth Testing**: Measures real-time downstream data transfer rates up to 1+ Gbps across multiple concurrent chunk streams.
+- **Upload Bandwidth Testing**: Measures real-time upstream data transmission directly to Cloudflare edge nodes.
+- **Unloaded Ping & Jitter**: Computes baseline round-trip reaction time and latency variance in milliseconds.
+- **Loaded Latency (Bufferbloat)**: Accurately evaluates latency under heavy download and upload saturation to reveal router buffer queue delays.
+- **Application Performance Grades**:
+  - **Online Gaming**: Rated by baseline ping (<30ms) and low jitter (<5ms).
+  - **4K Video Streaming**: Rated by sustained download bandwidth (>25 Mbps).
+  - **Video Conferencing**: Rated by balanced two-way speed and WebRTC packet stability.
+- **Edge Datacenter Telemetry**: Identifies the user's public IP, autonomous system (ISP/ASN), and nearest Cloudflare edge PoP (airport code).
+
+## Related Links
+
+- [Internet Speed Test](https://speed.solverspro.com/): Primary application entry point.
+- [SolversPro](https://solverspro.com/): Central directory of free calculation and developer tools.
+- [Network Tools](https://solverspro.com/network/): Network diagnostics, subnet calculations, and IP lookup.
+- [Documentation](https://solverspro.com/docs/): Technical documentation and usage steps.
