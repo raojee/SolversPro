@@ -10,14 +10,14 @@ const tools = toolsByCategory['network'] || [];
 ---
 <BaseLayout
   title="Network Tools | SolversPro"
-  description="Free online network tools. Calculate IP subnets using CIDR notation and check your public IP address with location and ISP details."
+  description="Free online network tools. Test internet speed, calculate IP subnets using CIDR notation, and check your public IP address with location and ISP details."
 >
   <Header />
   <div class="container mx-auto px-4 py-12 max-w-6xl">
     <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Network Tools' }]} />
     <div class="mb-12 mt-4">
       <h1 class="text-4xl font-bold text-white mb-4">Network Tools</h1>
-      <p class="text-zinc-400 text-lg max-w-2xl">Essential networking utilities for sysadmins, developers, and curious users. Subnet calculators, IP checkers, and more.</p>
+      <p class="text-zinc-400 text-lg max-w-2xl">Essential networking utilities for sysadmins, developers, and everyday users. Measure bandwidth and latency with our real-time speed test, calculate subnets, and check IP addresses.</p>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
       {tools.map(tool => <ToolCard {...tool} />)}

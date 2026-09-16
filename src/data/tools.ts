@@ -315,6 +315,12 @@ export const toolsByCategory: Record<string, Tool[]> = {
 ],
   "network": [
   {
+    title: 'Internet Speed Test',
+    description: 'Accurate, real-time internet speed test powered by Cloudflare edge. Measure download, upload, ping, jitter, and bufferbloat.',
+    icon: '⚡',
+    href: 'https://speed.solverspro.com'
+  },
+  {
     title: 'IP Subnet Calculator',
     description: 'Calculate network address, broadcast, subnet mask, host range, and usable hosts for any IPv4 subnet using CIDR notation.',
     icon: '🌐',
