@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://speed.solverspro.com/sitemap.xml

@@ -3,11 +3,88 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Internet Speed Test — SolversPro</title>
+    <title>Free Internet Speed Test — Accurate Bandwidth, Ping & Jitter | SolversPro</title>
     <meta
       name="description"
-      content="Accurate, free internet speed test powered by Cloudflare's global edge network. Measure real-time download, upload, ping, jitter, and bufferbloat."
+      content="Test your internet connection speed instantly with SolversPro. Accurate real-time download, upload, ping, jitter, and bufferbloat metrics powered by Cloudflare's global edge."
     />
+    <meta name="keywords" content="internet speed test, broadband speed test, wifi speed test, download speed, upload speed, ping test, jitter test, bufferbloat test, network speed, cloudflare speed test" />
+    <meta name="author" content="SolversPro" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="theme-color" content="#0c0e17" />
+    <link rel="canonical" href="https://speed.solverspro.com/" />
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://speed.solverspro.com/" />
+    <meta property="og:site_name" content="SolversPro" />
+    <meta property="og:title" content="Free Internet Speed Test — Accurate Bandwidth, Ping & Jitter | SolversPro" />
+    <meta property="og:description" content="Accurately test your download and upload bandwidth, latency, jitter, and bufferbloat in real-time powered by Cloudflare's 330+ global edge datacenters." />
+    <meta property="og:image" content="https://solverspro.com/favicon.svg" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Free Internet Speed Test — SolversPro" />
+    <meta name="twitter:description" content="Real-time internet connection speed test. Measure download, upload, ping, jitter, and loaded latency without ads or bloat." />
+    <meta name="twitter:image" content="https://solverspro.com/favicon.svg" />
+
+    <!-- Schema.org JSON-LD (WebApplication + FAQPage) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "name": "SolversPro Internet Speed Test",
+            "url": "https://speed.solverspro.com/",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "All",
+            "browserRequirements": "Requires JavaScript. Requires HTML5.",
+            "description": "Accurate, free internet speed test measuring real-time download, upload, ping, jitter, and bufferbloat powered by Cloudflare's global edge network.",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "SolversPro",
+              "url": "https://solverspro.com"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "How does the SolversPro Speed Test work?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "The test communicates directly between your web browser and Cloudflare's edge network across 330+ cities worldwide. It performs sequential HTTP requests with varying payload sizes to accurately measure download bandwidth, upload bandwidth, unloaded latency, and loaded latency under load."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What is bufferbloat or loaded latency?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Bufferbloat occurs when routers and modems excessively buffer packets during heavy data transfers, causing severe latency spikes. Our test measures ping while your connection is actively downloading and uploading to reveal whether your connection lags under load."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What is a good internet speed for streaming and gaming?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "For 4K video streaming, 25 Mbps download is recommended per screen. For competitive gaming, ping under 30 ms with jitter under 5 ms is ideal. For video calls, 5 to 10 Mbps upload and low jitter ensure crisp audio and video."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+
     <link rel="icon" type="image/svg+xml" href="https://solverspro.com/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -48,6 +125,12 @@
     <!-- Main Container -->
     <main class="main-content">
       <div class="content-wrapper">
+
+        <!-- Page Header for SEO & Clarity -->
+        <div class="hero-text-wrap">
+          <h1 class="page-title">Free Internet Speed Test</h1>
+          <p class="page-subtitle">Test real-time download and upload bandwidth, unloaded ping, jitter, and bufferbloat directly against Cloudflare's global edge network.</p>
+        </div>
 
         <!-- Top Network Telemetry Bar -->
         <section class="telemetry-bar">
@@ -299,6 +382,167 @@
             </svg>
             <span>Share Test</span>
           </button>
+        </section>
+
+        <!-- Educational Section: How It Works & Metrics Explained -->
+        <section class="info-section">
+          <div class="section-title-wrap">
+            <h2 class="section-title">Understanding Your Speed Test Results</h2>
+            <p class="section-desc">Key metrics that determine how fast and responsive your internet really is</p>
+          </div>
+
+          <div class="info-grid">
+            <div class="info-card">
+              <div class="info-card-header">
+                <span class="info-icon">⬇️</span>
+                <h3>Download Speed</h3>
+              </div>
+              <div class="info-card-body">
+                How fast data transfers from the internet to your device (measured in Mbps). High download speed is critical for smooth 4K streaming, fast webpage loads, and quick software downloads.
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-header">
+                <span class="info-icon">⬆️</span>
+                <h3>Upload Speed</h3>
+              </div>
+              <div class="info-card-body">
+                How fast your device sends data to the internet (measured in Mbps). Essential for crisp Zoom/Teams video conferencing, Twitch streaming, uploading cloud backups, and sending emails with attachments.
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-header">
+                <span class="info-icon">⚡</span>
+                <h3>Latency (Ping)</h3>
+              </div>
+              <div class="info-card-body">
+                The round-trip reaction time (in milliseconds) for a packet to reach the edge server and return. Lower ping (&lt; 30 ms) is vital for lag-free multiplayer gaming and snappy web browsing.
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-header">
+                <span class="info-icon">📶</span>
+                <h3>Jitter</h3>
+              </div>
+              <div class="info-card-body">
+                The variance or fluctuation in latency over time. Low jitter (&lt; 5 ms) ensures consistent, uninterrupted VoIP calls and prevents random stuttering in online gaming.
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-header">
+                <span class="info-icon">🔄</span>
+                <h3>Bufferbloat (Loaded Ping)</h3>
+              </div>
+              <div class="info-card-body">
+                Latency measured while actively downloading or uploading heavy traffic. If your ping spikes dramatically under load, video calls and gaming will lag whenever someone else in the house streams or downloads.
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-header">
+                <span class="info-icon">🌐</span>
+                <h3>Cloudflare Edge Routing</h3>
+              </div>
+              <div class="info-card-body">
+                Your test connects to Cloudflare's nearest edge datacenter across 330+ cities worldwide, eliminating ISP artificial caching and providing true real-world network performance.
+              </div>
+            </div>
+          </div>
+
+          <!-- Speed Benchmarks Table -->
+          <div class="section-title-wrap" style="margin-top: 12px;">
+            <h3 class="section-title" style="font-size: 16px;">Recommended Internet Speeds by Activity</h3>
+          </div>
+
+          <div class="benchmark-table-wrap">
+            <table class="benchmark-table">
+              <thead>
+                <tr>
+                  <th>Online Activity</th>
+                  <th>Minimum Download</th>
+                  <th>Minimum Upload</th>
+                  <th>Recommended Ping</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>General Browsing & Email</strong></td>
+                  <td>5 – 10 Mbps</td>
+                  <td>1 – 2 Mbps</td>
+                  <td>&lt; 100 ms</td>
+                </tr>
+                <tr>
+                  <td><strong>HD Video Streaming (1080p)</strong></td>
+                  <td>10 – 15 Mbps</td>
+                  <td>2 Mbps</td>
+                  <td>&lt; 70 ms</td>
+                </tr>
+                <tr>
+                  <td><strong>4K Ultra HD Streaming</strong></td>
+                  <td>25 – 50 Mbps</td>
+                  <td>5 Mbps</td>
+                  <td>&lt; 50 ms</td>
+                </tr>
+                <tr>
+                  <td><strong>Video Conferencing (Zoom / Teams)</strong></td>
+                  <td>10 – 25 Mbps</td>
+                  <td>5 – 10 Mbps</td>
+                  <td>&lt; 40 ms (Jitter &lt; 5ms)</td>
+                </tr>
+                <tr>
+                  <td><strong>Competitive Online Gaming</strong></td>
+                  <td>25 – 50 Mbps</td>
+                  <td>5 – 10 Mbps</td>
+                  <td>&lt; 25 ms (Low bufferbloat)</td>
+                </tr>
+                <tr>
+                  <td><strong>Heavy Cloud Backups & Large Downloads</strong></td>
+                  <td>100+ Mbps</td>
+                  <td>20+ Mbps</td>
+                  <td>Any</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Interactive FAQ -->
+          <div class="section-title-wrap" style="margin-top: 12px;">
+            <h3 class="section-title" style="font-size: 16px;">Frequently Asked Questions</h3>
+          </div>
+
+          <div class="faq-section">
+            <details class="faq-item" open>
+              <summary>How does the SolversPro Internet Speed Test work?</summary>
+              <div class="faq-answer">
+                Our speed test is powered by Cloudflare's official open-source measurement engine. It performs multiple parallel HTTPS GET and POST requests with dynamic payload chunks directly against Cloudflare's global edge network across 330+ cities. This measures your true end-to-end throughput, unloaded latency, and loaded bufferbloat.
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Why does my speed test result differ from my ISP plan?</summary>
+              <div class="faq-answer">
+                ISPs advertise theoretical maximum "burst" speeds under optimal laboratory conditions. Real-world speeds can be affected by Wi-Fi interference, distance from your router, network congestion during peak hours, outdated router hardware, background app updates, or ISP traffic throttling.
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>What is bufferbloat and why is it important?</summary>
+              <div class="faq-answer">
+                Bufferbloat is high latency that occurs when your router buffers too many packets during heavy downloads or uploads. If your loaded latency is significantly higher than your unloaded latency, your connection will experience lag and stuttering whenever multiple devices are active on your home network.
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>How can I improve my internet speed?</summary>
+              <div class="faq-answer">
+                To maximize your connection speed: (1) Use an Ethernet cable instead of Wi-Fi whenever possible; (2) Place your Wi-Fi router in a central, elevated location away from thick walls and metal objects; (3) Restart your modem and router periodically; (4) Close bandwidth-heavy background downloads, torrents, or cloud syncing apps; (5) Upgrade your router firmware.
+              </div>
+            </details>
+          </div>
         </section>
 
       </div>
