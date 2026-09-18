@@ -276,7 +276,7 @@ body {
 .gauge-svg {
   width: 100%;
   height: auto;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .gauge-track {
@@ -302,9 +302,10 @@ body {
 
 .gauge-center {
   position: absolute;
-  top: 90px;
+  top: 50%;
   left: 0;
   right: 0;
+  transform: translateY(-40%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -365,6 +366,9 @@ body {
   font-size: 13px;
   font-weight: 500;
   color: var(--text-muted);
+  text-align: center;
+  max-width: 280px;
+  word-break: break-word;
 }
 
 /* Gauge Controls */
@@ -759,6 +763,22 @@ body {
   .header-badges {
     width: 100%;
     justify-content: space-between;
+  }
+  .gauge-container {
+    max-width: 300px;
+  }
+  .gauge-center {
+    transform: translateY(-35%);
+  }
+  .test-substatus {
+    font-size: 12px;
+    max-width: 220px;
+  }
+  .page-title {
+    font-size: 24px;
+  }
+  .page-subtitle {
+    font-size: 13px;
   }
 }
 
