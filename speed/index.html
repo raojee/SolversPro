@@ -198,11 +198,13 @@
               <!-- Needle Indicator (clipped to stay inside gauge) -->
               <g clip-path="url(#gaugeClip)">
                 <g id="needle-group" transform="rotate(-120 160 180)">
-                  <line x1="160" y1="180" x2="160" y2="70" stroke="#8CC0EB" stroke-width="4" stroke-linecap="round" filter="url(#needleGlow)" />
-                  <circle cx="160" cy="180" r="10" fill="#FFF9D2" />
-                  <circle cx="160" cy="180" r="5" fill="#1a1a2e" />
+                  <line x1="160" y1="180" x2="160" y2="75" stroke="#8CC0EB" stroke-width="3" stroke-linecap="round" filter="url(#needleGlow)" />
                 </g>
               </g>
+
+              <!-- Static Needle Pivot (not part of rotating group) -->
+              <circle cx="160" cy="180" r="7" fill="#1e2438" stroke="rgba(140, 192, 235, 0.3)" stroke-width="1" />
+              <circle cx="160" cy="180" r="3" fill="#8CC0EB" />
 
               <!-- Gauge Scale Ticks -->
               <text x="35" y="200" class="gauge-scale">0</text>
