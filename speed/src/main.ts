@@ -42,32 +42,46 @@ let peakUpload = 0;
 let finalSummary: any = null;
 let finalScores: any = null;
 
-// Convert Mbps to Gauge Rotation (-120deg to +120deg)
-function mbpsToAngle(mbps: number): number {
-  if (mbps <= 0) return -120;
-  if (mbps >= 1000) return 120;
-  // Non-linear scale for human perception
-  // 0 -> -120deg
-  // 10 -> -80deg
-  // 50 -> -30deg
-  // 100 -> 0deg
-  // 250 -> 40deg
-  // 500 -> 80deg
-  // 1000 -> 120deg
-  const logVal = Math.log10(Math.max(1, mbps)); // 0 to 3
-  const normalized = logVal / 3; // 0 to 1
-  return -120 + normalized * 240;
+// Calculate accurate fraction of the gauge for any Mbps value (0 to 1000+)
+// Piecewise mapping precisely aligned with gauge scale ticks:
+//   0 Mbps    -> 0%   (-90 deg, start of arc)
+//   25 Mbps   -> 25%  (-45 deg)
+//   100 Mbps  -> 50%  (0 deg, top apex)
+//   500 Mbps  -> 75%  (+45 deg)
+//   1000 Mbps -> 100% (+90 deg, 1G+)
+function mbpsToFraction(mbps: number): number {
+  if (mbps <= 0) return 0;
+  if (mbps <= 25) {
+    return (mbps / 25) * 0.25;
+  } else if (mbps <= 100) {
+    return 0.25 + ((mbps - 25) / 75) * 0.25;
+  } else if (mbps <= 500) {
+    return 0.50 + ((mbps - 100) / 400) * 0.25;
+  } else if (mbps <= 1000) {
+    return 0.75 + ((mbps - 500) / 500) * 0.25;
+  } else {
+    return 1.0;
+  }
 }
+
+// Convert Mbps to Gauge Rotation (-90deg to +90deg)
+function mbpsToAngle(mbps: number): number {
+  const fraction = mbpsToFraction(mbps);
+  return -90 + fraction * 180;
+}
+
+// Arc length = Math.PI * 115 ≈ 361.3
+const ARC_TOTAL_LENGTH = 361.3;
 
 // Update Gauge Visuals
 function updateGauge(mbps: number, labelPhase?: string) {
   liveSpeedEl.textContent = mbps.toFixed(1);
-  const angle = mbpsToAngle(mbps);
-  needleGroup.setAttribute('transform', `rotate(${angle} 160 180)`);
+  const fraction = mbpsToFraction(mbps);
+  const angle = -90 + fraction * 180;
+  needleGroup.setAttribute('transform', `rotate(${angle} 160 175)`);
 
-  // Dashoffset from 471 (0%) down to 0 (100%)
-  const percent = Math.min(1, Math.max(0, (angle + 120) / 240));
-  const offset = 471 - (percent * 471);
+  // Dashoffset from ARC_TOTAL_LENGTH (0%) down to 0 (100%)
+  const offset = ARC_TOTAL_LENGTH * (1 - fraction);
   if (gaugeProgress) {
     gaugeProgress.style.strokeDashoffset = String(offset);
   }
