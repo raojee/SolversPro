@@ -156,14 +156,23 @@
             <svg class="gauge-svg" viewBox="0 0 320 215" overflow="hidden">
               <defs>
                 <linearGradient id="gaugeTrackGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#1e2438" />
-                  <stop offset="100%" stop-color="#2a3352" />
+                  <stop offset="0%" stop-color="#252b42" />
+                  <stop offset="50%" stop-color="#303860" />
+                  <stop offset="100%" stop-color="#252b42" />
                 </linearGradient>
                 <linearGradient id="gaugeProgressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#8CC0EB" />
-                  <stop offset="50%" stop-color="#5A9FD4" />
-                  <stop offset="100%" stop-color="#22c55e" />
+                  <stop offset="0%" stop-color="#00d4ff" />
+                  <stop offset="40%" stop-color="#5a8aff" />
+                  <stop offset="70%" stop-color="#a855f7" />
+                  <stop offset="100%" stop-color="#c026d3" />
                 </linearGradient>
+                <filter id="gaugeGlow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
               </defs>
 
               <!-- Outer Gauge Track Arc (180-deg semicircle, R=115, Center=(160, 175)) -->
@@ -187,6 +196,7 @@
                 stroke-linecap="round"
                 stroke-dasharray="362"
                 stroke-dashoffset="362"
+                filter="url(#gaugeGlow)"
               />
 
               <!-- Needle Group (kept empty for script compatibility) -->
@@ -228,7 +238,7 @@
           <div class="metric-card" id="card-download">
             <div class="metric-header">
               <div class="metric-icon-wrap download">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                 </svg>
               </div>
@@ -249,7 +259,7 @@
           <div class="metric-card" id="card-upload">
             <div class="metric-header">
               <div class="metric-icon-wrap upload">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
                 </svg>
               </div>
@@ -270,7 +280,7 @@
           <div class="metric-card" id="card-latency">
             <div class="metric-header">
               <div class="metric-icon-wrap latency">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <circle cx="12" cy="12" r="9" />
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3" />
                 </svg>
@@ -292,7 +302,7 @@
           <div class="metric-card" id="card-bufferbloat">
             <div class="metric-header">
               <div class="metric-icon-wrap bufferbloat">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
