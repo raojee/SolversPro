@@ -7,22 +7,53 @@ import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "IP Address Lookup",
-  "applicationCategory": "NetworkApplication",
-  "operatingSystem": "All",
+  "url": "https://solverspro.com/network/ip-lookup/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Look up any IP address to find its geolocation, ISP, organization, timezone, and more. Free and instant IP intelligence tool."
+  "description": "Free online IP address lookup tool to inspect any IPv4 or IPv6 address for geolocation coordinates, country, city, ISP organization, ASN, and timezone.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
+
+const faqs = [
+  {
+    question: "What is an IP address lookup?",
+    answer: "An IP address lookup is a query that analyzes an IPv4 or IPv6 address against regional internet registry databases (RIRs like ARIN, RIPE, APNIC) and geolocation data providers to reveal its country, region, city, ISP name, Autonomous System Number (ASN), and approximate geographic coordinates."
+  },
+  {
+    question: "How accurate is IP geolocation data?",
+    answer: "Country-level accuracy typically exceeds 99%, while city-level accuracy ranges between 70% and 90% depending on whether the connection is a residential ISP line, a mobile cellular gateway, or a cloud datacenter proxy."
+  },
+  {
+    question: "What is an Autonomous System Number (ASN)?",
+    answer: "An Autonomous System Number (ASN) is a globally unique identifier assigned to a network routing domain (such as an ISP, cloud provider, or university) that controls an independent Border Gateway Protocol (BGP) routing policy across the internet."
+  },
+  {
+    question: "Are queried IP addresses recorded or stored by SolversPro?",
+    answer: "No. SolversPro does not log, track, or save any IP addresses you query. The lookup requests are performed on-demand directly via client-side API requests."
+  }
+];
 ---
 
 <BaseLayout
-  title="IP Address Lookup — Find IP Location & Details | SolversPro"
+  title="IP Address Lookup — Find IP Location & Geolocation Details | SolversPro"
   description="Look up any IPv4 or IPv6 address to find its geolocation, ISP, ASN, timezone, and more. Free, fast, and accurate IP intelligence tool."
-  canonical="https://solverspro.com/network/ip-lookup"
+  canonical="https://solverspro.com/network/ip-lookup/"
   schema={schema}
 >
   <Header />
@@ -38,7 +69,9 @@ const schema = {
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">📡 IP Address Lookup</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Enter any public IPv4 or IPv6 address to instantly look up its geolocation, ISP, organization, timezone, and more.</p>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro IP Address Lookup is a free network intelligence tool that analyzes any public IPv4 or IPv6 address to identify its physical geolocation, ISP organization, ASN routing domain, and regional timezone in real time.
+        </p>
       </div>
 
       <!-- Input Section -->
@@ -165,6 +198,66 @@ const schema = {
       <div class="mt-6 bg-[#0d0d14] border border-white/[0.04] rounded-xl p-4 text-xs text-zinc-600 text-center">
         🔒 IP lookups are performed using a public API (ipapi.co). We do not store or log any queried IP addresses.
       </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mt-12 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-xl font-bold text-white mb-2">IP Intelligence & Geolocation Parameter Reference</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard network and geographic attributes returned by global IP intelligence lookups.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-400 font-mono text-xs uppercase">
+                <th class="py-3 px-4">Parameter</th>
+                <th class="py-3 px-4">Technical Definition</th>
+                <th class="py-3 px-4">Data Source Type</th>
+                <th class="py-3 px-4">Example Value</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-300 font-mono text-xs">
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold">Country & Code</td>
+                <td class="py-3 px-4 text-white">ISO 3166-1 alpha-2 sovereign state</td>
+                <td class="py-3 px-4">Regional Internet Registry (RIR)</td>
+                <td class="py-3 px-4 text-[#2dd4bf]">United States (US)</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#ff6b35] font-bold">City & Region</td>
+                <td class="py-3 px-4 text-white">Metropolitan municipality and administrative division</td>
+                <td class="py-3 px-4">BGP Geofeed / Point-of-Presence (PoP)</td>
+                <td class="py-3 px-4 text-[#ff6b35]">Mountain View, California</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#a78bfa] font-bold">ISP / Organization</td>
+                <td class="py-3 px-4 text-white">Entity holding network route announcement</td>
+                <td class="py-3 px-4">WHOIS / Autonomous System Org</td>
+                <td class="py-3 px-4 text-[#a78bfa]">Google LLC</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#38bdf8] font-bold">ASN</td>
+                <td class="py-3 px-4 text-white">Autonomous System Number for BGP routing</td>
+                <td class="py-3 px-4">IANA / RIR Allocation Record</td>
+                <td class="py-3 px-4 text-[#38bdf8]">AS15169</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-yellow-400 font-bold">Coordinates</td>
+                <td class="py-3 px-4 text-white">Approximate latitude and longitude centroid</td>
+                <td class="py-3 px-4">Centroid Geolocation Mapping</td>
+                <td class="py-3 px-4 text-yellow-400">37.4056, -122.0775</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-purple-400 font-bold">Timezone & Offset</td>
+                <td class="py-3 px-4 text-white">IANA timezone database identifier and UTC offset</td>
+                <td class="py-3 px-4">Regional Timezone Database</td>
+                <td class="py-3 px-4 text-purple-400">America/Los_Angeles (-0700)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={faqs} />
+
       <ToolShare title="IP Address Lookup — Find IP Location & Details" url="https://solverspro.com/network/ip-lookup" />
       <SimilarTools category="network" currentPath="/network/ip-lookup" />
     

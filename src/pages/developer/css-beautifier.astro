@@ -7,22 +7,59 @@ import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 
+import ToolFAQ from '../../components/ToolFAQ.astro';
+
 const schema = {
-  "@context": "https://schema.org", "@type": "SoftwareApplication",
-  "name": "CSS Beautifier", "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All", "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Format compressed CSS into clean, readable stylesheets. One property per line with proper brace alignment. Free and browser-based."
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "CSS Beautifier",
+  "url": "https://solverspro.com/developer/css-beautifier/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free online CSS beautifier to format compressed, minified, or messy stylesheets into clean, readable CSS rules with proper brace indentation and property alignment.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
+
+const faqs = [
+  {
+    question: "What is a CSS beautifier?",
+    answer: "A CSS beautifier is a formatting tool that takes minified, compressed, or concatenated CSS stylesheets and organizes them with consistent selector spacing, one declaration per line, standard indentation, and clean brace alignment for effortless debugging and maintenance."
+  },
+  {
+    question: "Does beautifying CSS affect stylesheet cascade or specificity?",
+    answer: "No. Beautifying CSS only adjusts whitespace, tabs, and newlines. The order of declarations, selector specificity, at-rules (@media, @keyframes), and cascading hierarchy remain strictly identical."
+  },
+  {
+    question: "Can I choose between 2 spaces, 4 spaces, or tabs?",
+    answer: "Yes. The formatting toolbar allows you to select between 2-space indentation, 4-space indentation, or hard tabs depending on your team's code conventions."
+  },
+  {
+    question: "Is my stylesheet processed locally or uploaded to a server?",
+    answer: "Your CSS is processed entirely inside your local web browser using client-side JavaScript. No styles or assets are ever sent to an external server or saved in any database."
+  }
+];
 ---
 
-<BaseLayout title="CSS Beautifier | SolversPro" description="Format compressed CSS into clean, readable stylesheets. One property per line with proper brace alignment. Free and browser-based." canonical="https://solverspro.com/developer/css-beautifier" schema={schema}>
+<BaseLayout title="CSS Beautifier — Format & Prettify Stylesheets | SolversPro" description="CSS Beautifier formats minified or messy stylesheets into clean, readable CSS with configurable 2-space, 4-space, or tab indentation in your browser." canonical="https://solverspro.com/developer/css-beautifier/" schema={schema}>
   <Header /><SearchOverlay />
   <main class="flex-1 py-12">
     <div class="container mx-auto px-4 py-12 max-w-5xl">
       <Breadcrumbs items={[{label:'Home',href:'/'},{label:'Developer Tools',href:'/developer'},{label:'CSS Beautifier'}]} />
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">🎨 CSS Beautifier</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Format compressed or minified CSS into clean, readable stylesheets with proper indentation and brace alignment.</p>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro CSS Beautifier is a free, browser-based styling utility that converts minified or single-line CSS rules into structured, human-readable stylesheets with configurable indentation and brace alignment in real time.
+        </p>
       </div>
       
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[500px]">
@@ -48,6 +85,54 @@ const schema = {
           <textarea id="output-code" readonly class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:outline-none font-mono text-sm text-[#2dd4bf] resize-none min-h-[400px]" placeholder="/* Formatted CSS will appear here */"></textarea>
         </div>
       </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mt-12 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-xl font-bold text-white mb-2">CSS Formatting Standard Specifications</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard structural rules applied when converting minified rulesets into production-grade stylesheets.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-400 font-mono text-xs uppercase">
+                <th class="py-3 px-4">Syntax Element</th>
+                <th class="py-3 px-4">Minified State</th>
+                <th class="py-3 px-4">Beautified Formatting</th>
+                <th class="py-3 px-4">Rule Purpose</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-300 font-mono text-xs">
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold">Rule Selectors</td>
+                <td class="py-3 px-4 text-white font-mono">.card,.hero&#123;</td>
+                <td class="py-3 px-4 font-mono">.card, .hero &#123;<br /></td>
+                <td class="py-3 px-4">Clear selector separation and brace spacing</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#ff6b35] font-bold">Property Declarations</td>
+                <td class="py-3 px-4 text-white font-mono">color:#fff;display:flex</td>
+                <td class="py-3 px-4 font-mono">&nbsp;&nbsp;color: #fff;<br />&nbsp;&nbsp;display: flex;</td>
+                <td class="py-3 px-4">One declaration per line with trailing semicolon</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#a78bfa] font-bold">At-Rules (@media)</td>
+                <td class="py-3 px-4 text-white font-mono">@media(min-width:768px)&#123;...&#125;</td>
+                <td class="py-3 px-4 font-mono">2nd tier nested indentation</td>
+                <td class="py-3 px-4">Maintains visual scope for responsive queries</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#38bdf8] font-bold">Closing Braces</td>
+                <td class="py-3 px-4 text-white font-mono">;&#125;</td>
+                <td class="py-3 px-4 font-mono">&#125;<br /><br /></td>
+                <td class="py-3 px-4">Clean block termination with double line break</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={faqs} />
+
       <ToolShare title="CSS Beautifier" url="https://solverspro.com/developer/css-beautifier" />
       <SimilarTools category="developer" currentPath="/developer/css-beautifier" />
     </div>

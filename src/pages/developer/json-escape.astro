@@ -6,24 +6,50 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
 const schema = {
-  "@context": "https://schema.org", "@type": "SoftwareApplication",
-  "name": "JSON Escape & Unescape", "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All", "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Escape strings for embedding in JSON or unescape JSON-encoded strings back to plain text. Free and browser-based."
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "JSON Escape & Unescape Tool",
+  "url": "https://solverspro.com/developer/json-escape/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free online JSON string escaper and unescaper to encode quotes, backslashes, tabs, and newlines according to RFC 8259 client-side.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
-<BaseLayout title="JSON Escape & Unescape | SolversPro" description="Escape strings for embedding in JSON or unescape JSON-encoded strings back to plain text. Free and browser-based." canonical="https://solverspro.com/developer/json-escape" schema={schema}>
-  <Header /><SearchOverlay />
+<BaseLayout
+  title="JSON Escape & Unescape Tool | SolversPro"
+  description="Escape strings for embedding in JSON or unescape JSON-encoded strings back to plain text. Free and browser-based."
+  canonical="https://solverspro.com/developer/json-escape/"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
   <main class="flex-1 py-12">
     <div class="container mx-auto px-4 py-12 max-w-4xl">
       <Breadcrumbs items={[{label:'Home',href:'/'},{label:'Developer Tools',href:'/developer'},{label:'JSON Escape & Unescape'}]} />
+      
       <div class="mb-10 mt-4">
-        <h1 class="text-4xl font-bold text-white mb-4">🔤 JSON Escape & Unescape</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Escape special characters for embedding strings in JSON payloads, or unescape JSON-encoded strings back to plain text.</p>
+        <h1 class="text-4xl font-bold text-white mb-4">🔤 JSON Escape & Unescape Tool</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro JSON Escape & Unescape Tool is a free browser-based utility that encodes special characters (&quot;, \, \n, \r, \t) into RFC 8259 JSON escape sequences and decodes escaped strings into plain text.
+        </p>
       </div>
+
       <div class="flex flex-col lg:flex-row gap-6 w-full min-h-[500px]">
         <div class="flex-1 flex flex-col gap-4">
           <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
@@ -34,13 +60,84 @@ const schema = {
         </div>
         <div class="flex-1 flex flex-col gap-4">
           <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
-            <button id="btn-unescape" class="px-3 py-1.5 text-xs font-semibold bg-[#ff6b35]/20 hover:bg-[#ff6b35]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30">&larr; Unescape</button>
+            <button id="btn-unescape" class="px-3 py-1.5 text-xs font-semibold bg-[#ff6b35]/20 hover:bg-[#ff8c5a]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30">&larr; Unescape</button>
             <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">JSON Escaped</h2>
           </div>
           <textarea id="input-escaped" class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[350px]" placeholder='Line 1\nLine 2 with \"quotes\" and \\backslashes\\\nTab\there' spellcheck="false"></textarea>
         </div>
       </div>
       <div id="error-msg" class="hidden mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-mono"></div>
+
+      <!-- Reference Table -->
+      <div class="mt-10 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-base font-bold text-white mb-2">RFC 8259 JSON Escape Sequences Reference</h2>
+        <p class="text-xs text-zinc-400 mb-4">Standard JSON escape characters and byte representations.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-300">
+                <th class="py-2.5 px-3 font-semibold">Character Name</th>
+                <th class="py-2.5 px-3 font-semibold">Plain Literal</th>
+                <th class="py-2.5 px-3 font-semibold">JSON Escape Code</th>
+                <th class="py-2.5 px-3 font-semibold">Hex Codepoint</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-400 font-mono">
+              <tr>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Quotation Mark</td>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">"</td>
+                <td class="py-2 px-3 text-emerald-400">\"</td>
+                <td class="py-2 px-3">\u0022</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Reverse Solidus (Backslash)</td>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">\</td>
+                <td class="py-2 px-3 text-emerald-400">\\</td>
+                <td class="py-2 px-3">\u005C</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Line Feed (Newline)</td>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">\n</td>
+                <td class="py-2 px-3 text-emerald-400">\n</td>
+                <td class="py-2 px-3">\u000A</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Carriage Return</td>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">\r</td>
+                <td class="py-2 px-3 text-emerald-400">\r</td>
+                <td class="py-2 px-3">\u000D</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Horizontal Tab</td>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">\t</td>
+                <td class="py-2 px-3 text-emerald-400">\t</td>
+                <td class="py-2 px-3">\u0009</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={[
+        {
+          question: "Which characters are escaped for JSON strings?",
+          answer: "Double quotes (\"), backslashes (\\), newlines (\n), carriage returns (\r), tabs (\t), backspaces (\b), and form feeds (\f)."
+        },
+        {
+          question: "Does this tool support unicode escape sequences?",
+          answer: "Yes, unicode code points like \\uXXXX are properly unescaped to their corresponding UTF-8 characters."
+        },
+        {
+          question: "Is my text data private?",
+          answer: "Yes, all JSON string escaping and unescaping use native JavaScript JSON.stringify and JSON.parse in your local browser."
+        },
+        {
+          question: "Is this tool free?",
+          answer: "Yes, the SolversPro JSON Escape tool is completely free with no usage limits."
+        }
+      ]} />
+
       <ToolShare title="JSON Escape & Unescape" url="https://solverspro.com/developer/json-escape" />
       <SimilarTools category="developer" currentPath="/developer/json-escape" />
     </div>

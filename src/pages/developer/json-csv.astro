@@ -7,21 +7,34 @@ import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 
+import ToolFAQ from '../../components/ToolFAQ.astro';
+
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "JSON to CSV / CSV to JSON Converter",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All",
+  "@type": "WebApplication",
+  "name": "JSON to CSV & CSV to JSON Converter",
+  "url": "https://solverspro.com/developer/json-csv/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Convert JSON arrays to CSV spreadsheets or CSV data back to JSON instantly. Handles nested objects with dot-notation flattening. Free and browser-based."
+  "description": "Free online bidirectional JSON to CSV and CSV to JSON converter with automatic nested object flattening, delimiter detection, and client-side processing.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
 <BaseLayout
   title="JSON ↔ CSV Converter | SolversPro"
   description="Convert JSON arrays to CSV spreadsheets or CSV data back to JSON instantly. Handles nested objects with dot-notation flattening. Free and browser-based."
-  canonical="https://solverspro.com/developer/json-csv"
+  canonical="https://solverspro.com/developer/json-csv/"
   schema={schema}
 >
   <Header />
@@ -37,7 +50,9 @@ const schema = {
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">📊 JSON ↔ CSV Converter</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Convert JSON arrays to CSV tables or CSV data back to JSON objects. Handles nested objects with dot-notation flattening. All processing runs locally in your browser.</p>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro JSON ↔ CSV Converter is a free browser-based developer utility that converts JSON arrays into CSV spreadsheets and transforms CSV tables into JSON structures with dot-notation flattening in real time.
+        </p>
       </div>
 
       <div class="flex flex-col lg:flex-row gap-6 w-full min-h-[500px]">
@@ -58,7 +73,7 @@ const schema = {
         <!-- CSV Side -->
         <div class="flex-1 flex flex-col gap-4">
           <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
-            <button id="btn-to-json" class="px-3 py-1.5 text-xs font-semibold bg-[#ff6b35]/20 hover:bg-[#ff6b35]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30">&larr; To JSON</button>
+            <button id="btn-to-json" class="px-3 py-1.5 text-xs font-semibold bg-[#ff6b35]/20 hover:bg-[#ff8c5a]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30">&larr; To JSON</button>
             <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">CSV</h2>
           </div>
           <textarea
@@ -73,8 +88,74 @@ const schema = {
       <!-- Error display -->
       <div id="error-msg" class="hidden mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-mono"></div>
 
+      <!-- Reference Table -->
+      <div class="mt-10 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-base font-bold text-white mb-2">JSON &amp; CSV Data Structure Mapping Reference</h2>
+        <p class="text-xs text-zinc-400 mb-4">Standard RFC 4180 CSV translation and nested object flattening rules.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-300">
+                <th class="py-2.5 px-3 font-semibold">JSON Structure</th>
+                <th class="py-2.5 px-3 font-semibold">CSV Column Equivalent</th>
+                <th class="py-2.5 px-3 font-semibold">Flattening Rule</th>
+                <th class="py-2.5 px-3 font-semibold">RFC 4180 Escaping</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-400 font-mono">
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">Top-level Key</td>
+                <td class="py-2 px-3 text-emerald-400">Column Header</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Direct mapping to CSV header</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Raw or quoted if special chars</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">Nested Object</td>
+                <td class="py-2 px-3 text-emerald-400">parent.child</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Dot-notation concatenated keys</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Evaluated as discrete column</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">Primitive Array</td>
+                <td class="py-2 px-3 text-emerald-400">key[0], key[1]</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Index-suffixed columns or joined</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Wrapped in quotes if delimiter present</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">Commas in String</td>
+                <td class="py-2 px-3 text-emerald-400">"val,1"</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Wrapped in RFC 4180 quotes</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Double quotes escaped as ""</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={[
+        {
+          question: "How are nested JSON objects converted into CSV columns?",
+          answer: "Nested properties are flattened using dot notation (e.g. user.address.city) so each leaf property receives its own CSV column header."
+        },
+        {
+          question: "Does this converter handle commas and quotes in values?",
+          answer: "Yes, all fields containing commas, line breaks, or double quotes are escaped and wrapped in RFC 4180 quotes."
+        },
+        {
+          question: "Are my JSON and CSV datasets stored on any server?",
+          answer: "No, all transformation logic executes locally in your browser using PapaParse with zero external network transmission."
+        },
+        {
+          question: "Is this tool free?",
+          answer: "Yes, the SolversPro JSON to CSV converter is 100% free with no file size limits or paywalls."
+        }
+      ]} />
+
       <ToolShare title="JSON ↔ CSV Converter" url="https://solverspro.com/developer/json-csv" />
       <SimilarTools category="developer" currentPath="/developer/json-csv" />
+    </div>
+  </main>
     </div>
   </main>
   <Footer />

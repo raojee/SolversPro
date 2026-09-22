@@ -6,22 +6,34 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "XML to YAML / YAML to XML Converter",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All",
+  "@type": "WebApplication",
+  "name": "XML to YAML & YAML to XML Converter",
+  "url": "https://solverspro.com/developer/xml-yaml/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Convert between XML and YAML formats. Useful for config file migration and cross-platform data exchange. Free and browser-based."
+  "description": "Free online bidirectional XML to YAML and YAML to XML converter for server configurations, Kubernetes manifests, and data interchange client-side.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
 <BaseLayout
   title="XML ↔ YAML Converter | SolversPro"
   description="Convert between XML and YAML formats. Useful for config file migration and cross-platform data exchange. Free and browser-based."
-  canonical="https://solverspro.com/developer/xml-yaml"
+  canonical="https://solverspro.com/developer/xml-yaml/"
   schema={schema}
 >
   <Header />
@@ -37,7 +49,9 @@ const schema = {
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">🔀 XML ↔ YAML Converter</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Convert between XML and YAML formats. Perfect for migrating config files between platforms and frameworks.</p>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro XML ↔ YAML Converter is a free browser-based developer utility that performs instant bidirectional conversions between hierarchical XML documents and clean YAML 1.2 specifications.
+        </p>
       </div>
 
       <div class="flex flex-col lg:flex-row gap-6 w-full min-h-[500px]">
@@ -58,7 +72,7 @@ const schema = {
         <!-- YAML Side -->
         <div class="flex-1 flex flex-col gap-4">
           <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
-            <button id="btn-to-xml" class="px-3 py-1.5 text-xs font-semibold bg-[#ff6b35]/20 hover:bg-[#ff6b35]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30">&larr; To XML</button>
+            <button id="btn-to-xml" class="px-3 py-1.5 text-xs font-semibold bg-[#ff6b35]/20 hover:bg-[#ff8c5a]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30">&larr; To XML</button>
             <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">YAML</h2>
           </div>
           <textarea
@@ -71,6 +85,70 @@ const schema = {
       </div>
 
       <div id="error-msg" class="hidden mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-mono"></div>
+
+      <!-- Reference Table -->
+      <div class="mt-10 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-base font-bold text-white mb-2">XML to YAML Node Structure Transformation Reference</h2>
+        <p class="text-xs text-zinc-400 mb-4">Structural mapping rules between XML document trees and YAML mappings.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-300">
+                <th class="py-2.5 px-3 font-semibold">XML Component</th>
+                <th class="py-2.5 px-3 font-semibold">YAML Equivalent</th>
+                <th class="py-2.5 px-3 font-semibold">Nesting Behavior</th>
+                <th class="py-2.5 px-3 font-semibold">Example Output</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-400 font-mono">
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">Element Tag</td>
+                <td class="py-2 px-3 text-emerald-400">Dictionary Key</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Tag name followed by colon</td>
+                <td class="py-2 px-3 text-zinc-400">server:</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">Repeated Child Tag</td>
+                <td class="py-2 px-3 text-emerald-400">Sequence / List item</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Consecutive siblings become array</td>
+                <td class="py-2 px-3 text-zinc-400">- item_1\n- item_2</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">Text Node Content</td>
+                <td class="py-2 px-3 text-emerald-400">Scalar Value</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Primitive string, number, or boolean</td>
+                <td class="py-2 px-3 text-zinc-400">port: 8080</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">Nested Container Tag</td>
+                <td class="py-2 px-3 text-emerald-400">Indented Block</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">2-space hierarchical indent</td>
+                <td class="py-2 px-3 text-zinc-400">database:\n  host: 127.0.0.1</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={[
+        {
+          question: "How are XML tags mapped to YAML keys?",
+          answer: "Child XML elements translate into YAML dictionary keys with nested indentation, and repeated sibling tags become YAML array lists."
+        },
+        {
+          question: "Can I convert YAML files back to valid XML?",
+          answer: "Yes, clicking 'To XML' wraps the YAML object keys in standard opening and closing XML tags."
+        },
+        {
+          question: "Is any of my configuration data uploaded to an external server?",
+          answer: "No, all parsing uses the browser's DOMParser and client-side js-yaml library locally."
+        },
+        {
+          question: "Is this tool free?",
+          answer: "Yes, the SolversPro XML ↔ YAML Converter is 100% free with no conversion quotas or sign-up."
+        }
+      ]} />
 
       <ToolShare title="XML ↔ YAML Converter" url="https://solverspro.com/developer/xml-yaml" />
       <SimilarTools category="developer" currentPath="/developer/xml-yaml" />

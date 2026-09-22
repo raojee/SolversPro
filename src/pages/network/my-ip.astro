@@ -7,22 +7,53 @@ import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "My IP Checker",
-  "applicationCategory": "NetworkApplication",
-  "operatingSystem": "All",
+  "@type": "WebApplication",
+  "name": "What Is My IP",
+  "url": "https://solverspro.com/network/my-ip/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Instantly find your public IP address along with location, ISP, timezone, and more. Free tool that fetches your IP details securely."
+  "description": "Free instant public IP checker detecting IPv4 and IPv6 addresses along with geographic location, ISP, country, city, and timezone without logging.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
+
+const faqs = [
+  {
+    question: "What is a public IP address?",
+    answer: "A public IP address is a globally unique numerical identifier assigned to your internet router or connection by your Internet Service Provider (ISP), enabling devices across the global internet to route data packets to and from your network."
+  },
+  {
+    question: "What is the difference between IPv4 and IPv6?",
+    answer: "IPv4 uses 32-bit addresses formatted as four decimal numbers separated by dots (e.g., 198.51.100.1), yielding approximately 4.3 billion possible addresses. IPv6 uses 128-bit addresses formatted in hexadecimal groups separated by colons (e.g., 2001:db8::1), providing virtually unlimited address space to accommodate all global devices."
+  },
+  {
+    question: "Can someone find my physical street address from my IP?",
+    answer: "No. IP geolocation relies on ISP routing blocks and typically resolves only to your general city, region, or postal code area. Only your Internet Service Provider possesses records linking your IP address to a physical billing address."
+  },
+  {
+    question: "Does SolversPro store or log my IP address?",
+    answer: "No. SolversPro does not log, save, or monetize queried IP addresses. All geolocation lookups query client-side public APIs directly from your web browser, ensuring complete user privacy."
+  }
+];
 ---
 
 <BaseLayout
-  title="My IP Checker — What Is My IP? | SolversPro"
+  title="What Is My IP Address? — Check Public IP & Location | SolversPro"
   description="Find your public IP address instantly. See your IP location, ISP, country, city, timezone, and more. Free, fast, and secure."
-  canonical="https://solverspro.com/network/my-ip"
+  canonical="https://solverspro.com/network/my-ip/"
   schema={schema}
 >
   <Header />
@@ -38,7 +69,9 @@ const schema = {
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">🔍 What Is My IP Address?</h1>
-        <p class="text-zinc-300 text-lg max-w-2xl">Your public IP address and location details are loaded automatically below. This is the address websites and services see when you connect to the internet.</p>
+        <p class="text-zinc-300 text-lg max-w-2xl">
+          The SolversPro IP Checker is a free, privacy-first network tool that detects your public IPv4 or IPv6 address and displays your ISP, country, city, coordinates, and timezone in real time without storing user logs.
+        </p>
       </div>
 
       <!-- Main IP Card (Always visible with fixed min-height to prevent CLS) -->
@@ -118,6 +151,66 @@ const schema = {
       <div class="bg-[#0d0d14] border border-white/[0.04] rounded-xl p-4 text-xs text-zinc-400 text-center">
         🔒 Your IP is fetched using a public API (ipify.org + ipapi.co). We do not store or log your IP address.
       </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mt-12 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-xl font-bold text-white mb-2">IP Address Allocation & Scope Reference</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard classifications separating routable public internet addresses from reserved private network ranges.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-400 font-mono text-xs uppercase">
+                <th class="py-3 px-4">Address Scope</th>
+                <th class="py-3 px-4">IPv4 Address Range</th>
+                <th class="py-3 px-4">RFC Specification</th>
+                <th class="py-3 px-4">Internet Routability</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-300 font-mono text-xs">
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold">Public IPv4</td>
+                <td class="py-3 px-4 text-white">Global Unicast (excluding reserved)</td>
+                <td class="py-3 px-4">IANA Global Allocations</td>
+                <td class="py-3 px-4 text-green-400">Routable across global web</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#ff6b35] font-bold">Class A Private</td>
+                <td class="py-3 px-4 text-white">10.0.0.0 – 10.255.255.255 (/8)</td>
+                <td class="py-3 px-4">RFC 1918</td>
+                <td class="py-3 px-4 text-zinc-400">Non-routable (Enterprise Intranet)</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#ff6b35] font-bold">Class B Private</td>
+                <td class="py-3 px-4 text-white">172.16.0.0 – 172.31.255.255 (/12)</td>
+                <td class="py-3 px-4">RFC 1918</td>
+                <td class="py-3 px-4 text-zinc-400">Non-routable (Corporate LAN)</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#ff6b35] font-bold">Class C Private</td>
+                <td class="py-3 px-4 text-white">192.168.0.0 – 192.168.255.255 (/16)</td>
+                <td class="py-3 px-4">RFC 1918</td>
+                <td class="py-3 px-4 text-zinc-400">Non-routable (Home / Small Office)</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#a78bfa] font-bold">Loopback</td>
+                <td class="py-3 px-4 text-white">127.0.0.0 – 127.255.255.255 (/8)</td>
+                <td class="py-3 px-4">RFC 1122</td>
+                <td class="py-3 px-4 text-zinc-400">Local host internal interface</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#38bdf8] font-bold">Public IPv6</td>
+                <td class="py-3 px-4 text-white">2000::/3 Global Unicast</td>
+                <td class="py-3 px-4">RFC 4291</td>
+                <td class="py-3 px-4 text-green-400">Direct end-to-end routable</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={faqs} />
+
       <ToolShare title="My IP Checker — What Is My IP?" url="https://solverspro.com/network/my-ip" />
       <SimilarTools category="network" currentPath="/network/my-ip" />
     

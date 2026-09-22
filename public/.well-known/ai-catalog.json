@@ -624,7 +624,7 @@
     },
     {
       "name": "IP Subnet Calculator",
-      "description": "Calculate network address, broadcast, subnet mask, host range, and usable hosts for any IPv4 subnet using CIDR notation.",
+      "description": "Calculate network address, broadcast, host range, subnet mask, and usable hosts. Supports CIDR notation.",
       "url": "https://solverspro.com/network/ip-subnet-calculator/",
       "category": "network-tools",
       "capabilities": [
@@ -635,8 +635,8 @@
       "cost": "free"
     },
     {
-      "name": "My IP Checker",
-      "description": "Instantly find your public IP address with location, ISP, timezone, and coordinates.",
+      "name": "What Is My IP",
+      "description": "Check your public IPv4/IPv6 address, ISP, location coordinates, and timezone instantly.",
       "url": "https://solverspro.com/network/my-ip/",
       "category": "network-tools",
       "capabilities": [
@@ -648,7 +648,7 @@
     },
     {
       "name": "IP Address Lookup",
-      "description": "Look up any public IP address to find its geolocation, ISP, ASN, timezone, and network details.",
+      "description": "Look up any IP address to find its geographic location, ISP organization, ASN, and timezone.",
       "url": "https://solverspro.com/network/ip-lookup/",
       "category": "network-tools",
       "capabilities": [

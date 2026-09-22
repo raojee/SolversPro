@@ -7,23 +7,50 @@ import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 
+import ToolFAQ from '../../components/ToolFAQ.astro';
+
 const schema = {
-  "@context": "https://schema.org", "@type": "SoftwareApplication",
-  "name": "JSON to Java Converter", "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All", "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Generate Java POJO classes with getters, setters, and proper type mapping from any JSON structure. Free and browser-based."
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "JSON to Java POJO Converter",
+  "url": "https://solverspro.com/developer/json-to-java/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free online JSON to Java converter to generate Java POJO classes with getters, setters, constructors, and field type mapping client-side.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
-<BaseLayout title="JSON to Java | SolversPro" description="Generate Java POJO classes with getters, setters, and proper type mapping from any JSON structure. Free and browser-based." canonical="https://solverspro.com/developer/json-to-java" schema={schema}>
-  <Header /><SearchOverlay />
+<BaseLayout
+  title="JSON to Java POJO Converter | SolversPro"
+  description="Generate Java POJO classes with getters, setters, and proper type mapping from any JSON structure. Free and browser-based."
+  canonical="https://solverspro.com/developer/json-to-java/"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
   <main class="flex-1 py-12">
     <div class="container mx-auto px-4 py-12 max-w-5xl">
       <Breadcrumbs items={[{label:'Home',href:'/'},{label:'Developer Tools',href:'/developer'},{label:'JSON to Java'}]} />
+      
       <div class="mb-10 mt-4">
-        <h1 class="text-4xl font-bold text-white mb-4">☕ JSON to Java</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Paste any JSON object and instantly generate Java POJO classes with getters, setters, and proper type mapping.</p>
+        <h1 class="text-4xl font-bold text-white mb-4">☕ JSON to Java POJO Converter</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro JSON to Java Converter is a free browser-based developer utility that transforms arbitrary JSON objects into complete Java POJO classes with private fields, getters, and setters in real time.
+        </p>
       </div>
+
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[500px]">
         <div class="flex flex-col">
           <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
@@ -41,6 +68,83 @@ const schema = {
         </div>
       </div>
       <div id="error-msg" class="hidden mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-mono"></div>
+
+      <!-- Reference Table -->
+      <div class="mt-10 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-base font-bold text-white mb-2">JSON to Java Type Mapping Reference</h2>
+        <p class="text-xs text-zinc-400 mb-4">Standard Java type conversions applied during POJO generation.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-300">
+                <th class="py-2.5 px-3 font-semibold">JSON Data Type</th>
+                <th class="py-2.5 px-3 font-semibold">Java POJO Type</th>
+                <th class="py-2.5 px-3 font-semibold">Java Package</th>
+                <th class="py-2.5 px-3 font-semibold">Getter / Setter Method</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-400 font-mono">
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">string</td>
+                <td class="py-2 px-3 text-emerald-400">String</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">java.lang</td>
+                <td class="py-2 px-3 text-zinc-300">getName() / setName(String)</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">number (integer)</td>
+                <td class="py-2 px-3 text-emerald-400">Long / Integer</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">java.lang</td>
+                <td class="py-2 px-3 text-zinc-300">getAge() / setAge(Long)</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">number (decimal)</td>
+                <td class="py-2 px-3 text-emerald-400">Double</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">java.lang</td>
+                <td class="py-2 px-3 text-zinc-300">getPrice() / setPrice(Double)</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">boolean</td>
+                <td class="py-2 px-3 text-emerald-400">Boolean</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">java.lang</td>
+                <td class="py-2 px-3 text-zinc-300">isActive() / setActive(Boolean)</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">array</td>
+                <td class="py-2 px-3 text-emerald-400">List&lt;T&gt;</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">java.util.List</td>
+                <td class="py-2 px-3 text-zinc-300">getItems() / setItems(List&lt;T&gt;)</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">nested object</td>
+                <td class="py-2 px-3 text-emerald-400">CustomClass</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Inner static class</td>
+                <td class="py-2 px-3 text-zinc-300">getAddress() / setAddress(Address)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={[
+        {
+          question: "Does this JSON to Java converter transmit my code to a server?",
+          answer: "No, all parsing, class definition, and method synthesis run 100% locally in your browser using JavaScript."
+        },
+        {
+          question: "Are getters and setters generated automatically?",
+          answer: "Yes, each property generates standard JavaBean-compliant getter and setter methods following camelCase conventions."
+        },
+        {
+          question: "How are nested objects and lists handled?",
+          answer: "Nested JSON objects are extracted as independent static inner classes or standalone classes, and JSON arrays map to java.util.List<T>."
+        },
+        {
+          question: "Is this Java POJO tool free?",
+          answer: "Yes, the SolversPro JSON to Java converter is 100% free with no registration or usage limitations."
+        }
+      ]} />
+
       <ToolShare title="JSON to Java" url="https://solverspro.com/developer/json-to-java" />
       <SimilarTools category="developer" currentPath="/developer/json-to-java" />
     </div>

@@ -7,22 +7,59 @@ import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 
+import ToolFAQ from '../../components/ToolFAQ.astro';
+
 const schema = {
-  "@context": "https://schema.org", "@type": "SoftwareApplication",
-  "name": "JavaScript Beautifier", "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All", "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Format minified JavaScript into readable, properly indented code. Handles braces, semicolons, and nesting. Free and browser-based."
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "JavaScript Beautifier",
+  "url": "https://solverspro.com/developer/js-beautifier/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free online JavaScript beautifier to format, un-minify, and indent messy JS and TypeScript code with customizable 2-space, 4-space, or tab indentation.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
+
+const faqs = [
+  {
+    question: "What does a JavaScript beautifier do?",
+    answer: "A JavaScript beautifier unpacks minified, compressed, or single-line JavaScript and TypeScript scripts into readable code with normalized line breaks, indented lexical scopes, spaced operators, and standardized curly bracket formatting."
+  },
+  {
+    question: "Can a beautifier de-obfuscate mangled variable names?",
+    answer: "A beautifier restores code structure and indentation, but it cannot recover original variable names if they were shortened or mangled (e.g., from 'userData' to 'a') during production minification or obfuscation unless a source map is supplied."
+  },
+  {
+    question: "Will beautifying break string literals or regexes?",
+    answer: "No. The formatting parser protects string literals (single, double, and backtick template literals) and regular expression literals from unexpected indentation or newline insertion."
+  },
+  {
+    question: "Is my JavaScript code uploaded to any external server?",
+    answer: "No. All formatting logic runs 100% client-side inside your browser engine. Your confidential scripts, functions, and API logic never leave your device."
+  }
+];
 ---
 
-<BaseLayout title="JavaScript Beautifier | SolversPro" description="Format minified JavaScript into readable, properly indented code. Handles braces, semicolons, and nesting. Free and browser-based." canonical="https://solverspro.com/developer/js-beautifier" schema={schema}>
+<BaseLayout title="JavaScript Beautifier — Format & Un-Minify JS Code | SolversPro" description="JavaScript Beautifier formats minified or messy JS scripts into readable, properly indented code with customizable space or tab indentation in your browser." canonical="https://solverspro.com/developer/js-beautifier/" schema={schema}>
   <Header /><SearchOverlay />
   <main class="flex-1 py-12">
     <div class="container mx-auto px-4 py-12 max-w-5xl">
       <Breadcrumbs items={[{label:'Home',href:'/'},{label:'Developer Tools',href:'/developer'},{label:'JavaScript Beautifier'}]} />
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">⚡ JavaScript Beautifier</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Format minified JavaScript into readable, properly indented code. Handles nested blocks, functions, and arrays.</p>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro JavaScript Beautifier is a free, browser-based coding tool that un-minifies, formats, and structures tangled JavaScript and TypeScript code with customizable indentation and clean bracket alignment in real time.
+        </p>
       </div>
       
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[500px]">
@@ -48,6 +85,54 @@ const schema = {
           <textarea id="output-code" readonly class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:outline-none font-mono text-sm text-[#2dd4bf] resize-none min-h-[400px]" placeholder="// Formatted JS will appear here"></textarea>
         </div>
       </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mt-12 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-xl font-bold text-white mb-2">JavaScript Code Formatting Rules</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard structural rules applied when converting minified scripts into clean, readable code.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-400 font-mono text-xs uppercase">
+                <th class="py-3 px-4">Language Construct</th>
+                <th class="py-3 px-4">Minified Code Pattern</th>
+                <th class="py-3 px-4">Formatted Code Pattern</th>
+                <th class="py-3 px-4">Formatting Benefit</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-300 font-mono text-xs">
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold">Function Definitions</td>
+                <td class="py-3 px-4 text-white font-mono">function add(a,b)&#123;return a+b;&#125;</td>
+                <td class="py-3 px-4 font-mono">function add(a, b) &#123;<br />&nbsp;&nbsp;return a + b;<br />&#125;</td>
+                <td class="py-3 px-4">Parameter spacing and body indentation</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#ff6b35] font-bold">Conditionals & Loops</td>
+                <td class="py-3 px-4 text-white font-mono">if(x&gt;0)&#123;doX();&#125;else&#123;doY();&#125;</td>
+                <td class="py-3 px-4 font-mono">if (x &gt; 0) &#123;<br />&nbsp;&nbsp;doX();<br />&#125; else &#123;<br />&nbsp;&nbsp;doY();<br />&#125;</td>
+                <td class="py-3 px-4">Distinct branch visibility and block separation</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#a78bfa] font-bold">Object Literals</td>
+                <td class="py-3 px-4 text-white font-mono">&#123;id:1,name:"test",active:!0&#125;</td>
+                <td class="py-3 px-4 font-mono">&#123;<br />&nbsp;&nbsp;id: 1,<br />&nbsp;&nbsp;name: "test"<br />&#125;</td>
+                <td class="py-3 px-4">Key-value pair alignment and readable properties</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#38bdf8] font-bold">Array Definitions</td>
+                <td class="py-3 px-4 text-white font-mono">[1,2,"three",&#123;val:4&#125;]</td>
+                <td class="py-3 px-4 font-mono">[<br />&nbsp;&nbsp;1,<br />&nbsp;&nbsp;2,<br />&nbsp;&nbsp;"three"<br />]</td>
+                <td class="py-3 px-4">Element itemization and bracket balancing</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={faqs} />
+
       <ToolShare title="JavaScript Beautifier" url="https://solverspro.com/developer/js-beautifier" />
       <SimilarTools category="developer" currentPath="/developer/js-beautifier" />
     </div>

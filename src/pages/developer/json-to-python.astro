@@ -10,13 +10,19 @@ import SearchOverlay from '../../components/SearchOverlay.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "JSON to Python Converter",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All",
+  "url": "https://solverspro.com/developer/json-to-python/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Convert JSON data to Python dataclasses, dictionaries, and lists with type annotations. Free online tool for API integration and data modeling.",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  "description": "Convert JSON data to Python dataclasses and typed models with type annotations. Free online tool for API integration and data modeling client-side.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 
 const faqs = [
@@ -38,7 +44,7 @@ const faqs = [
 <BaseLayout
   title="JSON to Python Converter — Generate Type-Safe Dataclasses | SolversPro"
   description="Convert raw JSON payloads into clean, type-annotated Python dataclasses instantly. Free browser-based developer tool for API models and data pipelines."
-  canonical="https://solverspro.com/developer/json-to-python"
+  canonical="https://solverspro.com/developer/json-to-python/"
   schema={schema}
 >
   <Header />
@@ -50,8 +56,11 @@ const faqs = [
       <!-- Hero Section -->
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">🐍 JSON to Python Converter</h1>
-        <p class="text-zinc-300 text-lg leading-relaxed max-w-4xl">
-          Convert raw JSON data into clean, strongly-typed Python dataclasses, dictionaries, and list structures instantly. This free online utility is specifically designed for Python developers, data engineers, and backend architects migrating REST API responses, configuring data pipelines, or generating type-safe Python models from JSON schemas. Simply paste your JSON payload below to automatically generate PEP 8-compliant Python code with accurate type hints (<code class="text-[#2dd4bf] font-mono">str</code>, <code class="text-[#2dd4bf] font-mono">int</code>, <code class="text-[#2dd4bf] font-mono">float</code>, <code class="text-[#2dd4bf] font-mono">bool</code>, <code class="text-[#2dd4bf] font-mono">List</code>, and nested classes). All conversion is processed 100% locally inside your web browser—ensuring your sensitive data, API payloads, and tokens never touch an external server.
+        <p class="text-zinc-300 text-lg leading-relaxed max-w-4xl mb-4">
+          The SolversPro JSON to Python Converter is a free browser-based developer tool that transforms raw JSON payloads into clean, type-annotated Python dataclasses with nested object models in real time with client-side privacy.
+        </p>
+        <p class="text-zinc-400 text-sm leading-relaxed max-w-4xl">
+          Convert raw JSON data into clean, strongly-typed Python dataclasses, dictionaries, and list structures instantly. This free online utility is specifically designed for Python developers, data engineers, and backend architects migrating REST API responses, configuring data pipelines, or generating type-safe Python models from JSON schemas. Simply paste your JSON payload below to automatically generate PEP 8-compliant Python code with accurate type hints (<code class="text-[#2dd4bf] font-mono">str</code>, <code class="text-[#2dd4bf] font-mono">int</code>, <code class="text-[#2dd4bf] font-mono">float</code>, <code class="text-[#2dd4bf] font-mono">bool</code>, <code class="text-[#2dd4bf] font-mono">List</code>, and nested classes).
         </p>
       </div>
 
@@ -98,6 +107,68 @@ const faqs = [
             <li><strong>FastAPI & Pydantic Prototyping:</strong> Quickly bootstrapping data classes for schema validation, serialization, and type checking.</li>
             <li><strong>Codebase Refactoring:</strong> Upgrading raw dictionary-heavy codebases to clean, autocompleted dataclasses for better IDE support.</li>
           </ul>
+        </div>
+      </div>
+
+      <!-- Reference Table -->
+      <div class="mb-16 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-base font-bold text-white mb-2">JSON to Python Type Annotation Reference</h2>
+        <p class="text-xs text-zinc-400 mb-4">Standard PEP 484 and PEP 557 type conversions generated for Python dataclasses.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-300">
+                <th class="py-2.5 px-3 font-semibold">JSON Data Type</th>
+                <th class="py-2.5 px-3 font-semibold">Python Type Hint</th>
+                <th class="py-2.5 px-3 font-semibold">Module Required</th>
+                <th class="py-2.5 px-3 font-semibold">Example Output</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-400 font-mono">
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">string</td>
+                <td class="py-2 px-3 text-emerald-400">str</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Built-in</td>
+                <td class="py-2 px-3 text-zinc-300">name: str</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">number (integer)</td>
+                <td class="py-2 px-3 text-emerald-400">int</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Built-in</td>
+                <td class="py-2 px-3 text-zinc-300">age: int</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">number (float)</td>
+                <td class="py-2 px-3 text-emerald-400">float</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Built-in</td>
+                <td class="py-2 px-3 text-zinc-300">score: float</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">boolean</td>
+                <td class="py-2 px-3 text-emerald-400">bool</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Built-in</td>
+                <td class="py-2 px-3 text-zinc-300">is_admin: bool</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">null</td>
+                <td class="py-2 px-3 text-emerald-400">Optional[Any]</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">typing</td>
+                <td class="py-2 px-3 text-zinc-300">deleted_at: Optional[Any] = None</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">array</td>
+                <td class="py-2 px-3 text-emerald-400">List[T]</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">typing</td>
+                <td class="py-2 px-3 text-zinc-300">tags: List[str]</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">object</td>
+                <td class="py-2 px-3 text-emerald-400">ClassName</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">dataclasses (@dataclass)</td>
+                <td class="py-2 px-3 text-zinc-300">profile: UserProfile</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 

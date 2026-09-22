@@ -7,23 +7,50 @@ import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 
+import ToolFAQ from '../../components/ToolFAQ.astro';
+
 const schema = {
-  "@context": "https://schema.org", "@type": "SoftwareApplication",
-  "name": "XML Diff", "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All", "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Compare two XML documents with line-by-line diff highlighting. Find differences in structure and content. Free and browser-based."
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "XML Diff Tool",
+  "url": "https://solverspro.com/developer/xml-diff/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free online XML diff tool to compare two XML files with formatting normalization, DOM validation, and line-by-line diff highlighting.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
-<BaseLayout title="XML Diff | SolversPro" description="Compare two XML documents with line-by-line diff highlighting. Find differences in structure and content. Free and browser-based." canonical="https://solverspro.com/developer/xml-diff" schema={schema}>
-  <Header /><SearchOverlay />
+<BaseLayout
+  title="XML Diff Tool | SolversPro"
+  description="Compare two XML documents with line-by-line diff highlighting. Find differences in structure and content. Free and browser-based."
+  canonical="https://solverspro.com/developer/xml-diff/"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
   <main class="flex-1 py-12">
     <div class="container mx-auto px-4 py-12 max-w-5xl">
       <Breadcrumbs items={[{label:'Home',href:'/'},{label:'Developer Tools',href:'/developer'},{label:'XML Diff'}]} />
+      
       <div class="mb-10 mt-4">
-        <h1 class="text-4xl font-bold text-white mb-4">📄 XML Diff</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Compare two XML documents line by line with color-coded diff output. Normalizes formatting before comparison for accurate results.</p>
+        <h1 class="text-4xl font-bold text-white mb-4">📄 XML Diff Tool</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro XML Diff Tool is a free browser-based utility that normalizes and compares two XML documents line by line, highlighting added tags, deleted attributes, and modified node text.
+        </p>
       </div>
+
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <div class="flex flex-col">
           <div class="bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
@@ -43,6 +70,71 @@ const schema = {
       </div>
       <div id="diff-output" class="hidden bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6 font-mono text-sm overflow-x-auto min-h-[200px]"></div>
       <div id="error-msg" class="hidden mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-mono"></div>
+
+      <!-- Reference Table -->
+      <div class="mt-10 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-base font-bold text-white mb-2">XML Structural Diff Comparison Reference</h2>
+        <p class="text-xs text-zinc-400 mb-4">Node types and difference representations supported during XML comparisons.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-300">
+                <th class="py-2.5 px-3 font-semibold">Change Classification</th>
+                <th class="py-2.5 px-3 font-semibold">Diff Presentation</th>
+                <th class="py-2.5 px-3 font-semibold">XML Node Target</th>
+                <th class="py-2.5 px-3 font-semibold">Description</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-400 font-mono">
+              <tr>
+                <td class="py-2 px-3 text-emerald-400 font-bold">Element Added</td>
+                <td class="py-2 px-3 text-emerald-400 bg-emerald-500/10 rounded">+ &lt;tag&gt;</td>
+                <td class="py-2 px-3 text-[#2dd4bf] font-sans">Element Node</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Entire tag or tree exists only in second XML document</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-red-400 font-bold">Element Removed</td>
+                <td class="py-2 px-3 text-red-400 bg-red-500/10 rounded">- &lt;tag&gt;</td>
+                <td class="py-2 px-3 text-[#2dd4bf] font-sans">Element Node</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Tag was deleted in the modified XML version</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-yellow-400 font-bold">Text Value Changed</td>
+                <td class="py-2 px-3 text-yellow-400 bg-yellow-500/10 rounded">~ NodeValue</td>
+                <td class="py-2 px-3 text-[#2dd4bf] font-sans">Text / CDATA Node</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Tag attributes and names match, inner text content differs</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-zinc-400 font-bold">Attribute Modified</td>
+                <td class="py-2 px-3 text-yellow-400 bg-yellow-500/10 rounded">~ attr="val"</td>
+                <td class="py-2 px-3 text-[#2dd4bf] font-sans">Attribute Node</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Attribute key was altered, inserted, or removed</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={[
+        {
+          question: "Does this XML diff tool normalize indentation before comparing?",
+          answer: "Yes, it formats and indents XML strings before line comparison so that whitespace differences do not obscure content changes."
+        },
+        {
+          question: "Does my XML data stay secure?",
+          answer: "Yes, all XML DOM parsing and diff comparison algorithms run 100% locally in your browser with zero server uploads."
+        },
+        {
+          question: "How are malformed XML documents handled?",
+          answer: "The tool validates XML well-formedness using DOMParser; if syntax errors occur, an inline error notification alerts you to the exact issue."
+        },
+        {
+          question: "Is this XML comparison tool free?",
+          answer: "Yes, the SolversPro XML Diff tool is completely free with no usage limits."
+        }
+      ]} />
+
       <ToolShare title="XML Diff" url="https://solverspro.com/developer/xml-diff" />
       <SimilarTools category="developer" currentPath="/developer/xml-diff" />
     </div>

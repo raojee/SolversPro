@@ -7,22 +7,53 @@ import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "IP Subnet Calculator",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All",
+  "url": "https://solverspro.com/network/ip-subnet-calculator/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Calculate IP subnet details including network address, broadcast, host range, subnet mask, and usable hosts. Supports CIDR notation. 100% client-side."
+  "description": "Free online IPv4 subnet calculator to determine network address, broadcast address, CIDR prefix, subnet mask, usable host range, and total IPs in real time.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
+
+const faqs = [
+  {
+    question: "What is an IP subnet calculator?",
+    answer: "An IP subnet calculator is a networking utility that takes an IPv4 address along with a CIDR prefix (e.g., /24) or dotted-decimal subnet mask (e.g., 255.255.255.0) and calculates the network ID, broadcast address, valid host range, total addresses, and usable host count."
+  },
+  {
+    question: "How do you calculate usable host addresses in an IPv4 subnet?",
+    answer: "In standard IPv4 subnets (prefixes /1 through /30), usable hosts equal 2^(32 - prefix) - 2. The subtract-2 rule accounts for the network address (all host bits 0) and the broadcast address (all host bits 1), neither of which can be assigned to an individual network interface."
+  },
+  {
+    question: "What is CIDR notation?",
+    answer: "CIDR (Classless Inter-Domain Routing) notation represents an IP address and its associated routing prefix using a slash followed by the count of leading 1-bits in the subnet mask, such as 192.168.1.0/24 instead of 255.255.255.0."
+  },
+  {
+    question: "What are /31 and /32 subnets used for?",
+    answer: "Under RFC 3021, /31 subnets provide 2 usable addresses exclusively for point-to-point router links without standard broadcast overhead. A /32 prefix denotes a single host route (1 IP address) commonly used for loopback interfaces and firewall host rules."
+  }
+];
 ---
 
 <BaseLayout
-  title="IP Subnet Calculator | SolversPro"
-  description="Calculate network address, broadcast address, subnet mask, host range, and usable hosts for any IPv4 subnet. Supports CIDR notation. Free & runs in your browser."
-  canonical="https://solverspro.com/network/ip-subnet-calculator"
+  title="IP Subnet Calculator — CIDR & IPv4 Network Mask | SolversPro"
+  description="Calculate network address, broadcast address, subnet mask, host range, and usable hosts for any IPv4 subnet. Supports CIDR notation. Free & browser-based."
+  canonical="https://solverspro.com/network/ip-subnet-calculator/"
   schema={schema}
 >
   <Header />
@@ -38,7 +69,9 @@ const schema = {
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">🌐 IP Subnet Calculator</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Enter an IPv4 address with CIDR notation or subnet mask to instantly calculate all subnet details — network, broadcast, host range, and more.</p>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro IP Subnet Calculator is a free browser-based networking utility that computes IPv4 network boundaries, broadcast addresses, subnet masks, usable host ranges, and binary representations from any IP address and CIDR prefix in real time.
+        </p>
       </div>
 
       <!-- Input Section -->
@@ -155,6 +188,87 @@ const schema = {
           <SaveResultButton id="save-subnet-btn" />
         </div>
       </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mt-12 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-xl font-bold text-white mb-2">IPv4 Subnet Prefix & Capacity Reference</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard CIDR prefixes, subnet masks, total address capacity, and usable host counts for network planning.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-400 font-mono text-xs uppercase">
+                <th class="py-3 px-4">CIDR Prefix</th>
+                <th class="py-3 px-4">Subnet Mask</th>
+                <th class="py-3 px-4">Total IP Addresses</th>
+                <th class="py-3 px-4">Usable Host Range</th>
+                <th class="py-3 px-4">Common Use Case</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-300 font-mono text-xs">
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold">/24</td>
+                <td class="py-3 px-4 text-white">255.255.255.0</td>
+                <td class="py-3 px-4">256</td>
+                <td class="py-3 px-4 text-[#ff6b35]">254</td>
+                <td class="py-3 px-4">Standard LAN / Office Subnet (Class C)</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold">/25</td>
+                <td class="py-3 px-4 text-white">255.255.255.128</td>
+                <td class="py-3 px-4">128</td>
+                <td class="py-3 px-4 text-[#ff6b35]">126</td>
+                <td class="py-3 px-4">Department / VLAN Segmentation</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold">/26</td>
+                <td class="py-3 px-4 text-white">255.255.255.192</td>
+                <td class="py-3 px-4">64</td>
+                <td class="py-3 px-4 text-[#ff6b35]">62</td>
+                <td class="py-3 px-4">Mid-sized Server Subnet</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold">/27</td>
+                <td class="py-3 px-4 text-white">255.255.255.224</td>
+                <td class="py-3 px-4">32</td>
+                <td class="py-3 px-4 text-[#ff6b35]">30</td>
+                <td class="py-3 px-4">Branch Office / Cloud VPC Subnet</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold">/28</td>
+                <td class="py-3 px-4 text-white">255.255.255.240</td>
+                <td class="py-3 px-4">16</td>
+                <td class="py-3 px-4 text-[#ff6b35]">14</td>
+                <td class="py-3 px-4">Small DMZ / Appliance Cluster</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold">/29</td>
+                <td class="py-3 px-4 text-white">255.255.255.248</td>
+                <td class="py-3 px-4">8</td>
+                <td class="py-3 px-4 text-[#ff6b35]">6</td>
+                <td class="py-3 px-4">ISP Static IP Allocation</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold">/30</td>
+                <td class="py-3 px-4 text-white">255.255.255.252</td>
+                <td class="py-3 px-4">4</td>
+                <td class="py-3 px-4 text-[#ff6b35]">2</td>
+                <td class="py-3 px-4">Point-to-Point Router Link</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold">/32</td>
+                <td class="py-3 px-4 text-white">255.255.255.255</td>
+                <td class="py-3 px-4">1</td>
+                <td class="py-3 px-4 text-[#ff6b35]">1 (Host)</td>
+                <td class="py-3 px-4">Loopback / Single Host Route</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={faqs} />
+
       <ToolShare title="IP Subnet Calculator" url="https://solverspro.com/network/ip-subnet-calculator" />
       <SimilarTools category="network" currentPath="/network/ip-subnet-calculator" />
     

@@ -7,23 +7,50 @@ import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 
+import ToolFAQ from '../../components/ToolFAQ.astro';
+
 const schema = {
-  "@context": "https://schema.org", "@type": "SoftwareApplication",
-  "name": "Text Diff", "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All", "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Compare two blocks of text with a unified diff view. Highlights additions, deletions, and modifications line by line. Free and browser-based."
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Text Diff Checker",
+  "url": "https://solverspro.com/developer/text-diff/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free online text diff tool to compare two blocks of text line by line with unified diff view, additions, and deletions highlighted client-side.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
-<BaseLayout title="Text Diff | SolversPro" description="Compare two blocks of text with a unified diff view. Highlights additions, deletions, and modifications line by line. Free and browser-based." canonical="https://solverspro.com/developer/text-diff" schema={schema}>
-  <Header /><SearchOverlay />
+<BaseLayout
+  title="Text Diff Checker | SolversPro"
+  description="Compare two blocks of text with a unified diff view. Highlights additions, deletions, and modifications line by line. Free and browser-based."
+  canonical="https://solverspro.com/developer/text-diff/"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
   <main class="flex-1 py-12">
     <div class="container mx-auto px-4 py-12 max-w-5xl">
       <Breadcrumbs items={[{label:'Home',href:'/'},{label:'Developer Tools',href:'/developer'},{label:'Text Diff'}]} />
+      
       <div class="mb-10 mt-4">
-        <h1 class="text-4xl font-bold text-white mb-4">📝 Text Diff</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Compare two blocks of text line by line. Additions, deletions, and unchanged lines are color-coded for easy review.</p>
+        <h1 class="text-4xl font-bold text-white mb-4">📝 Text Diff Checker</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro Text Diff Checker is a free browser-based utility that computes unified line-by-line differences between two text documents with color-coded insertion and deletion tracking.
+        </p>
       </div>
+
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <div class="flex flex-col">
           <div class="bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
@@ -42,6 +69,65 @@ const schema = {
         <button id="btn-diff" class="px-6 py-2.5 text-sm font-semibold bg-[#ff6b35] hover:bg-[#ff8c5a] text-white rounded transition-colors" style="font-family:'JetBrains Mono',monospace;">Compare Text</button>
       </div>
       <div id="diff-output" class="hidden bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6 font-mono text-sm overflow-x-auto min-h-[200px]"></div>
+
+      <!-- Reference Table -->
+      <div class="mt-10 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-base font-bold text-white mb-2">Unified Text Diff Format & Syntax Reference</h2>
+        <p class="text-xs text-zinc-400 mb-4">Standard conventions used in unified line-by-line comparison views.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-300">
+                <th class="py-2.5 px-3 font-semibold">Diff Symbol</th>
+                <th class="py-2.5 px-3 font-semibold">Visual Indicator</th>
+                <th class="py-2.5 px-3 font-semibold">Classification</th>
+                <th class="py-2.5 px-3 font-semibold">Unified Diff Meaning</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-400 font-mono">
+              <tr>
+                <td class="py-2 px-3 text-emerald-400 font-bold">+</td>
+                <td class="py-2 px-3 text-emerald-400 bg-emerald-500/10 rounded">Green Row</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Addition</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Line introduced in the modified document</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-red-400 font-bold">-</td>
+                <td class="py-2 px-3 text-red-400 bg-red-500/10 rounded">Red Row</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Deletion</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Line removed from the original document</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-zinc-400 font-bold">space</td>
+                <td class="py-2 px-3 text-zinc-500">Neutral Row</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Context / Unchanged</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Line remains identical across both versions</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={[
+        {
+          question: "Does this text diff tool send text to any server?",
+          answer: "No, all Myers/Levenshtein line comparison algorithms execute 100% locally in your web browser."
+        },
+        {
+          question: "What format does the diff output follow?",
+          answer: "The output renders a unified diff presentation with line numbers, + prefixes for additions, and - prefixes for deletions."
+        },
+        {
+          question: "Can I compare code snippets as well as plain text?",
+          answer: "Yes, you can paste source code, configuration files (YAML, INI, ENV), Markdown, or plain prose."
+        },
+        {
+          question: "Is this text comparison tool free?",
+          answer: "Yes, the SolversPro Text Diff tool is 100% free with unlimited line comparisons."
+        }
+      ]} />
+
       <ToolShare title="Text Diff" url="https://solverspro.com/developer/text-diff" />
       <SimilarTools category="developer" currentPath="/developer/text-diff" />
     </div>

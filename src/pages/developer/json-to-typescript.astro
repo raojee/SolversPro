@@ -7,23 +7,50 @@ import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 
+import ToolFAQ from '../../components/ToolFAQ.astro';
+
 const schema = {
-  "@context": "https://schema.org", "@type": "SoftwareApplication",
-  "name": "JSON to TypeScript Converter", "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All", "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Generate TypeScript interfaces from JSON data. Infers types, handles nested objects, arrays, and optional fields. Free and browser-based."
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "JSON to TypeScript Converter",
+  "url": "https://solverspro.com/developer/json-to-typescript/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free online JSON to TypeScript converter to transform JSON payloads into strongly typed TypeScript interfaces and types client-side.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
-<BaseLayout title="JSON to TypeScript | SolversPro" description="Generate TypeScript interfaces from JSON data. Infers types, handles nested objects, arrays, and optional fields. Free and browser-based." canonical="https://solverspro.com/developer/json-to-typescript" schema={schema}>
-  <Header /><SearchOverlay />
+<BaseLayout
+  title="JSON to TypeScript Converter | SolversPro"
+  description="Generate TypeScript interfaces from JSON data instantly. Infers types, handles nested objects, arrays, and optional fields. Free and browser-based."
+  canonical="https://solverspro.com/developer/json-to-typescript/"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
   <main class="flex-1 py-12">
     <div class="container mx-auto px-4 py-12 max-w-5xl">
       <Breadcrumbs items={[{label:'Home',href:'/'},{label:'Developer Tools',href:'/developer'},{label:'JSON to TypeScript'}]} />
+      
       <div class="mb-10 mt-4">
-        <h1 class="text-4xl font-bold text-white mb-4">🟦 JSON to TypeScript</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Paste any JSON object and instantly generate fully typed TypeScript interfaces. Handles nested objects, arrays, and infers proper types.</p>
+        <h1 class="text-4xl font-bold text-white mb-4">🟦 JSON to TypeScript Converter</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro JSON to TypeScript Converter is a free browser-based developer utility that parses arbitrary JSON payloads and generates strongly typed TypeScript interfaces with nested object hierarchies in real time.
+        </p>
       </div>
+
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[500px]">
         <div class="flex flex-col">
           <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
@@ -41,6 +68,83 @@ const schema = {
         </div>
       </div>
       <div id="error-msg" class="hidden mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-mono"></div>
+
+      <!-- Reference Table -->
+      <div class="mt-10 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-base font-bold text-white mb-2">JSON to TypeScript Type Inference Mapping</h2>
+        <p class="text-xs text-zinc-400 mb-4">Standard mappings applied during automated TypeScript interface generation.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-300">
+                <th class="py-2.5 px-3 font-semibold">JSON Data Type</th>
+                <th class="py-2.5 px-3 font-semibold">TypeScript Type</th>
+                <th class="py-2.5 px-3 font-semibold">Inference Rule</th>
+                <th class="py-2.5 px-3 font-semibold">Example Output</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-400 font-mono">
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">string</td>
+                <td class="py-2 px-3 text-emerald-400">string</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">UTF-8 character sequences</td>
+                <td class="py-2 px-3 text-zinc-300">name: string;</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">number</td>
+                <td class="py-2 px-3 text-emerald-400">number</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Integers and floating-point values</td>
+                <td class="py-2 px-3 text-zinc-300">count: number;</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">boolean</td>
+                <td class="py-2 px-3 text-emerald-400">boolean</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">true or false literals</td>
+                <td class="py-2 px-3 text-zinc-300">isActive: boolean;</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">null</td>
+                <td class="py-2 px-3 text-emerald-400">null | any</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Nullable values with fallback</td>
+                <td class="py-2 px-3 text-zinc-300">deletedAt: null;</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">array</td>
+                <td class="py-2 px-3 text-emerald-400">T[]</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Homogeneous or union item lists</td>
+                <td class="py-2 px-3 text-zinc-300">tags: string[];</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">object</td>
+                <td class="py-2 px-3 text-emerald-400">InterfaceName</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Nested object decomposed into interface</td>
+                <td class="py-2 px-3 text-zinc-300">address: Address;</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={[
+        {
+          question: "Does this JSON to TypeScript converter run client-side?",
+          answer: "Yes, all JSON parsing, interface name generation, and TypeScript type inference occur locally in your browser with zero data transmitted to any external server."
+        },
+        {
+          question: "How are nested objects and arrays handled?",
+          answer: "Nested JSON objects are automatically extracted into separate, cleanly named TypeScript interfaces, and array element types are recursively inspected to generate union or specific array types."
+        },
+        {
+          question: "Can I customize the root interface name?",
+          answer: "The generated root interface defaults to RootObject and child interfaces derive clean PascalCase names based on property keys."
+        },
+        {
+          question: "Is this tool free to use?",
+          answer: "Yes, the SolversPro JSON to TypeScript converter is 100% free with no rate limits or login requirements."
+        }
+      ]} />
+
       <ToolShare title="JSON to TypeScript" url="https://solverspro.com/developer/json-to-typescript" />
       <SimilarTools category="developer" currentPath="/developer/json-to-typescript" />
     </div>

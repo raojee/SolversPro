@@ -7,23 +7,50 @@ import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 
+import ToolFAQ from '../../components/ToolFAQ.astro';
+
 const schema = {
-  "@context": "https://schema.org", "@type": "SoftwareApplication",
-  "name": "JSON to Go Converter", "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All", "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Generate Go structs with json tags from JSON data. Handles nested objects and proper Go naming conventions. Free and browser-based."
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "JSON to Go Struct Converter",
+  "url": "https://solverspro.com/developer/json-to-go/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free online JSON to Go converter to generate idiomatic Go structs with json tags and PascalCase naming conventions client-side.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
-<BaseLayout title="JSON to Go | SolversPro" description="Generate Go structs with json tags from JSON data. Handles nested objects and proper Go naming conventions. Free and browser-based." canonical="https://solverspro.com/developer/json-to-go" schema={schema}>
-  <Header /><SearchOverlay />
+<BaseLayout
+  title="JSON to Go Struct Converter | SolversPro"
+  description="Generate Go structs with json tags from JSON data. Handles nested objects and proper Go naming conventions. Free and browser-based."
+  canonical="https://solverspro.com/developer/json-to-go/"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
   <main class="flex-1 py-12">
     <div class="container mx-auto px-4 py-12 max-w-5xl">
       <Breadcrumbs items={[{label:'Home',href:'/'},{label:'Developer Tools',href:'/developer'},{label:'JSON to Go'}]} />
+      
       <div class="mb-10 mt-4">
-        <h1 class="text-4xl font-bold text-white mb-4">🐹 JSON to Go</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Paste any JSON object and generate Go structs with json tags. Handles nested objects and proper Go naming conventions.</p>
+        <h1 class="text-4xl font-bold text-white mb-4">🐹 JSON to Go Struct Converter</h1>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro JSON to Go Converter is a free browser-based developer utility that converts JSON payloads into idiomatic Golang structs with struct field tags (`json:"..."`) in real time.
+        </p>
       </div>
+
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[500px]">
         <div class="flex flex-col">
           <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
@@ -41,6 +68,89 @@ const schema = {
         </div>
       </div>
       <div id="error-msg" class="hidden mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-mono"></div>
+
+      <!-- Reference Table -->
+      <div class="mt-10 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-base font-bold text-white mb-2">JSON to Go Data Type Mapping Reference</h2>
+        <p class="text-xs text-zinc-400 mb-4">Standard Go standard library type representations for unmarshaling JSON.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-300">
+                <th class="py-2.5 px-3 font-semibold">JSON Data Type</th>
+                <th class="py-2.5 px-3 font-semibold">Go Struct Field Type</th>
+                <th class="py-2.5 px-3 font-semibold">Go Struct Tag Example</th>
+                <th class="py-2.5 px-3 font-semibold">Behavior</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-400 font-mono">
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">string</td>
+                <td class="py-2 px-3 text-emerald-400">string</td>
+                <td class="py-2 px-3 text-zinc-300">`json:"name"`</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Direct string unmarshal</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">integer</td>
+                <td class="py-2 px-3 text-emerald-400">int64</td>
+                <td class="py-2 px-3 text-zinc-300">`json:"age"`</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Whole numeric quantities</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">floating point</td>
+                <td class="py-2 px-3 text-emerald-400">float64</td>
+                <td class="py-2 px-3 text-zinc-300">`json:"ratio"`</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">IEEE 754 float</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">boolean</td>
+                <td class="py-2 px-3 text-emerald-400">bool</td>
+                <td class="py-2 px-3 text-zinc-300">`json:"is_active"`</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">True or false state</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">null / unknown</td>
+                <td class="py-2 px-3 text-emerald-400">interface&#123;&#125;</td>
+                <td class="py-2 px-3 text-zinc-300">`json:"extra,omitempty"`</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Arbitrary empty interface</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">array</td>
+                <td class="py-2 px-3 text-emerald-400">[]T</td>
+                <td class="py-2 px-3 text-zinc-300">`json:"items"`</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Slice of element type</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">nested object</td>
+                <td class="py-2 px-3 text-emerald-400">StructName</td>
+                <td class="py-2 px-3 text-zinc-300">`json:"address"`</td>
+                <td class="py-2 px-3 text-zinc-400 font-sans">Separate top-level struct definition</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={[
+        {
+          question: "Does this JSON to Go tool convert data locally?",
+          answer: "Yes, all JSON parsing, field capitalization, and struct generation run 100% in your browser without transmitting your payload to any server."
+        },
+        {
+          question: "Are struct tags generated automatically?",
+          answer: "Yes, each field is assigned backtick `json:\"key_name\"` struct tags preserving original casing for unmarshaling."
+        },
+        {
+          question: "How are numbers converted in Go structs?",
+          answer: "Whole integer numbers infer int64 or int, while decimal floating-point values are assigned float64."
+        },
+        {
+          question: "Is this Go converter free?",
+          answer: "Yes, the SolversPro JSON to Go converter is completely free with no usage caps or account sign-up."
+        }
+      ]} />
+
       <ToolShare title="JSON to Go" url="https://solverspro.com/developer/json-to-go" />
       <SimilarTools category="developer" currentPath="/developer/json-to-go" />
     </div>

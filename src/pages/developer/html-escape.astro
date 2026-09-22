@@ -7,18 +7,34 @@ import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 
+import ToolFAQ from '../../components/ToolFAQ.astro';
+
 const schema = {
-  "@context": "https://schema.org", "@type": "SoftwareApplication",
-  "name": "HTML Escape & Unescape", "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All", "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Escape HTML special characters to entities or unescape entities back to readable HTML. Prevent XSS vulnerabilities. Free and browser-based."
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "HTML Entity Escape & Unescape",
+  "url": "https://solverspro.com/developer/html-escape/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free online HTML entity escaper and unescaper to convert special characters to named and decimal HTML entities client-side to prevent XSS.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
 <BaseLayout
-  title="HTML Escape & Unescape | SolversPro"
+  title="HTML Entity Escape & Unescape | SolversPro"
   description="Escape HTML special characters to entities or unescape entities back to readable HTML. Prevent XSS vulnerabilities. Free and browser-based."
-  canonical="https://solverspro.com/developer/html-escape"
+  canonical="https://solverspro.com/developer/html-escape/"
   schema={schema}
 >
   <Header />
@@ -34,7 +50,9 @@ const schema = {
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">🛡️ HTML Escape & Unescape</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Escape HTML special characters to entities or unescape entities back to readable HTML. Essential for preventing XSS vulnerabilities.</p>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro HTML Escape & Unescape Tool is a free browser-based utility that converts special characters (&amp;, &lt;, &gt;, &quot;, &#39;) into HTML entities and unescapes encoded strings back to raw markup in real time.
+        </p>
       </div>
 
       <div class="flex flex-col lg:flex-row gap-6 w-full min-h-[500px]">
@@ -47,12 +65,88 @@ const schema = {
         </div>
         <div class="flex-1 flex flex-col gap-4">
           <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
-            <button id="btn-unescape" class="px-3 py-1.5 text-xs font-semibold bg-[#ff6b35]/20 hover:bg-[#ff6b35]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30">&larr; Unescape</button>
+            <button id="btn-unescape" class="px-3 py-1.5 text-xs font-semibold bg-[#ff6b35]/20 hover:bg-[#ff8c5a]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30">&larr; Unescape</button>
             <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Escaped HTML</h2>
           </div>
           <textarea id="input-escaped" class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-sm text-zinc-300 resize-none min-h-[350px]" placeholder="&amp;lt;div class=&amp;quot;hello&amp;quot;&amp;gt;5 &amp;gt; 3 &amp;amp; 2 &amp;lt; 4&amp;lt;/div&amp;gt;" spellcheck="false"></textarea>
         </div>
       </div>
+
+      <!-- Reference Table -->
+      <div class="mt-10 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-base font-bold text-white mb-2">HTML Special Character Entity Reference</h2>
+        <p class="text-xs text-zinc-400 mb-4">Core HTML and XML character entity encodings for safe web rendering.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-300">
+                <th class="py-2.5 px-3 font-semibold">Character</th>
+                <th class="py-2.5 px-3 font-semibold">Description</th>
+                <th class="py-2.5 px-3 font-semibold">Named Entity</th>
+                <th class="py-2.5 px-3 font-semibold">Decimal Entity</th>
+                <th class="py-2.5 px-3 font-semibold">Hex Entity</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-400 font-mono">
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold font-sans">&amp;</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Ampersand</td>
+                <td class="py-2 px-3 text-emerald-400">&amp;amp;</td>
+                <td class="py-2 px-3">&amp;#38;</td>
+                <td class="py-2 px-3">&amp;#x26;</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold font-sans">&lt;</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Less Than</td>
+                <td class="py-2 px-3 text-emerald-400">&amp;lt;</td>
+                <td class="py-2 px-3">&amp;#60;</td>
+                <td class="py-2 px-3">&amp;#x3C;</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold font-sans">&gt;</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Greater Than</td>
+                <td class="py-2 px-3 text-emerald-400">&amp;gt;</td>
+                <td class="py-2 px-3">&amp;#62;</td>
+                <td class="py-2 px-3">&amp;#x3E;</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold font-sans">"</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Double Quote</td>
+                <td class="py-2 px-3 text-emerald-400">&amp;quot;</td>
+                <td class="py-2 px-3">&amp;#34;</td>
+                <td class="py-2 px-3">&amp;#x22;</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold font-sans">'</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Apostrophe</td>
+                <td class="py-2 px-3 text-emerald-400">&amp;apos; / &amp;#39;</td>
+                <td class="py-2 px-3">&amp;#39;</td>
+                <td class="py-2 px-3">&amp;#x27;</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={[
+        {
+          question: "Which characters are escaped by default?",
+          answer: "The tool escapes the five core XML/HTML special characters: ampersand (&amp;), less-than (&lt;), greater-than (&gt;), double quote (&quot;), and single quote (&#39;)."
+        },
+        {
+          question: "Does escaping HTML prevent XSS attacks?",
+          answer: "Yes, escaping untrusted user input before rendering it in an HTML document prevents malicious script execution."
+        },
+        {
+          question: "Is my text uploaded to a remote server?",
+          answer: "No, all character substitutions run entirely client-side in your web browser."
+        },
+        {
+          question: "Is this tool free?",
+          answer: "Yes, the SolversPro HTML Escape & Unescape tool is completely free with no restrictions."
+        }
+      ]} />
 
       <ToolShare title="HTML Escape & Unescape" url="https://solverspro.com/developer/html-escape" />
       <SimilarTools category="developer" currentPath="/developer/html-escape" />

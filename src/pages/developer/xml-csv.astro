@@ -6,22 +6,34 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "XML to CSV / CSV to XML Converter",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All",
+  "@type": "WebApplication",
+  "name": "XML to CSV & CSV to XML Converter",
+  "url": "https://solverspro.com/developer/xml-csv/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Transform XML documents into CSV tables or convert CSV data into structured XML. Great for legacy data migration. Free and browser-based."
+  "description": "Free online bidirectional XML to CSV and CSV to XML converter with DOM parsing, tabular flattening, and client-side processing.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
 <BaseLayout
   title="XML ↔ CSV Converter | SolversPro"
   description="Transform XML documents into CSV tables or convert CSV data into structured XML. Great for legacy data migration. Free and browser-based."
-  canonical="https://solverspro.com/developer/xml-csv"
+  canonical="https://solverspro.com/developer/xml-csv/"
   schema={schema}
 >
   <Header />
@@ -37,7 +49,9 @@ const schema = {
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">🔄 XML ↔ CSV Converter</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Transform XML documents into CSV tables or convert CSV data into structured XML. Great for legacy data migration and reporting.</p>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro XML ↔ CSV Converter is a free browser-based developer utility that transforms repeating XML element records into CSV spreadsheets and converts CSV rows into structured XML documents in real time.
+        </p>
       </div>
 
       <div class="flex flex-col lg:flex-row gap-6 w-full min-h-[500px]">
@@ -58,7 +72,7 @@ const schema = {
         <!-- CSV Side -->
         <div class="flex-1 flex flex-col gap-4">
           <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
-            <button id="btn-to-xml" class="px-3 py-1.5 text-xs font-semibold bg-[#ff6b35]/20 hover:bg-[#ff6b35]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30">&larr; To XML</button>
+            <button id="btn-to-xml" class="px-3 py-1.5 text-xs font-semibold bg-[#ff6b35]/20 hover:bg-[#ff8c5a]/30 text-[#ff6b35] rounded transition-colors border border-[#ff6b35]/30">&larr; To XML</button>
             <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">CSV</h2>
           </div>
           <textarea
@@ -71,6 +85,70 @@ const schema = {
       </div>
 
       <div id="error-msg" class="hidden mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm font-mono"></div>
+
+      <!-- Reference Table -->
+      <div class="mt-10 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-base font-bold text-white mb-2">XML to CSV Element Mapping Reference</h2>
+        <p class="text-xs text-zinc-400 mb-4">Structural transformations between hierarchical XML tags and tabular columns.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-300">
+                <th class="py-2.5 px-3 font-semibold">XML Construct</th>
+                <th class="py-2.5 px-3 font-semibold">CSV Component</th>
+                <th class="py-2.5 px-3 font-semibold">Translation Rule</th>
+                <th class="py-2.5 px-3 font-semibold">Example Output</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-400 font-mono">
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">Child Element Name</td>
+                <td class="py-2 px-3 text-emerald-400">Column Header</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Tag name becomes column label</td>
+                <td class="py-2 px-3 text-zinc-400">&lt;name&gt; &rarr; name</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">Repeated Node</td>
+                <td class="py-2 px-3 text-emerald-400">Data Row</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Each sibling instance becomes a row</td>
+                <td class="py-2 px-3 text-zinc-400">&lt;user&gt;...&lt;/user&gt;</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">Node Text Content</td>
+                <td class="py-2 px-3 text-emerald-400">Cell Value</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Inner text is inserted as cell string</td>
+                <td class="py-2 px-3 text-zinc-400">&lt;age&gt;30&lt;/age&gt; &rarr; 30</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">Missing Element</td>
+                <td class="py-2 px-3 text-emerald-400">Empty Cell</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Omitted tags produce empty commas</td>
+                <td class="py-2 px-3 text-zinc-400">Alice,,New York</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={[
+        {
+          question: "How are repeating XML elements converted into CSV rows?",
+          answer: "The tool identifies the repeated child elements under the root container and extracts each child tag as a corresponding column value."
+        },
+        {
+          question: "Can I convert CSV spreadsheets back into XML documents?",
+          answer: "Yes, clicking 'To XML' generates an XML document containing a root tag with child record nodes for every spreadsheet row."
+        },
+        {
+          question: "Does this XML conversion tool transmit data over the internet?",
+          answer: "No, all DOM parsing and CSV generation run 100% locally in your web browser."
+        },
+        {
+          question: "Is this tool free?",
+          answer: "Yes, the SolversPro XML ↔ CSV Converter is completely free to use with no usage restrictions."
+        }
+      ]} />
 
       <ToolShare title="XML ↔ CSV Converter" url="https://solverspro.com/developer/xml-csv" />
       <SimilarTools category="developer" currentPath="/developer/xml-csv" />
