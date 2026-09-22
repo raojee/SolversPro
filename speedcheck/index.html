@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SpeedCheck — Instant Internet Speed Test | SolversPro</title>
+    <meta
+      name="description"
+      content="How fast is your internet? SpeedCheck by SolversPro measures your download speed, upload speed, and latency instantly. Powered by Cloudflare's global edge network."
+    />
+    <meta name="keywords" content="speed check, internet speed test, fast speed test, download speed, upload speed, ping test, broadband speed, wifi speed test, cloudflare speed test" />
+    <meta name="author" content="SolversPro" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="theme-color" content="#0a0c1a" />
+    <link rel="canonical" href="https://speedcheck.solverspro.com/" />
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://speedcheck.solverspro.com/" />
+    <meta property="og:site_name" content="SolversPro" />
+    <meta property="og:title" content="SpeedCheck — Instant Internet Speed Test | SolversPro" />
+    <meta property="og:description" content="How fast is your internet? Instantly measure download speed, upload speed, and latency powered by Cloudflare's 330+ global edge datacenters." />
+    <meta property="og:image" content="https://solverspro.com/favicon.svg" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="SpeedCheck — Instant Internet Speed Test | SolversPro" />
+    <meta name="twitter:description" content="One-click internet speed test. Download, upload, latency — powered by Cloudflare edge network." />
+    <meta name="twitter:image" content="https://solverspro.com/favicon.svg" />
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "SpeedCheck by SolversPro",
+        "url": "https://speedcheck.solverspro.com/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "description": "Instant internet speed test measuring download, upload, and latency powered by Cloudflare's global edge network.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "SolversPro",
+          "url": "https://solverspro.com"
+        }
+      }
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="https://solverspro.com/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- Ambient Background Effects -->
+    <div class="bg-glow bg-glow--top"></div>
+    <div class="bg-glow bg-glow--bottom"></div>
+
+    <!-- Main Centered Container -->
+    <main class="app-main">
+      <div class="app-center">
+
+        <!-- Logo / Brand -->
+        <a href="https://solverspro.com" class="brand" title="SolversPro Home">
+          <div class="brand-icon-wrap">
+            <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <span class="brand-name">Speed<span class="brand-accent">Check</span></span>
+        </a>
+
+        <!-- Status Label -->
+        <p id="status-label" class="status-label">Your Internet speed is</p>
+
+        <!-- Hero Speed Display -->
+        <div class="speed-hero">
+          <span id="speed-value" class="speed-value">0</span>
+          <div class="speed-meta">
+            <span class="speed-unit">Mbps</span>
+            <button id="btn-restart" class="btn-restart" type="button" title="Test again" aria-label="Restart speed test">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div id="progress-ring" class="progress-ring">
+          <div class="progress-ring__track">
+            <div id="progress-ring__fill" class="progress-ring__fill"></div>
+          </div>
+          <span id="progress-phase" class="progress-phase">Connecting...</span>
+        </div>
+
+        <!-- Show More Info Toggle -->
+        <button id="btn-details" class="btn-details hidden" type="button">
+          <span id="btn-details-text">Show more info</span>
+          <svg class="btn-details-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+
+        <!-- Expandable Details Panel -->
+        <section id="details-panel" class="details-panel collapsed">
+          <div class="details-grid">
+            <!-- Latency Column -->
+            <div class="detail-group">
+              <h3 class="detail-group-title">Latency</h3>
+              <div class="detail-row">
+                <div class="detail-item">
+                  <span class="detail-label">Unloaded</span>
+                  <div class="detail-value-row">
+                    <span id="detail-ping" class="detail-number">—</span>
+                    <span class="detail-unit">ms</span>
+                  </div>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Loaded</span>
+                  <div class="detail-value-row">
+                    <span id="detail-loaded" class="detail-number">—</span>
+                    <span class="detail-unit">ms</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Upload Column -->
+            <div class="detail-group">
+              <h3 class="detail-group-title">Upload</h3>
+              <div class="detail-row">
+                <div class="detail-item">
+                  <span class="detail-label">Speed</span>
+                  <div class="detail-value-row">
+                    <span id="detail-upload" class="detail-number">—</span>
+                    <span class="detail-unit">Mbps</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Client / Server Info -->
+          <div class="detail-info">
+            <p><strong>Client</strong> <span id="info-client">Detecting...</span></p>
+            <p><strong>Server(s)</strong> <span id="info-server">Cloudflare Edge (Auto)</span></p>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="detail-actions">
+            <button id="btn-copy" class="btn-action" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              Copy Results
+            </button>
+            <button id="btn-share" class="btn-action" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+              Share
+            </button>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-inner">
+        <span class="footer-powered">Powered by <a href="https://solverspro.com" target="_blank" rel="noopener">SolversPro</a> • Cloudflare Edge</span>
+        <div class="footer-links">
+          <a href="https://speed.solverspro.com" target="_blank" rel="noopener">Advanced Test</a>
+          <span class="footer-dot">•</span>
+          <a href="https://solverspro.com/all-tools/" target="_blank" rel="noopener">All Tools</a>
+          <span class="footer-dot">•</span>
+          <a href="https://solverspro.com/privacy/" target="_blank" rel="noopener">Privacy</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
