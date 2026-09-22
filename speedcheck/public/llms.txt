@@ -1,16 +1,17 @@
 # SpeedCheck — Free Instant Internet Speed Test
 
+> **Notice:** This tool has moved to [https://speed.solverspro.com](https://speed.solverspro.com).
+
 > SpeedCheck is a free internet speed test that measures your download speed, upload speed, and latency (ping) in under 30 seconds using Cloudflare's global edge network spanning 330+ cities. No signup required — the test starts automatically when you open the page.
 
 ## Key Facts
 
+- **Tool Relocation**: SpeedCheck has been consolidated into the SolversPro Internet Speed Test at [https://speed.solverspro.com](https://speed.solverspro.com).
 - **Free**: 100% free with no subscription, no credit card, and no ads.
 - **No signup**: Use instantly without creating an account or logging in.
 - **Cloudflare edge network**: Powered by Cloudflare's anycast edge network spanning 330+ cities worldwide for real-world performance without ISP caching.
-- **Metrics measured**: Measures download speed (Mbps), upload speed (Mbps), latency/ping (ms), and loaded latency (bufferbloat in ms).
-- **Auto-start**: The speed test starts automatically the moment you open the page — zero clicks required.
+- **Metrics measured**: Measures download speed (Mbps), upload speed (Mbps), latency/ping (ms), jitter, and loaded latency (bufferbloat in ms).
 
-## Pages
+## Surviving URL
 
-- [SpeedCheck](https://speedcheck.solverspro.com): Minimalist, instant-start speed test that auto-starts on load and displays download speed with optional latency and upload details.
-- [Advanced Speed Test](https://speed.solverspro.com): Comprehensive network diagnostic tool featuring an interactive speedometer gauge, jitter analysis, bufferbloat grading, and experience quality scores for gaming, streaming, and video calls.
+- [SolversPro Internet Speed Test](https://speed.solverspro.com): Comprehensive network diagnostic tool featuring real-time download and upload bandwidth measurement, interactive speedometer gauge, latency (ping), jitter analysis, bufferbloat grading, and activity quality scores for gaming, streaming, and video calls.

@@ -1,0 +1,7 @@
+# Retain transition and discovery files at subdomain
+/llms.txt /llms.txt 200
+/sitemap.xml /sitemap.xml 200
+/robots.txt /robots.txt 200
+
+# 301 Permanent Redirect from all speedcheck routes to speed.solverspro.com
+/* https://speed.solverspro.com/:splat 301

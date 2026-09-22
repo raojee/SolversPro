@@ -8,14 +8,15 @@
   },
   "tools": [
     {
-      "name": "SpeedCheck",
-      "description": "Free instant internet speed test measuring download speed, upload speed, latency (ping), and loaded latency (bufferbloat) using Cloudflare's global edge network with 330+ city locations.",
-      "url": "https://speedcheck.solverspro.com",
+      "name": "Internet Speed Test",
+      "description": "Accurate, real-time internet speed test powered by Cloudflare edge network. Measure download bandwidth, upload bandwidth, latency (ping), jitter, and bufferbloat across 330+ cities.",
+      "url": "https://speed.solverspro.com",
       "category": "network-tools",
       "capabilities": [
         "download-speed",
         "upload-speed",
         "latency",
+        "jitter",
         "bufferbloat"
       ],
       "cost": "free"
@@ -23,15 +24,15 @@
   ],
   "entries": [
     {
-      "identifier": "urn:air:solverspro.com:tool:speedcheck",
-      "displayName": "SpeedCheck Instant Internet Speed Test",
-      "description": "Free instant internet speed test measuring download speed, upload speed, latency (ping), and bufferbloat via Cloudflare edge.",
+      "identifier": "urn:air:solverspro.com:tool:speed-test",
+      "displayName": "SolversPro Internet Speed Test",
+      "description": "Real-time internet speed test measuring download, upload, ping, jitter, and bufferbloat via Cloudflare edge.",
       "type": "application/mcp-server-card+json",
       "url": "https://solverspro.com/.well-known/mcp/server-card.json",
       "representativeQueries": [
         "Test internet speed online",
         "Measure download and upload bandwidth",
-        "Check connection latency and bufferbloat"
+        "Check network latency, jitter, and bufferbloat"
       ]
     }
   ]
