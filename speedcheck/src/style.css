@@ -172,18 +172,19 @@ body {
 
 /* === Status Label === */
 .status-label {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
   color: var(--text-secondary);
   margin-bottom: 8px;
   letter-spacing: -0.01em;
   text-align: center;
-  transition: all var(--duration-normal) var(--ease-out);
+  min-height: 28px;
+  line-height: 28px;
+  transition: color var(--duration-normal) var(--ease-out);
 }
 
 .status-label.testing {
   color: var(--text-muted);
-  font-size: 16px;
 }
 
 /* === Hero Speed Number === */
@@ -194,6 +195,7 @@ body {
   gap: 12px;
   margin-bottom: 8px;
   position: relative;
+  min-height: 180px;
 }
 
 .speed-value {
@@ -204,6 +206,8 @@ body {
   line-height: 1;
   letter-spacing: -0.05em;
   color: var(--text-primary);
+  min-width: 1.1ch;
+  text-align: right;
   transition: text-shadow var(--duration-normal) var(--ease-out);
   user-select: none;
 }
