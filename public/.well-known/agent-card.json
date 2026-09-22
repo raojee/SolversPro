@@ -1,0 +1,16 @@
+{
+  "$schema": "https://agentcard.io/schema/v1/agent-card.json",
+  "name": "SolversPro AI Agent",
+  "identifier": "did:web:solverspro.com",
+  "description": "Unified autonomous agent for mathematical solving, financial calculations, unit conversions, and developer data utilities.",
+  "url": "https://solverspro.com",
+  "version": "1.0.0",
+  "capabilities": {
+    "tools": true,
+    "streaming": false
+  },
+  "endpoints": {
+    "solve": "https://solverspro.com/api/solve",
+    "mcp": "https://solverspro.com/.well-known/mcp/server-card.json"
+  }
+}

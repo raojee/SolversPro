@@ -3,10 +3,22 @@
   "host": {
     "displayName": "SolversPro",
     "identifier": "did:web:solverspro.com",
-    "url": "https://solverspro.com",
-    "description": "Comprehensive suite of free problem solvers, calculators, and developer tools for math, finance, health, trades, and software engineering."
+    "documentationUrl": "https://solverspro.com/docs",
+    "logoUrl": "https://solverspro.com/favicon.svg"
   },
   "entries": [
+    {
+      "identifier": "urn:air:solverspro.com:agent:card",
+      "displayName": "SolversPro Agent Card",
+      "description": "Autonomous agent card defining capabilities, tools, and execution endpoints for SolversPro.",
+      "type": "application/agent-card+json",
+      "url": "https://solverspro.com/.well-known/agent-card.json",
+      "representativeQueries": [
+        "Discover SolversPro autonomous agent capabilities",
+        "Connect to SolversPro agent endpoints",
+        "Find SolversPro agent registration card"
+      ]
+    },
     {
       "identifier": "urn:air:solverspro.com:mcp:server-card",
       "displayName": "SolversPro MCP Server Card",
@@ -20,65 +32,27 @@
       ]
     },
     {
-      "identifier": "urn:air:solverspro.com:api:openapi",
-      "displayName": "SolversPro OpenAPI Specification",
-      "description": "OpenAPI 3.1 schema for SolversPro problem solver and health check APIs.",
-      "type": "application/vnd.oai.openapi+json;version=3.1.0",
-      "url": "https://solverspro.com/api/openapi.json",
-      "representativeQueries": [
-        "OpenAPI specification for SolversPro",
-        "How to call SolversPro solve API",
-        "API schema for AI problem solving endpoint"
-      ]
-    },
-    {
       "identifier": "urn:air:solverspro.com:skills:suite",
-      "displayName": "SolversPro Agent Skills Catalog",
-      "description": "Agent Skills Discovery index defining capabilities, parameters, and invocation guides for autonomous agents.",
-      "type": "application/json",
-      "url": "https://solverspro.com/.well-known/agent-skills/index.json",
+      "displayName": "SolversPro Suite Agent Skill",
+      "description": "Agent skill specification defining problem solver, math, and financial calculation workflows.",
+      "type": "text/markdown; profile=\"urn:air:agent-skills\"",
+      "url": "https://solverspro.com/.well-known/agent-skills/solverspro-suite/SKILL.md",
       "representativeQueries": [
         "What agent skills does SolversPro support?",
         "Download agent skill for math and finance solvers",
-        "Agent skills index for SolversPro tools"
+        "Agent skills guide for SolversPro suite"
       ]
     },
     {
-      "identifier": "urn:air:solverspro.com:developer:tools",
-      "displayName": "Developer Utilities & Code Formatters",
-      "description": "Utilities for formatting, validating, and converting JSON, XML, Base64, and JWTs.",
-      "type": "text/html",
-      "url": "https://solverspro.com/developer/",
+      "identifier": "urn:air:solverspro.com:skills:developer",
+      "displayName": "Developer Tools Agent Skill",
+      "description": "Agent skill specification for formatting, validating, and converting JSON, XML, YAML, and Base64.",
+      "type": "text/markdown; profile=\"urn:air:agent-skills\"",
+      "url": "https://solverspro.com/.well-known/agent-skills/developer-tools/SKILL.md",
       "representativeQueries": [
-        "Format and validate JSON online",
-        "Convert JSON to TypeScript interfaces or Python classes",
-        "Decode JWT token headers and payload claims",
-        "Convert Base64 to text or binary"
-      ]
-    },
-    {
-      "identifier": "urn:air:solverspro.com:solvers:finance-math",
-      "displayName": "Financial & Mathematical Solvers",
-      "description": "Mortgage calculator, compound interest, quadratic solver, unit converter, and trade calculators.",
-      "type": "text/html",
-      "url": "https://solverspro.com/all-tools/",
-      "representativeQueries": [
-        "Calculate monthly mortgage payments with property taxes",
-        "Calculate compound interest over time",
-        "Solve quadratic equations with steps",
-        "Calculate concrete yardage for foundation slab"
-      ]
-    },
-    {
-      "identifier": "urn:air:solverspro.com:auth:auth-md",
-      "displayName": "SolversPro Agent Authentication Documentation",
-      "description": "Agent registration, OAuth discovery, and machine-to-machine authentication parameters.",
-      "type": "text/markdown",
-      "url": "https://solverspro.com/auth.md",
-      "representativeQueries": [
-        "How do AI agents authenticate with SolversPro",
-        "Machine-to-machine registration guide for SolversPro",
-        "OAuth protected resource metadata and scopes"
+        "Format and validate JSON with SolversPro skill",
+        "Convert JSON to TypeScript or Python via agent skill",
+        "Decode JWT tokens with developer agent skill"
       ]
     }
   ]

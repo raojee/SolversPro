@@ -5,4 +5,4 @@ Sitemap: https://solverspro.com/sitemap-0.xml
 Sitemap: https://solverspro.com/sitemap-images.xml
 
 # Agentic Resource Discovery (ARD)
-Agentmap: https://solverspro.com/.well-known/ai-catalog.json
+# Agentmap: https://solverspro.com/.well-known/ai-catalog.json

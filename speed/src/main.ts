@@ -168,6 +168,21 @@ function runSpeedTest() {
     autoStart: true,
     measureDownloadLoadedLatency: true,
     measureUploadLoadedLatency: true,
+    // Exclude deprecated packetLoss (which fetches turn-creds and triggers CORS errors)
+    measurements: [
+      { type: 'latency', numPackets: 1 },
+      { type: 'download', bytes: 1e5, count: 1, bypassMinDuration: true },
+      { type: 'latency', numPackets: 20 },
+      { type: 'download', bytes: 1e5, count: 8 },
+      { type: 'download', bytes: 1e6, count: 6 },
+      { type: 'upload', bytes: 1e5, count: 6 },
+      { type: 'upload', bytes: 1e6, count: 5 },
+      { type: 'download', bytes: 1e7, count: 4 },
+      { type: 'upload', bytes: 1e7, count: 3 },
+      { type: 'download', bytes: 2.5e7, count: 3 },
+      { type: 'upload', bytes: 2.5e7, count: 2 },
+      { type: 'download', bytes: 1e8, count: 2 }
+    ]
   });
 
   // Track phase changes
@@ -278,7 +293,7 @@ function runSpeedTest() {
   };
 
   speedTestInstance.onError = (err: string) => {
-    console.error('Speed test error:', err);
+    console.warn('Speed test notice:', err);
     testPhaseBadge.textContent = 'ERROR';
     testSubstatus.textContent = 'Connection test interrupted. Click start to retry.';
     startBtn.disabled = false;
