@@ -1,37 +1,16 @@
-# SpeedCheck by SolversPro
+# SpeedCheck — Free Instant Internet Speed Test
 
-> Instant, free internet speed test. Auto-starts on page load — no clicks needed. Measures download speed, upload speed, and latency via Cloudflare's global edge network.
-
-SpeedCheck is a minimalist internet speed test at [speedcheck.solverspro.com](https://speedcheck.solverspro.com). It automatically starts measuring your connection the moment you open the page. Results include download speed (Mbps), upload speed (Mbps), unloaded latency (ping in ms), and loaded latency (bufferbloat in ms).
+> SpeedCheck is a free internet speed test that measures your download speed, upload speed, and latency (ping) in under 30 seconds using Cloudflare's global edge network spanning 330+ cities. No signup required — the test starts automatically when you open the page.
 
 ## Key Facts
 
-- Free, no account required, no ads, no tracking
-- Powered by Cloudflare's edge network across 330+ cities worldwide
-- Auto-starts on page load (like fast.com) — zero clicks required
-- Measures download speed, upload speed, unloaded latency, and loaded latency
-- Copy or share your results instantly
-- Part of [SolversPro](https://solverspro.com) — 80+ free online tools for developers, math, finance, health, and networking
+- **Free**: 100% free with no subscription, no credit card, and no ads.
+- **No signup**: Use instantly without creating an account or logging in.
+- **Cloudflare edge network**: Powered by Cloudflare's anycast edge network spanning 330+ cities worldwide for real-world performance without ISP caching.
+- **Metrics measured**: Measures download speed (Mbps), upload speed (Mbps), latency/ping (ms), and loaded latency (bufferbloat in ms).
+- **Auto-start**: The speed test starts automatically the moment you open the page — zero clicks required.
 
-## How It Works
+## Pages
 
-SpeedCheck uses the official Cloudflare Speed Test engine. Your browser communicates directly with Cloudflare's nearest edge datacenter using multiple parallel HTTPS requests with dynamic payload sizes. This measures true end-to-end throughput without ISP caching interference.
-
-The test runs three phases:
-1. **Latency** — Measures unloaded ping and jitter to the nearest edge
-2. **Download** — Tests downstream bandwidth with increasing payload chunks
-3. **Upload** — Tests upstream bandwidth to the edge network
-
-## What Metrics Mean
-
-- **Download Speed (Mbps)** — How fast data transfers from the internet to your device. 25+ Mbps recommended for 4K streaming.
-- **Upload Speed (Mbps)** — How fast your device sends data. 5-10 Mbps recommended for video calls.
-- **Latency / Ping (ms)** — Round-trip reaction time. Under 30 ms is ideal for gaming.
-- **Loaded Latency (ms)** — Ping measured under heavy traffic. High values indicate bufferbloat.
-
-## Related
-
-- Advanced Speed Test (with gauge, bufferbloat, experience scores): https://speed.solverspro.com
-- All SolversPro Tools: https://solverspro.com/all-tools/
-- Network Tools: https://solverspro.com/network/
-- SolversPro Home: https://solverspro.com
+- [SpeedCheck](https://speedcheck.solverspro.com): Minimalist, instant-start speed test that auto-starts on load and displays download speed with optional latency and upload details.
+- [Advanced Speed Test](https://speed.solverspro.com): Comprehensive network diagnostic tool featuring an interactive speedometer gauge, jitter analysis, bufferbloat grading, and experience quality scores for gaming, streaming, and video calls.

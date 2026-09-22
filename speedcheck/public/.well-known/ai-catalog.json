@@ -1,0 +1,38 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "SolversPro",
+    "identifier": "did:web:solverspro.com",
+    "documentationUrl": "https://solverspro.com/docs",
+    "logoUrl": "https://solverspro.com/favicon.svg"
+  },
+  "tools": [
+    {
+      "name": "SpeedCheck",
+      "description": "Free instant internet speed test measuring download speed, upload speed, latency (ping), and loaded latency (bufferbloat) using Cloudflare's global edge network with 330+ city locations.",
+      "url": "https://speedcheck.solverspro.com",
+      "category": "network-tools",
+      "capabilities": [
+        "download-speed",
+        "upload-speed",
+        "latency",
+        "bufferbloat"
+      ],
+      "cost": "free"
+    }
+  ],
+  "entries": [
+    {
+      "identifier": "urn:air:solverspro.com:tool:speedcheck",
+      "displayName": "SpeedCheck Instant Internet Speed Test",
+      "description": "Free instant internet speed test measuring download speed, upload speed, latency (ping), and bufferbloat via Cloudflare edge.",
+      "type": "application/mcp-server-card+json",
+      "url": "https://solverspro.com/.well-known/mcp/server-card.json",
+      "representativeQueries": [
+        "Test internet speed online",
+        "Measure download and upload bandwidth",
+        "Check connection latency and bufferbloat"
+      ]
+    }
+  ]
+}

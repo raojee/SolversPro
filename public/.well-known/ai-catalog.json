@@ -6,7 +6,34 @@
     "documentationUrl": "https://solverspro.com/docs",
     "logoUrl": "https://solverspro.com/favicon.svg"
   },
+  "tools": [
+    {
+      "name": "SpeedCheck",
+      "description": "Free instant internet speed test measuring download speed, upload speed, latency (ping), and loaded latency (bufferbloat) using Cloudflare's global edge network with 330+ city locations.",
+      "url": "https://speedcheck.solverspro.com",
+      "category": "network-tools",
+      "capabilities": [
+        "download-speed",
+        "upload-speed",
+        "latency",
+        "bufferbloat"
+      ],
+      "cost": "free"
+    }
+  ],
   "entries": [
+    {
+      "identifier": "urn:air:solverspro.com:tool:speedcheck",
+      "displayName": "SpeedCheck Instant Internet Speed Test",
+      "description": "Free instant internet speed test measuring download speed, upload speed, latency (ping), and bufferbloat via Cloudflare edge.",
+      "type": "application/mcp-server-card+json",
+      "url": "https://solverspro.com/.well-known/mcp/server-card.json",
+      "representativeQueries": [
+        "Test internet speed online",
+        "Measure download and upload bandwidth",
+        "Check connection latency and bufferbloat"
+      ]
+    },
     {
       "identifier": "urn:air:solverspro.com:agent:card",
       "displayName": "SolversPro Agent Card",
@@ -15,8 +42,7 @@
       "url": "https://solverspro.com/.well-known/agent-card.json",
       "representativeQueries": [
         "Discover SolversPro autonomous agent capabilities",
-        "Connect to SolversPro agent endpoints",
-        "Find SolversPro agent registration card"
+        "Connect to SolversPro agent endpoints"
       ]
     },
     {
@@ -27,8 +53,7 @@
       "url": "https://solverspro.com/.well-known/mcp/server-card.json",
       "representativeQueries": [
         "Connect to SolversPro via Model Context Protocol",
-        "Use MCP server to execute calculations and developer conversions",
-        "Find MCP server endpoint for SolversPro"
+        "Use MCP server to execute calculations and developer conversions"
       ]
     },
     {
@@ -39,8 +64,7 @@
       "url": "https://solverspro.com/.well-known/agent-skills/solverspro-suite/SKILL.md",
       "representativeQueries": [
         "What agent skills does SolversPro support?",
-        "Download agent skill for math and finance solvers",
-        "Agent skills guide for SolversPro suite"
+        "Download agent skill for math and finance solvers"
       ]
     },
     {
@@ -51,8 +75,7 @@
       "url": "https://solverspro.com/.well-known/agent-skills/developer-tools/SKILL.md",
       "representativeQueries": [
         "Format and validate JSON with SolversPro skill",
-        "Convert JSON to TypeScript or Python via agent skill",
-        "Decode JWT tokens with developer agent skill"
+        "Convert JSON to TypeScript or Python via agent skill"
       ]
     }
   ]
