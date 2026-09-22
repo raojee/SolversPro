@@ -2,20 +2,64 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ToolShare from '../../components/ToolShare.astro';
 import SimilarTools from '../../components/SimilarTools.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "PDF Preflight Inspection Tool",
+  "url": "https://solverspro.com/pdf/pdf-preflight/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Inspect PDF document structure, metadata, page dimensions, color profiles, and syntax validity client-side with zero server uploads.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+};
+
+const faqs = [
+  {
+    question: "What is PDF preflight inspection?",
+    answer: "PDF preflight is a diagnostic process that analyzes a PDF file's internal dictionary, structural integrity, embedded fonts, page bounding boxes (MediaBox, CropBox), and metadata to flag discrepancies before commercial printing or publication."
+  },
+  {
+    question: "Can this tool detect mixed page sizes within a single document?",
+    answer: "Yes. The preflight inspection analyzes every page individually, reporting exact point and millimeter dimensions so you can instantly identify irregular landscape pages or sizing errors."
+  },
+  {
+    question: "Is my document analyzed privately?",
+    answer: "Yes. SolversPro runs the preflight inspection entirely within your browser's local sandbox memory. No file contents or metadata are ever transmitted across the network."
+  }
+];
 ---
-<BaseLayout title="Preflight PDF | SolversPro" description="Inspect PDF structure, metadata, page sizes, and detect validation issues. Free, private, runs in your browser.">
+<BaseLayout
+  title="PDF Preflight Inspector — Free Document Structure & Metadata Audit | SolversPro"
+  description="Inspect PDF metadata, bounding box dimensions, and validation errors online. Free preflight inspection tool running 100% locally in your browser."
+  canonical="https://solverspro.com/pdf/pdf-preflight/"
+  schema={schema}
+>
   <Header />
   <SearchOverlay />
   <main class="flex-1 py-12">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf'},{label:'Preflight PDF'}]} />
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf/'},{label:'Preflight PDF'}]} />
       <div class="mb-8 mt-4 text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Preflight PDF</h1>
-        <p class="text-zinc-400">Inspect PDF metadata, page structure, dimensions, and detect potential issues.</p>
+        <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
+          The SolversPro PDF Preflight Inspector is a free client-side diagnostic tool that audits PDF metadata, page bounding box dimensions, and structural integrity before distribution or print production.
+        </p>
+        <p class="text-zinc-400 text-sm">Inspect PDF metadata, page structure, dimensions, and detect potential issues.</p>
       </div>
       <div class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-8 space-y-6">
         <div id="drop-zone" class="border-2 border-dashed border-white/[0.1] rounded-xl p-10 text-center cursor-pointer hover:border-[#2dd4bf]/50 hover:bg-[#2dd4bf]/[0.02] transition-all">
@@ -52,7 +96,53 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
             <div id="issues-list"></div>
           </div>
         </div>
+      <!-- Reference Table -->
+      <div class="result-surface my-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-3xl mx-auto">
+        <h2 class="text-xl font-bold text-white mb-4">ISO 32000 PDF Bounding Box (PageBox) Architecture</h2>
+        <p class="text-sm text-zinc-400 mb-4">Hierarchy of geometry bounding boxes embedded inside standard PDF page dictionaries.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+            <thead>
+              <tr class="border-b border-white/10 text-white font-semibold">
+                <th class="py-2.5 px-3">PageBox Key</th>
+                <th class="py-2.5 px-3">Purpose</th>
+                <th class="py-2.5 px-3">Requirement</th>
+                <th class="py-2.5 px-3">Standard Consumer</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf] font-bold">/MediaBox</td>
+                <td class="py-2.5 px-3 text-white">Full physical sheet boundaries</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">Mandatory</td>
+                <td class="py-2.5 px-3 text-zinc-400">All PDF viewers and printers</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf] font-bold">/CropBox</td>
+                <td class="py-2.5 px-3 text-white">Visible display region on screen</td>
+                <td class="py-2.5 px-3 font-mono">Optional</td>
+                <td class="py-2.5 px-3 text-zinc-400">Acrobat and web browsers</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf] font-bold">/BleedBox</td>
+                <td class="py-2.5 px-3 text-white">Clipping path for production bleed</td>
+                <td class="py-2.5 px-3 font-mono">Optional</td>
+                <td class="py-2.5 px-3 text-zinc-400">Prepress RIP &amp; commercial printing</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf] font-bold">/TrimBox</td>
+                <td class="py-2.5 px-3 text-white">Intended dimensions of finished page</td>
+                <td class="py-2.5 px-3 font-mono">Optional</td>
+                <td class="py-2.5 px-3 text-zinc-400">Print finishing and guillotine trim</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={faqs} />
+
       <ToolShare title="Preflight PDF" url="https://solverspro.com/pdf/pdf-preflight" />
       <SimilarTools category="pdf" currentPath="/pdf/pdf-preflight" />
     

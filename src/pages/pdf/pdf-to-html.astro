@@ -2,20 +2,64 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ToolShare from '../../components/ToolShare.astro';
 import SimilarTools from '../../components/SimilarTools.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "PDF to HTML Converter",
+  "url": "https://solverspro.com/pdf/pdf-to-html/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Convert PDF text streams, headings, and page structures into responsive, semantic HTML code directly in your browser with instant live preview.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+};
+
+const faqs = [
+  {
+    question: "How does this tool convert PDF to HTML?",
+    answer: "It uses PDF.js to parse the internal document object model, extract text blocks and layout metrics, and reconstruct clean semantic HTML headings and paragraphs."
+  },
+  {
+    question: "Can I preview the generated web page before downloading?",
+    answer: "Yes! You can toggle between inspecting the raw HTML source code and interacting with a live sandboxed iframe preview."
+  },
+  {
+    question: "Are my confidential PDFs processed securely?",
+    answer: "Yes. Conversion occurs 100% locally inside your web browser. Your PDF files never leave your device."
+  }
+];
 ---
-<BaseLayout title="PDF to HTML | SolversPro" description="Convert PDF text content into an HTML page. Preview and download the HTML file. Free, private, browser-based.">
+<BaseLayout
+  title="PDF to HTML Converter — Free Online Client-Side Extraction | SolversPro"
+  description="Convert PDF text and structure into clean, semantic HTML code online with live preview. 100% private in-browser conversion. Free tool by SolversPro."
+  canonical="https://solverspro.com/pdf/pdf-to-html/"
+  schema={schema}
+>
   <Header />
   <SearchOverlay />
   <main class="flex-1 py-12">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf'},{label:'PDF to HTML'}]} />
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf/'},{label:'PDF to HTML'}]} />
       <div class="mb-8 mt-4 text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">PDF to HTML</h1>
-        <p class="text-zinc-400">Extract content from a PDF and convert it to a clean, readable HTML page.</p>
+        <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
+          The SolversPro PDF to HTML Converter is a free browser-based utility that transforms PDF document text and structural layouts into clean, semantic HTML5 markup with live preview.
+        </p>
+        <p class="text-zinc-400 text-sm">Extract content from a PDF and convert it to a clean, readable HTML page.</p>
       </div>
       <div class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-8 space-y-6">
         <div class="bg-[#2dd4bf]/5 border border-[#2dd4bf]/20 rounded-xl p-4 text-sm text-zinc-400">
@@ -54,7 +98,53 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
             <iframe id="preview-frame" class="w-full h-96 bg-white rounded-xl border border-white/[0.1]" sandbox="allow-same-origin"></iframe>
           </div>
         </div>
+      <!-- Reference Table -->
+      <div class="result-surface my-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-5xl mx-auto">
+        <h2 class="text-xl font-bold text-white mb-4">PDF Object Model to Semantic HTML5 Mapping</h2>
+        <p class="text-sm text-zinc-400 mb-4">How internal PDF text runs, dictionaries, and layout streams map to web standards.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+            <thead>
+              <tr class="border-b border-white/10 text-white font-semibold">
+                <th class="py-2.5 px-3">PDF Element</th>
+                <th class="py-2.5 px-3">Target HTML Tag</th>
+                <th class="py-2.5 px-3">CSS / Styling Rule</th>
+                <th class="py-2.5 px-3">Semantic Role</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Large Font Header Run</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">&lt;h1&gt; / &lt;h2&gt;</td>
+                <td class="py-2.5 px-3 font-mono">font-weight: 700</td>
+                <td class="py-2.5 px-3 text-zinc-400">Document and section heading</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Body Text Stream (TJ/Tj)</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">&lt;p&gt;</td>
+                <td class="py-2.5 px-3 font-mono">line-height: 1.6</td>
+                <td class="py-2.5 px-3 text-zinc-400">Standard body paragraphs</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Line Breaks / Vertical Gaps</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">&lt;br&gt; / margin-bottom</td>
+                <td class="py-2.5 px-3 font-mono">margin: 1rem 0</td>
+                <td class="py-2.5 px-3 text-zinc-400">Visual paragraph separation</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Page Break Object</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">&lt;section class="page"&gt;</td>
+                <td class="py-2.5 px-3 font-mono">page-break-after: always</td>
+                <td class="py-2.5 px-3 text-zinc-400">Print pagination preservation</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={faqs} />
+
       <ToolShare title="PDF to HTML" url="https://solverspro.com/pdf/pdf-to-html" />
       <SimilarTools category="pdf" currentPath="/pdf/pdf-to-html" />
     

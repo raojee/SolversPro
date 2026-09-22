@@ -9,22 +9,53 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import InputField from '../../components/InputField.astro';
 import CalculateButton from '../../components/CalculateButton.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
-const schema = {
+const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Paint Calculator",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "url": "https://solverspro.com/trades/paint-calculator/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Calculate exact paint gallon requirements, wall surface square footage, and door and window deductions for single or multi-coat painting projects.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
+
+const faqs = [
+  {
+    question: "How many square feet does one gallon of paint cover?",
+    answer: "A standard gallon of architectural interior paint typically covers 350 to 400 square feet on smooth, primed drywall. Textured walls, bare masonry, or porous unprimed plaster may reduce coverage to 250 to 300 square feet per gallon."
+  },
+  {
+    question: "How do door and window deductions impact paint calculations?",
+    answer: "Standard interior doors average 21 square feet (3 &times; 7 ft) and typical residential windows average 15 square feet (3 &times; 5 ft). Deducting these openings prevents purchasing excess paint."
+  },
+  {
+    question: "Should I always plan for two coats of paint?",
+    answer: "Yes. Even self-priming paints achieve uniform sheen, color saturation, and durability when applied in two separate coats, especially when transitioning between contrasting hues."
+  },
+  {
+    question: "Does this calculation include ceilings or baseboards?",
+    answer: "The default calculation models the four vertical room perimeter walls. If painting the ceiling, calculate room length &times; width separately using flat ceiling paint."
+  }
+];
 ---
 
 <BaseLayout
   title="Paint Calculator | SolversPro"
   description="Estimate how much paint you need for your room or project."
-  canonical="https://solverspro.com/trades/paint-calculator"
-  schema={schema}
+  canonical="https://solverspro.com/trades/paint-calculator/"
+  jsonLd={jsonLd}
 >
   <Header />
   <SearchOverlay />
@@ -33,13 +64,13 @@ const schema = {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'Trades', href: '/trades' },
+        { label: 'Trades', href: '/trades/' },
         { label: 'Paint Calculator' },
       ]} />
 
       <div class="mb-8 max-w-3xl mx-auto text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Paint Calculator</h1>
-        <p class="text-lg text-zinc-400">Estimate how many gallons of paint you need based on room dimensions.</p>
+        <p class="text-zinc-300 max-w-2xl mx-auto text-base leading-relaxed">SolversPro Paint Calculator is a free home improvement estimation tool that calculates exact wall square footage, opening deductions, and gallon requirements for single and multi-coat room painting.</p>
       </div>
 
       <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8" id="calculator-form">
@@ -80,6 +111,55 @@ const schema = {
           </div>
         </div>
       </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mt-12 max-w-4xl mx-auto bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
+        <h2 class="text-xl font-bold text-white mb-4">Wall Texture & Surface Coverage Reference</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard spreading rates and primer recommendations across wall surface substrates:</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300">
+            <thead class="bg-white/[0.03] text-zinc-200 uppercase text-xs tracking-wider border-b border-white/[0.08]">
+              <tr>
+                <th class="py-3 px-4">Substrate Surface</th>
+                <th class="py-3 px-4">Coverage per Gallon</th>
+                <th class="py-3 px-4">Dedicated Primer Needed</th>
+                <th class="py-3 px-4">Recommended Sheen</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.05]">
+              <tr>
+                <td class="py-3 px-4 font-semibold text-[#2dd4bf]">Smooth Primed Drywall</td>
+                <td class="py-3 px-4 font-mono">350 - 400 sq ft</td>
+                <td class="py-3 px-4 text-emerald-400">Optional (if repainting similar tone)</td>
+                <td class="py-3 px-4 text-zinc-400">Eggshell, Satin, Matte</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-zinc-200">Textured Wall (Orange Peel / Knockdown)</td>
+                <td class="py-3 px-4 font-mono">275 - 325 sq ft</td>
+                <td class="py-3 px-4 text-zinc-400">Yes (PVA primer on new mud)</td>
+                <td class="py-3 px-4 text-zinc-400">Eggshell or Flat</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-purple-400">Bare Plaster / Masonry Block</td>
+                <td class="py-3 px-4 font-mono">200 - 250 sq ft</td>
+                <td class="py-3 px-4 text-emerald-400">Required (Alkali-resistant sealer)</td>
+                <td class="py-3 px-4 text-zinc-400">Masonry Acrylic / Elastomeric</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-orange-400">Wood Trim, Baseboards & Doors</td>
+                <td class="py-3 px-4 font-mono">350 - 400 sq ft</td>
+                <td class="py-3 px-4 text-emerald-400">Required (Bonding primer on bare wood)</td>
+                <td class="py-3 px-4 text-zinc-400">Semi-Gloss or High-Gloss</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="max-w-4xl mx-auto">
+        <ToolFAQ faqs={faqs} />
+      </div>
+
       <ToolShare title="Paint Calculator" url="https://solverspro.com/trades/paint-calculator" />
       <SimilarTools category="trades" currentPath="/trades/paint-calculator" />
     

@@ -12,60 +12,67 @@ import CalculateButton from '../../components/CalculateButton.astro';
 import FAQAccordion from '../../components/FAQAccordion.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
 
-const schema = {
+const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Concrete Slab Calculator",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "url": "https://solverspro.com/trades/concrete-slab/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Calculate exact concrete volume in cubic yards and cubic feet, estimate 40lb, 60lb, and 80lb pre-mixed bags required, and determine curing allowances.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
 
 const faqItems = [
- {
- question: "What is the standard thickness for a concrete slab?",
- answer: "For residential slabs like patios, driveways, and garage floors, the standard thickness is 4 inches (10 cm). For heavier loads like commercial floors or areas with vehicle traffic, 5-6 inches is recommended. Always check local building codes for specific requirements in your area."
- },
- {
- question: "How much extra concrete should I order?",
- answer: "It's recommended to order 5-10% more concrete than your calculated amount to account for spillage, uneven subgrade, and form irregularities. For smaller projects, round up to the nearest full yard. Running short mid-pour is far worse than having a small amount left over."
- },
- {
- question: "How long does concrete take to cure?",
- answer: "Concrete reaches about 70% of its full strength in 7 days and continues to cure for 28 days to reach its rated strength. Initial set occurs within 24-48 hours. During curing, keep the concrete moist and avoid heavy loads. Temperature affects curing — cold weather slows it down significantly."
- },
- {
- question: "Do I need rebar in my concrete slab?",
- answer: "For most residential slabs 4 inches or thicker, wire mesh or rebar is recommended to prevent cracking. Use #3 or #4 rebar on 18-24 inch centers for driveways and garages. Patios may only need wire mesh or fiber reinforcement. Always follow local building codes."
- },
+  {
+    question: "What is the standard thickness for a concrete slab?",
+    answer: "For residential slabs like patios, driveways, and garage floors, the standard thickness is 4 inches (10 cm). For heavier loads like commercial floors or areas with vehicle traffic, 5-6 inches is recommended. Always check local building codes for specific requirements in your area."
+  },
+  {
+    question: "How much extra concrete should I order?",
+    answer: "It's recommended to order 5-10% more concrete than your calculated amount to account for spillage, uneven subgrade, and form irregularities. For smaller projects, round up to the nearest full yard. Running short mid-pour is far worse than having a small amount left over."
+  },
+  {
+    question: "How long does concrete take to cure?",
+    answer: "Concrete reaches about 70% of its full strength in 7 days and continues to cure for 28 days to reach its rated strength. Initial set occurs within 24-48 hours. During curing, keep the concrete moist and avoid heavy loads. Temperature affects curing — cold weather slows it down significantly."
+  },
+  {
+    question: "Do I need rebar in my concrete slab?",
+    answer: "For most residential slabs 4 inches or thicker, wire mesh or rebar is recommended to prevent cracking. Use #3 or #4 rebar on 18-24 inch centers for driveways and garages. Patios may only need wire mesh or fiber reinforcement. Always follow local building codes."
+  },
 ];
 ---
 
 <BaseLayout
- title="Concrete Slab Calculator — Free Construction Tool | SolversPro"
- description="Free concrete slab calculator. Calculate cubic yards, bags needed, and cost for any slab, footing, or wall. No signup required."
- canonical="https://solverspro.com/trades/concrete-slab"
- schema={schema}
+  title="Concrete Slab Calculator — Free Construction Tool | SolversPro"
+  description="Free concrete slab calculator. Calculate cubic yards, bags needed, and cost for any slab, footing, or wall. No signup required."
+  canonical="https://solverspro.com/trades/concrete-slab/"
+  jsonLd={jsonLd}
 >
- <Header />
- <SearchOverlay />
+  <Header />
+  <SearchOverlay />
 
- <main class="flex-1 py-12">
- <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
- <Breadcrumbs items={[
- { label: 'Home', href: '/' },
- { label: 'Trades', href: '/trades' },
- { label: 'Concrete Slab' },
- ]} />
+  <main class="flex-1 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Trades', href: '/trades/' },
+        { label: 'Concrete Slab' },
+      ]} />
 
- <div class="mb-8 max-w-3xl mx-auto text-center">
-        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
- Concrete Slab Calculator
- </h1>
- <p class="text-lg text-zinc-400 ">
- Calculate exactly how much concrete you need for your project.
- </p>
- </div>
+      <div class="mb-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Concrete Slab Calculator</h1>
+        <p class="text-zinc-300 max-w-2xl mx-auto text-base leading-relaxed">SolversPro Concrete Slab Calculator is a free construction estimation utility that computes total concrete volume in cubic yards, cubic meters, and pre-mixed bag quantities for patios, footings, driveways, and foundations.</p>
+      </div>
 
  <!-- Calculator -->
  <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8" id="concrete-form">
@@ -143,6 +150,55 @@ const faqItems = [
  <p class="text-white mt-1">Volume (yd³) = Volume (ft³) ÷ 27</p>
  </div>
  </div>
+
+  <!-- Citable Reference Table -->
+  <div class="mb-12 max-w-3xl mx-auto bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
+    <h2 class="text-xl font-bold text-white mb-4">Residential Concrete Slab Specification & Volume Guide</h2>
+    <p class="text-zinc-400 text-sm mb-6">Standard structural thicknesses, estimated material coverage per 100 sq ft (9.3 m²), and reinforcement requirements:</p>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm text-zinc-300">
+        <thead class="bg-white/[0.03] text-zinc-200 uppercase text-xs tracking-wider border-b border-white/[0.08]">
+          <tr>
+            <th class="py-3 px-4">Application</th>
+            <th class="py-3 px-4">Thickness</th>
+            <th class="py-3 px-4">Volume per 100 sq ft</th>
+            <th class="py-3 px-4">80 lb Bags Needed</th>
+            <th class="py-3 px-4">Reinforcement</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/[0.05]">
+          <tr>
+            <td class="py-3 px-4 font-semibold text-[#2dd4bf]">Sidewalks & Walkways</td>
+            <td class="py-3 px-4 font-mono">3.5 to 4.0 in</td>
+            <td class="py-3 px-4 font-mono text-[#ff6b35]">1.23 yd³</td>
+            <td class="py-3 px-4 font-mono">56 bags</td>
+            <td class="py-3 px-4 text-zinc-400">Welded wire mesh (6&times;6 W1.4/W1.4)</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 font-semibold text-zinc-200">Patio & Shed Floors</td>
+            <td class="py-3 px-4 font-mono">4.0 in</td>
+            <td class="py-3 px-4 font-mono text-[#ff6b35]">1.23 yd³</td>
+            <td class="py-3 px-4 font-mono">56 bags</td>
+            <td class="py-3 px-4 text-zinc-400">Polypropylene fibers or #3 rebar grid</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 font-semibold text-emerald-400">Residential Driveway</td>
+            <td class="py-3 px-4 font-mono">5.0 to 6.0 in</td>
+            <td class="py-3 px-4 font-mono text-[#ff6b35]">1.85 yd³</td>
+            <td class="py-3 px-4 font-mono">84 bags</td>
+            <td class="py-3 px-4 text-zinc-400">#4 (1/2") rebar on 18" grid centers</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 font-semibold text-purple-400">Heavy RV / Equipment Pad</td>
+            <td class="py-3 px-4 font-mono">6.0 to 8.0 in</td>
+            <td class="py-3 px-4 font-mono text-[#ff6b35]">2.47 yd³</td>
+            <td class="py-3 px-4 font-mono">112 bags</td>
+            <td class="py-3 px-4 text-zinc-400">#4 or #5 rebar on 12" grid centers</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
  <!-- FAQ -->
  <div class="mb-12 max-w-3xl mx-auto">

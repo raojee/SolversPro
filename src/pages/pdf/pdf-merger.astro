@@ -11,13 +11,22 @@ import PdfMerger from '../../components/react/PdfMerger.jsx';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "PDF Merger",
+  "url": "https://solverspro.com/pdf/pdf-merger/",
   "applicationCategory": "UtilitiesApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Merge multiple PDF files into a single document instantly in your browser. 100% free, no uploads, secure and fast.",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  "operatingSystem": "Any (web browser)",
+  "description": "Merge multiple PDF files into a single organized document instantly in your browser with drag-and-drop reordering. 100% free, private, and secure.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
 
 const faqs = [
@@ -39,7 +48,7 @@ const faqs = [
 <BaseLayout
   title="Merge PDFs Online — 100% Free & Secure Client-Side Tool | SolversPro"
   description="Combine multiple PDF files into one document instantly. 100% secure—your files never leave your browser. Fast, free, and no sign-up required."
-  canonical="https://solverspro.com/pdf/pdf-merger"
+  canonical="https://solverspro.com/pdf/pdf-merger/"
   schema={schema}
 >
   <Header />
@@ -49,7 +58,7 @@ const faqs = [
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'PDF Tools', href: '/pdf' },
+        { label: 'PDF Tools', href: '/pdf/' },
         { label: 'PDF Merger' },
       ]} />
 
@@ -58,8 +67,11 @@ const faqs = [
         <h1 class="text-3xl md:text-5xl font-bold text-white mb-4">
           📄 Merge PDFs Online
         </h1>
-        <p class="text-lg text-zinc-300 leading-relaxed">
-          Merge multiple PDF documents into a single, organized PDF file online in seconds. Our free PDF Merger is crafted for students, office professionals, legal teams, and job applicants who need to combine reports, receipts, contracts, or application attachments into one seamless file. Reorder pages, combine unlimited PDF files, and download your consolidated document instantly without watermarks or file limits. Processing happens entirely within your web browser using client-side WebAssembly technology—meaning your confidential documents, legal contracts, and sensitive financial PDFs are never uploaded to an external server, guaranteeing total privacy and enterprise-grade security.
+        <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
+          The SolversPro PDF Merger is a free browser-based utility that combines multiple PDF files into a single consolidated document with drag-and-drop page sequencing and 100% client-side privacy.
+        </p>
+        <p class="text-sm text-zinc-400 leading-relaxed">
+          Reorder pages, combine unlimited PDF files, and download your consolidated document instantly without watermarks, server uploads, or file restrictions.
         </p>
       </div>
 
@@ -91,6 +103,48 @@ const faqs = [
               <li><strong>Legal & Real Estate Contracts:</strong> Merging lease agreements, disclosures, and signed signature pages.</li>
               <li><strong>Academic Manuscripts:</strong> Consolidating research papers, data charts, and bibliography appendices into one file.</li>
             </ul>
+          </div>
+        <!-- Reference Table -->
+        <div class="result-surface my-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl">
+          <h2 class="text-xl font-bold text-white mb-4">Supported PDF Formats &amp; Compatibility Standards</h2>
+          <p class="text-sm text-zinc-400 mb-4">Standard PDF specifications and merge behavior supported by the client-side engine.</p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+              <thead>
+                <tr class="border-b border-white/10 text-white font-semibold">
+                  <th class="py-2.5 px-3">PDF Standard</th>
+                  <th class="py-2.5 px-3">Version</th>
+                  <th class="py-2.5 px-3">Merge Support</th>
+                  <th class="py-2.5 px-3">Key Features Preserved</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-white/5">
+                <tr>
+                  <td class="py-2.5 px-3 font-semibold text-white">Standard PDF</td>
+                  <td class="py-2.5 px-3 font-mono">1.3 – 1.7</td>
+                  <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">Full (Native)</td>
+                  <td class="py-2.5 px-3 text-zinc-400">Vector graphics, embedded fonts, images</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 font-semibold text-white">ISO PDF 2.0</td>
+                  <td class="py-2.5 px-3 font-mono">2.0</td>
+                  <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">Supported</td>
+                  <td class="py-2.5 px-3 text-zinc-400">Unencrypted 2.0 structure &amp; text streams</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 font-semibold text-white">PDF/A (Archival)</td>
+                  <td class="py-2.5 px-3 font-mono">1a / 1b / 2b</td>
+                  <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">Supported</td>
+                  <td class="py-2.5 px-3 text-zinc-400">Long-term compliance &amp; self-contained fonts</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 font-semibold text-white">Password Protected</td>
+                  <td class="py-2.5 px-3 font-mono">All</td>
+                  <td class="py-2.5 px-3 font-mono text-[#facc15]">Requires Unlock</td>
+                  <td class="py-2.5 px-3 text-zinc-400">Unlock via Unlock PDF tool before merging</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
 

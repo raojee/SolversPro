@@ -7,23 +7,53 @@ import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
-const schema = {
+const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "QR Code Generator",
+  "url": "https://solverspro.com/qr/qr-generator/",
   "applicationCategory": "UtilitiesApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Generate QR codes for URLs, text, emails, phone numbers, and more. Customize size, colors, and download as PNG. 100% free and runs in your browser."
+  "operatingSystem": "Any (web browser)",
+  "description": "Generate custom QR codes for URLs, plain text, email vCards, telephone numbers, and WiFi networks with selectable Reed-Solomon error correction and PNG downloads.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
+
+const faqs = [
+  {
+    question: "What is Reed-Solomon Error Correction in QR codes?",
+    answer: "QR codes incorporate Reed-Solomon algebraic error correction across four standard levels: Level L (7% recovery), Level M (15% recovery), Level Q (25% recovery), and Level H (30% recovery). Higher levels allow codes to scan reliably even if partially obscured, soiled, or printed on curved packaging."
+  },
+  {
+    question: "How does the WiFi QR code format automatically connect devices?",
+    answer: "The tool encodes credentials using the standard WIFI:S:<SSID>;T:<WPA|WEP>;P:<password>;; URI scheme, which iOS Camera and Android Lens parse natively to trigger one-tap network join prompts."
+  },
+  {
+    question: "Do generated QR codes ever expire or require subscription renewal?",
+    answer: "No. These are static QR codes containing literal raw payload strings (such as full destination URLs or raw text). Because there is no intermediary redirect redirect server, static codes never expire or break."
+  },
+  {
+    question: "Is any tracking or user data collected when generating a QR code?",
+    answer: "No. The barcode matrix renders 100% client-side onto an HTML5 canvas inside your local browser. No URLs, text, passwords, or IP addresses are logged or sent to remote servers."
+  }
+];
 ---
 
 <BaseLayout
   title="QR Code Generator | SolversPro"
   description="Generate QR codes for URLs, text, email, phone, WiFi, and more. Customize size and colors. Download as PNG. Free and 100% client-side."
-  canonical="https://solverspro.com/qr/qr-generator"
-  schema={schema}
+  canonical="https://solverspro.com/qr/qr-generator/"
+  jsonLd={jsonLd}
 >
   <Header />
   <SearchOverlay />
@@ -35,13 +65,13 @@ const schema = {
     <div class="container mx-auto px-4 py-12 max-w-4xl">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'QR Tools', href: '/qr' },
+        { label: 'QR Tools', href: '/qr/' },
         { label: 'QR Code Generator' },
       ]} />
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">📱 QR Code Generator</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Generate QR codes for URLs, plain text, emails, phone numbers, and WiFi credentials. Customize size, colors, and download instantly.</p>
+        <p class="text-zinc-300 max-w-2xl text-base leading-relaxed">SolversPro QR Code Generator is a free browser-based barcode generator that encodes URLs, WiFi credentials, plain text, emails, and phone numbers into permanent static QR codes with selectable Reed-Solomon error correction and instant PNG export.</p>
       </div>
 
       <div class="flex flex-col lg:flex-row gap-6">
@@ -218,6 +248,52 @@ const schema = {
           </div>
         </div>
       </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mt-12 bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
+        <h2 class="text-xl font-bold text-white mb-4">QR Code Reed-Solomon Error Correction Level Matrix</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard recovery capabilities, matrix density, and operational deployment recommendations:</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300">
+            <thead class="bg-white/[0.03] text-zinc-200 uppercase text-xs tracking-wider border-b border-white/[0.08]">
+              <tr>
+                <th class="py-3 px-4">Level</th>
+                <th class="py-3 px-4">Damage Recovery</th>
+                <th class="py-3 px-4">Pattern Density</th>
+                <th class="py-3 px-4">Best Deployment Scenario</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.05]">
+              <tr>
+                <td class="py-3 px-4 font-mono font-bold text-[#2dd4bf]">Level L</td>
+                <td class="py-3 px-4 font-mono">~7% restoration</td>
+                <td class="py-3 px-4 text-emerald-400">Lowest density (Largest modules)</td>
+                <td class="py-3 px-4 text-zinc-400">Crisp digital screens, indoor signage, high data strings</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono font-bold text-zinc-100">Level M (Default)</td>
+                <td class="py-3 px-4 font-mono">~15% restoration</td>
+                <td class="py-3 px-4 text-zinc-200">Balanced density</td>
+                <td class="py-3 px-4 text-zinc-400">Standard business cards, table flyers, marketing pamphlets</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono font-bold text-purple-400">Level Q</td>
+                <td class="py-3 px-4 font-mono">~25% restoration</td>
+                <td class="py-3 px-4 text-yellow-400">Moderately high density</td>
+                <td class="py-3 px-4 text-zinc-400">Outdoor stickers, thermal receipt printers, light logo embedding</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono font-bold text-[#ff6b35]">Level H</td>
+                <td class="py-3 px-4 font-mono">~30% restoration</td>
+                <td class="py-3 px-4 text-red-400">Highest density (Smallest modules)</td>
+                <td class="py-3 px-4 text-zinc-400">Industrial tags, harsh outdoor environments, center logo branding</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <ToolFAQ faqs={faqs} />
       <ToolShare title="QR Code Generator" url="https://solverspro.com/qr/qr-generator" />
       <SimilarTools category="qr" currentPath="/qr/qr-generator" />
     

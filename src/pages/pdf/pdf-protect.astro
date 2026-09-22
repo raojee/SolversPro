@@ -2,23 +2,64 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ToolShare from '../../components/ToolShare.astro';
 import SimilarTools from '../../components/SimilarTools.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "PDF Password Protection Tool",
+  "url": "https://solverspro.com/pdf/pdf-protect/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Encrypt PDF documents with user and owner passwords and configure granular printing, copying, and modification permissions securely in your browser.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+};
+
+const faqs = [
+  {
+    question: "What is the difference between a User Password and an Owner Password?",
+    answer: "A User Password (open password) is required to decrypt and view the PDF. An Owner Password (permissions password) restricts specific operations such as printing, content copying, or editing form fields even if the file can be viewed."
+  },
+  {
+    question: "Is my document uploaded to a remote server for encryption?",
+    answer: "No. PDF encryption occurs 100% locally within your browser sandbox via JavaScript. Your password and PDF data never leave your device."
+  },
+  {
+    question: "Can I selectively restrict printing or text copying?",
+    answer: "Yes. You can toggle permission flags for printing, modifying, copying, and annotating independently before generating the encrypted file."
+  }
+];
 ---
 <BaseLayout
-  title="Protect PDF With Password | SolversPro"
-  description="Add password protection to PDF files. Set user and owner passwords with granular permissions. 100% private — runs in your browser."
+  title="Protect PDF With Password — Free Online PDF Encryption | SolversPro"
+  description="Encrypt PDF documents with passwords and customize printing, copying, and editing permissions. 100% private, client-side encryption. Free online tool."
+  canonical="https://solverspro.com/pdf/pdf-protect/"
+  schema={schema}
 >
   <Header />
   <SearchOverlay />
   <main class="flex-1 py-12">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf'},{label:'Protect PDF'}]} />
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf/'},{label:'Protect PDF'}]} />
       <div class="mb-8 mt-4 text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Protect PDF With Password</h1>
-        <p class="text-zinc-400">Encrypt your PDF with a password. Set permissions for printing, copying and editing.</p>
+        <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
+          The SolversPro PDF Password Protection Tool is a free client-side encryption utility that secures PDF files with user and owner passwords and granular permission controls with 100% local privacy.
+        </p>
+        <p class="text-zinc-400 text-sm">Encrypt your PDF with a password. Set permissions for printing, copying and editing.</p>
       </div>
 
       <div class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-8 space-y-6">
@@ -79,7 +120,53 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
             ⬇️ Download Protected PDF
           </a>
         </div>
+      <!-- Reference Table -->
+      <div class="result-surface my-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-3xl mx-auto">
+        <h2 class="text-xl font-bold text-white mb-4">PDF Standard Permission Flag Reference</h2>
+        <p class="text-sm text-zinc-400 mb-4">Granular security restrictions mapped to Adobe Acrobat / ISO 32000 standard permission bits.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+            <thead>
+              <tr class="border-b border-white/10 text-white font-semibold">
+                <th class="py-2.5 px-3">Permission Setting</th>
+                <th class="py-2.5 px-3">Allowed Action When Enabled</th>
+                <th class="py-2.5 px-3">Blocked When Disabled</th>
+                <th class="py-2.5 px-3">Security Level</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Printing</td>
+                <td class="py-2.5 px-3 text-zinc-300">High-resolution physical printouts</td>
+                <td class="py-2.5 px-3 font-mono text-[#f87171]">Print command disabled</td>
+                <td class="py-2.5 px-3 text-[#2dd4bf]">Standard</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Modifying</td>
+                <td class="py-2.5 px-3 text-zinc-300">Page rotation, extraction, form filling</td>
+                <td class="py-2.5 px-3 font-mono text-[#f87171]">Read-only document locked</td>
+                <td class="py-2.5 px-3 text-[#2dd4bf]">High</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Copying</td>
+                <td class="py-2.5 px-3 text-zinc-300">Clipboard text &amp; image copying</td>
+                <td class="py-2.5 px-3 font-mono text-[#f87171]">Text selection &amp; copy blocked</td>
+                <td class="py-2.5 px-3 text-[#2dd4bf]">Content Protection</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Annotating</td>
+                <td class="py-2.5 px-3 text-zinc-300">Adding notes, highlights, signature lines</td>
+                <td class="py-2.5 px-3 font-mono text-[#f87171]">Markup tools grayed out</td>
+                <td class="py-2.5 px-3 text-[#2dd4bf]">Standard</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={faqs} />
+
       <ToolShare title="Protect PDF With Password" url="https://solverspro.com/pdf/pdf-protect" />
       <SimilarTools category="pdf" currentPath="/pdf/pdf-protect" />
     

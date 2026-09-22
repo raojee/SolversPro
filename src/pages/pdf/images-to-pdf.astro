@@ -2,20 +2,64 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ToolShare from '../../components/ToolShare.astro';
 import SimilarTools from '../../components/SimilarTools.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Images to PDF Converter",
+  "url": "https://solverspro.com/pdf/images-to-pdf/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Convert JPG, PNG, and WebP images into a single formatted PDF document with customizable page sizes, orientations, and margins entirely in your browser.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+};
+
+const faqs = [
+  {
+    question: "Which image file types can I convert to PDF?",
+    answer: "You can convert JPG, JPEG, PNG, and WebP image files. The converter embeds high-resolution raster images directly into PDF pages without quality loss."
+  },
+  {
+    question: "Are my uploaded photos or documents sent to a server?",
+    answer: "No. All image processing and PDF assembly occur 100% locally inside your web browser using client-side JavaScript. Your files never leave your computer."
+  },
+  {
+    question: "Can I adjust the page orientation and margins?",
+    answer: "Yes. You can choose standard A4 or US Letter page dimensions or fit the page to the image size, switch between portrait and landscape orientation, and select custom margins."
+  }
+];
 ---
-<BaseLayout title="Images to PDF | SolversPro" description="Combine multiple JPG, PNG or WebP images into a single PDF file. Set page size, orientation and margins. Free, private, browser-based.">
+<BaseLayout
+  title="Images to PDF Converter — Free Online JPG/PNG to PDF | SolversPro"
+  description="Convert JPG, PNG, and WebP images to PDF in seconds. Set custom page sizes, orientations, and margins with 100% private browser processing. Free online tool."
+  canonical="https://solverspro.com/pdf/images-to-pdf/"
+  schema={schema}
+>
   <Header />
   <SearchOverlay />
   <main class="flex-1 py-12">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf'},{label:'Images to PDF'}]} />
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf/'},{label:'Images to PDF'}]} />
       <div class="mb-8 mt-4 text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Images to PDF</h1>
-        <p class="text-zinc-400">Combine multiple images (JPG, PNG, WebP) into a single PDF. Drag to reorder.</p>
+        <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
+          The SolversPro Images to PDF Converter is a free utility that merges multiple JPG, PNG, and WebP image files into a single, organized PDF document with customizable page sizing, margins, and ordering.
+        </p>
+        <p class="text-zinc-400 text-sm">Combine multiple images (JPG, PNG, WebP) into a single PDF. Drag to reorder.</p>
       </div>
       <div class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-8 space-y-6">
         <!-- Drop Zone -->
@@ -72,7 +116,58 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
           </div>
           <a id="download-link" class="inline-flex items-center gap-2 px-8 py-3 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white font-semibold rounded-xl transition-colors">⬇️ Download PDF</a>
         </div>
+      <!-- Reference Table -->
+      <div class="result-surface my-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-4xl mx-auto">
+        <h2 class="text-xl font-bold text-white mb-4">Standard PDF Page Dimension Reference</h2>
+        <p class="text-sm text-zinc-400 mb-4">Standard international and North American page sizes converted to typographic points (72 pt = 1 inch).</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+            <thead>
+              <tr class="border-b border-white/10 text-white font-semibold">
+                <th class="py-2.5 px-3">Standard Format</th>
+                <th class="py-2.5 px-3">Dimensions (mm)</th>
+                <th class="py-2.5 px-3">Dimensions (Inches)</th>
+                <th class="py-2.5 px-3">PDF Canvas (Points)</th>
+                <th class="py-2.5 px-3">Aspect Ratio</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">ISO A4</td>
+                <td class="py-2.5 px-3 font-mono">210 × 297 mm</td>
+                <td class="py-2.5 px-3 font-mono">8.27 × 11.69 in</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">595 × 842 pt</td>
+                <td class="py-2.5 px-3 text-zinc-400">1:1.414 (√2)</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">US Letter</td>
+                <td class="py-2.5 px-3 font-mono">215.9 × 279.4 mm</td>
+                <td class="py-2.5 px-3 font-mono">8.5 × 11.0 in</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">612 × 792 pt</td>
+                <td class="py-2.5 px-3 text-zinc-400">1:1.294</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">US Legal</td>
+                <td class="py-2.5 px-3 font-mono">215.9 × 355.6 mm</td>
+                <td class="py-2.5 px-3 font-mono">8.5 × 14.0 in</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">612 × 1008 pt</td>
+                <td class="py-2.5 px-3 text-zinc-400">1:1.647</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">ISO A3</td>
+                <td class="py-2.5 px-3 font-mono">297 × 420 mm</td>
+                <td class="py-2.5 px-3 font-mono">11.69 × 16.54 in</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">842 × 1191 pt</td>
+                <td class="py-2.5 px-3 text-zinc-400">1:1.414 (√2)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={faqs} />
+
       <ToolShare title="Images to PDF" url="https://solverspro.com/pdf/images-to-pdf" />
       <SimilarTools category="pdf" currentPath="/pdf/images-to-pdf" />
     

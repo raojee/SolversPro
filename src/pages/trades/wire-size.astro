@@ -12,13 +12,24 @@ import CalculateButton from '../../components/CalculateButton.astro';
 import FAQAccordion from '../../components/FAQAccordion.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
 
-const schema = {
+const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Wire Size Calculator",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "url": "https://solverspro.com/trades/wire-size/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Calculate American Wire Gauge (AWG) wire size and percentage voltage drop for single-phase and three-phase copper or aluminum branch circuits per NEC standards.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
 
 const faqItems = [
@@ -32,7 +43,11 @@ const faqItems = [
   },
   {
     question: "How is this calculated?",
-    answer: "We use the standard industry formula: Circular Mils = (K × I × L × Phase Factor) / Allowable Voltage Drop. The result is then mapped to the next largest standard AWG or kcmil wire size."
+    answer: "We use the standard industry formula: Circular Mils = (K &times; I &times; L &times; Phase Factor) / Allowable Voltage Drop. The result is then mapped to the next largest standard AWG or kcmil wire size."
+  },
+  {
+    question: "What is the difference between single-phase and three-phase circuit calculations?",
+    answer: "Single-phase circuits utilize a phase factor of 2 to account for both out-and-back conductor runs, whereas balanced three-phase calculations utilize the square root of 3 (&radic;3 &approx; 1.732) line-to-line factor."
   }
 ];
 ---
@@ -40,8 +55,8 @@ const faqItems = [
 <BaseLayout
   title="Wire Size & Voltage Drop Calculator | SolversPro"
   description="Calculate the correct AWG wire size and check voltage drop based on load, distance, and material using NEC approximations."
-  canonical="https://solverspro.com/trades/wire-size"
-  schema={schema}
+  canonical="https://solverspro.com/trades/wire-size/"
+  jsonLd={jsonLd}
 >
   <Header />
   <SearchOverlay />
@@ -50,17 +65,13 @@ const faqItems = [
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'Trades', href: '/trades' },
+        { label: 'Trades', href: '/trades/' },
         { label: 'Wire Size Calculator' },
       ]} />
 
       <div class="mb-8 max-w-3xl mx-auto text-center">
-        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
-          Wire Size Calculator
-        </h1>
-        <p class="text-lg text-zinc-400">
-          Find the correct AWG wire size based on voltage drop and load requirements.
-        </p>
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Wire Size Calculator</h1>
+        <p class="text-zinc-300 max-w-2xl mx-auto text-base leading-relaxed">SolversPro Wire Size Calculator is a free electrical engineering tool that computes the required American Wire Gauge (AWG) conductor diameter and circuit voltage drop based on current load, cable length, system voltage, and metal resistivity.</p>
       </div>
 
       <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 md:p-10 shadow-sm mb-8" id="wire-form" onsubmit="event.preventDefault();">
@@ -117,6 +128,62 @@ const faqItems = [
           <div class="w-full flex justify-end mt-8 border-t border-white/[0.05] pt-4">
             <SaveResultButton id="save-wire-btn" />
           </div>
+        </div>
+      </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mb-12 max-w-3xl mx-auto bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
+        <h2 class="text-xl font-bold text-white mb-4">NEC Conductor Ampacity & Cross-Section Reference</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard NEC 310.16 conductor ratings for copper and aluminum conductors rated at 75&deg;C (THHN/THWN-2):</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300">
+            <thead class="bg-white/[0.03] text-zinc-200 uppercase text-xs tracking-wider border-b border-white/[0.08]">
+              <tr>
+                <th class="py-3 px-4">AWG / kcmil Size</th>
+                <th class="py-3 px-4">Circular Mils (CM)</th>
+                <th class="py-3 px-4">Copper (Cu) 75&deg;C</th>
+                <th class="py-3 px-4">Aluminum (Al) 75&deg;C</th>
+                <th class="py-3 px-4">Typical Standard Circuit</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.05]">
+              <tr>
+                <td class="py-3 px-4 font-mono font-bold text-[#2dd4bf]">14 AWG</td>
+                <td class="py-3 px-4 font-mono">4,110 CM</td>
+                <td class="py-3 px-4 font-mono text-[#ff6b35]">15 A</td>
+                <td class="py-3 px-4 text-zinc-500">Not Permitted</td>
+                <td class="py-3 px-4">15A general lighting and convenience receptacles</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono font-bold text-[#2dd4bf]">12 AWG</td>
+                <td class="py-3 px-4 font-mono">6,530 CM</td>
+                <td class="py-3 px-4 font-mono text-[#ff6b35]">20 A</td>
+                <td class="py-3 px-4 font-mono text-zinc-400">15 A</td>
+                <td class="py-3 px-4">20A kitchen/bath small appliance circuits</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono font-bold text-[#2dd4bf]">10 AWG</td>
+                <td class="py-3 px-4 font-mono">10,380 CM</td>
+                <td class="py-3 px-4 font-mono text-[#ff6b35]">30 A</td>
+                <td class="py-3 px-4 font-mono text-zinc-400">25 A</td>
+                <td class="py-3 px-4">30A electric water heaters and dryer feeds</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono font-bold text-[#2dd4bf]">8 AWG</td>
+                <td class="py-3 px-4 font-mono">16,510 CM</td>
+                <td class="py-3 px-4 font-mono text-[#ff6b35]">50 A</td>
+                <td class="py-3 px-4 font-mono text-zinc-400">40 A</td>
+                <td class="py-3 px-4">Electric ranges and central A/C compressors</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono font-bold text-[#2dd4bf]">6 AWG</td>
+                <td class="py-3 px-4 font-mono">26,240 CM</td>
+                <td class="py-3 px-4 font-mono text-[#ff6b35]">65 A</td>
+                <td class="py-3 px-4 font-mono text-zinc-400">50 A</td>
+                <td class="py-3 px-4">50A EV fast chargers and subpanel feeders</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 

@@ -6,16 +6,56 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "PDF to Images",
+  "url": "https://solverspro.com/pdf/pdf-to-images/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Convert PDF pages into high-resolution PNG images locally in your browser with selectable DPI scaling, instant thumbnail previews, and single-click ZIP archive packaging.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+};
+
+const faqs = [
+  {
+    question: "How does the PDF to Image conversion process work?",
+    answer: "The tool utilizes an in-browser PDF rendering engine to parse document vector instructions and rasterize each page directly onto an HTML5 Canvas element at your chosen DPI scale, exporting losslessly compressed PNG files."
+  },
+  {
+    question: "What resolution or DPI should I choose for PDF page export?",
+    answer: "Standard 72 DPI is optimal for quick web previews and minimal file size, 144 DPI balances crisp readability on Retina displays with modest file sizes, and 216 DPI provides high fidelity suitable for archiving and physical document reproduction."
+  },
+  {
+    question: "Are my confidential PDF pages uploaded to an external server?",
+    answer: "No. All rendering, canvas rasterization, and ZIP archive packaging occur strictly inside your local web browser. Your document never leaves your machine."
+  },
+  {
+    question: "Can I download individual pages instead of the full ZIP package?",
+    answer: "Yes. Once rendering completes, each page thumbnail includes an individual download button allowing you to save specific pages or grab the entire set bundled into a single ZIP file."
+  }
+];
 ---
-<BaseLayout title="PDF to Images | SolversPro" description="Convert every PDF page into a high-quality PNG image. Preview and download individually or as a ZIP. Free, private, browser-based.">
+<BaseLayout title="PDF to Images | SolversPro" description="Convert every PDF page into a high-quality PNG image. Preview and download individually or as a ZIP. Free, private, browser-based." jsonLd={jsonLd}>
   <Header />
   <SearchOverlay />
   <main class="flex-1 py-12">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf'},{label:'PDF to Images'}]} />
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf/'},{label:'PDF to Images'}]} />
       <div class="mb-8 mt-4 text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">PDF to Images</h1>
-        <p class="text-zinc-400">Convert each PDF page into a high-quality PNG image. Preview and download all or individually.</p>
+        <p class="text-zinc-300 max-w-2xl mx-auto text-base leading-relaxed">SolversPro PDF to Images is a free browser-based conversion utility that renders each page of a PDF document into high-resolution PNG image files with selectable DPI scaling and instant ZIP archive packaging without uploading files to remote servers.</p>
       </div>
       <div class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-8 space-y-6">
         <div id="drop-zone" class="border-2 border-dashed border-white/[0.1] rounded-xl p-10 text-center cursor-pointer hover:border-[#ff6b35]/50 hover:bg-[#ff6b35]/[0.02] transition-all">
@@ -61,6 +101,57 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
           <div id="image-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
         </div>
       </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mt-12 bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
+        <h2 class="text-xl font-bold text-white mb-4">PDF Rasterization Resolution & Dimensions Guide</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard rendering dimensions and estimated memory footprint for common US Letter (8.5 &times; 11 in) and ISO A4 page dimensions across rasterization scales:</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300">
+            <thead class="bg-white/[0.03] text-zinc-200 uppercase text-xs tracking-wider border-b border-white/[0.08]">
+              <tr>
+                <th class="py-3 px-4">Scale Factor</th>
+                <th class="py-3 px-4">Effective DPI</th>
+                <th class="py-3 px-4">US Letter Pixels (W &times; H)</th>
+                <th class="py-3 px-4">A4 Pixels (W &times; H)</th>
+                <th class="py-3 px-4">Primary Use Case</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.05]">
+              <tr>
+                <td class="py-3 px-4 font-mono text-[#ff6b35]">1.0x</td>
+                <td class="py-3 px-4 font-mono">72 DPI</td>
+                <td class="py-3 px-4 font-mono">612 &times; 792 px</td>
+                <td class="py-3 px-4 font-mono">595 &times; 842 px</td>
+                <td class="py-3 px-4">Screen preview, compact web sharing</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono text-[#ff6b35]">1.5x</td>
+                <td class="py-3 px-4 font-mono">108 DPI</td>
+                <td class="py-3 px-4 font-mono">918 &times; 1188 px</td>
+                <td class="py-3 px-4 font-mono">893 &times; 1263 px</td>
+                <td class="py-3 px-4">Standard desktop presentations</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono text-[#ff6b35]">2.0x</td>
+                <td class="py-3 px-4 font-mono">144 DPI</td>
+                <td class="py-3 px-4 font-mono">1224 &times; 1584 px</td>
+                <td class="py-3 px-4 font-mono">1190 &times; 1684 px</td>
+                <td class="py-3 px-4">Retina displays, sharp typography reading</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono text-[#ff6b35]">3.0x</td>
+                <td class="py-3 px-4 font-mono">216 DPI</td>
+                <td class="py-3 px-4 font-mono">1836 &times; 2376 px</td>
+                <td class="py-3 px-4 font-mono">1785 &times; 2526 px</td>
+                <td class="py-3 px-4">High-resolution printing, OCR intake</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <ToolFAQ faqs={faqs} />
       <ToolShare title="PDF to Images" url="https://solverspro.com/pdf/pdf-to-images" />
       <SimilarTools category="pdf" currentPath="/pdf/pdf-to-images" />
     

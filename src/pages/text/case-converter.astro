@@ -6,23 +6,53 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
-const schema = {
+const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Text Case Converter",
+  "url": "https://solverspro.com/text/case-converter/",
   "applicationCategory": "UtilitiesApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Convert text between uppercase, lowercase, title case, camelCase, snake_case, PascalCase, kebab-case, and more. Free and instant in your browser."
+  "operatingSystem": "Any (web browser)",
+  "description": "Convert text between uppercase, lowercase, title case, camelCase, snake_case, PascalCase, kebab-case, and sentence case instantly in your browser with real-time word statistics.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
+
+const faqs = [
+  {
+    question: "What is the difference between camelCase and PascalCase?",
+    answer: "camelCase begins with a lowercase initial character and capitalizes subsequent joined words (e.g., 'getUserProfile'), whereas PascalCase capitalizes every word from the start (e.g., 'GetUserProfile'), commonly used for classes and types."
+  },
+  {
+    question: "When should snake_case versus kebab-case be used?",
+    answer: "snake_case uses underscores ('user_id') and is standard in Python, SQL, and database columns. kebab-case uses hyphens ('user-id') and is standard in URLs, CSS class names, and command-line flags."
+  },
+  {
+    question: "How does the Title Case algorithm handle small prepositions?",
+    answer: "Title Case converts words into capitalized tokens while handling custom capitalization across spaces, hyphenated compounds, and underscores consistently."
+  },
+  {
+    question: "Is any text or data sent to an external server during conversion?",
+    answer: "No. All text transformations, character counts, and clipboard actions occur entirely client-side inside your browser engine for complete privacy."
+  }
+];
 ---
 
 <BaseLayout
   title="Text Case Converter | SolversPro"
   description="Convert text between uppercase, lowercase, title case, camelCase, snake_case, PascalCase, kebab-case, and more. Free and instant — no server required."
-  canonical="https://solverspro.com/text/case-converter"
-  schema={schema}
+  canonical="https://solverspro.com/text/case-converter/"
+  jsonLd={jsonLd}
 >
   <Header />
   <SearchOverlay />
@@ -31,13 +61,13 @@ const schema = {
     <div class="container mx-auto px-4 py-12 max-w-4xl">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'Text Tools', href: '/text' },
+        { label: 'Text Tools', href: '/text/' },
         { label: 'Case Converter' },
       ]} />
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">🔡 Text Case Converter</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Instantly convert text between any case format — uppercase, lowercase, title case, camelCase, snake_case, PascalCase, kebab-case, and more.</p>
+        <p class="text-zinc-300 max-w-2xl text-base leading-relaxed">SolversPro Text Case Converter is a free online typography and string formatting utility that transforms text between uppercase, lowercase, title case, camelCase, snake_case, PascalCase, and kebab-case instantly in your browser without uploading data.</p>
       </div>
 
       <!-- Input -->
@@ -120,6 +150,58 @@ const schema = {
           spellcheck="false"
         ></textarea>
       </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mt-12 bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
+        <h2 class="text-xl font-bold text-white mb-4">Programming & Editorial Case Convention Reference</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard naming standards and common language paradigms across character casing formats:</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300">
+            <thead class="bg-white/[0.03] text-zinc-200 uppercase text-xs tracking-wider border-b border-white/[0.08]">
+              <tr>
+                <th class="py-3 px-4">Case Style</th>
+                <th class="py-3 px-4">Delimiter</th>
+                <th class="py-3 px-4">Pattern Example</th>
+                <th class="py-3 px-4">Primary Ecosystem</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.05]">
+              <tr>
+                <td class="py-3 px-4 font-semibold text-[#2dd4bf]">camelCase</td>
+                <td class="py-3 px-4 font-mono">None (Uppercase mid-word)</td>
+                <td class="py-3 px-4 font-mono text-[#2dd4bf]">parseJsonResponse</td>
+                <td class="py-3 px-4">JavaScript, TypeScript, Java, Go variables</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-green-400">PascalCase</td>
+                <td class="py-3 px-4 font-mono">None (All words capitalized)</td>
+                <td class="py-3 px-4 font-mono text-green-400">ParseJsonResponse</td>
+                <td class="py-3 px-4">C#, React Components, TypeScript Types/Classes</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-pink-400">snake_case</td>
+                <td class="py-3 px-4 font-mono">Underscore (_)</td>
+                <td class="py-3 px-4 font-mono text-pink-400">parse_json_response</td>
+                <td class="py-3 px-4">Python functions, Ruby, PostgreSQL tables/columns</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-orange-400">kebab-case</td>
+                <td class="py-3 px-4 font-mono">Hyphen (-)</td>
+                <td class="py-3 px-4 font-mono text-orange-400">parse-json-response</td>
+                <td class="py-3 px-4">URL slugs, CSS selectors, package names, CLI flags</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-purple-400">Title Case</td>
+                <td class="py-3 px-4 font-mono">Space ( )</td>
+                <td class="py-3 px-4 font-mono text-purple-400">Parse JSON Response</td>
+                <td class="py-3 px-4">Headlines, Book Titles, UI Navigation Labels</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <ToolFAQ faqs={faqs} />
       <ToolShare title="Text Case Converter" url="https://solverspro.com/text/case-converter" />
       <SimilarTools category="text" currentPath="/text/case-converter" />
     

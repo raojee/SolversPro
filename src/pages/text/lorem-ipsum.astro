@@ -6,23 +6,53 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
-const schema = {
+const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Lorem Ipsum Generator",
+  "url": "https://solverspro.com/text/lorem-ipsum/",
   "applicationCategory": "UtilitiesApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Generate placeholder Lorem Ipsum text by paragraphs, sentences, or words. Free, instant, and customizable — no server required."
+  "operatingSystem": "Any (web browser)",
+  "description": "Generate dummy placeholder Lorem Ipsum text by paragraphs, sentences, or words with optional HTML tag wrapping and instant clipboard copying.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
+
+const faqs = [
+  {
+    question: "What is the origin of Lorem Ipsum dummy text?",
+    answer: "Lorem Ipsum originates from sections 1.10.32 and 1.10.33 of Cicero's 45 BC philosophical treatise 'De Finibus Bonorum et Malorum' (On the Extremes of Good and Evil), adapted into standard typesetter dummy text in the 1500s."
+  },
+  {
+    question: "Why do designers use Lorem Ipsum instead of English placeholder text?",
+    answer: "Lorem Ipsum provides a natural distribution of letters and word lengths that mimics natural language without distracting clients or readers with readable semantic content during UI layout review."
+  },
+  {
+    question: "Can I generate HTML paragraph tags directly?",
+    answer: "Yes. Toggling the 'Wrap in <p> tags' checkbox automatically encloses each paragraph block in standard semantic HTML tags ready for copy-pasting into code editors or CMS templates."
+  },
+  {
+    question: "Is there any limit on how much text I can generate?",
+    answer: "You can generate up to 20 paragraphs, sentences, or customized word sequences instantly. Because generation happens client-side, output is rendered instantaneously."
+  }
+];
 ---
 
 <BaseLayout
   title="Lorem Ipsum Generator | SolversPro"
   description="Generate placeholder Lorem Ipsum text by paragraphs, sentences, or words. Free, instant, and fully customizable — runs entirely in your browser."
-  canonical="https://solverspro.com/text/lorem-ipsum"
-  schema={schema}
+  canonical="https://solverspro.com/text/lorem-ipsum/"
+  jsonLd={jsonLd}
 >
   <Header />
   <SearchOverlay />
@@ -31,13 +61,13 @@ const schema = {
     <div class="container mx-auto px-4 py-12 max-w-4xl">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'Text Tools', href: '/text' },
+        { label: 'Text Tools', href: '/text/' },
         { label: 'Lorem Ipsum Generator' },
       ]} />
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">📄 Lorem Ipsum Generator</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Generate professional placeholder text for your designs, mockups, and prototypes. Customize by paragraphs, sentences, or words.</p>
+        <p class="text-zinc-300 max-w-2xl text-base leading-relaxed">SolversPro Lorem Ipsum Generator is a free typography and prototyping utility that generates authentic Latin placeholder text by paragraphs, sentences, or word counts with optional HTML markup formatting directly inside your browser.</p>
       </div>
 
       <!-- Controls -->
@@ -118,6 +148,52 @@ const schema = {
           spellcheck="false"
         ></textarea>
       </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mt-12 bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
+        <h2 class="text-xl font-bold text-white mb-4">Typography Layout Volume & Character Benchmarks</h2>
+        <p class="text-zinc-400 text-sm mb-6">Typical volumetric estimates for dummy copy when fitting web layouts, UI cards, and editorial columns:</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300">
+            <thead class="bg-white/[0.03] text-zinc-200 uppercase text-xs tracking-wider border-b border-white/[0.08]">
+              <tr>
+                <th class="py-3 px-4">Content Unit</th>
+                <th class="py-3 px-4">Average Word Count</th>
+                <th class="py-3 px-4">Average Character Count</th>
+                <th class="py-3 px-4">Standard Layout Application</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.05]">
+              <tr>
+                <td class="py-3 px-4 font-semibold text-[#2dd4bf]">1 Sentence</td>
+                <td class="py-3 px-4 font-mono">12 - 20 words</td>
+                <td class="py-3 px-4 font-mono">80 - 130 chars</td>
+                <td class="py-3 px-4">Hero subtitles, tooltip text, feature card summaries</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-emerald-400">1 Paragraph</td>
+                <td class="py-3 px-4 font-mono">50 - 90 words</td>
+                <td class="py-3 px-4 font-mono">350 - 600 chars</td>
+                <td class="py-3 px-4">Product descriptions, testimonial blocks, blog intros</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-purple-400">3 Paragraphs</td>
+                <td class="py-3 px-4 font-mono">180 - 250 words</td>
+                <td class="py-3 px-4 font-mono">1,100 - 1,700 chars</td>
+                <td class="py-3 px-4">About Us sections, magazine mockups, service pages</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-orange-400">5 Paragraphs</td>
+                <td class="py-3 px-4 font-mono">300 - 450 words</td>
+                <td class="py-3 px-4 font-mono">2,000 - 3,000 chars</td>
+                <td class="py-3 px-4">Long-form editorial prototypes, terms of service drafts</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <ToolFAQ faqs={faqs} />
       <ToolShare title="Lorem Ipsum Generator" url="https://solverspro.com/text/lorem-ipsum" />
       <SimilarTools category="text" currentPath="/text/lorem-ipsum" />
     

@@ -2,23 +2,64 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ToolShare from '../../components/ToolShare.astro';
 import SimilarTools from '../../components/SimilarTools.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Split PDF To Pages",
+  "url": "https://solverspro.com/pdf/pdf-split-pages/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Separate every page of a PDF file into individual single-page documents and download as a single organized ZIP archive client-side.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+};
+
+const faqs = [
+  {
+    question: "How are the split PDF pages named and packaged?",
+    answer: "Each page is extracted as an independent single-page PDF named with its zero-padded page number (e.g. document_page_001.pdf) and bundled into a clean ZIP archive for one-click downloading."
+  },
+  {
+    question: "Is there a limit on how many pages I can split?",
+    answer: "You can split documents with dozens or hundreds of pages. Because processing executes directly in your browser's local memory, speed is instantaneous without network upload bottlenecks."
+  },
+  {
+    question: "Are my documents kept private during splitting?",
+    answer: "Yes. All page separation and ZIP compression happen 100% locally in your browser. Your confidential files are never uploaded to any remote cloud server."
+  }
+];
 ---
 <BaseLayout
-  title="Split PDF To Pages | SolversPro"
-  description="Separate every page of a PDF into individual files. Download as a ZIP archive. Free, private, runs in your browser."
+  title="Split PDF To Pages — Extract Every Page to ZIP | SolversPro"
+  description="Split multi-page PDF documents into individual single-page files and download as a ZIP. 100% private, client-side processing. Free online tool."
+  canonical="https://solverspro.com/pdf/pdf-split-pages/"
+  schema={schema}
 >
   <Header />
   <SearchOverlay />
   <main class="flex-1 py-12">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf'},{label:'Split PDF To Pages'}]} />
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf/'},{label:'Split PDF To Pages'}]} />
       <div class="mb-8 mt-4 text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Split PDF To Each Page</h1>
-        <p class="text-zinc-400">Separate every page of a PDF into its own file. Downloaded as a ZIP archive.</p>
+        <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
+          The SolversPro Split PDF To Pages tool is a free client-side utility that separates multi-page PDF documents into individual single-page PDF files and bundles them into an instant ZIP archive.
+        </p>
+        <p class="text-zinc-400 text-sm">Separate every page of a PDF into its own file. Downloaded as a ZIP archive.</p>
       </div>
 
       <div class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-8 space-y-6">
@@ -66,7 +107,48 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
             ⬇️ Download ZIP
           </a>
         </div>
+      <!-- Reference Table -->
+      <div class="result-surface my-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-3xl mx-auto">
+        <h2 class="text-xl font-bold text-white mb-4">PDF Page Splitting &amp; File Archiving Reference</h2>
+        <p class="text-sm text-zinc-400 mb-4">Naming conventions and compression parameters used during client-side page separation.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+            <thead>
+              <tr class="border-b border-white/10 text-white font-semibold">
+                <th class="py-2.5 px-3">Parameter</th>
+                <th class="py-2.5 px-3">Specification</th>
+                <th class="py-2.5 px-3">Description</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">File Naming Scheme</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">&#123;filename&#125;_page_&#123;001&#125;.pdf</td>
+                <td class="py-2.5 px-3 text-zinc-400">Zero-padded 3-digit numbering preserves sorting order</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Archive Packaging</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">ZIP (DEFLATE / Store)</td>
+                <td class="py-2.5 px-3 text-zinc-400">Cross-platform archive compatible with Windows/macOS/Linux</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Asset Isolation</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">Dedicated Page Tree</td>
+                <td class="py-2.5 px-3 text-zinc-400">Prunes unused parent objects to minimize single-page file sizes</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Memory Execution</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">100% In-Browser</td>
+                <td class="py-2.5 px-3 text-zinc-400">Zero network payload, unlimited processing privacy</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={faqs} />
+
       <ToolShare title="Split PDF To Pages" url="https://solverspro.com/pdf/pdf-split-pages" />
       <SimilarTools category="pdf" currentPath="/pdf/pdf-split-pages" />
     

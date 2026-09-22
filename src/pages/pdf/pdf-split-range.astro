@@ -2,23 +2,64 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ToolShare from '../../components/ToolShare.astro';
 import SimilarTools from '../../components/SimilarTools.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Split PDF By Range",
+  "url": "https://solverspro.com/pdf/pdf-split-range/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Extract a specific page range or subset from multi-page PDF documents and download as a new standalone PDF file client-side.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+};
+
+const faqs = [
+  {
+    question: "Can I extract non-consecutive pages with this tool?",
+    answer: "This tool is optimized for extracting continuous page ranges (e.g. pages 5 through 12). To extract every single page separately, use our Split PDF To Pages tool."
+  },
+  {
+    question: "Are bookmarks and hyperlinks preserved in the extracted range?",
+    answer: "Internal links and text within the extracted page range remain intact, while links pointing outside the extracted range are automatically pruned for clean document fidelity."
+  },
+  {
+    question: "Is my source PDF uploaded to an external server?",
+    answer: "No. The entire page extraction process executes directly within your local browser memory via client-side JavaScript. Your file data never leaves your device."
+  }
+];
 ---
 <BaseLayout
-  title="Split PDF By Range | SolversPro"
-  description="Extract a specific page range from any PDF file. Free, instant, and 100% private — runs entirely in your browser."
+  title="Split PDF By Range — Extract Custom Page Range | SolversPro"
+  description="Extract specific page ranges from any PDF file online. 100% private, client-side extraction with instant download. Free online tool by SolversPro."
+  canonical="https://solverspro.com/pdf/pdf-split-range/"
+  schema={schema}
 >
   <Header />
   <SearchOverlay />
   <main class="flex-1 py-12">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf'},{label:'Split PDF By Range'}]} />
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf/'},{label:'Split PDF By Range'}]} />
       <div class="mb-8 mt-4 text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Split PDF By Range</h1>
-        <p class="text-zinc-400">Extract a specific page range from your PDF. Your file never leaves your browser.</p>
+        <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
+          The SolversPro Split PDF By Range tool is a free client-side utility that isolates and extracts a custom sequence of pages from any PDF document into a new standalone file.
+        </p>
+        <p class="text-zinc-400 text-sm">Extract a specific page range from your PDF. Your file never leaves your browser.</p>
       </div>
 
       <div class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-8 space-y-6">
@@ -75,7 +116,53 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
             ⬇️ Download PDF
           </a>
         </div>
+      <!-- Reference Table -->
+      <div class="result-surface my-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-3xl mx-auto">
+        <h2 class="text-xl font-bold text-white mb-4">PDF Range Extraction Syntax &amp; Output Specs</h2>
+        <p class="text-sm text-zinc-400 mb-4">Common range selection patterns and document compilation behavior.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+            <thead>
+              <tr class="border-b border-white/10 text-white font-semibold">
+                <th class="py-2.5 px-3">Range Pattern</th>
+                <th class="py-2.5 px-3">Example Input</th>
+                <th class="py-2.5 px-3">Output Result</th>
+                <th class="py-2.5 px-3">Primary Use Case</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Single Page Extraction</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">From: 1, To: 1</td>
+                <td class="py-2.5 px-3">Single page PDF document</td>
+                <td class="py-2.5 px-3 text-zinc-400">Extracting cover letter or invoice</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Chapter / Section</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">From: 15, To: 28</td>
+                <td class="py-2.5 px-3">14-page continuous subset</td>
+                <td class="py-2.5 px-3 text-zinc-400">Isolating article or report section</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">First N Pages</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">From: 1, To: 5</td>
+                <td class="py-2.5 px-3">Pages 1 through 5</td>
+                <td class="py-2.5 px-3 text-zinc-400">Creating document previews or executive summaries</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Trailing Section</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">From: 85, To: 90</td>
+                <td class="py-2.5 px-3">Final 6 pages</td>
+                <td class="py-2.5 px-3 text-zinc-400">Extracting appendices or disclosures</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={faqs} />
+
       <ToolShare title="Split PDF By Range" url="https://solverspro.com/pdf/pdf-split-range" />
       <SimilarTools category="pdf" currentPath="/pdf/pdf-split-range" />
     

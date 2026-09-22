@@ -2,20 +2,64 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ToolShare from '../../components/ToolShare.astro';
 import SimilarTools from '../../components/SimilarTools.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "PDF Flatten Tool",
+  "url": "https://solverspro.com/pdf/pdf-flatten/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Flatten PDF interactive form fields, checkboxes, digital signatures, and annotations into static graphics for universal reader compatibility.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+};
+
+const faqs = [
+  {
+    question: "Why should I flatten a PDF file?",
+    answer: "Flattening locks all interactive elements—including fillable text fields, checkboxes, radio buttons, and digital annotations—into the permanent visual page stream so they cannot be edited, altered, or lost when opened in legacy PDF readers."
+  },
+  {
+    question: "Does flattening reduce the file size of a PDF?",
+    answer: "Yes, in many cases flattening reduces PDF file size by stripping out interactive Acrobat Forms (AcroForms) scripts, dynamic XFA dictionaries, and annotation metadata."
+  },
+  {
+    question: "Are my confidential legal or financial forms uploaded to any server?",
+    answer: "No. The entire PDF flattening process runs directly inside your web browser using client-side WebAssembly and JavaScript. No files or form data are ever transmitted."
+  }
+];
 ---
-<BaseLayout title="Flatten PDF | SolversPro" description="Flatten PDF form fields and annotations for universal compatibility. Free, private, runs in your browser.">
+<BaseLayout
+  title="Flatten PDF — Convert Fillable Form Fields to Static Text | SolversPro"
+  description="Flatten PDF form fields, checkboxes, and annotations into permanent static content for universal compatibility. 100% private, free online browser tool."
+  canonical="https://solverspro.com/pdf/pdf-flatten/"
+  schema={schema}
+>
   <Header />
   <SearchOverlay />
   <main class="flex-1 py-12">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf'},{label:'Flatten PDF'}]} />
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf/'},{label:'Flatten PDF'}]} />
       <div class="mb-8 mt-4 text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Flatten PDF</h1>
-        <p class="text-zinc-400">Flatten form fields and annotations into a static PDF for universal compatibility and simpler sharing.</p>
+        <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
+          The SolversPro PDF Flatten Tool is a free client-side utility that converts interactive PDF form fields, annotations, and checkboxes into permanent, uneditable visual graphics for universal device compatibility.
+        </p>
+        <p class="text-zinc-400 text-sm">Flatten form fields and annotations into a static PDF for universal compatibility and simpler sharing.</p>
       </div>
       <div class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-8 space-y-6">
         <!-- Info box -->
@@ -47,7 +91,53 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
           </div>
           <a id="download-link" class="inline-flex items-center gap-2 px-8 py-3 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white font-semibold rounded-xl transition-colors">⬇️ Download Flattened PDF</a>
         </div>
+      <!-- Reference Table -->
+      <div class="result-surface my-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-3xl mx-auto">
+        <h2 class="text-xl font-bold text-white mb-4">Interactive PDF Form Elements vs. Flattened State</h2>
+        <p class="text-sm text-zinc-400 mb-4">How interactive form components are converted during client-side flattening.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+            <thead>
+              <tr class="border-b border-white/10 text-white font-semibold">
+                <th class="py-2.5 px-3">Form Component</th>
+                <th class="py-2.5 px-3">Pre-Flatten Behavior</th>
+                <th class="py-2.5 px-3">Flattened State</th>
+                <th class="py-2.5 px-3">Compatibility Benefit</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Fillable Text Fields</td>
+                <td class="py-2.5 px-3 text-zinc-400">Editable AcroForm input box</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">Static vector glyphs</td>
+                <td class="py-2.5 px-3 text-zinc-400">Preserves entered text permanently</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Checkboxes &amp; Radios</td>
+                <td class="py-2.5 px-3 text-zinc-400">Toggleable boolean fields</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">Fixed graphic mark / tick</td>
+                <td class="py-2.5 px-3 text-zinc-400">Eliminates rendering inconsistencies</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Digital Signatures</td>
+                <td class="py-2.5 px-3 text-zinc-400">Interactive signature widget</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">Rendered image / vector line</td>
+                <td class="py-2.5 px-3 text-zinc-400">Prevents missing signature in print</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Comments &amp; Annotations</td>
+                <td class="py-2.5 px-3 text-zinc-400">Floating annotation layer</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">Merged into page background</td>
+                <td class="py-2.5 px-3 text-zinc-400">Viewable on mobile &amp; web readers</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={faqs} />
+
       <ToolShare title="Flatten PDF" url="https://solverspro.com/pdf/pdf-flatten" />
       <SimilarTools category="pdf" currentPath="/pdf/pdf-flatten" />
     

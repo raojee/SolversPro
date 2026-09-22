@@ -2,20 +2,64 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ToolShare from '../../components/ToolShare.astro';
 import SimilarTools from '../../components/SimilarTools.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Compose PDF Document Creator",
+  "url": "https://solverspro.com/pdf/pdf-compose/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Compose and typeset professional PDF documents directly in your browser with Markdown headings, configurable typography, and automatic pagination.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+};
+
+const faqs = [
+  {
+    question: "Can I use Markdown formatting when composing a PDF?",
+    answer: "Yes. You can use '# ' for top-level headings, '## ' for subheadings, and blank lines for paragraph breaks. Text wraps automatically across pages."
+  },
+  {
+    question: "Are my written documents stored on any server?",
+    answer: "No. All PDF typesetting and file generation occur locally in your browser memory. Nothing is sent to or stored on any server."
+  },
+  {
+    question: "Can I customize the typography and paper size?",
+    answer: "Yes. You can select between ISO A4 and US Letter sizes, configure font sizes from 10pt to 16pt, adjust line spacing, and toggle automatic page numbers."
+  }
+];
 ---
-<BaseLayout title="Compose PDF | SolversPro" description="Create a PDF document from a rich text editor. Add titles, headings, and body content. Download as PDF instantly.">
+<BaseLayout
+  title="Compose PDF — Free Online Document Creator & Writer | SolversPro"
+  description="Compose clean, formatted PDF documents online in your browser. Set headings, font sizes, line spacing, and page numbers. 100% private with instant download."
+  canonical="https://solverspro.com/pdf/pdf-compose/"
+  schema={schema}
+>
   <Header />
   <SearchOverlay />
   <main class="flex-1 py-12">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf'},{label:'Compose PDF'}]} />
+      <Breadcrumbs items={[{label:'Home',href:'/'},{label:'PDF Tools',href:'/pdf/'},{label:'Compose PDF'}]} />
       <div class="mb-8 mt-4 text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Compose PDF</h1>
-        <p class="text-zinc-400">Write your content and generate a PDF document instantly in your browser.</p>
+        <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
+          The SolversPro Compose PDF tool is a free browser-based text-to-PDF document creator that typesets Markdown headings, paragraphs, and custom typography into downloadable vector PDF files.
+        </p>
+        <p class="text-zinc-400 text-sm">Write your content and generate a PDF document instantly in your browser.</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -95,7 +139,58 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
             </p>
           </div>
         </div>
+      <!-- Reference Table -->
+      <div class="result-surface my-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-4xl mx-auto">
+        <h2 class="text-xl font-bold text-white mb-4">Typography &amp; Layout Standard Settings</h2>
+        <p class="text-sm text-zinc-400 mb-4">Standard typesetting dimensions and leading heights for generated PDF publications.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+            <thead>
+              <tr class="border-b border-white/10 text-white font-semibold">
+                <th class="py-2.5 px-3">Element Type</th>
+                <th class="py-2.5 px-3">Standard Font Size</th>
+                <th class="py-2.5 px-3">Leading / Line Height</th>
+                <th class="py-2.5 px-3">Font Weight</th>
+                <th class="py-2.5 px-3">Margin Spacing</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Document Title (#)</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">20 – 24 pt</td>
+                <td class="py-2.5 px-3 font-mono">28 – 32 pt</td>
+                <td class="py-2.5 px-3">Bold (Helvetica)</td>
+                <td class="py-2.5 px-3 text-zinc-400">18 pt bottom</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Section Heading (##)</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">15 – 18 pt</td>
+                <td class="py-2.5 px-3 font-mono">22 – 24 pt</td>
+                <td class="py-2.5 px-3">Bold (Helvetica)</td>
+                <td class="py-2.5 px-3 text-zinc-400">14 pt bottom</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Standard Body Copy</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">11 – 12 pt</td>
+                <td class="py-2.5 px-3 font-mono">16 – 18 pt</td>
+                <td class="py-2.5 px-3">Regular (Helvetica)</td>
+                <td class="py-2.5 px-3 text-zinc-400">10 pt bottom</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Footer &amp; Pagination</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">9 – 10 pt</td>
+                <td class="py-2.5 px-3 font-mono">12 pt</td>
+                <td class="py-2.5 px-3">Regular (Helvetica)</td>
+                <td class="py-2.5 px-3 text-zinc-400">Fixed page margin</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={faqs} />
+
       <ToolShare title="Compose PDF" url="https://solverspro.com/pdf/pdf-compose" />
       <SimilarTools category="pdf" currentPath="/pdf/pdf-compose" />
     

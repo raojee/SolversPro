@@ -7,23 +7,53 @@ import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
-const schema = {
+const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Word Counter",
+  "url": "https://solverspro.com/text/word-counter/",
   "applicationCategory": "UtilitiesApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Count words, characters, sentences, paragraphs, and estimate reading time instantly. Free online word counter that runs entirely in your browser."
+  "operatingSystem": "Any (web browser)",
+  "description": "Count words, characters, sentences, paragraphs, reading time, speaking duration, and top keyword density in real time directly inside your browser.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
+
+const faqs = [
+  {
+    question: "How are reading and speaking durations estimated?",
+    answer: "Reading duration is computed using the standard adult silent reading rate of 200 words per minute (WPM), while speaking duration is calculated at 130 words per minute, typical for public presentations and podcast narration."
+  },
+  {
+    question: "What is the difference between total characters and characters without spaces?",
+    answer: "Total characters includes all whitespace tokens, carriage returns, and tabs. 'Chars (no spaces)' strips all whitespace characters, which is required for academic essay constraints and translation billing."
+  },
+  {
+    question: "How does the top keyword density algorithm filter out common words?",
+    answer: "The keyword analyzer excludes grammatical stop words (such as 'the', 'and', 'for', 'with', 'this') and words shorter than 3 characters, highlighting only meaningful semantic terms and their frequency percentages."
+  },
+  {
+    question: "Is my text saved or sent to any server while I type?",
+    answer: "No. The text analyzer executes entirely within local browser memory on every keystroke. Nothing is uploaded, logged, or retained externally."
+  }
+];
 ---
 
 <BaseLayout
   title="Word Counter | SolversPro"
   description="Count words, characters, sentences, paragraphs, and estimate reading time instantly. Free online word counter — 100% private, runs in your browser."
-  canonical="https://solverspro.com/text/word-counter"
-  schema={schema}
+  canonical="https://solverspro.com/text/word-counter/"
+  jsonLd={jsonLd}
 >
   <Header />
   <SearchOverlay />
@@ -32,13 +62,13 @@ const schema = {
     <div class="container mx-auto px-4 py-12 max-w-4xl">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'Text Tools', href: '/text' },
+        { label: 'Text Tools', href: '/text/' },
         { label: 'Word Counter' },
       ]} />
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">📝 Word Counter</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Real-time word, character, sentence, and paragraph counter. Also estimates reading and speaking time. Paste your text below.</p>
+        <p class="text-zinc-300 max-w-2xl text-base leading-relaxed">SolversPro Word Counter is a free real-time text analysis utility that measures words, characters, sentences, paragraphs, estimated reading duration, and keyword frequencies securely in your browser.</p>
       </div>
 
       <!-- Stats Cards -->
@@ -103,9 +133,54 @@ const schema = {
         <div id="keyword-list" class="text-zinc-500 text-sm italic">Start typing to see keyword frequency...</div>
       </div>
 
+      <!-- Citable Reference Table -->
+      <div class="mt-12 bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
+        <h2 class="text-xl font-bold text-white mb-4">Editorial Format Benchmarks & Pace Estimates</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard publishing word count expectations and time allocations based on 200 WPM reading and 130 WPM speech speeds:</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300">
+            <thead class="bg-white/[0.03] text-zinc-200 uppercase text-xs tracking-wider border-b border-white/[0.08]">
+              <tr>
+                <th class="py-3 px-4">Publishing Format</th>
+                <th class="py-3 px-4">Standard Word Range</th>
+                <th class="py-3 px-4">Estimated Reading Time</th>
+                <th class="py-3 px-4">Estimated Speaking Time</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.05]">
+              <tr>
+                <td class="py-3 px-4 font-semibold text-[#2dd4bf]">Social Media Post / Caption</td>
+                <td class="py-3 px-4 font-mono">50 - 150 words</td>
+                <td class="py-3 px-4 font-mono">15 - 45 sec</td>
+                <td class="py-3 px-4 font-mono">25 - 70 sec</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-emerald-400">Standard Blog Article</td>
+                <td class="py-3 px-4 font-mono">800 - 1,500 words</td>
+                <td class="py-3 px-4 font-mono">4 - 8 min</td>
+                <td class="py-3 px-4 font-mono">6 - 12 min</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-purple-400">In-Depth Guide / Whitepaper</td>
+                <td class="py-3 px-4 font-mono">2,000 - 4,000 words</td>
+                <td class="py-3 px-4 font-mono">10 - 20 min</td>
+                <td class="py-3 px-4 font-mono">15 - 30 min</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-orange-400">10-Minute Presentation / Keynote</td>
+                <td class="py-3 px-4 font-mono">1,200 - 1,400 words</td>
+                <td class="py-3 px-4 font-mono">6 - 7 min</td>
+                <td class="py-3 px-4 font-mono">9 - 11 min</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <div class="mt-6 flex justify-center">
         <SaveResultButton id="save-wc-btn" />
       </div>
+      <ToolFAQ faqs={faqs} />
       <ToolShare title="Word Counter" url="https://solverspro.com/text/word-counter" />
       <SimilarTools category="text" currentPath="/text/word-counter" />
     

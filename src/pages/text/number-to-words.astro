@@ -6,23 +6,53 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
-const schema = {
+const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Number to Words Converter",
+  "url": "https://solverspro.com/text/number-to-words/",
   "applicationCategory": "UtilitiesApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Convert numbers into English words instantly. Useful for writing checks, filling out forms, or learning English numbers."
+  "operatingSystem": "Any (web browser)",
+  "description": "Convert cardinal numbers and financial currency figures into formal English words instantly with optional Title Case formatting.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
+
+const faqs = [
+  {
+    question: "How is this number-to-words conversion formatted for banking checks?",
+    answer: "The tool generates standard formal English cardinal nomenclature without informal shortcuts, providing clean text suitable for check writing, contract figures, legal settlements, and accounting vouchers."
+  },
+  {
+    question: "What is the maximum integer limit supported by this converter?",
+    answer: "The utility converts values up to 15 digits (up to 999 trillion: 999,999,999,999,999) using standard international short scale English magnitude naming."
+  },
+  {
+    question: "Can I capitalize the output words into Title Case?",
+    answer: "Yes. Checking the 'Title Case' option automatically capitalizes the first letter of each spoken word, which is customary in financial ledger headers and formal check lines."
+  },
+  {
+    question: "Does this conversion execute on a backend server?",
+    answer: "No. The calculation runs entirely in client-side JavaScript within your web browser, ensuring zero latency and 100% financial confidentiality."
+  }
+];
 ---
 
 <BaseLayout
   title="Number to Words Converter | SolversPro"
   description="Convert numbers into English words instantly. Useful for writing checks, filling out forms, or learning English numbers. Free and browser-based."
-  canonical="https://solverspro.com/text/number-to-words"
-  schema={schema}
+  canonical="https://solverspro.com/text/number-to-words/"
+  jsonLd={jsonLd}
 >
   <Header />
   <SearchOverlay />
@@ -31,13 +61,13 @@ const schema = {
     <div class="container mx-auto px-4 py-12 max-w-4xl">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'Text Tools', href: '/text' },
+        { label: 'Text Tools', href: '/text/' },
         { label: 'Number to Words Converter' },
       ]} />
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">🔢 Number to Words Converter</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Convert any number into English words instantly. Helpful for writing checks, financial documents, or simply spelling out large numbers.</p>
+        <p class="text-zinc-300 max-w-2xl text-base leading-relaxed">SolversPro Number to Words Converter is a free financial and editorial transcription utility that converts digits into spelled-out English cardinal words up to 999 trillion with optional Title Case formatting.</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
@@ -73,6 +103,57 @@ const schema = {
         </div>
       </div>
 
+      <!-- Citable Reference Table -->
+      <div class="mt-12 bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
+        <h2 class="text-xl font-bold text-white mb-4">English Short Scale Magnitude & Place Value Guide</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard international nomenclature and zero grouping counts used for formal financial documents:</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300">
+            <thead class="bg-white/[0.03] text-zinc-200 uppercase text-xs tracking-wider border-b border-white/[0.08]">
+              <tr>
+                <th class="py-3 px-4">Numeric Power</th>
+                <th class="py-3 px-4">Standard Notation</th>
+                <th class="py-3 px-4">English Name</th>
+                <th class="py-3 px-4">Check Writing Usage Example</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.05]">
+              <tr>
+                <td class="py-3 px-4 font-mono text-[#2dd4bf]">10^2</td>
+                <td class="py-3 px-4 font-mono">100</td>
+                <td class="py-3 px-4 font-semibold text-zinc-200">Hundred</td>
+                <td class="py-3 px-4 text-zinc-400">Five hundred and 00/100</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono text-[#2dd4bf]">10^3</td>
+                <td class="py-3 px-4 font-mono">1,000</td>
+                <td class="py-3 px-4 font-semibold text-zinc-200">Thousand</td>
+                <td class="py-3 px-4 text-zinc-400">Two thousand five hundred</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono text-[#2dd4bf]">10^6</td>
+                <td class="py-3 px-4 font-mono">1,000,000</td>
+                <td class="py-3 px-4 font-semibold text-emerald-400">Million</td>
+                <td class="py-3 px-4 text-zinc-400">One million two hundred thousand</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono text-[#2dd4bf]">10^9</td>
+                <td class="py-3 px-4 font-mono">1,000,000,000</td>
+                <td class="py-3 px-4 font-semibold text-purple-400">Billion</td>
+                <td class="py-3 px-4 text-zinc-400">Four billion seven hundred million</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono text-[#2dd4bf]">10^12</td>
+                <td class="py-3 px-4 font-mono">1,000,000,000,000</td>
+                <td class="py-3 px-4 font-semibold text-orange-400">Trillion</td>
+                <td class="py-3 px-4 text-zinc-400">National debt and corporate valuation tiers</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <ToolFAQ faqs={faqs} />
       <ToolShare title="Number to Words Converter" url="https://solverspro.com/text/number-to-words" />
       <SimilarTools category="text" currentPath="/text/number-to-words" />
     </div>

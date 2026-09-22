@@ -7,23 +7,53 @@ import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
-const schema = {
+const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Morse Code Translator",
+  "url": "https://solverspro.com/text/morse-code/",
   "applicationCategory": "UtilitiesApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Translate text to Morse code and Morse code back to text instantly. Includes audio playback. 100% client-side and private."
+  "operatingSystem": "Any (web browser)",
+  "description": "Translate text to Morse code and Morse code to text instantly with real-time Web Audio API sound synthesis and variable transmission speed controls.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
+
+const faqs = [
+  {
+    question: "What notation is used for spaces between letters and words in Morse code?",
+    answer: "In standard written Morse code, letters within a word are separated by single spaces, while words are delimited by forward slashes (' / ') or triple spaces."
+  },
+  {
+    question: "How does the audio playback feature work?",
+    answer: "Audio playback synthesizes a 600 Hz sine wave tone using the browser's native Web Audio API, calculating exact millisecond dot and dash duration intervals based on standard PARIS timing ratios."
+  },
+  {
+    question: "Does this translator support punctuation, numbers, and symbols?",
+    answer: "Yes. The translator supports full International Morse Code specifications including digits 0-9 and common punctuation such as periods, commas, question marks, exclamation marks, parentheses, and ampersands."
+  },
+  {
+    question: "Is my text transmitted over a network when translating or playing audio?",
+    answer: "No. All text parsing, character lookup tables, and audio oscillators execute 100% locally in your browser memory for immediate speed and total privacy."
+  }
+];
 ---
 
 <BaseLayout
   title="Morse Code Translator | SolversPro"
   description="Translate text to Morse code and Morse code back to text instantly. Includes audio playback using Web Audio API. Free and 100% private."
-  canonical="https://solverspro.com/text/morse-code"
-  schema={schema}
+  canonical="https://solverspro.com/text/morse-code/"
+  jsonLd={jsonLd}
 >
   <Header />
   <SearchOverlay />
@@ -32,13 +62,13 @@ const schema = {
     <div class="container mx-auto px-4 py-12 max-w-4xl">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'Text Tools', href: '/text' },
+        { label: 'Text Tools', href: '/text/' },
         { label: 'Morse Code Translator' },
       ]} />
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">📡 Morse Code Translator</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Instantly convert text to Morse code and Morse code back to text. Play the audio, adjust speed, and copy your result.</p>
+        <p class="text-zinc-300 max-w-2xl text-base leading-relaxed">SolversPro Morse Code Translator is a free telecommunication encoding utility that converts plain text into International Morse code and decodes Morse back to text with synchronized Web Audio sound playback and speed adjustments.</p>
       </div>
 
       <!-- Main Translation Panels -->
@@ -104,6 +134,62 @@ const schema = {
         >Copy Morse</button>
       </div>
 
+      <!-- Citable Reference Table -->
+      <div class="mt-12 bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
+        <h2 class="text-xl font-bold text-white mb-4">International Morse Code Timing Standard (PARIS Standard)</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard ITU-R M.1677 signal element duration ratios defined by the standard 50-unit reference word 'PARIS':</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300">
+            <thead class="bg-white/[0.03] text-zinc-200 uppercase text-xs tracking-wider border-b border-white/[0.08]">
+              <tr>
+                <th class="py-3 px-4">Signal Element</th>
+                <th class="py-3 px-4">Relative Unit Duration</th>
+                <th class="py-3 px-4">Duration @ 12 WPM</th>
+                <th class="py-3 px-4">Duration @ 20 WPM</th>
+                <th class="py-3 px-4">Definition</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.05]">
+              <tr>
+                <td class="py-3 px-4 font-semibold text-[#2dd4bf]">Dot (Dit)</td>
+                <td class="py-3 px-4 font-mono">1 unit</td>
+                <td class="py-3 px-4 font-mono">100 ms</td>
+                <td class="py-3 px-4 font-mono">60 ms</td>
+                <td class="py-3 px-4">Fundamental time unit of transmission</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-[#ff6b35]">Dash (Dah)</td>
+                <td class="py-3 px-4 font-mono">3 units</td>
+                <td class="py-3 px-4 font-mono">300 ms</td>
+                <td class="py-3 px-4 font-mono">180 ms</td>
+                <td class="py-3 px-4">Three times the length of a dot</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-zinc-300">Intra-character Gap</td>
+                <td class="py-3 px-4 font-mono">1 unit</td>
+                <td class="py-3 px-4 font-mono">100 ms</td>
+                <td class="py-3 px-4 font-mono">60 ms</td>
+                <td class="py-3 px-4">Silence between dots and dashes of the same letter</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-purple-400">Inter-character Gap</td>
+                <td class="py-3 px-4 font-mono">3 units</td>
+                <td class="py-3 px-4 font-mono">300 ms</td>
+                <td class="py-3 px-4 font-mono">180 ms</td>
+                <td class="py-3 px-4">Silence between letters within a word</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-emerald-400">Word Gap</td>
+                <td class="py-3 px-4 font-mono">7 units</td>
+                <td class="py-3 px-4 font-mono">700 ms</td>
+                <td class="py-3 px-4 font-mono">420 ms</td>
+                <td class="py-3 px-4">Silence between distinct words (represented as '/')</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <!-- Morse Reference Table -->
       <details class="mt-6 bg-[#0d0d14] border border-white/[0.06] rounded-xl overflow-hidden">
         <summary class="px-5 py-4 text-sm font-semibold text-zinc-400 uppercase tracking-wider cursor-pointer hover:text-white transition-colors select-none">
@@ -115,6 +201,7 @@ const schema = {
       <div class="mt-6 flex justify-center">
         <SaveResultButton id="save-morse-btn" />
       </div>
+      <ToolFAQ faqs={faqs} />
       <ToolShare title="Morse Code Translator" url="https://solverspro.com/text/morse-code" />
       <SimilarTools category="text" currentPath="/text/morse-code" />
     

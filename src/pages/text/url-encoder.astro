@@ -6,23 +6,53 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
-const schema = {
+const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "URL Encoder & Decoder",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Instantly encode or decode URLs and query strings. Supports full URL encoding and component-level encoding. 100% private — runs entirely in your browser."
+  "url": "https://solverspro.com/text/url-encoder/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Encode and decode RFC 3986 percent-encoded uniform resource identifiers and query parameter components instantly in your browser.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
+
+const faqs = [
+  {
+    question: "What is the difference between encodeURI and encodeURIComponent?",
+    answer: "encodeURI is designed for complete URLs and preserves structural delimiters like ':', '/', '?', '&', and '#'. encodeURIComponent encodes every reserved character into percent notation, making it safe for individual query parameter key-value pairs."
+  },
+  {
+    question: "What happens if a URL contains non-ASCII or UTF-8 characters like emojis?",
+    answer: "Both encodeURI and encodeURIComponent transform each multi-byte UTF-8 code point sequence into consecutive percent-encoded hexadecimal byte pairs (for example, the space character becomes %20)."
+  },
+  {
+    question: "How does URL decoding handle malformed percent sequences?",
+    answer: "If a string contains an invalid escape sequence (such as a single '%' followed by non-hexadecimal characters), standard decode functions throw a URIError; this tool intercepts that error and provides a clear diagnostic warning."
+  },
+  {
+    question: "Is any entered URL data transmitted across the network?",
+    answer: "No. All percent encoding and decoding execute client-side in your local browser sandbox, protecting confidential API keys, tokens, and query strings."
+  }
+];
 ---
 
 <BaseLayout
   title="URL Encoder & Decoder | SolversPro"
   description="Instantly encode or decode URLs and query strings. Supports full URL encoding and component-level encoding. 100% private — runs in your browser."
-  canonical="https://solverspro.com/text/url-encoder"
-  schema={schema}
+  canonical="https://solverspro.com/text/url-encoder/"
+  jsonLd={jsonLd}
 >
   <Header />
   <SearchOverlay />
@@ -31,13 +61,13 @@ const schema = {
     <div class="container mx-auto px-4 py-12 max-w-4xl">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'Text Tools', href: '/text' },
+        { label: 'Text Tools', href: '/text/' },
         { label: 'URL Encoder & Decoder' },
       ]} />
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">🔗 URL Encoder & Decoder</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Encode special characters in URLs or decode encoded URL strings back to readable text. Everything runs privately in your browser.</p>
+        <p class="text-zinc-300 max-w-2xl text-base leading-relaxed">SolversPro URL Encoder & Decoder is a free web utility that escapes and decodes RFC 3986 percent-encoded uniform resource identifiers and individual query parameter components securely in your browser.</p>
       </div>
 
       <!-- Mode Toggle -->
@@ -107,8 +137,64 @@ const schema = {
       <!-- Error Message -->
       <div id="error-msg" class="hidden mt-4 text-center text-sm font-semibold text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3"></div>
 
+      <!-- Citable Reference Table -->
+      <div class="mt-12 bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
+        <h2 class="text-xl font-bold text-white mb-4">RFC 3986 Reserved Character Percent-Encoding Lookup</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard hexadecimal escape substitutions for URI components and reserved characters:</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300">
+            <thead class="bg-white/[0.03] text-zinc-200 uppercase text-xs tracking-wider border-b border-white/[0.08]">
+              <tr>
+                <th class="py-3 px-4">Raw Character</th>
+                <th class="py-3 px-4">Percent Code</th>
+                <th class="py-3 px-4">Character Name</th>
+                <th class="py-3 px-4">Reserved Role in URI</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.05]">
+              <tr>
+                <td class="py-3 px-4 font-mono text-zinc-100 font-bold">(space)</td>
+                <td class="py-3 px-4 font-mono text-[#2dd4bf] font-bold">%20</td>
+                <td class="py-3 px-4">Space</td>
+                <td class="py-3 px-4 text-zinc-400">Invalid in raw URIs; encoded as %20 or + in forms</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono text-zinc-100 font-bold">&</td>
+                <td class="py-3 px-4 font-mono text-[#2dd4bf] font-bold">%26</td>
+                <td class="py-3 px-4">Ampersand</td>
+                <td class="py-3 px-4 text-zinc-400">Query parameter delimiter</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono text-zinc-100 font-bold">=</td>
+                <td class="py-3 px-4 font-mono text-[#2dd4bf] font-bold">%3D</td>
+                <td class="py-3 px-4">Equal sign</td>
+                <td class="py-3 px-4 text-zinc-400">Key-value assignment delimiter</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono text-zinc-100 font-bold">?</td>
+                <td class="py-3 px-4 font-mono text-[#2dd4bf] font-bold">%3F</td>
+                <td class="py-3 px-4">Question mark</td>
+                <td class="py-3 px-4 text-zinc-400">Query string initiator</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono text-zinc-100 font-bold">/</td>
+                <td class="py-3 px-4 font-mono text-[#2dd4bf] font-bold">%2F</td>
+                <td class="py-3 px-4">Forward slash</td>
+                <td class="py-3 px-4 text-zinc-400">Path segment separator</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono text-zinc-100 font-bold">#</td>
+                <td class="py-3 px-4 font-mono text-[#2dd4bf] font-bold">%23</td>
+                <td class="py-3 px-4">Hash / Number sign</td>
+                <td class="py-3 px-4 text-zinc-400">Fragment identifier initiator</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <!-- Info Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
         <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
           <h3 class="text-sm font-bold text-[#2dd4bf] uppercase tracking-wider mb-3">encodeURIComponent</h3>
           <p class="text-zinc-400 text-sm leading-relaxed">Encodes all special characters including <code class="text-zinc-300 bg-white/[0.08] px-1 rounded">/ ? & = + # @</code>. Use for encoding individual query parameter values.</p>
@@ -118,6 +204,8 @@ const schema = {
           <p class="text-zinc-400 text-sm leading-relaxed">Preserves URL structure characters like <code class="text-zinc-300 bg-white/[0.08] px-1 rounded">/ ? & = + # @</code>. Use for encoding a full URL while keeping its structure intact.</p>
         </div>
       </div>
+
+      <ToolFAQ faqs={faqs} />
       <ToolShare title="URL Encoder & Decoder" url="https://solverspro.com/text/url-encoder" />
       <SimilarTools category="text" currentPath="/text/url-encoder" />
     

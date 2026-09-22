@@ -11,19 +11,30 @@ import CalculateButton from '../../components/CalculateButton.astro';
 import FAQAccordion from '../../components/FAQAccordion.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
 
-const schema = {
+const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Solar Panel Calculator",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "url": "https://solverspro.com/trades/solar-panel/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Calculate photovoltaic solar panel module counts and recommended kilowatt (kW) system size based on daily energy consumption and regional peak sun hours.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
 
 const faqItems = [
   {
     question: "What are Peak Sun Hours?",
-    answer: "Peak sun hours refer to the number of hours per day when solar irradiance averages 1,000 watts per square meter. It is not just the hours of daylight, but the hours of *usable* solar energy. You can find this value for your specific location online."
+    answer: "Peak sun hours refer to the number of hours per day when solar irradiance averages 1,000 watts per square meter. It is not just the hours of daylight, but the hours of usable solar energy."
   },
   {
     question: "Why is System Efficiency defaulted to 80%?",
@@ -32,6 +43,10 @@ const faqItems = [
   {
     question: "How is the number of panels calculated?",
     answer: "We first determine the required total system size (in kW) by dividing your daily usage by your peak sun hours and efficiency factor. Then, we divide that total size (in Watts) by your individual panel wattage and round up to the nearest whole panel."
+  },
+  {
+    question: "How much roof area is needed for a residential solar array?",
+    answer: "Each standard residential 400W solar panel occupies approximately 17.5 to 21 square feet (1.6 to 2.0 m²). A typical 20-panel (8 kW) installation requires roughly 350 to 420 square feet of unshaded south or west-facing roof space."
   }
 ];
 ---
@@ -39,8 +54,8 @@ const faqItems = [
 <BaseLayout
   title="Solar Panel Calculator | SolversPro"
   description="Determine the solar system size and number of solar panels you need based on your daily energy usage and local peak sun hours."
-  canonical="https://solverspro.com/trades/solar-panel"
-  schema={schema}
+  canonical="https://solverspro.com/trades/solar-panel/"
+  jsonLd={jsonLd}
 >
   <Header />
   <SearchOverlay />
@@ -49,17 +64,13 @@ const faqItems = [
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'Trades', href: '/trades' },
+        { label: 'Trades', href: '/trades/' },
         { label: 'Solar Panel Calculator' },
       ]} />
 
       <div class="mb-8 max-w-3xl mx-auto text-center">
-        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
-          Solar Panel Calculator
-        </h1>
-        <p class="text-lg text-zinc-400">
-          Estimate the total system size and number of panels required for your home.
-        </p>
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Solar Panel Calculator</h1>
+        <p class="text-zinc-300 max-w-2xl mx-auto text-base leading-relaxed">SolversPro Solar Panel Calculator is a free renewable energy estimation tool that computes total photovoltaic system kilowatt capacity (kW) and required module panel quantities based on daily kWh consumption and local peak sun hours.</p>
       </div>
 
       <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 md:p-10 shadow-sm mb-8" id="solar-form" onsubmit="event.preventDefault();">
@@ -92,6 +103,50 @@ const faqItems = [
           <div class="w-full flex justify-end mt-8 border-t border-white/[0.05] pt-4">
             <SaveResultButton id="save-solar-btn" />
           </div>
+        </div>
+      </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mb-12 max-w-3xl mx-auto bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
+        <h2 class="text-xl font-bold text-white mb-4">Regional Peak Sun Hours & System Output Reference</h2>
+        <p class="text-zinc-400 text-sm mb-6">Average solar insolation ratings across North American climate zones and expected daily generation for an 8 kW array:</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300">
+            <thead class="bg-white/[0.03] text-zinc-200 uppercase text-xs tracking-wider border-b border-white/[0.08]">
+              <tr>
+                <th class="py-3 px-4">US Climate Zone / Region</th>
+                <th class="py-3 px-4">Daily Peak Sun Hours</th>
+                <th class="py-3 px-4">8 kW Daily Yield (@ 80% Eff.)</th>
+                <th class="py-3 px-4">Estimated Annual Output</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.05]">
+              <tr>
+                <td class="py-3 px-4 font-semibold text-[#2dd4bf]">Southwest (AZ, NV, Southern CA)</td>
+                <td class="py-3 px-4 font-mono">6.0 to 7.0 hours</td>
+                <td class="py-3 px-4 font-mono text-[#ff6b35]">38.4 - 44.8 kWh</td>
+                <td class="py-3 px-4 font-mono">14,000 - 16,300 kWh</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-zinc-200">Southeast & Central Plains (TX, FL, CO)</td>
+                <td class="py-3 px-4 font-mono">5.0 to 5.8 hours</td>
+                <td class="py-3 px-4 font-mono text-[#ff6b35]">32.0 - 37.1 kWh</td>
+                <td class="py-3 px-4 font-mono">11,600 - 13,500 kWh</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-emerald-400">Mid-Atlantic & Midwest (NY, OH, IL)</td>
+                <td class="py-3 px-4 font-mono">4.0 to 4.8 hours</td>
+                <td class="py-3 px-4 font-mono text-[#ff6b35]">25.6 - 30.7 kWh</td>
+                <td class="py-3 px-4 font-mono">9,300 - 11,200 kWh</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-semibold text-purple-400">Pacific Northwest & Alaska (WA, OR)</td>
+                <td class="py-3 px-4 font-mono">3.2 to 3.8 hours</td>
+                <td class="py-3 px-4 font-mono text-[#ff6b35]">20.5 - 24.3 kWh</td>
+                <td class="py-3 px-4 font-mono">7,400 - 8,800 kWh</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
