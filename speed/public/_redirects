@@ -1,0 +1,2 @@
+# Direct AI discovery on speed subdomain to main catalog
+/.well-known/ai-catalog.json https://solverspro.com/.well-known/ai-catalog.json 301

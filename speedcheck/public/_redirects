@@ -3,5 +3,9 @@
 /sitemap.xml /sitemap.xml 200
 /robots.txt /robots.txt 200
 
-# 301 Permanent Redirect from all speedcheck routes to speed.solverspro.com
+# Direct AI discovery to main SolversPro catalog
+/.well-known/ai-catalog.json https://solverspro.com/.well-known/ai-catalog.json 301
+
+# 301 Permanent Redirect from all other speedcheck routes to speed.solverspro.com
 /* https://speed.solverspro.com/:splat 301
+
