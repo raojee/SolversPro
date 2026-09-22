@@ -15,11 +15,22 @@ import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "TDEE Calculator",
+  "url": "https://solverspro.com/health/tdee-calculator/",
   "applicationCategory": "HealthApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "operatingSystem": "Any (web browser)",
+  "description": "Calculate Total Daily Energy Expenditure (TDEE) and Basal Metabolic Rate (BMR) with the Mifflin-St Jeor equation for weight loss, maintenance, or muscle gain.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
 
 const faqItems = [
@@ -43,30 +54,33 @@ const faqItems = [
 ---
 
 <BaseLayout
- title="TDEE Calculator — Free Calorie & Metabolism Tool | SolversPro"
- description="Free TDEE calculator using the Mifflin-St Jeor equation. Calculate your daily calorie needs for weight loss, maintenance, or muscle gain. No signup required."
- canonical="https://solverspro.com/health/tdee-calculator"
- schema={schema}
+  title="TDEE Calculator — Free Calorie & Metabolism Tool | SolversPro"
+  description="Free TDEE calculator using the Mifflin-St Jeor equation. Calculate your daily calorie needs for weight loss, maintenance, or muscle gain. No signup required."
+  canonical="https://solverspro.com/health/tdee-calculator/"
+  schema={schema}
 >
  <Header />
  <SearchOverlay />
 
  <main class="flex-1 py-12">
  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
- <Breadcrumbs items={[
- { label: 'Home', href: '/' },
- { label: 'Health', href: '/health' },
- { label: 'TDEE Calculator' },
- ]} />
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Health', href: '/health/' },
+        { label: 'TDEE Calculator' },
+      ]} />
 
- <div class="mb-8 max-w-3xl mx-auto text-center">
+      <div class="mb-8 max-w-3xl mx-auto text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
- TDEE Calculator
- </h1>
- <p class="text-lg text-zinc-400 ">
- Calculate your Total Daily Energy Expenditure based on your body and activity level.
- </p>
- </div>
+          TDEE Calculator
+        </h1>
+        <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
+          The SolversPro TDEE Calculator is a free health tool that calculates your Total Daily Energy Expenditure (TDEE) and Basal Metabolic Rate (BMR) using the clinically validated Mifflin-St Jeor equation across five activity levels.
+        </p>
+        <p class="text-sm text-zinc-400">
+          Calculate your Total Daily Energy Expenditure based on your body and activity level.
+        </p>
+      </div>
 
  <!-- Calculator Form -->
  <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8" id="tdee-form">
@@ -174,6 +188,56 @@ const faqItems = [
  </div>
  <p class="mt-3 text-sm text-zinc-500">TDEE = BMR × Activity Multiplier</p>
  </div>
+
+  <!-- Reference Table -->
+  <div class="result-surface mb-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-3xl mx-auto">
+    <h2 class="text-2xl font-bold text-white mb-4">Physical Activity Level Multipliers</h2>
+    <p class="text-sm text-zinc-400 mb-4">Standard PAL multipliers applied to Basal Metabolic Rate (BMR) to determine total energy needs.</p>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+        <thead>
+          <tr class="border-b border-white/10 text-white font-semibold">
+            <th class="py-2.5 px-3">Activity Tier</th>
+            <th class="py-2.5 px-3">Multiplier</th>
+            <th class="py-2.5 px-3">Weekly Exercise Routine</th>
+            <th class="py-2.5 px-3">Daily Step Range</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/5">
+          <tr>
+            <td class="py-2.5 px-3 font-semibold text-white">Sedentary</td>
+            <td class="py-2.5 px-3 font-mono text-[#60a5fa]">1.200</td>
+            <td class="py-2.5 px-3 text-zinc-400">Desk job, little to no intentional exercise</td>
+            <td class="py-2.5 px-3 font-mono">&lt; 5,000</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 px-3 font-semibold text-white">Lightly Active</td>
+            <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">1.375</td>
+            <td class="py-2.5 px-3 text-zinc-400">Light exercise or sports 1–3 days per week</td>
+            <td class="py-2.5 px-3 font-mono">5,000 – 7,500</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 px-3 font-semibold text-white">Moderately Active</td>
+            <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">1.550</td>
+            <td class="py-2.5 px-3 text-zinc-400">Moderate exercise or sports 3–5 days per week</td>
+            <td class="py-2.5 px-3 font-mono">7,500 – 10,000</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 px-3 font-semibold text-white">Very Active</td>
+            <td class="py-2.5 px-3 font-mono text-[#facc15]">1.725</td>
+            <td class="py-2.5 px-3 text-zinc-400">Hard exercise or athletics 6–7 days per week</td>
+            <td class="py-2.5 px-3 font-mono">10,000 – 12,500</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 px-3 font-semibold text-white">Extra Active</td>
+            <td class="py-2.5 px-3 font-mono text-[#ff6b35]">1.900</td>
+            <td class="py-2.5 px-3 text-zinc-400">Physical labor job or 2x daily intense training</td>
+            <td class="py-2.5 px-3 font-mono">&gt; 12,500</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
  <!-- FAQ -->
  <div class="mb-12 max-w-3xl mx-auto">

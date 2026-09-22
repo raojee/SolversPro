@@ -10,17 +10,22 @@ import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Live Currency Converter",
-  "applicationCategory": "FinanceApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript",
+  "url": "https://solverspro.com/finance/currency-converter/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Convert live exchange rates across 160+ world currencies with official central bank mid-market rates, historical conversions, and multi-currency rate boards.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
   "offers": {
     "@type": "Offer",
     "price": "0",
     "priceCurrency": "USD"
-  },
-  "description": "Convert live exchange rates across 160+ world currencies using official central bank reference rates. Real-time rates, historical comparisons, and multi-currency rate boards."
+  }
 };
 
 const faqItems = [
@@ -51,19 +56,19 @@ const relatedTools = [
     title: 'Compound Interest Calculator',
     description: 'See how your money grows over time with compounding interest.',
     icon: '💰',
-    href: '/finance/compound-interest'
+    href: '/finance/compound-interest/'
   },
   {
     title: 'Cash-on-Cash Return',
     description: 'Evaluate rental property investments by calculating your annual cash return.',
     icon: '🏠',
-    href: '/finance/cash-on-cash-return'
+    href: '/finance/cash-on-cash-return/'
   },
   {
     title: 'Simple Interest Calculator',
     description: 'Calculate simple interest on loans and investments quickly.',
     icon: '📊',
-    href: '/finance/simple-interest'
+    href: '/finance/simple-interest/'
   }
 ];
 ---
@@ -71,15 +76,16 @@ const relatedTools = [
 <BaseLayout
   title="Live Currency Converter | Real-Time Exchange Rates | SolversPro"
   description="Convert 160+ world currencies instantly with live mid-market exchange rates sourced from 84 central banks. Includes rate trends, multi-currency boards, and historical rate lookups."
+  canonical="https://solverspro.com/finance/currency-converter/"
+  schema={schema}
 >
-  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   <Header />
 
   <main class="py-12 bg-[#08080f] min-h-screen border-b border-white/[0.06]">
     <div class="container mx-auto px-4 max-w-6xl">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'Finance', href: '/finance' },
+        { label: 'Finance', href: '/finance/' },
         { label: 'Currency Converter' }
       ]} />
 
@@ -92,7 +98,10 @@ const relatedTools = [
         <h1 class="text-4xl sm:text-5xl font-bold text-white mb-4 tracking-tight">
           Live Currency Converter
         </h1>
-        <p class="text-zinc-400 text-base sm:text-lg leading-relaxed">
+        <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
+          The SolversPro Live Currency Converter is a free financial tool that calculates real-time exchange rates across 160+ world currencies using official central bank mid-market reference benchmarks with zero spreads or hidden markup.
+        </p>
+        <p class="text-zinc-400 text-sm leading-relaxed">
           Convert 160+ world currencies with mid-market rates from 84 central banks. Fast, 100% free, and searchable.
         </p>
       </div>
@@ -352,6 +361,60 @@ const relatedTools = [
               <p class="text-xs text-zinc-400">Covers major reserves (USD, EUR, GBP, JPY), regional currencies (AED, SAR, PKR, INR), and historical rates back to 1999.</p>
             </div>
           </div>
+        </div>
+      <!-- Reference Table -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-6 sm:p-8 mb-12">
+        <h2 class="text-2xl font-bold text-white mb-4">Major Global Currency ISO Standards & Benchmarks</h2>
+        <p class="text-sm text-zinc-400 mb-4">Official ISO 4217 currency specifications, publishing central banks, and market share benchmarks.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+            <thead>
+              <tr class="border-b border-white/10 text-white font-semibold">
+                <th class="py-2.5 px-3">ISO Code</th>
+                <th class="py-2.5 px-3">Currency Name</th>
+                <th class="py-2.5 px-3">Symbol</th>
+                <th class="py-2.5 px-3">Primary Central Bank</th>
+                <th class="py-2.5 px-3">Standard Decimals</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf] font-bold">USD</td>
+                <td class="py-2.5 px-3 text-white">United States Dollar</td>
+                <td class="py-2.5 px-3 font-mono">$</td>
+                <td class="py-2.5 px-3">Federal Reserve System</td>
+                <td class="py-2.5 px-3 font-mono">2</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf] font-bold">EUR</td>
+                <td class="py-2.5 px-3 text-white">Euro</td>
+                <td class="py-2.5 px-3 font-mono">€</td>
+                <td class="py-2.5 px-3">European Central Bank (ECB)</td>
+                <td class="py-2.5 px-3 font-mono">2</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf] font-bold">GBP</td>
+                <td class="py-2.5 px-3 text-white">British Pound Sterling</td>
+                <td class="py-2.5 px-3 font-mono">£</td>
+                <td class="py-2.5 px-3">Bank of England (BoE)</td>
+                <td class="py-2.5 px-3 font-mono">2</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf] font-bold">JPY</td>
+                <td class="py-2.5 px-3 text-white">Japanese Yen</td>
+                <td class="py-2.5 px-3 font-mono">¥</td>
+                <td class="py-2.5 px-3">Bank of Japan (BoJ)</td>
+                <td class="py-2.5 px-3 font-mono">0</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf] font-bold">CHF</td>
+                <td class="py-2.5 px-3 text-white">Swiss Franc</td>
+                <td class="py-2.5 px-3 font-mono">CHF</td>
+                <td class="py-2.5 px-3">Swiss National Bank (SNB)</td>
+                <td class="py-2.5 px-3 font-mono">2</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 

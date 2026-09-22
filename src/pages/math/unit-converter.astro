@@ -14,11 +14,23 @@ import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Universal Unit Converter",
-  "applicationCategory": "EducationalApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "url": "https://solverspro.com/math/unit-converter/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free online unit converter to convert length, weight, and temperature measurements between Metric and Imperial systems instantly.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 
 const faqItems = [
@@ -38,9 +50,9 @@ const faqItems = [
 ---
 
 <BaseLayout
- title="Universal Unit Converter | SolversPro"
+ title="Universal Unit Converter — Length, Weight & Temperature | SolversPro"
  description="Instantly convert between length, weight, and temperature units. Fast, free, and completely accurate unit conversions."
- canonical="https://solverspro.com/math/unit-converter"
+ canonical="https://solverspro.com/math/unit-converter/"
  schema={schema}
 >
  <Header />
@@ -60,7 +72,7 @@ const faqItems = [
  Universal Unit Converter
  </h1>
  <p class="text-lg text-zinc-400">
- Convert seamlessly between measurements for Length, Weight, and Temperature.
+ The SolversPro Universal Unit Converter is a free browser-based measurement tool that converts distance, mass, and temperature between Metric and Imperial standards in real time.
  </p>
  </div>
 
@@ -149,6 +161,62 @@ const faqItems = [
  </div>
  </div>
  </div>
+
+  <!-- Citable Reference Table -->
+  <div class="mb-12 max-w-3xl mx-auto bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+    <h2 class="text-xl font-bold text-white mb-2">Metric & Imperial Unit Conversion Factors</h2>
+    <p class="text-zinc-400 text-sm mb-6">Standard international conversion ratios and algebraic formulas across physical measurement domains.</p>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm border-collapse">
+        <thead>
+          <tr class="border-b border-white/[0.08] text-zinc-400 font-mono text-xs uppercase">
+            <th class="py-3 px-4">Measurement Dimension</th>
+            <th class="py-3 px-4">From Unit</th>
+            <th class="py-3 px-4">To Unit</th>
+            <th class="py-3 px-4">Exact Multiplier / Formula</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/[0.04] text-zinc-300 font-mono text-xs">
+          <tr>
+            <td class="py-3 px-4 text-[#2dd4bf] font-bold">Length</td>
+            <td class="py-3 px-4 text-white">Meter (m)</td>
+            <td class="py-3 px-4 text-white">Feet (ft)</td>
+            <td class="py-3 px-4 font-mono">1 m = 3.28084 ft</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 text-[#2dd4bf] font-bold">Length</td>
+            <td class="py-3 px-4 text-white">Kilometer (km)</td>
+            <td class="py-3 px-4 text-white">Mile (mi)</td>
+            <td class="py-3 px-4 font-mono">1 km = 0.621371 mi</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 text-[#ff6b35] font-bold">Weight / Mass</td>
+            <td class="py-3 px-4 text-white">Kilogram (kg)</td>
+            <td class="py-3 px-4 text-white">Pound (lb)</td>
+            <td class="py-3 px-4 font-mono">1 kg = 2.20462 lb</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 text-[#ff6b35] font-bold">Weight / Mass</td>
+            <td class="py-3 px-4 text-white">Gram (g)</td>
+            <td class="py-3 px-4 text-white">Ounce (oz)</td>
+            <td class="py-3 px-4 font-mono">1 g = 0.035274 oz</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 text-[#a78bfa] font-bold">Temperature</td>
+            <td class="py-3 px-4 text-white">Celsius (°C)</td>
+            <td class="py-3 px-4 text-white">Fahrenheit (°F)</td>
+            <td class="py-3 px-4 font-mono">°F = (°C × 9/5) + 32</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 text-[#a78bfa] font-bold">Temperature</td>
+            <td class="py-3 px-4 text-white">Celsius (°C)</td>
+            <td class="py-3 px-4 text-white">Kelvin (K)</td>
+            <td class="py-3 px-4 font-mono">K = °C + 273.15</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
  <!-- FAQ -->
  <div class="mb-12 max-w-3xl mx-auto">

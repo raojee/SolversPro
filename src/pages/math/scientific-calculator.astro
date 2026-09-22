@@ -11,11 +11,23 @@ import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Scientific Calculator",
-  "applicationCategory": "EducationalApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "url": "https://solverspro.com/math/scientific-calculator/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free online scientific calculator with trigonometry, logarithms, roots, exponents, mathematical constants, and keyboard navigation.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 
 const faqItems = [
@@ -35,9 +47,9 @@ const faqItems = [
 ---
 
 <BaseLayout
- title="Scientific Calculator — Free Math Tool | SolversPro"
+ title="Scientific Calculator — Trigonometry, Exponents & Logarithms | SolversPro"
  description="Free online scientific calculator with trigonometry, logarithms, exponents, and constants. Perfect for STEM students. No signup required."
- canonical="https://solverspro.com/math/scientific-calculator"
+ canonical="https://solverspro.com/math/scientific-calculator/"
  schema={schema}
 >
  <Header />
@@ -55,8 +67,8 @@ const faqItems = [
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
  Scientific Calculator
  </h1>
- <p class="text-lg text-zinc-400 ">
- Advanced math functions for STEM students and professionals.
+ <p class="text-lg text-zinc-400">
+ The SolversPro Scientific Calculator is a free browser-based math utility featuring trigonometry, logarithms, power roots, constants (π, e), and PEMDAS expression evaluation with keyboard support.
  </p>
  </div>
 
@@ -126,6 +138,50 @@ const faqItems = [
  <div class="mt-6 flex justify-end">
    <SaveResultButton id="save-sci-btn" />
  </div>
+
+  <!-- Citable Reference Table -->
+  <div class="mt-8 mb-12 max-w-3xl mx-auto bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+    <h2 class="text-xl font-bold text-white mb-2">Scientific Function Syntax & Calculation Reference</h2>
+    <p class="text-zinc-400 text-sm mb-6">Standard trigonometric, logarithmic, and power operations supported by the calculation engine.</p>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm border-collapse">
+        <thead>
+          <tr class="border-b border-white/[0.08] text-zinc-400 font-mono text-xs uppercase">
+            <th class="py-3 px-4">Operation Category</th>
+            <th class="py-3 px-4">Function Key</th>
+            <th class="py-3 px-4">Mathematical Definition</th>
+            <th class="py-3 px-4">Expression Format</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/[0.04] text-zinc-300 font-mono text-xs">
+          <tr>
+            <td class="py-3 px-4 text-[#2dd4bf] font-bold">Trigonometry</td>
+            <td class="py-3 px-4 text-white">sin, cos, tan</td>
+            <td class="py-3 px-4">Standard trigonometric ratios in radians</td>
+            <td class="py-3 px-4 text-[#2dd4bf]">sin(π/2) = 1</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 text-[#ff6b35] font-bold">Logarithms</td>
+            <td class="py-3 px-4 text-white">ln, log</td>
+            <td class="py-3 px-4">Natural base-e and common base-10 logarithms</td>
+            <td class="py-3 px-4 text-[#ff6b35]">log(100) = 2; ln(e) = 1</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 text-[#a78bfa] font-bold">Powers & Roots</td>
+            <td class="py-3 px-4 text-white">x², xʸ, √x</td>
+            <td class="py-3 px-4">Exponents, arbitrary powers, and square roots</td>
+            <td class="py-3 px-4 text-[#a78bfa]">√(16) = 4; 2^3 = 8</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 text-[#38bdf8] font-bold">Constants</td>
+            <td class="py-3 px-4 text-white">π, e</td>
+            <td class="py-3 px-4">Mathematical constants (Archimedes' & Euler's)</td>
+            <td class="py-3 px-4 text-[#38bdf8]">π ≈ 3.14159; e ≈ 2.71828</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
  <!-- FAQ -->
  <div class="mb-12 max-w-3xl mx-auto">

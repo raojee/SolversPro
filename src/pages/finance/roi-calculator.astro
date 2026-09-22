@@ -14,11 +14,22 @@ import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "ROI Calculator",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "url": "https://solverspro.com/finance/roi-calculator/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Calculate Return on Investment (ROI), total net profit, and compound annualized ROI across custom holding periods with multi-currency support.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
 
 const faqItems = [
@@ -34,9 +45,9 @@ const faqItems = [
 ---
 
 <BaseLayout
-  title="ROI Calculator | SolversPro"
-  description="Calculate your Return on Investment (ROI) and annualized return instantly with our free financial tool."
-  canonical="https://solverspro.com/finance/roi-calculator"
+  title="ROI Calculator — Return on Investment & Annualized ROI | SolversPro"
+  description="Calculate your Return on Investment (ROI) and annualized return instantly with our free financial tool. Compare total profit and annual yield."
+  canonical="https://solverspro.com/finance/roi-calculator/"
   schema={schema}
 >
   <Header />
@@ -46,7 +57,7 @@ const faqItems = [
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'Finance', href: '/finance' },
+        { label: 'Finance', href: '/finance/' },
         { label: 'ROI Calculator' },
       ]} />
 
@@ -55,7 +66,10 @@ const faqItems = [
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
           ROI Calculator
         </h1>
-        <p class="text-lg text-zinc-400">
+        <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
+          The SolversPro ROI Calculator is a free financial tool that measures total return on investment, net investment profit, and compound annualized ROI across multiple asset classes and holding durations.
+        </p>
+        <p class="text-sm text-zinc-400">
           Calculate the total and annualized return on your investments.
         </p>
       </div>
@@ -117,6 +131,48 @@ const faqItems = [
         <div class="p-4 bg-white/[0.02] rounded-lg font-mono text-sm md:text-base overflow-x-auto border border-white/[0.06]">
           <p class="text-white">ROI = (Net Profit / Amount Invested) × 100</p>
           <p class="text-white mt-2">Annualized ROI = [(1 + ROI/100) ^ (1/Years) - 1] × 100</p>
+        </div>
+      <!-- Reference Table -->
+      <div class="result-surface mb-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-4">Historical Asset Class ROI Benchmarks</h2>
+        <p class="text-sm text-zinc-400 mb-4">Long-term historical annualized ROI returns across major global investment classes.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+            <thead>
+              <tr class="border-b border-white/10 text-white font-semibold">
+                <th class="py-2.5 px-3">Asset Category</th>
+                <th class="py-2.5 px-3">Historical Annual ROI</th>
+                <th class="py-2.5 px-3">Inflation-Adjusted (Real)</th>
+                <th class="py-2.5 px-3">Risk Profile</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">S&amp;P 500 Index (Equities)</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">~10.0%</td>
+                <td class="py-2.5 px-3 font-mono">~7.0%</td>
+                <td class="py-2.5 px-3 text-zinc-400">Moderate–High</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Residential Real Estate</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">8.5% – 12.0%</td>
+                <td class="py-2.5 px-3 font-mono">5.5% – 8.5%</td>
+                <td class="py-2.5 px-3 text-zinc-400">Moderate</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">10-Year US Treasuries</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">4.0% – 5.0%</td>
+                <td class="py-2.5 px-3 font-mono">1.5% – 2.5%</td>
+                <td class="py-2.5 px-3 text-zinc-400">Low (Government Backed)</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">High-Yield Savings / CDs</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">3.5% – 5.0%</td>
+                <td class="py-2.5 px-3 font-mono">0.5% – 2.0%</td>
+                <td class="py-2.5 px-3 text-zinc-400">Very Low (FDIC Insured)</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 

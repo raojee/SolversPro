@@ -9,20 +9,53 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import CalculateButton from '../../components/CalculateButton.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
 
+import ToolFAQ from '../../components/ToolFAQ.astro';
+
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Statistics Calculator",
-  "applicationCategory": "EducationalApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "url": "https://solverspro.com/math/statistics-calculator/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free online descriptive statistics calculator to compute mean, median, mode, sample variance, standard deviation, and sum for any numeric dataset.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
+
+const faqs = [
+  {
+    question: "What does this statistics calculator compute?",
+    answer: "This statistics calculator computes key descriptive summary statistics for any dataset of numbers, including sample count (N), sum, arithmetic mean (average), median, mode, sample variance (s²), population variance (σ²), and sample standard deviation (s)."
+  },
+  {
+    question: "What is the difference between sample variance and population variance?",
+    answer: "Sample variance divides the sum of squared deviations by (N - 1) to provide an unbiased estimator of variance for a sample (Bessel's correction). Population variance divides by N, assuming the dataset contains every member of the population."
+  },
+  {
+    question: "When should I use median instead of mean?",
+    answer: "Use the median when your dataset contains extreme outliers or has a skewed distribution (such as income or housing prices), as the median represents the 50th percentile and is resistant to distortion from outlier values."
+  },
+  {
+    question: "Can this calculator process negative numbers and decimals?",
+    answer: "Yes. The calculator parses floating-point numbers, negative values, and zero seamlessly from your comma-separated input list."
+  }
+];
 ---
 
 <BaseLayout
-  title="Statistics Calculator | SolversPro"
-  description="Calculate mean, median, mode, variance, and standard deviation of a data set."
-  canonical="https://solverspro.com/math/statistics-calculator"
+  title="Statistics Calculator — Mean, Median, Mode & Standard Deviation | SolversPro"
+  description="Calculate mean, median, mode, variance, and standard deviation of a dataset instantly. Free, browser-based descriptive statistics tool."
+  canonical="https://solverspro.com/math/statistics-calculator/"
   schema={schema}
 >
   <Header />
@@ -38,7 +71,9 @@ const schema = {
 
       <div class="mb-8 max-w-3xl mx-auto text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Statistics Calculator</h1>
-        <p class="text-lg text-zinc-400">Calculate Mean, Median, Mode, Variance, and Standard Deviation.</p>
+        <p class="text-lg text-zinc-400">
+          The SolversPro Statistics Calculator is a free browser-based math utility that evaluates arithmetic mean, median, mode, variance, and sample standard deviation for any numerical dataset in real time.
+        </p>
       </div>
 
       <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8" id="calculator-form">
@@ -70,6 +105,62 @@ const schema = {
           </div>
         </div>
       </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mb-12 max-w-3xl mx-auto bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-xl font-bold text-white mb-2">Descriptive Statistics Metric Reference</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard mathematical definitions and formulas for univariate summary statistics.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-400 font-mono text-xs uppercase">
+                <th class="py-3 px-4">Statistical Metric</th>
+                <th class="py-3 px-4">Mathematical Notation</th>
+                <th class="py-3 px-4">Description</th>
+                <th class="py-3 px-4">Formula</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-300 font-mono text-xs">
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold">Mean (Average)</td>
+                <td class="py-3 px-4 text-white font-mono">x̄ (x-bar)</td>
+                <td class="py-3 px-4">Central tendency via total sum divided by count</td>
+                <td class="py-3 px-4 font-mono">Σxᵢ / N</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#ff6b35] font-bold">Median</td>
+                <td class="py-3 px-4 text-white font-mono">x̃</td>
+                <td class="py-3 px-4">Middle value when observations are sorted</td>
+                <td class="py-3 px-4 font-mono">50th Percentile</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#a78bfa] font-bold">Mode</td>
+                <td class="py-3 px-4 text-white font-mono">Mo</td>
+                <td class="py-3 px-4">Most frequently occurring value(s)</td>
+                <td class="py-3 px-4 font-mono">argmax(Frequency(xᵢ))</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#38bdf8] font-bold">Sample Variance</td>
+                <td class="py-3 px-4 text-white font-mono">s²</td>
+                <td class="py-3 px-4">Mean squared distance from mean with Bessel correction</td>
+                <td class="py-3 px-4 font-mono">Σ(xᵢ - x̄)² / (N - 1)</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-yellow-400 font-bold">Standard Deviation</td>
+                <td class="py-3 px-4 text-white font-mono">s</td>
+                <td class="py-3 px-4">Square root of variance in native units</td>
+                <td class="py-3 px-4 font-mono">√(s²)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="mb-12 max-w-3xl mx-auto">
+        <ToolFAQ faqs={faqs} />
+      </div>
+
       <ToolShare title="Statistics Calculator" url="https://solverspro.com/math/statistics-calculator" />
       <SimilarTools category="math" currentPath="/math/statistics-calculator" />
     

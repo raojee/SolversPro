@@ -12,11 +12,22 @@ import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Adult BMI Calculator",
+  "url": "https://solverspro.com/health/bmi-calculator-adult/",
   "applicationCategory": "HealthApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "operatingSystem": "Any (web browser)",
+  "description": "Calculate adult Body Mass Index (BMI) and healthy weight ranges across metric and imperial units using World Health Organization (WHO) standards.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
 
 const faqItems = [
@@ -38,7 +49,7 @@ const faqItems = [
 <BaseLayout
   title="Adult BMI Calculator — Free Body Mass Index Tool | SolversPro"
   description="Calculate your adult Body Mass Index (BMI) instantly with our free online calculator. Supports metric and imperial units, shows 6 weight categories with a visual gauge. 100% private — no data stored."
-  canonical="https://solverspro.com/health/bmi-calculator-adult"
+  canonical="https://solverspro.com/health/bmi-calculator-adult/"
   schema={schema}
 >
   <Header />
@@ -48,7 +59,7 @@ const faqItems = [
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'Health', href: '/health' },
+        { label: 'Health', href: '/health/' },
         { label: 'Adult BMI Calculator' },
       ]} />
 
@@ -57,8 +68,11 @@ const faqItems = [
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
           Adult BMI Calculator
         </h1>
-        <p class="text-lg text-zinc-400">
-          Body Mass Index (BMI) is a widely used screening metric that estimates body fat based on your weight and height. This calculator supports both metric and imperial units, displays your result across six WHO-defined weight categories, and includes a visual gauge so you can see exactly where you fall. All calculations run locally in your browser — your data never leaves your device.
+        <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
+          The SolversPro Adult BMI Calculator is a free health tool that calculates your body mass index, classifies your result against World Health Organization (WHO) weight categories, and identifies your optimal healthy weight range.
+        </p>
+        <p class="text-sm text-zinc-400">
+          Supports both metric and imperial units with an interactive visual gauge. All calculations run locally in your browser with complete privacy.
         </p>
       </div>
 
@@ -274,6 +288,53 @@ const faqItems = [
               <p class="text-sm text-zinc-500">{item.desc}</p>
             </div>
           ))}
+        </div>
+      <!-- Reference Table -->
+      <div class="result-surface mb-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-4">WHO Adult BMI Weight Categories</h2>
+        <p class="text-sm text-zinc-400 mb-4">Official World Health Organization adult body mass index brackets and associated health risk levels.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+            <thead>
+              <tr class="border-b border-white/10 text-white font-semibold">
+                <th class="py-2.5 px-3">Classification</th>
+                <th class="py-2.5 px-3">BMI Range (kg/m²)</th>
+                <th class="py-2.5 px-3">Associated Health Risk</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-[#60a5fa]">Underweight</td>
+                <td class="py-2.5 px-3 font-mono">&lt; 18.5</td>
+                <td class="py-2.5 px-3 text-zinc-400">Nutritional deficiency, osteoporosis risk</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-[#2dd4bf]">Normal / Healthy Weight</td>
+                <td class="py-2.5 px-3 font-mono">18.5 – 24.9</td>
+                <td class="py-2.5 px-3 text-[#2dd4bf]">Lowest risk of cardiovascular disease</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-[#facc15]">Overweight</td>
+                <td class="py-2.5 px-3 font-mono">25.0 – 29.9</td>
+                <td class="py-2.5 px-3 text-zinc-400">Moderate risk increase</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-[#fb923c]">Obese Class I (Moderate)</td>
+                <td class="py-2.5 px-3 font-mono">30.0 – 34.9</td>
+                <td class="py-2.5 px-3 text-zinc-400">High risk for hypertension &amp; diabetes</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-[#f87171]">Obese Class II (Severe)</td>
+                <td class="py-2.5 px-3 font-mono">35.0 – 39.9</td>
+                <td class="py-2.5 px-3 text-zinc-400">Very high risk</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-[#ef4444]">Obese Class III (Very Severe)</td>
+                <td class="py-2.5 px-3 font-mono">&ge; 40.0</td>
+                <td class="py-2.5 px-3 text-zinc-400">Extremely high risk</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 

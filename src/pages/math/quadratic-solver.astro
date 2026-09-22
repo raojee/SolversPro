@@ -13,11 +13,23 @@ import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Quadratic Equation Solver",
-  "applicationCategory": "EducationalApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "url": "https://solverspro.com/math/quadratic-solver/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free online quadratic equation solver to calculate real and complex roots, discriminant, and parabolic vertex coordinates for any ax² + bx + c = 0 polynomial.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 
 const faqItems = [
@@ -37,9 +49,9 @@ const faqItems = [
 ---
 
 <BaseLayout
-  title="Quadratic Equation Solver | SolversPro"
-  description="Free online quadratic equation solver. Instantly find the roots, discriminant, and vertex of any quadratic function."
-  canonical="https://solverspro.com/math/quadratic-solver"
+  title="Quadratic Equation Solver — Roots, Discriminant & Vertex | SolversPro"
+  description="Free online quadratic equation solver. Instantly find the roots, discriminant, and vertex of any quadratic function with step-by-step arithmetic."
+  canonical="https://solverspro.com/math/quadratic-solver/"
   schema={schema}
 >
   <Header />
@@ -58,7 +70,7 @@ const faqItems = [
           Quadratic Equation Solver
         </h1>
         <p class="text-lg text-zinc-400">
-          Solve equations in the form <strong>ax² + bx + c = 0</strong>
+          The SolversPro Quadratic Equation Solver is a free browser-based algebra calculator that finds real or complex roots, evaluates the discriminant (Δ = b² - 4ac), and computes the parabolic vertex for any second-degree polynomial in real time.
         </p>
       </div>
 
@@ -107,6 +119,44 @@ const faqItems = [
             <SaveResultButton id="save-quadratic-btn" />
           </div>
           
+        </div>
+      </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mb-12 max-w-3xl mx-auto bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-xl font-bold text-white mb-2">Discriminant & Root Classification Reference</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard analytical behavior of the discriminant (Δ = b² - 4ac) across second-degree polynomial curves.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-400 font-mono text-xs uppercase">
+                <th class="py-3 px-4">Discriminant Condition</th>
+                <th class="py-3 px-4">Nature of Roots</th>
+                <th class="py-3 px-4">Parabolic X-Axis Intercepts</th>
+                <th class="py-3 px-4">Root Formula</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-300 font-mono text-xs">
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold font-mono">Δ &gt; 0</td>
+                <td class="py-3 px-4 text-white">2 Distinct Real Roots</td>
+                <td class="py-3 px-4">Crosses x-axis at two points</td>
+                <td class="py-3 px-4 font-mono">x = (-b ± √Δ) / 2a</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#ff6b35] font-bold font-mono">Δ = 0</td>
+                <td class="py-3 px-4 text-white">1 Repeated Real Root</td>
+                <td class="py-3 px-4">Touches x-axis at vertex point</td>
+                <td class="py-3 px-4 font-mono">x = -b / 2a</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#a78bfa] font-bold font-mono">Δ &lt; 0</td>
+                <td class="py-3 px-4 text-white">2 Complex Conjugate Roots</td>
+                <td class="py-3 px-4">No real x-axis intersection</td>
+                <td class="py-3 px-4 font-mono">x = (-b ± i√|Δ|) / 2a</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 

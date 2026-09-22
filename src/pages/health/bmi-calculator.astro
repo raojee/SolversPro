@@ -9,22 +9,49 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import InputField from '../../components/InputField.astro';
 import SelectField from '../../components/SelectField.astro';
 import CalculateButton from '../../components/CalculateButton.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "BMI Calculator",
+  "url": "https://solverspro.com/health/bmi-calculator/",
   "applicationCategory": "HealthApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "operatingSystem": "Any (web browser)",
+  "description": "Calculate your Body Mass Index (BMI) and health category instantly with metric and imperial units. Free, private, and instant.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
+
+const faqItems = [
+  {
+    question: "What is BMI?",
+    answer: "Body Mass Index (BMI) is an anthropometric screening index calculated by dividing a person's weight in kilograms by the square of their height in meters (kg/m²)."
+  },
+  {
+    question: "What is considered a healthy BMI range?",
+    answer: "For adults, a healthy BMI typically ranges between 18.5 and 24.9 according to the World Health Organization (WHO) and CDC guidelines."
+  },
+  {
+    question: "Does BMI distinguish between muscle and body fat?",
+    answer: "No. BMI does not measure body composition directly. Muscular athletes may register in the overweight category despite having low body fat, while older adults may have higher body fat with a normal BMI."
+  }
+];
 ---
 
 <BaseLayout
-  title="BMI Calculator | SolversPro"
-  description="Calculate your Body Mass Index (BMI) instantly."
-  canonical="https://solverspro.com/health/bmi-calculator"
+  title="BMI Calculator — Body Mass Index Calculator | SolversPro"
+  description="Calculate your Body Mass Index (BMI) instantly with metric and imperial units. Free, private, and accurate health calculations."
+  canonical="https://solverspro.com/health/bmi-calculator/"
   schema={schema}
 >
   <Header />
@@ -34,13 +61,16 @@ const schema = {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'Health', href: '/health' },
+        { label: 'Health', href: '/health/' },
         { label: 'BMI Calculator' },
       ]} />
 
       <div class="mb-8 max-w-3xl mx-auto text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">BMI Calculator</h1>
-        <p class="text-lg text-zinc-400">Calculate your Body Mass Index based on weight and height.</p>
+        <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
+          The SolversPro BMI Calculator is a free health tool that computes your body mass index from height and weight in metric or imperial units to evaluate weight status against clinical categories.
+        </p>
+        <p class="text-sm text-zinc-400">Calculate your Body Mass Index based on weight and height.</p>
       </div>
 
       <form class="form-container max-w-2xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 shadow-sm mb-8" id="calculator-form">
@@ -94,6 +124,51 @@ const schema = {
            </div>
         </div>
       </div>
+      <!-- Reference Table -->
+      <div class="result-surface mb-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-2xl mx-auto">
+        <h2 class="text-xl font-bold text-white mb-4">Adult BMI Weight Status Brackets</h2>
+        <p class="text-sm text-zinc-400 mb-4">Clinical reference standards established by the World Health Organization.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+            <thead>
+              <tr class="border-b border-white/10 text-white font-semibold">
+                <th class="py-2.5 px-3">BMI Range</th>
+                <th class="py-2.5 px-3">Category</th>
+                <th class="py-2.5 px-3">Health Implication</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr>
+                <td class="py-2.5 px-3 font-mono text-[#60a5fa]">&lt; 18.5</td>
+                <td class="py-2.5 px-3 font-semibold text-white">Underweight</td>
+                <td class="py-2.5 px-3 text-zinc-400">Increased risk of nutrient deficiency</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">18.5 – 24.9</td>
+                <td class="py-2.5 px-3 font-semibold text-[#2dd4bf]">Normal Weight</td>
+                <td class="py-2.5 px-3 text-[#2dd4bf]">Lowest risk of metabolic disorders</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-mono text-[#facc15]">25.0 – 29.9</td>
+                <td class="py-2.5 px-3 font-semibold text-white">Overweight</td>
+                <td class="py-2.5 px-3 text-zinc-400">Moderate cardiovascular risk</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-mono text-[#ef4444]">&ge; 30.0</td>
+                <td class="py-2.5 px-3 font-semibold text-[#ef4444]">Obesity</td>
+                <td class="py-2.5 px-3 text-zinc-400">High risk of chronic disease</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="mb-12 max-w-2xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+        <FAQAccordion items={faqItems} id="general-bmi-faq" />
+      </div>
+
       <ToolShare title="BMI Calculator" url="https://solverspro.com/health/bmi-calculator" />
       <SimilarTools category="health" currentPath="/health/bmi-calculator" />
     

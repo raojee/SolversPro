@@ -12,11 +12,22 @@ import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Child & Teen BMI Calculator",
+  "url": "https://solverspro.com/health/bmi-calculator-child/",
   "applicationCategory": "HealthApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "operatingSystem": "Any (web browser)",
+  "description": "Calculate pediatric BMI and age-and-sex-specific growth percentiles for children and teens ages 2–19 using official CDC LMS growth chart data.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
 
 const faqItems = [
@@ -38,7 +49,7 @@ const faqItems = [
 <BaseLayout
   title="Child & Teen BMI Calculator — Percentile Tool (Ages 2–19) | SolversPro"
   description="Free BMI percentile calculator for children and teens ages 2–19. Uses official CDC growth chart data to compute BMI-for-age percentile. 100% private — all calculations run in your browser."
-  canonical="https://solverspro.com/health/bmi-calculator-child"
+  canonical="https://solverspro.com/health/bmi-calculator-child/"
   schema={schema}
 >
   <Header />
@@ -48,7 +59,7 @@ const faqItems = [
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'Health', href: '/health' },
+        { label: 'Health', href: '/health/' },
         { label: 'Child & Teen BMI Calculator' },
       ]} />
 
@@ -57,8 +68,11 @@ const faqItems = [
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
           Child & Teen BMI Calculator
         </h1>
-        <p class="text-lg text-zinc-400">
-          For children and teens aged 2–19, BMI must be interpreted using age-and-sex-specific growth charts. This calculator uses the official CDC 2000 BMI-for-age LMS parameters to compute an exact BMI percentile — the same data used by pediatricians nationwide. Enter your child's measurements below to see where they fall relative to their peers. All calculations run locally in your browser.
+        <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
+          The SolversPro Child &amp; Teen BMI Calculator is a free pediatric health tool that calculates BMI-for-age percentiles for children and teens (ages 2–19) using official CDC growth chart LMS parameters.
+        </p>
+        <p class="text-sm text-zinc-400">
+          Enter your child's measurements below to see where they fall relative to their peers. All calculations run locally in your browser with complete privacy.
         </p>
       </div>
 
@@ -281,6 +295,43 @@ const faqItems = [
               <p class="text-sm text-zinc-500">{item.desc}</p>
             </div>
           ))}
+        </div>
+      <!-- Reference Table -->
+      <div class="result-surface mb-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-4">CDC Pediatric BMI Percentile Categories (Ages 2–19)</h2>
+        <p class="text-sm text-zinc-400 mb-4">Clinical weight classifications established by the Centers for Disease Control and Prevention (CDC).</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+            <thead>
+              <tr class="border-b border-white/10 text-white font-semibold">
+                <th class="py-2.5 px-3">Weight Status Category</th>
+                <th class="py-2.5 px-3">Percentile Range</th>
+                <th class="py-2.5 px-3">Clinical Description</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-[#60a5fa]">Underweight</td>
+                <td class="py-2.5 px-3 font-mono">&lt; 5th percentile</td>
+                <td class="py-2.5 px-3 text-zinc-400">BMI is below the 5th percentile for age and sex</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-[#2dd4bf]">Healthy Weight</td>
+                <td class="py-2.5 px-3 font-mono">5th to &lt; 85th percentile</td>
+                <td class="py-2.5 px-3 text-[#2dd4bf]">Optimal weight range for pediatric growth</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-[#facc15]">Overweight</td>
+                <td class="py-2.5 px-3 font-mono">85th to &lt; 95th percentile</td>
+                <td class="py-2.5 px-3 text-zinc-400">BMI is between 85th and 95th percentiles</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-[#ef4444]">Obesity</td>
+                <td class="py-2.5 px-3 font-mono">&ge; 95th percentile</td>
+                <td class="py-2.5 px-3 text-zinc-400">BMI is at or above the 95th percentile</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 

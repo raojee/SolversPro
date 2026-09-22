@@ -12,11 +12,23 @@ import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Percentage Calculator",
-  "applicationCategory": "EducationalApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "url": "https://solverspro.com/math/percentage-calculator/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free online percentage calculator with 3 interactive modes to calculate percentage of a number, percentage proportion, and percentage increase or decrease.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 
 const faqItems = [
@@ -38,7 +50,7 @@ const faqItems = [
 <BaseLayout
   title="Percentage Calculator — Three Common Modes with Instant Results | SolversPro"
   description="Free percentage calculator with 3 interactive modes: calculate percentage of a number, find what percent one number is of another, and compute percentage increase or decrease."
-  canonical="https://solverspro.com/math/percentage-calculator"
+  canonical="https://solverspro.com/math/percentage-calculator/"
   schema={schema}
 >
   <Header />
@@ -58,7 +70,7 @@ const faqItems = [
           Percentage Calculator
         </h1>
         <p class="text-lg text-zinc-400">
-          Percentages are part of everyday life — from flash retail discounts, tipped restaurant bills, and sales tax to academic grading, stock returns, and salary negotiations. This versatile tool handles all three fundamental percentage operations: finding a percentage of a quantity, discovering what portion one value is of another, and computing percentage increase or decrease. Fast, accurate, and completely private in your browser.
+          The SolversPro Percentage Calculator is a free browser-based math utility that calculates percentage of a number, proportional shares, and percentage increase or decrease across three interactive calculation modes in real time.
         </p>
       </div>
 
@@ -358,6 +370,50 @@ const faqItems = [
               <p class="text-sm text-zinc-500">{item.desc}</p>
             </div>
           ))}
+        </div>
+      </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mb-12 max-w-3xl mx-auto bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-xl font-bold text-white mb-2">Percentage Calculation Methods & Formula Reference</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard mathematical formulas and definitions for computing percentage proportions, discounts, and variations.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-400 font-mono text-xs uppercase">
+                <th class="py-3 px-4">Calculation Mode</th>
+                <th class="py-3 px-4">Mathematical Formula</th>
+                <th class="py-3 px-4">Example Query</th>
+                <th class="py-3 px-4">Calculated Result</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-300 font-mono text-xs">
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold">Percentage of a Value</td>
+                <td class="py-3 px-4 font-mono">Result = (P / 100) × V</td>
+                <td class="py-3 px-4 text-white">What is 20% of 150?</td>
+                <td class="py-3 px-4 text-[#2dd4bf]">30</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#ff6b35] font-bold">Fraction as Percent</td>
+                <td class="py-3 px-4 font-mono">Percent = (X / Y) × 100</td>
+                <td class="py-3 px-4 text-white">What percent is 25 of 200?</td>
+                <td class="py-3 px-4 text-[#ff6b35]">12.5%</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#a78bfa] font-bold">Percentage Increase</td>
+                <td class="py-3 px-4 font-mono">Change = ((V₂ - V₁) / V₁) × 100</td>
+                <td class="py-3 px-4 text-white">Increase from 50 to 75</td>
+                <td class="py-3 px-4 text-[#a78bfa]">+50.0%</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#38bdf8] font-bold">Percentage Decrease</td>
+                <td class="py-3 px-4 font-mono">Change = ((V₂ - V₁) / V₁) × 100</td>
+                <td class="py-3 px-4 text-white">Decrease from 80 to 60</td>
+                <td class="py-3 px-4 text-[#38bdf8]">-25.0%</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 

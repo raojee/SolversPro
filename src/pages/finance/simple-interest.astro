@@ -14,11 +14,22 @@ import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Simple Interest Calculator",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "url": "https://solverspro.com/finance/simple-interest/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Calculate simple interest, total accumulated balance, and interest yields on loans and deposits using the linear I = P × r × t formula.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
 
 const faqItems = [
@@ -40,7 +51,7 @@ const faqItems = [
 <BaseLayout
  title="Simple Interest Calculator — Free Finance Tool | SolversPro"
  description="Free simple interest calculator to quickly determine total interest earned or paid on a principal amount. No signup required."
- canonical="https://solverspro.com/finance/simple-interest"
+ canonical="https://solverspro.com/finance/simple-interest/"
  schema={schema}
 >
  <Header />
@@ -50,18 +61,21 @@ const faqItems = [
  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
  <Breadcrumbs items={[
  { label: 'Home', href: '/' },
- { label: 'Finance', href: '/finance' },
+ { label: 'Finance', href: '/finance/' },
  { label: 'Simple Interest' },
  ]} />
 
  <!-- Title -->
  <div class="mb-8 max-w-3xl mx-auto text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
- Simple Interest Calculator
- </h1>
- <p class="text-lg text-zinc-400">
- Quickly calculate simple interest on loans or investments.
- </p>
+          Simple Interest Calculator
+        </h1>
+        <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
+          The SolversPro Simple Interest Calculator is a free financial tool that calculates total interest earned or paid and final balances on loans, promissory notes, and deposits using the linear principal-rate-time formula.
+        </p>
+        <p class="text-sm text-zinc-400">
+          Quickly calculate simple interest on loans or investments.
+        </p>
  </div>
 
  <!-- Calculator Form -->
@@ -154,6 +168,55 @@ const faqItems = [
  <p><strong>t</strong> = Time in years</p>
  </div>
  </div>
+
+  <!-- Reference Table -->
+  <div class="result-surface mb-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-3xl mx-auto">
+    <h2 class="text-2xl font-bold text-white mb-4">Simple Interest vs. Annual Compound Interest ($10,000 at 6%)</h2>
+    <p class="text-sm text-zinc-400 mb-4">Comparison showing linear growth of simple interest versus exponential compounding acceleration over time.</p>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+        <thead>
+          <tr class="border-b border-white/10 text-white font-semibold">
+            <th class="py-2.5 px-3">Timeline</th>
+            <th class="py-2.5 px-3">Simple Interest Earned</th>
+            <th class="py-2.5 px-3">Simple Total Balance</th>
+            <th class="py-2.5 px-3">Compound Total Balance</th>
+            <th class="py-2.5 px-3">Compounding Advantage</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/5">
+          <tr>
+            <td class="py-2.5 px-3 font-semibold text-white">1 Year</td>
+            <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">$600</td>
+            <td class="py-2.5 px-3 font-mono">$10,600</td>
+            <td class="py-2.5 px-3 font-mono">$10,600</td>
+            <td class="py-2.5 px-3 font-mono text-zinc-400">$0</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 px-3 font-semibold text-white">5 Years</td>
+            <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">$3,000</td>
+            <td class="py-2.5 px-3 font-mono">$13,000</td>
+            <td class="py-2.5 px-3 font-mono">$13,382</td>
+            <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">+$382</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 px-3 font-semibold text-white">10 Years</td>
+            <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">$6,000</td>
+            <td class="py-2.5 px-3 font-mono">$16,000</td>
+            <td class="py-2.5 px-3 font-mono">$17,908</td>
+            <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">+$1,908</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 px-3 font-semibold text-white">20 Years</td>
+            <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">$12,000</td>
+            <td class="py-2.5 px-3 font-mono">$22,000</td>
+            <td class="py-2.5 px-3 font-mono">$32,071</td>
+            <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">+$10,071</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
  <!-- FAQ -->
  <div class="mb-12 max-w-3xl mx-auto">

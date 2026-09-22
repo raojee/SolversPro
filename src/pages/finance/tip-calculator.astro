@@ -12,11 +12,22 @@ import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Tip Calculator",
-  "applicationCategory": "FinanceApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "url": "https://solverspro.com/finance/tip-calculator/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Calculate gratuity percentages, bill totals, and even per-person bill splits with instant round-up options and tipping etiquette guides.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 };
 
 const faqItems = [
@@ -38,7 +49,7 @@ const faqItems = [
 <BaseLayout
   title="Tip Calculator — Free Bill Splitter & Gratuity Calculator | SolversPro"
   description="Free tip calculator and bill splitter. Calculate custom tip percentages, split bills evenly among multiple people, and round up totals instantly in your browser."
-  canonical="https://solverspro.com/finance/tip-calculator"
+  canonical="https://solverspro.com/finance/tip-calculator/"
   schema={schema}
 >
   <Header />
@@ -48,7 +59,7 @@ const faqItems = [
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
-        { label: 'Finance', href: '/finance' },
+        { label: 'Finance', href: '/finance/' },
         { label: 'Tip Calculator' },
       ]} />
 
@@ -57,8 +68,11 @@ const faqItems = [
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
           Tip Calculator
         </h1>
-        <p class="text-lg text-zinc-400">
-          Calculating the right tip shouldn't require mental gymnastics after an enjoyable meal or service. Whether you're dining out at a restaurant, ordering food delivery, visiting your barber, or sharing drinks with friends, our free online tip calculator computes exact gratuity amounts, splits the bill fairly, and rounds totals cleanly. All computations run 100% locally on your device with complete privacy.
+        <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
+          The SolversPro Tip Calculator is a free financial tool that calculates exact gratuity amounts, total restaurant or service bills, and equal per-person splits with one-click rounding options.
+        </p>
+        <p class="text-sm text-zinc-400">
+          Compute custom tip percentages, split checks evenly among friends, and round totals cleanly with 100% client-side privacy.
         </p>
       </div>
 
@@ -257,6 +271,55 @@ const faqItems = [
               <p class="text-sm text-zinc-500">{item.desc}</p>
             </div>
           ))}
+        </div>
+      </div>
+
+      <!-- Reference Table -->
+      <div class="result-surface mb-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-4">Global Tipping Customs &amp; Benchmark Rates</h2>
+        <p class="text-sm text-zinc-400 mb-4">Standard gratuity expectations by service type and region.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+            <thead>
+              <tr class="border-b border-white/10 text-white font-semibold">
+                <th class="py-2.5 px-3">Service Type</th>
+                <th class="py-2.5 px-3">United States / Canada</th>
+                <th class="py-2.5 px-3">United Kingdom / Europe</th>
+                <th class="py-2.5 px-3">Australia / New Zealand</th>
+                <th class="py-2.5 px-3">Japan</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Sit-down Restaurant</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">18% – 22%</td>
+                <td class="py-2.5 px-3 font-mono">10% – 12.5% (or included)</td>
+                <td class="py-2.5 px-3 font-mono">Discretionary (5%–10%)</td>
+                <td class="py-2.5 px-3 text-zinc-400">0% (Not customary)</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Food Delivery</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">15% – 20% ($3–$5 min)</td>
+                <td class="py-2.5 px-3 font-mono">£1 – £2 / €1 – €2</td>
+                <td class="py-2.5 px-3 font-mono">Discretionary ($2–$5)</td>
+                <td class="py-2.5 px-3 text-zinc-400">0%</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Bartender / Drinks</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">$1 – $2 per drink or 20%</td>
+                <td class="py-2.5 px-3 font-mono">Round up or spare change</td>
+                <td class="py-2.5 px-3 font-mono">Spare change (optional)</td>
+                <td class="py-2.5 px-3 text-zinc-400">0%</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Hair Salon / Barber</td>
+                <td class="py-2.5 px-3 font-mono text-[#2dd4bf]">15% – 20%</td>
+                <td class="py-2.5 px-3 font-mono">10%</td>
+                <td class="py-2.5 px-3 font-mono">Discretionary</td>
+                <td class="py-2.5 px-3 text-zinc-400">0%</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 

@@ -6,22 +6,53 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Random Number Generator",
+  "url": "https://solverspro.com/math/random-number-generator/",
   "applicationCategory": "UtilitiesApplication",
-  "operatingSystem": "All",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Generate random numbers within a specific range instantly. Support for multiple numbers, decimals, and custom separators."
+  "description": "Free online random number generator to create true integers, floating decimals, or unique number lists within customizable min-max ranges instantly.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
+
+const faqs = [
+  {
+    question: "How are random numbers generated in this tool?",
+    answer: "Random numbers are calculated client-side using JavaScript's native pseudo-random number generator (PRNG) scaled across your specified minimum and maximum bounds."
+  },
+  {
+    question: "Can I generate duplicate-free unique numbers?",
+    answer: "Yes. By selecting the 'Unique Only' option, the algorithm guarantees each generated number appears only once in the sequence, making it ideal for lotteries, raffles, and random sampling."
+  },
+  {
+    question: "Does the generator support negative numbers and decimal values?",
+    answer: "Yes. You can enter negative lower and upper bounds (e.g., -50 to 50) and toggle decimal generation with precision up to two decimal places."
+  },
+  {
+    question: "What is the maximum quantity of numbers I can generate at once?",
+    answer: "You can generate up to 10,000 random numbers in a single generation cycle, separated by commas, newlines, or spaces, and copy the full batch to your clipboard with one click."
+  }
+];
 ---
 
 <BaseLayout
-  title="Random Number Generator | SolversPro"
+  title="Random Number Generator — Integers, Decimals & Ranges | SolversPro"
   description="Generate random numbers within a specific range instantly. Support for multiple numbers, decimals, and custom separators. Free and browser-based."
-  canonical="https://solverspro.com/math/random-number-generator"
+  canonical="https://solverspro.com/math/random-number-generator/"
   schema={schema}
 >
   <Header />
@@ -37,7 +68,9 @@ const schema = {
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">🎲 Random Number Generator</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Generate random numbers within a specific range instantly. Support for multiple numbers, decimals, and custom separators.</p>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro Random Number Generator is a free browser-based math utility that generates integers, floating decimals, or unique non-repeating number sequences across customizable min-max ranges in real time.
+        </p>
       </div>
 
       <!-- Controls -->
@@ -58,27 +91,36 @@ const schema = {
         <div class="flex flex-wrap items-end gap-4">
           <div class="flex-1 min-w-[120px]">
             <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400 block mb-2">Quantity</label>
-            <input id="rng-count" type="number" min="1" max="10000" value="1"
+            <input id="rng-count" type="number" value="1" min="1" max="10000"
               class="w-full p-3 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none text-zinc-300 font-mono text-sm" />
           </div>
-          <div class="flex items-center gap-3">
-             <label class="flex items-center gap-2 cursor-pointer">
-              <input id="rng-decimals" type="checkbox" class="accent-[#2dd4bf] w-4 h-4" />
-              <span class="text-sm text-zinc-400">Allow Decimals</span>
-            </label>
-             <label class="flex items-center gap-2 cursor-pointer">
-              <input id="rng-unique" type="checkbox" class="accent-[#2dd4bf] w-4 h-4" />
-              <span class="text-sm text-zinc-400">Unique Numbers</span>
-            </label>
+          <div class="flex-1 min-w-[120px]">
+            <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400 block mb-2">Separator</label>
+            <select id="rng-separator" class="w-full p-3 bg-[#1a1a24] border border-white/[0.06] rounded-xl focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none text-zinc-300 text-sm">
+              <option value="newline">New Line</option>
+              <option value="comma">Comma (, )</option>
+              <option value="space">Space</option>
+            </select>
           </div>
-          <button id="btn-generate" class="px-6 py-3 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white rounded-xl font-bold transition-all">
+        </div>
+
+        <div class="flex flex-wrap items-center gap-6 mt-4 pt-4 border-t border-white/[0.06]">
+          <label class="flex items-center gap-2 text-sm text-zinc-300 cursor-pointer">
+            <input id="rng-decimals" type="checkbox" class="rounded accent-[#2dd4bf]" />
+            Include Decimals
+          </label>
+          <label class="flex items-center gap-2 text-sm text-zinc-300 cursor-pointer">
+            <input id="rng-unique" type="checkbox" class="rounded accent-[#2dd4bf]" />
+            Unique Only
+          </label>
+          <button id="btn-generate" class="ml-auto px-6 py-2.5 bg-[#2dd4bf] hover:bg-[#5eead4] text-black font-semibold rounded-xl text-sm transition-colors cursor-pointer">
             Generate
           </button>
         </div>
       </div>
 
       <!-- Output -->
-      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 mb-12">
         <div class="flex justify-between items-center mb-3">
           <label class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Generated Numbers</label>
           <div class="flex gap-3">
@@ -92,6 +134,53 @@ const schema = {
           placeholder="Click Generate to create random numbers..."
         ></textarea>
       </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mb-12 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-xl font-bold text-white mb-2">Random Number Sampling Modes & Limits</h2>
+        <p class="text-zinc-400 text-sm mb-6">Technical parameters and configuration boundaries for browser-based random sequence generation.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-400 font-mono text-xs uppercase">
+                <th class="py-3 px-4">Sampling Mode</th>
+                <th class="py-3 px-4">Numeric Output Type</th>
+                <th class="py-3 px-4">Maximum Batch Size</th>
+                <th class="py-3 px-4">Application Scenario</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-300 font-mono text-xs">
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold">Standard Integers</td>
+                <td class="py-3 px-4 text-white">Whole numbers [Min, Max]</td>
+                <td class="py-3 px-4">10,000 items</td>
+                <td class="py-3 px-4">Dice rolling, random selection, games</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#ff6b35] font-bold">Unique Integers</td>
+                <td class="py-3 px-4 text-white">Non-repeating whole numbers</td>
+                <td class="py-3 px-4">Limited by range (Max - Min + 1)</td>
+                <td class="py-3 px-4">Lottery draws, giveaways, raffle tickets</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#a78bfa] font-bold">Floating Decimals</td>
+                <td class="py-3 px-4 text-white">2 decimal places precision</td>
+                <td class="py-3 px-4">10,000 items</td>
+                <td class="py-3 px-4">Statistical sampling, scientific simulation</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#38bdf8] font-bold">Negative Range</td>
+                <td class="py-3 px-4 text-white">Signed real or integer values</td>
+                <td class="py-3 px-4">10,000 items</td>
+                <td class="py-3 px-4">Financial variation, temperature modeling</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={faqs} />
 
       <ToolShare title="Random Number Generator" url="https://solverspro.com/math/random-number-generator" />
       <SimilarTools category="math" currentPath="/math/random-number-generator" />

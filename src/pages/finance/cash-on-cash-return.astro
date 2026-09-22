@@ -14,11 +14,23 @@ import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Cash-on-Cash Return Calculator",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "url": "https://solverspro.com/finance/cash-on-cash-return/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free online cash-on-cash return calculator for real estate investors to calculate annual cash yield relative to out-of-pocket equity and cash flow.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 
 const faqItems = [
@@ -38,9 +50,9 @@ const faqItems = [
 ---
 
 <BaseLayout
- title="Cash-on-Cash Return Calculator — Free Finance Tool | SolversPro"
+ title="Cash-on-Cash Return Calculator — Real Estate Yield & ROI | SolversPro"
  description="Free cash-on-cash return calculator for real estate investors. Instantly determine your investment yield based on cash flow and invested capital."
- canonical="https://solverspro.com/finance/cash-on-cash-return"
+ canonical="https://solverspro.com/finance/cash-on-cash-return/"
  schema={schema}
 >
  <Header />
@@ -60,7 +72,7 @@ const faqItems = [
  Cash-on-Cash Return Calculator
  </h1>
  <p class="text-lg text-zinc-400">
- Evaluate rental property investments by calculating your annual cash yield.
+ The SolversPro Cash-on-Cash Return Calculator is a free browser-based real estate finance tool that measures the annual cash yield of an investment property relative to your actual out-of-pocket cash capital in real time.
  </p>
  </div>
 
@@ -145,6 +157,50 @@ const faqItems = [
  <p><strong>Total Cash Invested</strong> = Down Payment + Closing Costs + Initial Repairs</p>
  </div>
  </div>
+
+  <!-- Citable Reference Table -->
+  <div class="mb-12 max-w-3xl mx-auto bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+    <h2 class="text-xl font-bold text-white mb-2">Real Estate Investment Yield & Metric Reference</h2>
+    <p class="text-zinc-400 text-sm mb-6">Comparative metrics used by property investors to evaluate cash flow, total returns, and equity yields.</p>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm border-collapse">
+        <thead>
+          <tr class="border-b border-white/[0.08] text-zinc-400 font-mono text-xs uppercase">
+            <th class="py-3 px-4">Yield Metric</th>
+            <th class="py-3 px-4">Calculation Formula</th>
+            <th class="py-3 px-4">Target Benchmark</th>
+            <th class="py-3 px-4">Primary Use Case</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/[0.04] text-zinc-300 font-mono text-xs">
+          <tr>
+            <td class="py-3 px-4 text-[#2dd4bf] font-bold">Cash-on-Cash (CoC)</td>
+            <td class="py-3 px-4 font-mono">(Annual Cash Flow / Cash Invested) × 100</td>
+            <td class="py-3 px-4 text-[#2dd4bf]">8% – 12%</td>
+            <td class="py-3 px-4">Leveraged cash flow yield on actual equity out-of-pocket</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 text-[#ff6b35] font-bold">Cap Rate</td>
+            <td class="py-3 px-4 font-mono">(NOI / Property Value) × 100</td>
+            <td class="py-3 px-4 text-[#ff6b35]">5% – 10%</td>
+            <td class="py-3 px-4">Unleveraged market asset yield comparison</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 text-[#a78bfa] font-bold">Total ROI</td>
+            <td class="py-3 px-4 font-mono">(Total Profit / Total Cost) × 100</td>
+            <td class="py-3 px-4 text-[#a78bfa]">10% – 15%+</td>
+            <td class="py-3 px-4">Includes cash flow, amortization, and appreciation</td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4 text-[#38bdf8] font-bold">Gross Rent Multiplier</td>
+            <td class="py-3 px-4 font-mono">Purchase Price / Gross Annual Rent</td>
+            <td class="py-3 px-4 text-[#38bdf8]">6 – 8 (lower is better)</td>
+            <td class="py-3 px-4">Rapid screening metric before deep property underwriting</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
  <!-- FAQ -->
  <div class="mb-12 max-w-3xl mx-auto">

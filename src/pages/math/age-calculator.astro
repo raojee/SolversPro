@@ -12,11 +12,23 @@ import SaveResultButton from '../../components/SaveResultButton.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Age Calculator",
-  "applicationCategory": "EducationalApplication",
-  "operatingSystem": "All",
-  "browserRequirements": "Requires HTML5/JavaScript"
+  "url": "https://solverspro.com/math/age-calculator/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free online chronological age calculator to compute exact age in years, months, days, hours, and minutes, plus days remaining until your next birthday.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 
 const faqItems = [
@@ -38,7 +50,7 @@ const faqItems = [
 <BaseLayout
   title="Age Calculator — Exact Age in Years, Months, Days & Next Birthday | SolversPro"
   description="Free chronological age calculator. Calculate your exact age down to the day, month, hour, and minute, plus discover days remaining until your next birthday. 100% private."
-  canonical="https://solverspro.com/math/age-calculator"
+  canonical="https://solverspro.com/math/age-calculator/"
   schema={schema}
 >
   <Header />
@@ -58,7 +70,7 @@ const faqItems = [
           Age Calculator
         </h1>
         <p class="text-lg text-zinc-400">
-          Determine your exact chronological age in calendar years, months, and days with down-to-the-minute precision. Whether you are checking legal age thresholds for driving or voting, planning a milestone birthday party, tracking developmental milestones for children, or calculating age on a future date, this tool computes exact calendar differences while respecting leap years. Fast, free, and 100% private in your browser.
+          The SolversPro Age Calculator is a free browser-based utility that calculates your exact chronological age in years, months, days, hours, and minutes, as well as days until your next birthday with full leap-year precision.
         </p>
       </div>
 
@@ -207,6 +219,56 @@ const faqItems = [
               <p class="text-sm text-zinc-500">{item.desc}</p>
             </div>
           ))}
+        </div>
+      </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mb-12 max-w-3xl mx-auto bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-xl font-bold text-white mb-2">Age Milestones & Legal Threshold Reference</h2>
+        <p class="text-zinc-400 text-sm mb-6">Standard developmental, civic, and retirement milestone thresholds calculated from date of birth.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-400 font-mono text-xs uppercase">
+                <th class="py-3 px-4">Life Milestone</th>
+                <th class="py-3 px-4">Age Threshold</th>
+                <th class="py-3 px-4">Significance</th>
+                <th class="py-3 px-4">Calculation Formula</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-300 font-mono text-xs">
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold">Driving Eligibility</td>
+                <td class="py-3 px-4 text-white">16 Years</td>
+                <td class="py-3 px-4">Learner permit & graduated license age</td>
+                <td class="py-3 px-4">Birth Date + 16 Calendar Years</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#ff6b35] font-bold">Age of Majority</td>
+                <td class="py-3 px-4 text-white">18 Years</td>
+                <td class="py-3 px-4">Voting rights, legal contracts, adulthood</td>
+                <td class="py-3 px-4">Birth Date + 18 Calendar Years</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#a78bfa] font-bold">Full Legal Adulthood</td>
+                <td class="py-3 px-4 text-white">21 Years</td>
+                <td class="py-3 px-4">Alcohol purchase & general commercial age limit</td>
+                <td class="py-3 px-4">Birth Date + 21 Calendar Years</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#38bdf8] font-bold">Early Retirement</td>
+                <td class="py-3 px-4 text-white">62 Years</td>
+                <td class="py-3 px-4">US Social Security early pension qualification</td>
+                <td class="py-3 px-4">Birth Date + 62 Calendar Years</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-yellow-400 font-bold">Full Retirement (FRA)</td>
+                <td class="py-3 px-4 text-white">65 – 67 Years</td>
+                <td class="py-3 px-4">Medicare enrollment & full pension benefit</td>
+                <td class="py-3 px-4">Birth Date + 67 Calendar Years</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
