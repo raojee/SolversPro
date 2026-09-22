@@ -6,7 +6,7 @@
     <title>Free Internet Speed Test — Accurate Bandwidth, Ping & Jitter | SolversPro</title>
     <meta
       name="description"
-      content="Test your internet connection speed instantly with SolversPro. Accurate real-time download, upload, ping, jitter, and bufferbloat metrics powered by Cloudflare's global edge."
+      content="Internet speed test measuring real-time download and upload bandwidth, ping, jitter, and bufferbloat powered by Cloudflare's global edge network of 330+ cities."
     />
     <meta name="keywords" content="internet speed test, broadband speed test, wifi speed test, download speed, upload speed, ping test, jitter test, bufferbloat test, network speed, cloudflare speed test" />
     <meta name="author" content="SolversPro" />
@@ -19,14 +19,14 @@
     <meta property="og:url" content="https://speed.solverspro.com/" />
     <meta property="og:site_name" content="SolversPro" />
     <meta property="og:title" content="Free Internet Speed Test — Accurate Bandwidth, Ping & Jitter | SolversPro" />
-    <meta property="og:description" content="Accurately test your download and upload bandwidth, latency, jitter, and bufferbloat in real-time powered by Cloudflare's 330+ global edge datacenters." />
-    <meta property="og:image" content="https://solverspro.com/favicon.svg" />
+    <meta property="og:description" content="Internet speed test measuring real-time download and upload bandwidth, ping, jitter, and bufferbloat powered by Cloudflare's global edge network of 330+ cities." />
+    <meta property="og:image" content="https://solverspro.com/og-image.png" />
 
     <!-- Twitter / X -->
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Free Internet Speed Test — SolversPro" />
-    <meta name="twitter:description" content="Real-time internet connection speed test. Measure download, upload, ping, jitter, and loaded latency without ads or bloat." />
-    <meta name="twitter:image" content="https://solverspro.com/favicon.svg" />
+    <meta name="twitter:description" content="Internet speed test measuring real-time download and upload bandwidth, ping, jitter, and bufferbloat powered by Cloudflare's global edge network of 330+ cities." />
+    <meta name="twitter:image" content="https://solverspro.com/og-image.png" />
 
     <!-- Schema.org JSON-LD (WebApplication + FAQPage) -->
     <script type="application/ld+json">
@@ -38,15 +38,15 @@
             "name": "SolversPro Internet Speed Test",
             "url": "https://speed.solverspro.com/",
             "applicationCategory": "UtilitiesApplication",
-            "operatingSystem": "All",
+            "operatingSystem": "Any (web browser)",
             "browserRequirements": "Requires JavaScript. Requires HTML5.",
-            "description": "Accurate, free internet speed test measuring real-time download, upload, ping, jitter, and bufferbloat powered by Cloudflare's global edge network.",
+            "description": "Free internet speed test measuring real-time download bandwidth, upload bandwidth, latency (ping), jitter, and bufferbloat using Cloudflare's global edge network across 330+ cities.",
             "offers": {
               "@type": "Offer",
               "price": "0",
               "priceCurrency": "USD"
             },
-            "publisher": {
+            "provider": {
               "@type": "Organization",
               "name": "SolversPro",
               "url": "https://solverspro.com"
@@ -57,26 +57,34 @@
             "mainEntity": [
               {
                 "@type": "Question",
-                "name": "How does the SolversPro Speed Test work?",
+                "name": "How does the SolversPro Internet Speed Test work?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "The test communicates directly between your web browser and Cloudflare's edge network across 330+ cities worldwide. It performs sequential HTTP requests with varying payload sizes to accurately measure download bandwidth, upload bandwidth, unloaded latency, and loaded latency under load."
+                  "text": "Our speed test is powered by Cloudflare's official open-source measurement engine. It performs multiple parallel HTTPS GET and POST requests with dynamic payload chunks directly against Cloudflare's global edge network across 330+ cities. This measures your true end-to-end throughput, unloaded latency, and loaded bufferbloat."
                 }
               },
               {
                 "@type": "Question",
-                "name": "What is bufferbloat or loaded latency?",
+                "name": "Why does my speed test result differ from my ISP plan?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Bufferbloat occurs when routers and modems excessively buffer packets during heavy data transfers, causing severe latency spikes. Our test measures ping while your connection is actively downloading and uploading to reveal whether your connection lags under load."
+                  "text": "ISPs advertise theoretical maximum \"burst\" speeds under optimal laboratory conditions. Real-world speeds can be affected by Wi-Fi interference, distance from your router, network congestion during peak hours, outdated router hardware, background app updates, or ISP traffic throttling."
                 }
               },
               {
                 "@type": "Question",
-                "name": "What is a good internet speed for streaming and gaming?",
+                "name": "What is bufferbloat and why is it important?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "For 4K video streaming, 25 Mbps download is recommended per screen. For competitive gaming, ping under 30 ms with jitter under 5 ms is ideal. For video calls, 5 to 10 Mbps upload and low jitter ensure crisp audio and video."
+                  "text": "Bufferbloat is high latency that occurs when your router buffers too many packets during heavy downloads or uploads. If your loaded latency is significantly higher than your unloaded latency, your connection will experience lag and stuttering whenever multiple devices are active on your home network."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How can I improve my internet speed?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "To maximize your connection speed: (1) Use an Ethernet cable instead of Wi-Fi whenever possible; (2) Place your Wi-Fi router in a central, elevated location away from thick walls and metal objects; (3) Restart your modem and router periodically; (4) Close bandwidth-heavy background downloads, torrents, or cloud syncing apps; (5) Upgrade your router firmware."
                 }
               }
             ]
@@ -129,7 +137,7 @@
         <!-- Page Header for SEO & Clarity -->
         <div class="hero-text-wrap">
           <h1 class="page-title">Free Internet Speed Test</h1>
-          <p class="page-subtitle">Test real-time download and upload bandwidth, unloaded ping, jitter, and bufferbloat directly against Cloudflare's global edge network.</p>
+          <p class="page-subtitle">The SolversPro Internet Speed Test is a free browser-based diagnostic tool that accurately measures real-time download speed, upload speed, latency (ping), jitter, and bufferbloat using Cloudflare's global edge network across 330+ cities.</p>
         </div>
 
         <!-- Top Network Telemetry Bar -->

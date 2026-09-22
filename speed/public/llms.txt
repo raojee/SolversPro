@@ -2,13 +2,19 @@
 
 > Free, accurate, real-time internet speed test measuring download throughput, upload bandwidth, latency (ping), jitter, and bufferbloat against Cloudflare's global edge network across 330+ cities worldwide.
 
-## Speed Test Services
+## Key Facts
+
+- **Price**: 100% free with no registration, no subscription, and no advertisements.
+- **Technology**: Built on Cloudflare's official open-source speed test engine using parallel HTTPS GET/POST requests with dynamic chunk sizing.
+- **Coverage**: Global edge network spanning 330+ cities worldwide for low-latency testing close to the end user.
+- **Metrics Measured**: Download bandwidth (Mbps), upload bandwidth (Mbps), unloaded ping (ms), jitter (ms), and loaded latency / bufferbloat (ms).
+- **Privacy**: No personal data, IP addresses, or network test results are saved or tracked on SolversPro servers.
+- **Compatibility**: Runs client-side in any modern web browser on desktop, tablet, and mobile devices with zero plugins required.
+
+## Pages & Related Tools
 
 - [Internet Speed Test](https://speed.solverspro.com/): Interactive real-time internet speed test measuring downstream throughput, upstream bandwidth, unloaded latency, jitter, and bufferbloat under load.
-- [Cloudflare Edge Telemetry API](https://speed.solverspro.com/api/meta): Real-time network telemetry API returning client IP, ISP/ASN, and closest Cloudflare datacenter colocation airport code.
-
-## Main Platform & Networking Tools
-
+- [Cloudflare Edge Telemetry API](https://speed.solverspro.com/api/meta): Real-time network telemetry endpoint returning client IP, ISP/ASN, and closest Cloudflare datacenter colocation airport code.
 - [SolversPro Home](https://solverspro.com/): Free problem solvers, developer utilities, engineering tools, and calculators.
 - [Network Tools Hub](https://solverspro.com/network/): Networking utilities including IP subnet calculator, public IP lookup, and speed diagnostics.
 - [IP Subnet Calculator](https://solverspro.com/network/ip-subnet-calculator): Calculate network ID, broadcast, subnet mask, and usable host ranges using CIDR notation.
