@@ -8,7 +8,22 @@ import SearchOverlay from '../components/SearchOverlay.astro';
 <BaseLayout
   title="About Us | SolversPro"
   description="You think a problem, we solve it. SolversPro offers 100% free, fast, and secure utilities — from financial calculators to developer tools — all running in your browser."
+  canonical="https://solverspro.com/about/"
 >
+  <script type="application/ld+json" is:inline>
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About SolversPro",
+    "url": "https://solverspro.com/about/",
+    "description": "Learn about SolversPro, our mission to provide 80+ free online utilities, calculators, and developer tools running 100% locally in your browser.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "SolversPro",
+      "url": "https://solverspro.com/"
+    }
+  }
+  </script>
   <Header />
   <SearchOverlay />
 
@@ -49,7 +64,7 @@ import SearchOverlay from '../components/SearchOverlay.astro';
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto text-center">
         <div class="about-stat group">
-          <div class="text-3xl sm:text-4xl font-bold text-white mb-1" style="font-family: 'JetBrains Mono', monospace;">78<span class="text-[#ff6b35]">+</span></div>
+          <div class="text-3xl sm:text-4xl font-bold text-white mb-1" style="font-family: 'JetBrains Mono', monospace;">80<span class="text-[#ff6b35]">+</span></div>
           <div class="text-xs uppercase tracking-widest text-zinc-500 font-semibold" style="font-family: 'JetBrains Mono', monospace;">Free Tools</div>
         </div>
         <div class="about-stat group">
@@ -223,7 +238,7 @@ import SearchOverlay from '../components/SearchOverlay.astro';
           Ready to Start <span class="text-[#ff6b35]">Solving?</span>
         </h2>
         <p class="text-lg text-zinc-400 mb-10 max-w-lg mx-auto leading-relaxed">
-          Explore 78+ free tools or let our AI solve any problem for you — no sign-up required.
+          Explore 80+ free tools or let our AI solve any problem for you — no sign-up required.
         </p>
 
         <div class="flex flex-wrap items-center justify-center gap-4">

@@ -46,6 +46,20 @@ const relatedTools = [
   canonical="https://solverspro.com/security/"
   schema={faqSchema}
 >
+  <script type="application/ld+json" is:inline>
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Security & Cryptographic Tools — SolversPro",
+    "url": "https://solverspro.com/security/",
+    "description": "Free online security utilities for cryptographically secure password generation running locally in your browser.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "SolversPro",
+      "url": "https://solverspro.com/"
+    }
+  }
+  </script>
   <Header />
   <div class="container mx-auto px-4 py-12 max-w-6xl">
     <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Security Tools' }]} />
@@ -57,6 +71,7 @@ const relatedTools = [
         </div>
         <div>
           <h1 class="text-3xl md:text-4xl font-bold text-white">Security Tools</h1>
+          <p class="text-zinc-300 text-lg leading-relaxed mt-3">SolversPro Security Hub provides free, client-side cryptographic tools including CSPRNG password generation with zero server storage or telemetry.</p>
           <p class="text-zinc-500 mt-1">Privacy-first utilities that run entirely in your browser — zero server uploads.</p>
         </div>
       </div>

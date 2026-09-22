@@ -8,11 +8,26 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 import { toolsByCategory } from '../../data/tools';
 const tools = toolsByCategory['developer'] || [];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Developer Tools",
+  "url": "https://solverspro.com/developer/",
+  "description": "Free web developer tools: 30+ client-side utilities including JSON/XML formatters, format converters, code beautifiers, diff checkers, string escapers, Base64/JWT decoders, and data generators.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
+};
 ---
 
 <BaseLayout
   title="Developer Tools | SolversPro"
   description="Free web developer tools: 30+ utilities including JSON/XML Formatters, Format Converters, Code Beautifiers, Diff Checkers, String Escapers, Base64/JWT Decoders, and Data-to-Class Generators."
+  canonical="https://solverspro.com/developer/"
+  jsonLd={jsonLd}
 >
   <Header />
   <div class="container mx-auto px-4 py-12 max-w-6xl">
@@ -22,6 +37,7 @@ const tools = toolsByCategory['developer'] || [];
     ]} />
     <div class="mb-12 mt-4">
       <h1 class="text-4xl font-bold text-white mb-4">Developer Tools</h1>
+      <p class="text-zinc-300 max-w-3xl text-base leading-relaxed mb-6">SolversPro Developer Tools Hub is a curated collection of 30+ free, client-side engineering utilities designed for syntax formatting, data structure conversions, encryption, hashing, and token inspection without sending code to remote servers.</p>
       
       <div class="prose prose-invert max-w-none text-zinc-300">
         <h2>Web Developer Tools & Data Formatters</h2>

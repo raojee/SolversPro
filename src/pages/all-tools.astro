@@ -13,8 +13,9 @@ const formatCategory = (cat: string) => {
   return cat.charAt(0).toUpperCase() + cat.slice(1) + (cat === 'trades' || cat === 'math' || cat === 'finance' || cat === 'health' || cat === 'developer' || cat === 'security' || cat === 'network' || cat === 'text' ? ' Tools' : '');
 };
 
-// Build flat tool list for client-side search
-const allTools = Object.entries(toolsByCategory).flatMap(([category, items]) =>
+// Build flat tool list for client-side search (excluding alias 'tools' to prevent duplicates)
+const categories = Object.entries(toolsByCategory).filter(([cat]) => cat !== 'tools');
+const allTools = categories.flatMap(([category, items]) =>
   items.map(tool => ({ ...tool, category }))
 );
 const totalCount = allTools.length;
@@ -23,8 +24,22 @@ const totalCount = allTools.length;
 <BaseLayout
   title="All Tools | SolversPro"
   description={`Explore our complete collection of ${totalCount}+ free online calculators, converters, developer utilities, and engineering tools — all running in your browser.`}
-  canonical="https://solverspro.com/all-tools"
+  canonical="https://solverspro.com/all-tools/"
 >
+  <script type="application/ld+json" is:inline>
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Complete Tool Directory — SolversPro",
+    "url": "https://solverspro.com/all-tools/",
+    "description": "Comprehensive directory of 80+ free online developer utilities, calculators, and converters running locally in your browser.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "SolversPro",
+      "url": "https://solverspro.com/"
+    }
+  }
+  </script>
   <Header />
   <SearchOverlay />
 
@@ -38,6 +53,7 @@ const totalCount = allTools.length;
           TOOLKIT
         </span>
         <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">All Tools</h1>
+        <p class="text-zinc-300 text-lg leading-relaxed mb-4">SolversPro directory provides 80+ free, client-side online tools and calculators for developers, engineers, and professionals with 100% in-browser processing and zero data collection.</p>
         <p class="text-lg text-zinc-400 max-w-2xl">Browse our complete collection of <strong class="text-white">{totalCount}+</strong> free tools — all running locally in your browser.</p>
       </div>
 
@@ -61,7 +77,7 @@ const totalCount = allTools.length;
             style="font-family: 'JetBrains Mono', monospace;"
           >
             <option value="">All Categories</option>
-            {Object.keys(toolsByCategory).map(cat => (
+            {categories.map(([cat]) => (
               <option value={cat}>{formatCategory(cat)}</option>
             ))}
           </select>
@@ -80,7 +96,7 @@ const totalCount = allTools.length;
 
       <!-- Tool sections — rendered server-side, filtered client-side -->
       <div id="tools-container" class="space-y-16">
-        {Object.entries(toolsByCategory).map(([category, items]) => (
+        {categories.map(([category, items]) => (
           <section id={`section-${category}`} data-category={category}>
             <div class="flex items-center gap-4 mb-8 border-b border-white/[0.06] pb-4">
               <h2 class="text-2xl font-bold text-white capitalize">{formatCategory(category)}</h2>

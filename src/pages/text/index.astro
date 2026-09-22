@@ -9,15 +9,31 @@ import { toolsByCategory } from '../../data/tools';
 const tools = toolsByCategory['text'] || [];
 ---
 <BaseLayout
-  title="Text Tools | SolversPro"
+  title="Text Tools — Free Word Counter, Case Converter & Text Utilities | SolversPro"
   description="Free online text tools: Word Counter, Morse Code Translator, URL Encoder/Decoder, Case Converter, and Lorem Ipsum Generator. Runs locally in your browser."
+  canonical="https://solverspro.com/text/"
 >
+  <script type="application/ld+json" is:inline>
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Text & String Utilities — SolversPro",
+    "url": "https://solverspro.com/text/",
+    "description": "Free online text tools for word counting, case conversion, regex testing, diff checking, and Morse code translation.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "SolversPro",
+      "url": "https://solverspro.com/"
+    }
+  }
+  </script>
   <Header />
   <div class="container mx-auto px-4 py-12 max-w-6xl">
     <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Text Tools' }]} />
     <div class="mb-12 mt-4">
       <h1 class="text-4xl font-bold text-white mb-4">Text Tools</h1>
-      <p class="text-zinc-400 text-lg max-w-2xl">Handy text utilities for writers, developers, and communicators. All tools run locally in your browser.</p>
+      <p class="text-zinc-300 text-lg leading-relaxed mt-3">SolversPro Text Hub offers free, privacy-first string and typography utilities for word counting, case conversions, regex testing, diff comparisons, Morse code translation, and Lorem Ipsum generation.</p>
+      <p class="text-zinc-400 text-lg max-w-2xl mt-2">Handy text utilities for writers, developers, and communicators. All tools run locally in your browser.</p>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
       {tools.map(tool => <ToolCard {...tool} />)}

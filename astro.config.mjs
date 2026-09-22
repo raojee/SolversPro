@@ -141,7 +141,7 @@ const LASTMOD_MAP = {
   'https://solverspro.com/security/password-generator/': '2026-06-01',
 
   // ── Blog Posts ──────────────────────────────────────────────────────────
-  'https://solverspro.com/blog/70-free-online-tools-in-one-place/':                          '2026-07-10',
+  'https://solverspro.com/blog/80-free-online-tools-in-one-place/':                          '2026-09-23',
   'https://solverspro.com/blog/developer-and-math-solver-tools-guide/':                       '2026-07-05',
   'https://solverspro.com/blog/essential-network-tools-ip-subnet-calculator/':                '2026-07-08',
   'https://solverspro.com/blog/how-to-calculate-roi-and-cash-on-cash-return/':                '2026-07-03',

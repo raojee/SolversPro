@@ -13,7 +13,22 @@ const tools = toolsByCategory['health'] || [];
 <BaseLayout
  title="Health Calculators — Free Nutrition & Fitness Tools | SolversPro"
  description="Free online health and fitness calculators. Calculate your TDEE, BMI, daily calories, and track body composition to hit your nutrition goals safely."
+ canonical="https://solverspro.com/health/"
 >
+ <script type="application/ld+json" is:inline>
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Health & Fitness Calculators — SolversPro",
+    "url": "https://solverspro.com/health/",
+    "description": "Free online health and fitness calculators for TDEE, adult BMI, and CDC pediatric BMI percentiles running privately in your browser.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "SolversPro",
+      "url": "https://solverspro.com/"
+    }
+  }
+ </script>
  <Header />
  <SearchOverlay />
 
@@ -30,7 +45,8 @@ const tools = toolsByCategory['health'] || [];
  ❤️
  </div>
  <div>
- <h1 class="text-3xl md:text-4xl font-bold text-white ">Health Tools</h1>
+ <h1 class="text-3xl md:text-4xl font-bold text-white">Health Tools</h1>
+ <p class="text-zinc-300 text-lg leading-relaxed mt-3">SolversPro Health Hub delivers free, client-side health and nutrition calculators for TDEE, adult BMI, and pediatric BMI percentiles with complete privacy and zero data tracking.</p>
  <p class="text-zinc-500 mt-1">Calories, nutrition, BMI, and body composition calculators.</p>
  </div>
  </div>

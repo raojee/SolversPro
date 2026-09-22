@@ -7,18 +7,34 @@ import ToolCard from '../../components/ToolCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 import { toolsByCategory } from '../../data/tools';
-const tools = toolsByCategory['tools'] || [];
+const tools = toolsByCategory['pdf'] || toolsByCategory['tools'] || [];
 ---
 <BaseLayout
-  title="PDF Tools | SolversPro"
+  title="PDF Tools — Free Client-Side Merge, Split & Converter Tools | SolversPro"
   description="Free online PDF tools. Merge, split, protect, convert, and compose PDF files entirely in your browser. No uploads — 100% private and secure."
+  canonical="https://solverspro.com/pdf/"
 >
+  <script type="application/ld+json" is:inline>
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "PDF Tools & Utilities — SolversPro",
+    "url": "https://solverspro.com/pdf/",
+    "description": "Free online PDF tools to merge, split, password protect, unlock, flatten, and convert documents locally in your browser with zero uploads.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "SolversPro",
+      "url": "https://solverspro.com/"
+    }
+  }
+  </script>
   <Header />
   <SearchOverlay />
   <div class="container mx-auto px-4 py-12 max-w-6xl">
     <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'PDF Tools' }]} />
     <div class="mb-12 mt-4">
       <h1 class="text-4xl font-bold text-white mb-4">PDF Tools</h1>
+      <p class="text-zinc-300 text-lg leading-relaxed mb-6">SolversPro PDF Hub provides free, 100% browser-based PDF utilities to merge, split, encrypt, unlock, flatten, preflight, and convert documents client-side with zero server uploads.</p>
       <div class="prose prose-invert max-w-none text-zinc-300">
         <h2>Free Online PDF Utilities — 100% In Your Browser</h2>
         <p>SolversPro's PDF toolkit gives you professional-grade document processing without ever uploading files to a server. Every tool runs entirely client-side using <strong>pdf-lib</strong> and <strong>PDF.js</strong>, meaning your sensitive documents stay on your device at all times.</p>

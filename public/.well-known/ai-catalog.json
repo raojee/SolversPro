@@ -957,6 +957,59 @@
         "browser-based"
       ],
       "cost": "free"
+    },
+    {
+      "name": "Mortgage Calculator",
+      "description": "Calculate monthly mortgage payments, loan amortization schedules, property taxes, insurance, and total interest paid.",
+      "url": "https://solverspro.com/finance/mortgage-calculator/",
+      "category": "finance-tools",
+      "capabilities": [
+        "mortgage-calculator",
+        "amortization-schedule",
+        "interest-calculation",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "ROI Calculator",
+      "description": "Calculate return on investment (ROI) percentage, annualized return (CAGR), and net profit for capital investments and assets.",
+      "url": "https://solverspro.com/finance/roi-calculator/",
+      "category": "finance-tools",
+      "capabilities": [
+        "roi-calculator",
+        "cagr-calculator",
+        "investment-returns",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Geometry Calculator",
+      "description": "Calculate area, perimeter, surface area, and volume for 2D and 3D geometric shapes with instant formulas.",
+      "url": "https://solverspro.com/math/geometry-calculator/",
+      "category": "math-tools",
+      "capabilities": [
+        "geometry-calculator",
+        "area-perimeter",
+        "volume-surface-area",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Statistics Calculator",
+      "description": "Calculate mean, median, mode, variance, standard deviation, and quartiles for any dataset.",
+      "url": "https://solverspro.com/math/statistics-calculator/",
+      "category": "math-tools",
+      "capabilities": [
+        "statistics-calculator",
+        "mean-median-mode",
+        "standard-deviation",
+        "variance",
+        "browser-based"
+      ],
+      "cost": "free"
     }
   ],
   "entries": [
