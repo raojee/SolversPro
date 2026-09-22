@@ -1,0 +1,32 @@
+User-agent: *
+Allow: /
+
+# AI Crawlers — explicitly allowed
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+Sitemap: https://speedcheck.solverspro.com/sitemap.xml
+
+# Agentic Resource Discovery (ARD)
+Agentmap: https://solverspro.com/.well-known/ai-catalog.json
+
+# LLM-readable site description
+# See: https://speedcheck.solverspro.com/llms.txt

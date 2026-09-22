@@ -127,6 +127,8 @@ function resetUI() {
   detailPing.textContent = '—';
   detailLoaded.textContent = '—';
   detailUpload.textContent = '—';
+
+  document.title = 'Internet Speed Test - Fast & Accurate Broadband Speed Checker | SolversPro SpeedCheck';
 }
 
 // ============================================================
@@ -237,6 +239,9 @@ function runSpeedTest() {
 
     btnRestart.classList.add('visible');
     btnDetails.classList.remove('hidden');
+
+    // Dynamic title like fast.com
+    document.title = `${Math.round(finalDownMbps)} Mbps - Internet Speed Test | SolversPro SpeedCheck`;
   };
 
   // Error

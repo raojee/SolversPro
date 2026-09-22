@@ -3,52 +3,111 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SpeedCheck — Instant Internet Speed Test | SolversPro</title>
+    <title>How Fast Is My Internet? — Instant SpeedCheck | SolversPro</title>
     <meta
       name="description"
-      content="How fast is your internet? SpeedCheck by SolversPro measures your download speed, upload speed, and latency instantly. Powered by Cloudflare's global edge network."
+      content="How fast is your internet? SpeedCheck auto-starts instantly — no clicks needed. Measures download speed, upload speed, and latency via Cloudflare's 330+ global edge network. Free, no ads."
     />
-    <meta name="keywords" content="speed check, internet speed test, fast speed test, download speed, upload speed, ping test, broadband speed, wifi speed test, cloudflare speed test" />
     <meta name="author" content="SolversPro" />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <meta name="theme-color" content="#0a0c1a" />
     <link rel="canonical" href="https://speedcheck.solverspro.com/" />
+    <link rel="alternate" href="https://speed.solverspro.com/" title="Advanced Internet Speed Test with Gauge & Bufferbloat" />
 
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://speedcheck.solverspro.com/" />
     <meta property="og:site_name" content="SolversPro" />
-    <meta property="og:title" content="SpeedCheck — Instant Internet Speed Test | SolversPro" />
-    <meta property="og:description" content="How fast is your internet? Instantly measure download speed, upload speed, and latency powered by Cloudflare's 330+ global edge datacenters." />
+    <meta property="og:title" content="How Fast Is My Internet? — Instant SpeedCheck | SolversPro" />
+    <meta property="og:description" content="Auto-start internet speed test. Download, upload, latency — measured instantly via Cloudflare's 330+ global edge datacenters. Free, no ads." />
     <meta property="og:image" content="https://solverspro.com/favicon.svg" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="SpeedCheck — Instant Internet Speed Test | SolversPro" />
-    <meta name="twitter:description" content="One-click internet speed test. Download, upload, latency — powered by Cloudflare edge network." />
+    <meta name="twitter:title" content="How Fast Is My Internet? — Instant SpeedCheck" />
+    <meta name="twitter:description" content="One-click internet speed test. Download, upload, latency — powered by Cloudflare edge network. Free, no ads." />
     <meta name="twitter:image" content="https://solverspro.com/favicon.svg" />
 
-    <!-- Schema.org JSON-LD -->
+    <!-- Schema.org JSON-LD (WebApplication + FAQPage) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "SpeedCheck by SolversPro",
-        "url": "https://speedcheck.solverspro.com/",
-        "applicationCategory": "UtilitiesApplication",
-        "operatingSystem": "All",
-        "browserRequirements": "Requires JavaScript. Requires HTML5.",
-        "description": "Instant internet speed test measuring download, upload, and latency powered by Cloudflare's global edge network.",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "SolversPro",
-          "url": "https://solverspro.com"
-        }
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "name": "SpeedCheck by SolversPro",
+            "alternateName": ["SpeedCheck", "SolversPro SpeedCheck", "SolversPro Instant Speed Test"],
+            "url": "https://speedcheck.solverspro.com/",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "All",
+            "browserRequirements": "Requires JavaScript. Requires HTML5.",
+            "description": "Instant auto-start internet speed test measuring download speed, upload speed, unloaded latency, and loaded latency (bufferbloat) via Cloudflare's global edge network. Free, no account required.",
+            "featureList": "Auto-start speed test on page load, Download speed measurement (Mbps), Upload speed measurement (Mbps), Unloaded latency / ping (ms), Loaded latency / bufferbloat (ms), Cloudflare edge network testing (330+ cities), Copy results to clipboard, Share results via Web Share API",
+            "screenshot": "https://solverspro.com/favicon.svg",
+            "sameAs": [
+              "https://speed.solverspro.com/",
+              "https://solverspro.com/network/"
+            ],
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "SolversPro",
+              "url": "https://solverspro.com",
+              "sameAs": ["https://solverspro.com"]
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "How does SpeedCheck work?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "SpeedCheck uses Cloudflare's official speed test engine. Your browser communicates directly with Cloudflare's nearest edge datacenter (330+ cities worldwide) using multiple parallel HTTPS requests. It measures download bandwidth, upload bandwidth, unloaded latency (ping), and loaded latency (bufferbloat) — all without ISP caching interference."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Why does SpeedCheck auto-start without clicking a button?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "SpeedCheck is designed for instant results — like fast.com. The speed test begins automatically when you open the page so you get your download speed in seconds without needing to click anything. You can restart the test anytime with the refresh button."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What is the difference between unloaded and loaded latency?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Unloaded latency (ping) measures your connection's reaction time when idle. Loaded latency measures ping while actively downloading or uploading heavy data. If loaded latency is much higher than unloaded, your router has bufferbloat — meaning video calls and gaming will lag when someone else on your network is streaming."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What is a good internet speed?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "For general browsing, 5-10 Mbps download is sufficient. HD streaming needs 10-15 Mbps, 4K streaming needs 25+ Mbps. Video conferencing requires 5-10 Mbps upload. Competitive gaming needs under 30 ms ping with under 5 ms jitter. Heavy cloud backups benefit from 100+ Mbps download."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How is SpeedCheck different from speed.solverspro.com?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "SpeedCheck (speedcheck.solverspro.com) is the minimalist, instant-start version — like fast.com. It focuses on your download speed with optional details. The Advanced Speed Test (speed.solverspro.com) shows a full gauge visualization, detailed metric cards, peak speeds, jitter, bufferbloat analysis, and experience quality scores for gaming, streaming, and video calls."
+                }
+              }
+            ]
+          }
+        ]
       }
     </script>
 
@@ -66,6 +125,26 @@
     <div class="bg-glow bg-glow--top"></div>
     <div class="bg-glow bg-glow--bottom"></div>
 
+    <!-- Noscript fallback for AI crawlers and non-JS clients -->
+    <noscript>
+      <div style="max-width:720px;margin:60px auto;padding:0 24px;font-family:Inter,sans-serif;color:#f1f5f9;">
+        <h1>SpeedCheck — Free Instant Internet Speed Test by SolversPro</h1>
+        <p>Test your internet download speed, upload speed, and latency instantly. SpeedCheck auto-starts when you visit — no clicks needed. Powered by Cloudflare's global edge network across 330+ cities.</p>
+        <h2>How SpeedCheck Works</h2>
+        <p>Your browser communicates directly with Cloudflare's nearest edge datacenter using parallel HTTPS requests. SpeedCheck measures download bandwidth, upload bandwidth, unloaded latency (ping), and loaded latency (bufferbloat) without ISP caching interference.</p>
+        <h2>What Is a Good Internet Speed?</h2>
+        <ul>
+          <li><strong>General Browsing:</strong> 5–10 Mbps download</li>
+          <li><strong>HD Streaming (1080p):</strong> 10–15 Mbps download</li>
+          <li><strong>4K Streaming:</strong> 25+ Mbps download</li>
+          <li><strong>Video Conferencing:</strong> 5–10 Mbps upload, under 40ms ping</li>
+          <li><strong>Competitive Gaming:</strong> Under 30ms ping, under 5ms jitter</li>
+        </ul>
+        <p>SpeedCheck requires JavaScript to run the speed test. Please enable JavaScript in your browser.</p>
+        <p><a href="https://speed.solverspro.com/">Try our Advanced Speed Test →</a> | <a href="https://solverspro.com/all-tools/">All SolversPro Tools</a></p>
+      </div>
+    </noscript>
+
     <!-- Main Centered Container -->
     <main class="app-main">
       <div class="app-center">
@@ -80,8 +159,8 @@
           <span class="brand-name">Speed<span class="brand-accent">Check</span></span>
         </a>
 
-        <!-- Status Label -->
-        <p id="status-label" class="status-label">Your Internet speed is</p>
+        <!-- SEO H1 — visually styled as subtitle -->
+        <h1 id="status-label" class="status-label">Your Internet speed is</h1>
 
         <!-- Hero Speed Display -->
         <div class="speed-hero">
@@ -182,6 +261,89 @@
 
       </div>
     </main>
+
+    <!-- Below-Fold SEO Content — always in DOM for crawlers, visually below viewport -->
+    <section class="seo-content" aria-label="Speed test information">
+      <div class="seo-inner">
+
+        <div class="seo-block">
+          <h2>How SpeedCheck Works</h2>
+          <p>SpeedCheck uses Cloudflare's official speed test engine to measure your real internet connection performance. Your browser communicates directly with the nearest Cloudflare edge datacenter — part of a network spanning <strong>330+ cities worldwide</strong> — using multiple parallel HTTPS requests with dynamic payload sizes.</p>
+          <p>Unlike many speed tests that route through a single server, SpeedCheck connects to Cloudflare's anycast edge, eliminating ISP artificial caching and revealing your true real-world throughput. The test runs three phases automatically: <strong>latency measurement</strong>, <strong>download bandwidth testing</strong>, and <strong>upload bandwidth testing</strong>.</p>
+        </div>
+
+        <div class="seo-block">
+          <h2>Understanding Your Results</h2>
+          <div class="seo-metrics-grid">
+            <div class="seo-metric">
+              <h3>⬇️ Download Speed</h3>
+              <p>How fast data transfers from the internet to your device, measured in Mbps (megabits per second). High download speed is critical for streaming 4K video (25+ Mbps), fast webpage loads, and quick software downloads.</p>
+            </div>
+            <div class="seo-metric">
+              <h3>⬆️ Upload Speed</h3>
+              <p>How fast your device sends data to the internet. Essential for crisp Zoom and Teams video calls (5–10 Mbps), Twitch streaming, uploading cloud backups, and sending large email attachments.</p>
+            </div>
+            <div class="seo-metric">
+              <h3>⚡ Latency (Ping)</h3>
+              <p>The round-trip reaction time in milliseconds for a data packet to reach the edge server and return. Lower ping (under 30 ms) is vital for lag-free multiplayer gaming and snappy web browsing.</p>
+            </div>
+            <div class="seo-metric">
+              <h3>🔄 Loaded Latency</h3>
+              <p>Ping measured while your connection is actively downloading or uploading heavy traffic. If this is significantly higher than your unloaded ping, your router has <strong>bufferbloat</strong> — meaning video calls and gaming lag whenever someone else in the house streams or downloads.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="seo-block">
+          <h2>Recommended Internet Speeds by Activity</h2>
+          <div class="seo-table-wrap">
+            <table class="seo-table">
+              <thead>
+                <tr>
+                  <th>Activity</th>
+                  <th>Download</th>
+                  <th>Upload</th>
+                  <th>Ping</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>General Browsing & Email</td><td>5–10 Mbps</td><td>1–2 Mbps</td><td>&lt; 100 ms</td></tr>
+                <tr><td>HD Streaming (1080p)</td><td>10–15 Mbps</td><td>2 Mbps</td><td>&lt; 70 ms</td></tr>
+                <tr><td>4K Ultra HD Streaming</td><td>25–50 Mbps</td><td>5 Mbps</td><td>&lt; 50 ms</td></tr>
+                <tr><td>Video Conferencing (Zoom/Teams)</td><td>10–25 Mbps</td><td>5–10 Mbps</td><td>&lt; 40 ms</td></tr>
+                <tr><td>Competitive Online Gaming</td><td>25–50 Mbps</td><td>5–10 Mbps</td><td>&lt; 25 ms</td></tr>
+                <tr><td>Cloud Backups & Large Downloads</td><td>100+ Mbps</td><td>20+ Mbps</td><td>Any</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="seo-block">
+          <h2>Frequently Asked Questions</h2>
+          <details class="seo-faq" open>
+            <summary>How does SpeedCheck work?</summary>
+            <p>SpeedCheck uses Cloudflare's official speed test engine. Your browser communicates directly with Cloudflare's nearest edge datacenter (330+ cities worldwide) using multiple parallel HTTPS requests. It measures download bandwidth, upload bandwidth, unloaded latency (ping), and loaded latency (bufferbloat) — all without ISP caching interference.</p>
+          </details>
+          <details class="seo-faq">
+            <summary>Why does SpeedCheck auto-start without clicking a button?</summary>
+            <p>SpeedCheck is designed for instant results — like fast.com by Netflix. The speed test begins automatically when you open the page so you get your download speed in seconds without needing to click anything. You can restart the test anytime with the green refresh button.</p>
+          </details>
+          <details class="seo-faq">
+            <summary>What is the difference between unloaded and loaded latency?</summary>
+            <p>Unloaded latency (ping) measures your connection's reaction time when idle. Loaded latency measures ping while actively downloading or uploading heavy data. If loaded latency is much higher than unloaded, your router has bufferbloat — video calls and gaming will lag when someone else on your network is streaming or downloading.</p>
+          </details>
+          <details class="seo-faq">
+            <summary>What is a good internet speed?</summary>
+            <p>For general browsing, 5–10 Mbps download is sufficient. HD streaming needs 10–15 Mbps, 4K streaming needs 25+ Mbps per screen. Video conferencing requires 5–10 Mbps upload with low jitter. Competitive gaming needs under 30 ms ping. Heavy cloud backups benefit from 100+ Mbps.</p>
+          </details>
+          <details class="seo-faq">
+            <summary>How is SpeedCheck different from the Advanced Speed Test?</summary>
+            <p>SpeedCheck (this page) is the minimalist, instant-start version focused purely on your download speed with optional details. The <a href="https://speed.solverspro.com/">Advanced Speed Test</a> shows a full gauge visualization, detailed metric cards, peak speeds, jitter measurements, bufferbloat analysis, and experience quality scores for gaming, streaming, and video calls.</p>
+          </details>
+        </div>
+
+      </div>
+    </section>
 
     <!-- Footer -->
     <footer class="app-footer">
