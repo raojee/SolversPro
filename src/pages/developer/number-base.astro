@@ -6,22 +6,34 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Number Base Converter",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All",
+  "url": "https://solverspro.com/developer/number-base/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Convert numbers between binary (base 2), octal (base 8), decimal (base 10), and hexadecimal (base 16) instantly. Free and runs in your browser."
+  "description": "Free online number base converter to instantly convert values between binary (base 2), octal (base 8), decimal (base 10), and hexadecimal (base 16) formats.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
 <BaseLayout
   title="Number Base Converter | SolversPro"
   description="Convert numbers between binary, octal, decimal, and hexadecimal instantly. Free developer tool — 100% client-side, no data sent to any server."
-  canonical="https://solverspro.com/developer/number-base"
+  canonical="https://solverspro.com/developer/number-base/"
   schema={schema}
 >
   <Header />
@@ -37,7 +49,9 @@ const schema = {
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">🔢 Number Base Converter</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Instantly convert numbers between binary (base 2), octal (base 8), decimal (base 10), and hexadecimal (base 16). Type in any field to convert all.</p>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro Number Base Converter is a free browser-based developer utility that calculates bi-directional conversions between binary (base 2), octal (base 8), decimal (base 10), and hexadecimal (base 16) in real time with client-side privacy.
+        </p>
       </div>
 
       <!-- Main Converter -->
@@ -58,24 +72,23 @@ const schema = {
             class="base-input w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-lg focus:ring-1 focus:ring-[#2dd4bf] focus:outline-none font-mono text-lg text-white placeholder:text-zinc-700"
             placeholder="e.g. 255"
             autocomplete="off"
-            spellcheck="false"
           />
         </div>
 
         <!-- Hexadecimal -->
-        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 group hover:border-[#ff6b35]/30 transition-all">
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 group hover:border-blue-400/30 transition-all">
           <div class="flex justify-between items-center mb-3">
             <div>
-              <span class="text-sm font-bold text-[#ff6b35] uppercase tracking-wider">Hexadecimal</span>
+              <span class="text-sm font-bold text-blue-400 uppercase tracking-wider">Hexadecimal</span>
               <span class="ml-2 text-xs text-zinc-600 font-mono">Base 16 · 0–9, A–F</span>
             </div>
-            <button class="btn-copy text-xs text-zinc-500 hover:text-[#ff6b35] transition-colors" data-target="hex">Copy</button>
+            <button class="btn-copy text-xs text-zinc-500 hover:text-blue-400 transition-colors" data-target="hex">Copy</button>
           </div>
           <input
             type="text"
             id="inp-hex"
             data-base="16"
-            class="base-input w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-lg focus:ring-1 focus:ring-[#ff6b35] focus:outline-none font-mono text-lg text-white placeholder:text-zinc-700 uppercase"
+            class="base-input w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-lg focus:ring-1 focus:ring-blue-400 focus:outline-none font-mono text-lg text-white placeholder:text-zinc-700 uppercase"
             placeholder="e.g. FF"
             autocomplete="off"
             spellcheck="false"
@@ -134,23 +147,87 @@ const schema = {
       </div>
 
       <!-- Reference Table -->
-      <div class="mt-10 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
-        <h2 class="text-sm font-bold text-zinc-300 uppercase tracking-wider mb-4">Quick Reference — Decimal 0–15</h2>
+      <div class="mt-10 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-base font-bold text-white mb-2">Numeral Base Conversion Quick Reference (0–15)</h2>
+        <p class="text-xs text-zinc-400 mb-4">Standard equivalence table across decimal, hexadecimal, octal, and 4-bit nibbles.</p>
         <div class="overflow-x-auto">
-          <table class="w-full text-xs font-mono">
+          <table class="w-full text-left text-xs border-collapse">
             <thead>
-              <tr class="text-zinc-500 border-b border-white/[0.06]">
-                <th class="text-left pb-2 pr-4">Dec</th>
-                <th class="text-left pb-2 pr-4">Hex</th>
-                <th class="text-left pb-2 pr-4">Oct</th>
-                <th class="text-left pb-2">Bin</th>
+              <tr class="border-b border-white/[0.08] text-zinc-300">
+                <th class="py-2.5 px-3 font-semibold">Decimal (Base 10)</th>
+                <th class="py-2.5 px-3 font-semibold">Hexadecimal (Base 16)</th>
+                <th class="py-2.5 px-3 font-semibold">Octal (Base 8)</th>
+                <th class="py-2.5 px-3 font-semibold">Binary (Base 2)</th>
               </tr>
             </thead>
-            <tbody id="ref-table" class="text-zinc-400 divide-y divide-white/[0.03]">
+            <tbody class="divide-y divide-white/[0.04] text-zinc-400 font-mono">
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">0</td>
+                <td class="py-2 px-3 text-blue-400">0</td>
+                <td class="py-2 px-3 text-yellow-400">0</td>
+                <td class="py-2 px-3 text-purple-400">0000</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">1</td>
+                <td class="py-2 px-3 text-blue-400">1</td>
+                <td class="py-2 px-3 text-yellow-400">1</td>
+                <td class="py-2 px-3 text-purple-400">0001</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">2</td>
+                <td class="py-2 px-3 text-blue-400">2</td>
+                <td class="py-2 px-3 text-yellow-400">2</td>
+                <td class="py-2 px-3 text-purple-400">0010</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">4</td>
+                <td class="py-2 px-3 text-blue-400">4</td>
+                <td class="py-2 px-3 text-yellow-400">4</td>
+                <td class="py-2 px-3 text-purple-400">0100</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">8</td>
+                <td class="py-2 px-3 text-blue-400">8</td>
+                <td class="py-2 px-3 text-yellow-400">10</td>
+                <td class="py-2 px-3 text-purple-400">1000</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">10</td>
+                <td class="py-2 px-3 text-blue-400">A</td>
+                <td class="py-2 px-3 text-yellow-400">12</td>
+                <td class="py-2 px-3 text-purple-400">1010</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">15</td>
+                <td class="py-2 px-3 text-blue-400">F</td>
+                <td class="py-2 px-3 text-yellow-400">17</td>
+                <td class="py-2 px-3 text-purple-400">1111</td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={[
+        {
+          question: "How does the number base converter work?",
+          answer: "Typing any integer into the decimal, hexadecimal, octal, or binary input field automatically re-computes and syncs the equivalent representation across all other numeral bases simultaneously."
+        },
+        {
+          question: "Are calculations performed client-side?",
+          answer: "Yes, all radix conversions use native JavaScript BigInt and parseInt algorithms directly in your browser without transmitting numbers to external servers."
+        },
+        {
+          question: "What is the maximum integer size supported?",
+          answer: "The converter supports arbitrary-precision integers up to 64-bit safe bounds, preventing overflow inaccuracies common in simple calculators."
+        },
+        {
+          question: "Is this number converter free to use?",
+          answer: "Yes, the SolversPro Number Base Converter is 100% free with unlimited conversions and no registration required."
+        }
+      ]} />
+
       <ToolShare title="Number Base Converter" url="https://solverspro.com/developer/number-base" />
       <SimilarTools category="developer" currentPath="/developer/number-base" />
     
@@ -216,14 +293,16 @@ const schema = {
     });
   });
 
-  // Build reference table
-  const tbody = document.getElementById('ref-table')!;
-  for (let i = 0; i <= 15; i++) {
-    tbody.innerHTML += `<tr class="hover:bg-white/[0.02] transition-colors">
-      <td class="py-1.5 pr-4 text-zinc-300">${i}</td>
-      <td class="py-1.5 pr-4 text-[#ff6b35]">${i.toString(16).toUpperCase()}</td>
-      <td class="py-1.5 pr-4 text-yellow-400">${i.toString(8)}</td>
-      <td class="py-1.5 text-purple-400">${i.toString(2).padStart(4, '0')}</td>
-    </tr>`;
+  // Build reference table if dynamic container exists
+  const tbody = document.getElementById('ref-table');
+  if (tbody) {
+    for (let i = 0; i <= 15; i++) {
+      tbody.innerHTML += `<tr class="hover:bg-white/[0.02] transition-colors">
+        <td class="py-1.5 pr-4 text-zinc-300">${i}</td>
+        <td class="py-1.5 pr-4 text-[#ff6b35]">${i.toString(16).toUpperCase()}</td>
+        <td class="py-1.5 pr-4 text-yellow-400">${i.toString(8)}</td>
+        <td class="py-1.5 text-purple-400">${i.toString(2).padStart(4, '0')}</td>
+      </tr>`;
+    }
   }
 </script>

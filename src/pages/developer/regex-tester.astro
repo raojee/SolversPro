@@ -6,22 +6,34 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Regex Tester & Debugger",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All",
+  "url": "https://solverspro.com/developer/regex-tester/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Test and debug regular expressions in real-time. See live match highlighting, capture groups, and match details. 100% private — runs in your browser."
+  "description": "Free online regex tester and debugger to test regular expressions in real time with live match highlighting and capture group extraction locally in your browser.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
 <BaseLayout
   title="Regex Tester & Debugger | SolversPro"
-  description="Test and debug regular expressions in real-time with live match highlighting and capture groups. Free, private, and instant — no server required."
-  canonical="https://solverspro.com/developer/regex-tester"
+  description="Regex tester and debugger to test regular expressions with real-time match highlighting, capture group extraction, and syntax validation locally in your browser."
+  canonical="https://solverspro.com/developer/regex-tester/"
   schema={schema}
 >
   <Header />
@@ -37,7 +49,9 @@ const schema = {
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">⚡ Regex Tester & Debugger</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Test your regular expressions in real-time. See every match highlighted, inspect capture groups, and debug patterns instantly — all in your browser.</p>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro Regex Tester & Debugger is a free browser-based developer utility that validates regular expressions with real-time match highlighting and capture group extraction client-side with zero server uploads.
+        </p>
       </div>
 
       <!-- Regex Input -->
@@ -115,6 +129,95 @@ const schema = {
           ))}
         </div>
       </div>
+
+      <!-- Reference Table -->
+      <div class="mt-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-base font-bold text-white mb-2">ECMAScript Regular Expression Syntax Reference</h2>
+        <p class="text-xs text-zinc-400 mb-4">Standard JavaScript RegExp tokens, character classes, and boundary assertions.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-300">
+                <th class="py-2.5 px-3 font-semibold">Token</th>
+                <th class="py-2.5 px-3 font-semibold">Category</th>
+                <th class="py-2.5 px-3 font-semibold">Description</th>
+                <th class="py-2.5 px-3 font-semibold">Example Match</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-400 font-mono">
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">\d / \D</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Character Class</td>
+                <td class="py-2 px-3 font-sans">Matches any digit [0-9] / non-digit [^0-9]</td>
+                <td class="py-2 px-3 text-emerald-400">4 in "id4"</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">\w / \W</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Character Class</td>
+                <td class="py-2 px-3 font-sans">Word character [a-zA-Z0-9_] / non-word</td>
+                <td class="py-2 px-3 text-emerald-400">user_1 in "@user_1"</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">\s / \S</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Character Class</td>
+                <td class="py-2 px-3 font-sans">Whitespace (spaces, tabs, newlines) / non-whitespace</td>
+                <td class="py-2 px-3 text-emerald-400">\t in "val\t1"</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">^ and $</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Anchor</td>
+                <td class="py-2 px-3 font-sans">Start of line/string and end of line/string</td>
+                <td class="py-2 px-3 text-emerald-400">^http.*$</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">\b and \B</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Anchor</td>
+                <td class="py-2 px-3 font-sans">Word boundary / non-word boundary position</td>
+                <td class="py-2 px-3 text-emerald-400">\bcat\b matches "cat" only</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">+ and *</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Quantifier</td>
+                <td class="py-2 px-3 font-sans">1 or more repetitions / 0 or more repetitions</td>
+                <td class="py-2 px-3 text-emerald-400">a+ matches "aaa"</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">? and &#123;n,m&#125;</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Quantifier</td>
+                <td class="py-2 px-3 font-sans">Optional (0 or 1) / between n and m times</td>
+                <td class="py-2 px-3 text-emerald-400">\d&#123;2,4&#125; matches 2026</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-[#2dd4bf] font-bold">(...) and (?&lt;name&gt;...)</td>
+                <td class="py-2 px-3 text-zinc-300 font-sans">Grouping</td>
+                <td class="py-2 px-3 font-sans">Numbered capture group / Named capture group</td>
+                <td class="py-2 px-3 text-emerald-400">(?&lt;year&gt;\d&#123;4&#125;)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={[
+        {
+          question: "Does the regex tester run client-side?",
+          answer: "Yes, all regular expression evaluations, match calculations, and capture group extractions execute 100% locally in your browser using the JavaScript RegExp engine without sending your text to any server."
+        },
+        {
+          question: "Which regex dialect does this tool support?",
+          answer: "It operates on ECMAScript (JavaScript) regular expression syntax, including flags g (global), i (case-insensitive), m (multiline), and s (dotAll)."
+        },
+        {
+          question: "Can I extract capture groups and match offsets?",
+          answer: "Yes, each match card enumerates the full matched substring, character index start/end positions, and all indexed or named capture groups."
+        },
+        {
+          question: "Is this regex tester free to use?",
+          answer: "Yes, the SolversPro Regex Tester is completely free with no usage quotas, paywalls, or account registration required."
+        }
+      ]} />
+
       <ToolShare title="Regex Tester & Debugger" url="https://solverspro.com/developer/regex-tester" />
       <SimilarTools category="developer" currentPath="/developer/regex-tester" />
     

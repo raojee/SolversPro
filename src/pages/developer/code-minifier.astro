@@ -6,22 +6,34 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Code Minifier (HTML, CSS, JS)",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All",
+  "url": "https://solverspro.com/developer/code-minifier/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Instantly minify HTML, CSS, and JavaScript. Remove whitespace, comments, and optimize your code for production."
+  "description": "Free online code minifier to compress HTML, CSS, and JavaScript files instantly in your browser with zero server uploads.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
 <BaseLayout
   title="Code Minifier (HTML, CSS, JS) | SolversPro"
-  description="Instantly minify HTML, CSS, and JavaScript. Remove whitespace, comments, and optimize your code for production. Free and browser-based."
-  canonical="https://solverspro.com/developer/code-minifier"
+  description="Code minifier to compress HTML, CSS, and JavaScript source code instantly. Remove whitespace and comments locally with zero server uploads."
+  canonical="https://solverspro.com/developer/code-minifier/"
   schema={schema}
 >
   <Header />
@@ -37,7 +49,9 @@ const schema = {
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">🗜️ Code Minifier</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Instantly minify HTML, CSS, and JavaScript code. Reduce file sizes by stripping unnecessary whitespace, line breaks, and comments.</p>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro Code Minifier is a free browser-based developer tool that compresses HTML, CSS, and JavaScript source code by stripping whitespace, comments, and redundant formatting client-side with zero server uploads.
+        </p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
@@ -58,10 +72,9 @@ const schema = {
             spellcheck="false"
           ></textarea>
            <div class="mt-4 flex gap-2">
-            <button id="btn-minify" class="w-full px-6 py-3 bg-[#ff6b35] hover:bg-[#ff8c5a] text-white rounded-xl font-bold transition-all">
-              Minify
-            </button>
-          </div>
+             <button id="btn-minify" class="btn-primary flex-1 py-2 text-sm font-semibold rounded-lg bg-[#2dd4bf] text-black hover:bg-[#5eead4] transition-colors">Minify Code</button>
+             <button id="btn-clear" class="px-4 py-2 text-sm font-semibold rounded-lg border border-white/[0.06] text-zinc-400 hover:text-white hover:bg-white/[0.03] transition-colors">Clear</button>
+           </div>
         </div>
 
         <!-- Output -->
@@ -83,6 +96,56 @@ const schema = {
           </div>
         </div>
       </div>
+
+      <!-- Citable Content: Code Minification Specifications -->
+      <div class="mt-16 w-full max-w-4xl mx-auto">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-white mb-2">Code Minification Specifications & Compression Benchmarks</h2>
+          <p class="text-zinc-400 text-sm">
+            Overview of client-side syntax compression techniques, typical byte reduction ratios, and execution safety rules.
+          </p>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-white/[0.08] bg-white/[0.02]">
+          <table class="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-white/[0.08] bg-white/[0.04] text-zinc-300 font-semibold">
+                <th class="py-3 px-4">Language</th>
+                <th class="py-3 px-4">Typical Size Savings</th>
+                <th class="py-3 px-4">Optimization Strategy</th>
+                <th class="py-3 px-4">Browser Execution Safety</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.06] text-zinc-400">
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">HTML</td>
+                <td class="py-3 px-4 text-zinc-300">15% – 35%</td>
+                <td class="py-3 px-4">Removes HTML comments, collapses multi-spaces between tags, trims leading/trailing whitespace</td>
+                <td class="py-3 px-4 text-emerald-400">100% Safe (DOM preserved)</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">CSS</td>
+                <td class="py-3 px-4 text-zinc-300">20% – 45%</td>
+                <td class="py-3 px-4">Strips block comments (<code class="font-mono">/*...*/</code>), removes line breaks, collapses space around colons and braces</td>
+                <td class="py-3 px-4 text-emerald-400">100% Safe (CSSOM preserved)</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">JavaScript</td>
+                <td class="py-3 px-4 text-zinc-300">25% – 50%</td>
+                <td class="py-3 px-4">Removes single/multi-line comments, strips redundant line feeds, trims non-essential whitespace</td>
+                <td class="py-3 px-4 text-emerald-400">100% Safe (AST preserved)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section with Schema.org JSON-LD -->
+      <ToolFAQ faqs={[
+        { question: "Does minifying code change how it behaves in the browser?", answer: "No. Minification only strips non-functional characters such as formatting whitespace, line returns, and developer comments. The parsed AST and execution logic remain 100% identical." },
+        { question: "Is my source code uploaded to any external server during minification?", answer: "No. All minification algorithms execute entirely inside your local browser sandbox via JavaScript. Your source code never leaves your device." },
+        { question: "What is the difference between code minification and compression (Gzip/Brotli)?", answer: "Minification optimizes the plain text code structure before transmission. Gzip and Brotli apply dictionary and Huffman encoding during network transit. Using both together yields maximum bandwidth savings." }
+      ]} />
 
       <ToolShare title="Code Minifier" url="https://solverspro.com/developer/code-minifier" />
       <SimilarTools category="developer" currentPath="/developer/code-minifier" />

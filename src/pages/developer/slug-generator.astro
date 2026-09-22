@@ -6,22 +6,34 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "URL Slug Generator",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All",
+  "url": "https://solverspro.com/developer/slug-generator/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Convert any text into a SEO-friendly URL slug. Instantly remove special characters, spaces, and generate clean slugs."
+  "description": "Free online URL slug generator to convert titles and phrases into clean, SEO-friendly URL slugs locally in your browser with zero server uploads.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
 <BaseLayout
   title="URL Slug Generator | SolversPro"
-  description="Convert any text into a SEO-friendly URL slug. Instantly remove special characters, spaces, and generate clean slugs. Free and browser-based."
-  canonical="https://solverspro.com/developer/slug-generator"
+  description="URL slug generator to convert titles and phrases into clean, SEO-friendly URL slugs. Strips special characters, accents, and punctuation in your browser."
+  canonical="https://solverspro.com/developer/slug-generator/"
   schema={schema}
 >
   <Header />
@@ -37,7 +49,9 @@ const schema = {
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">🔗 URL Slug Generator</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Convert any text or title into an SEO-friendly URL slug instantly. Removes special characters, replaces spaces with hyphens, and lowercases text.</p>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro URL Slug Generator is a free browser-based developer utility that transforms text strings, headlines, and blog titles into standardized, SEO-friendly URL slugs client-side with zero server uploads.
+        </p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
@@ -66,6 +80,68 @@ const schema = {
           ></textarea>
         </div>
       </div>
+
+      <!-- Citable Content: URL Slug Normalization Rules -->
+      <div class="mt-16 w-full max-w-4xl mx-auto">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-white mb-2">URL Slug Character Normalization & Transformation Rules</h2>
+          <p class="text-zinc-400 text-sm">
+            Standard character sanitization algorithms applied to convert arbitrary text strings into clean RFC 3986 URI paths.
+          </p>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-white/[0.08] bg-white/[0.02]">
+          <table class="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-white/[0.08] bg-white/[0.04] text-zinc-300 font-semibold">
+                <th class="py-3 px-4">Character Pattern</th>
+                <th class="py-3 px-4">Normalization Rule</th>
+                <th class="py-3 px-4">Input Example</th>
+                <th class="py-3 px-4">Generated Slug</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.06] text-zinc-400">
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Uppercase Letters</td>
+                <td class="py-3 px-4">Converted to lowercase ASCII (<code class="font-mono">a-z</code>)</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">Top 10 Developer Tools</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">top-10-developer-tools</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Diacritics & Accents</td>
+                <td class="py-3 px-4">Decomposed (NFD) and stripped to ASCII base characters</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">Café & Résumé Guide</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">cafe-resume-guide</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Whitespace & Tabs</td>
+                <td class="py-3 px-4">Replaced with a single hyphen (<code class="font-mono">-</code>)</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">Web    Development</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">web-development</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Special Characters</td>
+                <td class="py-3 px-4">Punctuation (<code class="font-mono">!@#$%^&*()+=</code>) stripped entirely</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">Save 50% Off Today!</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">save-50-off-today</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Consecutive Hyphens</td>
+                <td class="py-3 px-4">Collapsed into a single hyphen</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">React --- Node.js</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">react-nodejs</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section with Schema.org JSON-LD -->
+      <ToolFAQ faqs={[
+        { question: "Why are clean URL slugs important for search engine optimization (SEO)?", answer: "Clean URL slugs make links human-readable, improve click-through rates in search engine results pages, and provide crawlers with instant contextual relevance for the page topic." },
+        { question: "How does this tool handle non-English characters and accents?", answer: "The generator uses Unicode Normalization Form Canonical Decomposition (NFD) to separate diacritical marks from letters, converting characters like é, ñ, and ü to their clean ASCII equivalents (e, n, u)." },
+        { question: "Is my text data stored or sent to any server?", answer: "No. All text transformations and regular expressions execute 100% client-side inside your browser sandbox. Your input titles are never transmitted or logged." }
+      ]} />
 
       <ToolShare title="URL Slug Generator" url="https://solverspro.com/developer/slug-generator" />
       <SimilarTools category="developer" currentPath="/developer/slug-generator" />

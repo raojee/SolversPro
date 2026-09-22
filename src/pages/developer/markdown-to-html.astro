@@ -6,22 +6,34 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Markdown to HTML Converter",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All",
+  "url": "https://solverspro.com/developer/markdown-to-html/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Convert Markdown text into clean HTML code instantly. Supports GitHub Flavored Markdown (GFM)."
+  "description": "Free online Markdown to HTML converter with live preview. Convert GitHub Flavored Markdown into clean HTML markup locally in your browser.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
 <BaseLayout
   title="Markdown to HTML Converter | SolversPro"
-  description="Convert Markdown text into clean HTML code instantly. Supports GitHub Flavored Markdown (GFM). Free and browser-based."
-  canonical="https://solverspro.com/developer/markdown-to-html"
+  description="Markdown to HTML converter with live visual preview. Instantly convert CommonMark and GitHub Flavored Markdown into clean HTML with zero server uploads."
+  canonical="https://solverspro.com/developer/markdown-to-html/"
   schema={schema}
 >
   <Header />
@@ -40,7 +52,9 @@ const schema = {
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">📝 Markdown to HTML</h1>
-        <p class="text-zinc-300 text-lg max-w-2xl">Convert Markdown text into clean HTML code instantly. Real-time preview and raw HTML generation, powered by marked.js.</p>
+        <p class="text-zinc-300 text-lg max-w-2xl">
+          The SolversPro Markdown to HTML Converter is a free browser-based developer tool that instantly parses CommonMark and GitHub Flavored Markdown into semantic HTML markup client-side with zero server uploads.
+        </p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
@@ -58,25 +72,19 @@ const schema = {
             spellcheck="false"
           ># Hello World
 
-This is a **Markdown** to HTML converter.
+This is a **markdown** preview.
 
-- It's fast
-- It's free
-- It runs locally
-
-You can write `inline code` or block code:
-
-```javascript
-console.log("Hello SolversPro!");
-```</textarea>
+- Fast
+- Clean
+- In-browser</textarea>
         </div>
 
         <!-- Output Tabs -->
         <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 flex flex-col h-full min-h-[400px]">
-          <div class="flex justify-between items-center mb-3 border-b border-white/[0.06] pb-3">
-             <div class="flex gap-4" role="tablist" aria-label="Markdown output display modes">
-               <button id="tab-html" role="tab" aria-selected="true" aria-controls="md-output-html" class="text-sm font-semibold tracking-wider text-[#2dd4bf] uppercase cursor-pointer">HTML Code</button>
-               <button id="tab-preview" role="tab" aria-selected="false" aria-controls="md-output-preview" class="text-sm font-semibold tracking-wider text-zinc-400 hover:text-white uppercase transition-colors cursor-pointer">Preview</button>
+          <div class="flex justify-between items-center mb-3">
+             <div class="flex gap-2">
+                <button id="tab-html" aria-label="Show Raw HTML Output Code" class="px-3 py-1 bg-[#1a1a24] text-xs font-semibold text-[#2dd4bf] rounded border border-white/[0.06] cursor-pointer">HTML Code</button>
+                <button id="tab-preview" aria-label="Show Rendered Visual HTML Preview" class="px-3 py-1 bg-transparent text-xs font-semibold text-zinc-300 hover:text-white rounded cursor-pointer">Preview</button>
              </div>
              <button id="btn-copy" aria-label="Copy generated HTML to clipboard" class="text-xs font-semibold text-[#2dd4bf] hover:text-[#5eead4] transition-colors cursor-pointer">Copy HTML</button>
           </div>
@@ -100,6 +108,74 @@ console.log("Hello SolversPro!");
           ></div>
         </div>
       </div>
+
+      <!-- Citable Content: Markdown to HTML5 Specification Mapping -->
+      <div class="mt-16 w-full max-w-4xl mx-auto">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-white mb-2">Markdown Syntax to HTML5 Element Mapping (CommonMark & GFM)</h2>
+          <p class="text-zinc-400 text-sm">
+            Standard Markdown delimiters and their corresponding semantic HTML5 output elements.
+          </p>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-white/[0.08] bg-white/[0.02]">
+          <table class="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-white/[0.08] bg-white/[0.04] text-zinc-300 font-semibold">
+                <th class="py-3 px-4">Markdown Syntax</th>
+                <th class="py-3 px-4">HTML5 Element</th>
+                <th class="py-3 px-4">Rendered Meaning</th>
+                <th class="py-3 px-4">Common Pitfall</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.06] text-zinc-400">
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium"># Heading 1</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">&lt;h1&gt;Heading 1&lt;/h1&gt;</td>
+                <td class="py-3 px-4">Top-level document heading</td>
+                <td class="py-3 px-4 text-rose-300">Missing space between <code class="text-rose-400 font-mono">#</code> and title</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">**Bold** / __Bold__</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">&lt;strong&gt;Bold&lt;/strong&gt;</td>
+                <td class="py-3 px-4">Strong emphasis</td>
+                <td class="py-3 px-4 text-rose-300">Spaces inside delimiters (<code class="text-rose-400 font-mono">** text **</code>)</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">*Italic* / _Italic_</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">&lt;em&gt;Italic&lt;/em&gt;</td>
+                <td class="py-3 px-4">Subtle emphasis</td>
+                <td class="py-3 px-4 text-rose-300">Underscores inside snake_case identifiers</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">[Link](https://...)</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">&lt;a href="..."&gt;Link&lt;/a&gt;</td>
+                <td class="py-3 px-4">Hyperlink anchor</td>
+                <td class="py-3 px-4 text-rose-300">Swapping brackets and parentheses</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">- List item</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">&lt;ul&gt;&lt;li&gt;List item&lt;/li&gt;&lt;/ul&gt;</td>
+                <td class="py-3 px-4">Unordered bullet list</td>
+                <td class="py-3 px-4 text-rose-300">Inconsistent indentation across nested lists</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">`code`</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">&lt;code&gt;code&lt;/code&gt;</td>
+                <td class="py-3 px-4">Inline code snippet</td>
+                <td class="py-3 px-4 text-rose-300">Using single quote apostrophes instead of backticks</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section with Schema.org JSON-LD -->
+      <ToolFAQ faqs={[
+        { question: "Does this Markdown converter support GitHub Flavored Markdown (GFM)?", answer: "Yes. The converter supports standard GFM extensions including task lists, autolinked URLs, strikethrough text, and tabular Markdown." },
+        { question: "Is my Markdown content uploaded or saved to your servers?", answer: "No. All parsing and HTML generation happens client-side inside your browser using the marked.js parser. Your content is never transmitted across the network." },
+        { question: "Can I preview the visual output and copy the raw HTML code?", answer: "Yes. You can switch between the Raw HTML Code tab to copy source markup and the Preview tab for immediate rendered visual inspection." }
+      ]} />
 
       <ToolShare title="Markdown to HTML Converter" url="https://solverspro.com/developer/markdown-to-html" />
       <SimilarTools category="developer" currentPath="/developer/markdown-to-html" />

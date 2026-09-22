@@ -22,16 +22,939 @@
       "cost": "free"
     },
     {
+      "name": "Universal AI Problem Solver",
+      "description": "Gemini-powered multimodal step-by-step problem solver for mathematics, finance, engineering, coding, and scientific questions.",
+      "url": "https://solverspro.com/free-ai-solver/",
+      "category": "ai-tools",
+      "capabilities": [
+        "step-by-step-solver",
+        "multimodal-math",
+        "code-explanation",
+        "financial-modeling"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Code Minifier",
+      "description": "Instantly minify HTML, CSS, and JavaScript. Remove whitespace, comments, and optimize your code for production.",
+      "url": "https://solverspro.com/developer/code-minifier/",
+      "category": "developer-tools",
+      "capabilities": [
+        "code-minifier",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Markdown to HTML Converter",
+      "description": "Convert Markdown text into clean HTML code instantly. Supports GitHub Flavored Markdown (GFM).",
+      "url": "https://solverspro.com/developer/markdown-to-html/",
+      "category": "developer-tools",
+      "capabilities": [
+        "markdown-to-html",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "URL Slug Generator",
+      "description": "Convert any text into a SEO-friendly URL slug. Instantly remove special characters, spaces, and generate clean slugs.",
+      "url": "https://solverspro.com/developer/slug-generator/",
+      "category": "developer-tools",
+      "capabilities": [
+        "slug-generator",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "UUID v4 Generator",
+      "description": "Generate cryptographically secure UUID v4 identifiers instantly. Bulk generate up to 100 UUIDs at once.",
+      "url": "https://solverspro.com/developer/uuid-generator/",
+      "category": "developer-tools",
+      "capabilities": [
+        "uuid-generator",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
       "name": "JSON Formatter & Validator",
-      "description": "Free browser-based JSON formatter, validator, and viewer. Beautify, minify, validate syntax, and inspect nested JSON payloads client-side with zero server uploads.",
+      "description": "Format, validate, and minify JSON data. Convert nested JSON structures into easy-to-read data tables.",
       "url": "https://solverspro.com/developer/json-tools/",
       "category": "developer-tools",
       "capabilities": [
-        "json-formatting",
-        "json-validation",
-        "json-minification",
-        "json-syntax-check",
-        "nested-tree-viewer"
+        "json-tools",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "XML Formatter & Validator",
+      "description": "Format, validate, and minify XML documents. Parse complex XML into interactive data tables.",
+      "url": "https://solverspro.com/developer/xml-tools/",
+      "category": "developer-tools",
+      "capabilities": [
+        "xml-tools",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Base64 Encoder & Decoder",
+      "description": "Quickly encode text to Base64 or decode Base64 back to text.",
+      "url": "https://solverspro.com/developer/base64-converter/",
+      "category": "developer-tools",
+      "capabilities": [
+        "base64-converter",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "JWT Token Decoder",
+      "description": "Decode and inspect JSON Web Tokens (JWT) payload and header data securely.",
+      "url": "https://solverspro.com/developer/jwt-decoder/",
+      "category": "developer-tools",
+      "capabilities": [
+        "jwt-decoder",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Hash Generator",
+      "description": "Generate cryptographic hashes like SHA-256, SHA-384, and SHA-512 from any text.",
+      "url": "https://solverspro.com/developer/hash-generator/",
+      "category": "developer-tools",
+      "capabilities": [
+        "hash-generator",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Color Converter",
+      "description": "Convert color codes between HEX, RGB, and HSL formats instantly.",
+      "url": "https://solverspro.com/developer/color-converter/",
+      "category": "developer-tools",
+      "capabilities": [
+        "color-converter",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Number Base Converter",
+      "description": "Convert numbers between binary (base 2), octal (base 8), decimal (base 10), and hexadecimal (base 16).",
+      "url": "https://solverspro.com/developer/number-base/",
+      "category": "developer-tools",
+      "capabilities": [
+        "number-base",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Regex Tester & Debugger",
+      "description": "Test regular expressions in real-time with live match highlighting, flags, and capture group inspection.",
+      "url": "https://solverspro.com/developer/regex-tester/",
+      "category": "developer-tools",
+      "capabilities": [
+        "regex-tester",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Unix Timestamp Converter",
+      "description": "Convert Unix timestamps to human-readable dates or date strings to Unix timestamps instantly.",
+      "url": "https://solverspro.com/developer/timestamp-converter/",
+      "category": "developer-tools",
+      "capabilities": [
+        "timestamp-converter",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "JSON ↔ CSV Converter",
+      "description": "Convert JSON arrays to CSV spreadsheets or CSV data back to JSON. Handles nested objects with dot-notation flattening.",
+      "url": "https://solverspro.com/developer/json-csv/",
+      "category": "developer-tools",
+      "capabilities": [
+        "json-csv",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "JSON ↔ YAML Converter",
+      "description": "Convert between JSON and YAML formats instantly. Perfect for Kubernetes configs, CI/CD pipelines, and API specs.",
+      "url": "https://solverspro.com/developer/json-yaml/",
+      "category": "developer-tools",
+      "capabilities": [
+        "json-yaml",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "XML ↔ CSV Converter",
+      "description": "Transform XML documents into CSV tables or convert CSV data into structured XML. Great for legacy data migration.",
+      "url": "https://solverspro.com/developer/xml-csv/",
+      "category": "developer-tools",
+      "capabilities": [
+        "xml-csv",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "XML ↔ YAML Converter",
+      "description": "Convert between XML and YAML formats. Useful for config file migration and cross-platform data exchange.",
+      "url": "https://solverspro.com/developer/xml-yaml/",
+      "category": "developer-tools",
+      "capabilities": [
+        "xml-yaml",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "HTML Escape & Unescape",
+      "description": "Escape HTML special characters to entities or unescape entities back to readable HTML. Prevent XSS vulnerabilities.",
+      "url": "https://solverspro.com/developer/html-escape/",
+      "category": "developer-tools",
+      "capabilities": [
+        "html-escape",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "XML Escape & Unescape",
+      "description": "Escape XML special characters or unescape XML entities. Safely embed text in XML documents.",
+      "url": "https://solverspro.com/developer/xml-escape/",
+      "category": "developer-tools",
+      "capabilities": [
+        "xml-escape",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "JSON Escape & Unescape",
+      "description": "Escape strings for embedding in JSON or unescape JSON-encoded strings back to plain text.",
+      "url": "https://solverspro.com/developer/json-escape/",
+      "category": "developer-tools",
+      "capabilities": [
+        "json-escape",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "SQL Escape",
+      "description": "Escape single quotes, backslashes, and special characters for safe SQL string literals.",
+      "url": "https://solverspro.com/developer/sql-escape/",
+      "category": "developer-tools",
+      "capabilities": [
+        "sql-escape",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "CSV Escape",
+      "description": "Escape CSV fields per RFC 4180 — properly quote fields containing commas, quotes, and newlines.",
+      "url": "https://solverspro.com/developer/csv-escape/",
+      "category": "developer-tools",
+      "capabilities": [
+        "csv-escape",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "JSON to TypeScript",
+      "description": "Generate TypeScript interfaces from JSON data. Infers types, handles nested objects, arrays, and optional fields.",
+      "url": "https://solverspro.com/developer/json-to-typescript/",
+      "category": "developer-tools",
+      "capabilities": [
+        "json-to-typescript",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "JSON to Java",
+      "description": "Generate Java POJO classes with getters, setters, and proper type mapping from any JSON structure.",
+      "url": "https://solverspro.com/developer/json-to-java/",
+      "category": "developer-tools",
+      "capabilities": [
+        "json-to-java",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "JSON to Python",
+      "description": "Generate Python dataclasses with type annotations from JSON. Supports nested structures and lists.",
+      "url": "https://solverspro.com/developer/json-to-python/",
+      "category": "developer-tools",
+      "capabilities": [
+        "json-to-python",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "JSON to C#",
+      "description": "Generate C# classes with auto-properties and proper .NET type mapping from JSON objects.",
+      "url": "https://solverspro.com/developer/json-to-csharp/",
+      "category": "developer-tools",
+      "capabilities": [
+        "json-to-csharp",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "JSON to Go",
+      "description": "Generate Go structs with json tags from JSON data. Handles nested objects and proper Go naming conventions.",
+      "url": "https://solverspro.com/developer/json-to-go/",
+      "category": "developer-tools",
+      "capabilities": [
+        "json-to-go",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "JSON Diff",
+      "description": "Compare two JSON objects side by side. Highlights added, removed, and changed keys with color-coded output.",
+      "url": "https://solverspro.com/developer/json-diff/",
+      "category": "developer-tools",
+      "capabilities": [
+        "json-diff",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "XML Diff",
+      "description": "Compare two XML documents with line-by-line diff highlighting. Find differences in structure and content.",
+      "url": "https://solverspro.com/developer/xml-diff/",
+      "category": "developer-tools",
+      "capabilities": [
+        "xml-diff",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Text Diff",
+      "description": "Compare two blocks of text with a unified diff view. Highlights additions, deletions, and modifications line by line.",
+      "url": "https://solverspro.com/developer/text-diff/",
+      "category": "developer-tools",
+      "capabilities": [
+        "text-diff",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "HTML Beautifier",
+      "description": "Format and indent messy HTML code with configurable indentation. Makes minified HTML readable instantly.",
+      "url": "https://solverspro.com/developer/html-beautifier/",
+      "category": "developer-tools",
+      "capabilities": [
+        "html-beautifier",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "CSS Beautifier",
+      "description": "Format compressed CSS into clean, readable stylesheets. One property per line with proper brace alignment.",
+      "url": "https://solverspro.com/developer/css-beautifier/",
+      "category": "developer-tools",
+      "capabilities": [
+        "css-beautifier",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "JavaScript Beautifier",
+      "description": "Format minified JavaScript into readable, properly indented code. Handles braces, semicolons, and nesting.",
+      "url": "https://solverspro.com/developer/js-beautifier/",
+      "category": "developer-tools",
+      "capabilities": [
+        "js-beautifier",
+        "developer-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Live Currency Converter",
+      "description": "Convert 160+ world currencies instantly with live mid-market central bank reference exchange rates.",
+      "url": "https://solverspro.com/finance/currency-converter/",
+      "category": "finance-tools",
+      "capabilities": [
+        "currency-converter",
+        "finance-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Tip Calculator",
+      "description": "Calculate gratuity, custom tip percentages, and split restaurant or service bills evenly.",
+      "url": "https://solverspro.com/finance/tip-calculator/",
+      "category": "finance-tools",
+      "capabilities": [
+        "tip-calculator",
+        "finance-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Compound Interest Calculator",
+      "description": "See how your money grows over time with the power of compound interest.",
+      "url": "https://solverspro.com/finance/compound-interest/",
+      "category": "finance-tools",
+      "capabilities": [
+        "compound-interest",
+        "finance-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Cash-on-Cash Return",
+      "description": "Evaluate rental property investments by calculating your annual cash return.",
+      "url": "https://solverspro.com/finance/cash-on-cash-return/",
+      "category": "finance-tools",
+      "capabilities": [
+        "cash-on-cash-return",
+        "finance-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Simple Interest Calculator",
+      "description": "Calculate simple interest on loans and investments quickly.",
+      "url": "https://solverspro.com/finance/simple-interest/",
+      "category": "finance-tools",
+      "capabilities": [
+        "simple-interest",
+        "finance-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "TDEE Calculator",
+      "description": "Calculate your Total Daily Energy Expenditure based on your activity level.",
+      "url": "https://solverspro.com/health/tdee-calculator/",
+      "category": "health-tools",
+      "capabilities": [
+        "tdee-calculator",
+        "health-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Adult BMI Calculator",
+      "description": "Calculate adult Body Mass Index (BMI) with 6 WHO weight categories and a visual gauge.",
+      "url": "https://solverspro.com/health/bmi-calculator-adult/",
+      "category": "health-tools",
+      "capabilities": [
+        "bmi-calculator-adult",
+        "health-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Child & Teen BMI Calculator",
+      "description": "Calculate pediatric BMI and BMI-for-age percentile (ages 2–19) using official CDC growth chart data.",
+      "url": "https://solverspro.com/health/bmi-calculator-child/",
+      "category": "health-tools",
+      "capabilities": [
+        "bmi-calculator-child",
+        "health-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "BMI Calculator",
+      "description": "Calculate your Body Mass Index (BMI) and check your weight category.",
+      "url": "https://solverspro.com/health/bmi-calculator/",
+      "category": "health-tools",
+      "capabilities": [
+        "bmi-calculator",
+        "health-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Age Calculator",
+      "description": "Calculate your exact age in years, months, days, and discover your next birthday countdown.",
+      "url": "https://solverspro.com/math/age-calculator/",
+      "category": "math-tools",
+      "capabilities": [
+        "age-calculator",
+        "math-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Random Number Generator",
+      "description": "Generate random numbers within a specific range instantly. Support for multiple numbers, decimals, and custom separators.",
+      "url": "https://solverspro.com/math/random-number-generator/",
+      "category": "math-tools",
+      "capabilities": [
+        "random-number-generator",
+        "math-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Scientific Calculator",
+      "description": "Advanced math functions including trig, logarithms, and constants for STEM work.",
+      "url": "https://solverspro.com/math/scientific-calculator/",
+      "category": "math-tools",
+      "capabilities": [
+        "scientific-calculator",
+        "math-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Quadratic Equation Solver",
+      "description": "Find the roots of any quadratic equation with step-by-step solutions.",
+      "url": "https://solverspro.com/math/quadratic-solver/",
+      "category": "math-tools",
+      "capabilities": [
+        "quadratic-solver",
+        "math-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Matrix Calculator",
+      "description": "Perform matrix operations: addition, multiplication, determinant, and inverse.",
+      "url": "https://solverspro.com/math/matrix-calculator/",
+      "category": "math-tools",
+      "capabilities": [
+        "matrix-calculator",
+        "math-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Percentage Calculator",
+      "description": "Calculate percentages, increases, decreases, and percentage of a number.",
+      "url": "https://solverspro.com/math/percentage-calculator/",
+      "category": "math-tools",
+      "capabilities": [
+        "percentage-calculator",
+        "math-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Unit Converter",
+      "description": "Convert between length, weight, temperature, volume, and more.",
+      "url": "https://solverspro.com/math/unit-converter/",
+      "category": "math-tools",
+      "capabilities": [
+        "unit-converter",
+        "math-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "IP Subnet Calculator",
+      "description": "Calculate network address, broadcast, subnet mask, host range, and usable hosts for any IPv4 subnet using CIDR notation.",
+      "url": "https://solverspro.com/network/ip-subnet-calculator/",
+      "category": "network-tools",
+      "capabilities": [
+        "ip-subnet-calculator",
+        "network-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "My IP Checker",
+      "description": "Instantly find your public IP address with location, ISP, timezone, and coordinates.",
+      "url": "https://solverspro.com/network/my-ip/",
+      "category": "network-tools",
+      "capabilities": [
+        "my-ip",
+        "network-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "IP Address Lookup",
+      "description": "Look up any public IP address to find its geolocation, ISP, ASN, timezone, and network details.",
+      "url": "https://solverspro.com/network/ip-lookup/",
+      "category": "network-tools",
+      "capabilities": [
+        "ip-lookup",
+        "network-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "QR Code Generator",
+      "description": "Generate QR codes for URLs, text, email, phone numbers, and WiFi. Customize colors and size. Download as PNG.",
+      "url": "https://solverspro.com/qr/qr-generator/",
+      "category": "qr-tools",
+      "capabilities": [
+        "qr-generator",
+        "qr-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Random Password Generator",
+      "description": "Generate cryptographically secure passwords with custom length, character sets, and strength indicator.",
+      "url": "https://solverspro.com/security/password-generator/",
+      "category": "security-tools",
+      "capabilities": [
+        "password-generator",
+        "security-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Number to Words Converter",
+      "description": "Convert numbers into English words instantly. Useful for writing checks, filling out forms, or learning English numbers.",
+      "url": "https://solverspro.com/text/number-to-words/",
+      "category": "text-tools",
+      "capabilities": [
+        "number-to-words",
+        "text-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Word Counter",
+      "description": "Real-time word, character, sentence, and paragraph counter with reading time estimate and keyword density.",
+      "url": "https://solverspro.com/text/word-counter/",
+      "category": "text-tools",
+      "capabilities": [
+        "word-counter",
+        "text-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Morse Code Translator",
+      "description": "Translate text to Morse code and back. Includes audio playback with adjustable speed.",
+      "url": "https://solverspro.com/text/morse-code/",
+      "category": "text-tools",
+      "capabilities": [
+        "morse-code",
+        "text-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "URL Encoder & Decoder",
+      "description": "Encode or decode URLs and query strings instantly. Supports encodeURIComponent and encodeURI modes.",
+      "url": "https://solverspro.com/text/url-encoder/",
+      "category": "text-tools",
+      "capabilities": [
+        "url-encoder",
+        "text-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Text Case Converter",
+      "description": "Convert text between UPPERCASE, lowercase, Title Case, camelCase, snake_case, PascalCase, kebab-case, and more.",
+      "url": "https://solverspro.com/text/case-converter/",
+      "category": "text-tools",
+      "capabilities": [
+        "case-converter",
+        "text-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Lorem Ipsum Generator",
+      "description": "Generate placeholder Lorem Ipsum text by paragraphs, sentences, or words. Customizable and instant.",
+      "url": "https://solverspro.com/text/lorem-ipsum/",
+      "category": "text-tools",
+      "capabilities": [
+        "lorem-ipsum",
+        "text-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "PDF Merger",
+      "description": "Drag, reorder, and combine multiple PDF files into a single document instantly.",
+      "url": "https://solverspro.com/pdf/pdf-merger/",
+      "category": "pdf-tools",
+      "capabilities": [
+        "pdf-merger",
+        "pdf-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Split PDF By Range",
+      "description": "Extract a specific page range (e.g. pages 3–8) from any PDF file.",
+      "url": "https://solverspro.com/pdf/pdf-split-range/",
+      "category": "pdf-tools",
+      "capabilities": [
+        "pdf-split-range",
+        "pdf-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Split PDF To Pages",
+      "description": "Separate every PDF page into its own individual downloadable file.",
+      "url": "https://solverspro.com/pdf/pdf-split-pages/",
+      "category": "pdf-tools",
+      "capabilities": [
+        "pdf-split-pages",
+        "pdf-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Compose PDF",
+      "description": "Create a PDF document from scratch using a built-in text editor.",
+      "url": "https://solverspro.com/pdf/pdf-compose/",
+      "category": "pdf-tools",
+      "capabilities": [
+        "pdf-compose",
+        "pdf-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Protect PDF",
+      "description": "Add password protection and set read/print/copy permissions on PDFs.",
+      "url": "https://solverspro.com/pdf/pdf-protect/",
+      "category": "pdf-tools",
+      "capabilities": [
+        "pdf-protect",
+        "pdf-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Remove PDF Password",
+      "description": "Unlock and remove password protection from a PDF file.",
+      "url": "https://solverspro.com/pdf/pdf-remove-password/",
+      "category": "pdf-tools",
+      "capabilities": [
+        "pdf-remove-password",
+        "pdf-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Flatten PDF",
+      "description": "Flatten form fields and annotations for universal compatibility.",
+      "url": "https://solverspro.com/pdf/pdf-flatten/",
+      "category": "pdf-tools",
+      "capabilities": [
+        "pdf-flatten",
+        "pdf-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Preflight PDF",
+      "description": "Inspect PDF metadata, page count, dimensions, and structure.",
+      "url": "https://solverspro.com/pdf/pdf-preflight/",
+      "category": "pdf-tools",
+      "capabilities": [
+        "pdf-preflight",
+        "pdf-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "PDF to Text",
+      "description": "Extract all readable text from any PDF document.",
+      "url": "https://solverspro.com/pdf/pdf-to-text/",
+      "category": "pdf-tools",
+      "capabilities": [
+        "pdf-to-text",
+        "pdf-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "PDF to Images",
+      "description": "Convert each PDF page into a high-quality PNG image file.",
+      "url": "https://solverspro.com/pdf/pdf-to-images/",
+      "category": "pdf-tools",
+      "capabilities": [
+        "pdf-to-images",
+        "pdf-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "PDF to HTML",
+      "description": "Convert PDF content into an HTML page you can preview and download.",
+      "url": "https://solverspro.com/pdf/pdf-to-html/",
+      "category": "pdf-tools",
+      "capabilities": [
+        "pdf-to-html",
+        "pdf-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Images to PDF",
+      "description": "Combine multiple JPG/PNG/WebP images into a single PDF file.",
+      "url": "https://solverspro.com/pdf/images-to-pdf/",
+      "category": "pdf-tools",
+      "capabilities": [
+        "images-to-pdf",
+        "pdf-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Concrete Slab Calculator",
+      "description": "Calculate exactly how much concrete you need for slabs, footings, and walls.",
+      "url": "https://solverspro.com/trades/concrete-slab/",
+      "category": "trades-tools",
+      "capabilities": [
+        "concrete-slab",
+        "trades-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Wire Size Calculator",
+      "description": "Determine the correct wire gauge for electrical installations.",
+      "url": "https://solverspro.com/trades/wire-size/",
+      "category": "trades-tools",
+      "capabilities": [
+        "wire-size",
+        "trades-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Solar Panel Calculator",
+      "description": "Size your solar array based on energy usage and location.",
+      "url": "https://solverspro.com/trades/solar-panel/",
+      "category": "trades-tools",
+      "capabilities": [
+        "solar-panel",
+        "trades-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Board Feet Calculator",
+      "description": "Calculate hardwood lumber volume in board feet.",
+      "url": "https://solverspro.com/trades/board-feet/",
+      "category": "trades-tools",
+      "capabilities": [
+        "board-feet",
+        "trades-utility",
+        "browser-based"
+      ],
+      "cost": "free"
+    },
+    {
+      "name": "Paint Calculator",
+      "description": "Determine exactly how many gallons of paint your project needs.",
+      "url": "https://solverspro.com/trades/paint-calculator/",
+      "category": "trades-tools",
+      "capabilities": [
+        "paint-calculator",
+        "trades-utility",
+        "browser-based"
       ],
       "cost": "free"
     }

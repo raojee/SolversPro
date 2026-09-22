@@ -10,19 +10,30 @@ import SearchOverlay from '../../components/SearchOverlay.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "JWT Token Decoder",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All",
+  "url": "https://solverspro.com/developer/jwt-decoder/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Decode JSON Web Tokens (JWT) to securely inspect their header, payload, and signature data directly in your browser. No server uploads required."
+  "description": "Free online JWT token decoder to inspect header, payload claims, and signature data locally in your browser with zero server uploads.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
 <BaseLayout
   title="JWT Token Decoder | SolversPro"
-  description="Decode JSON Web Tokens (JWT) to securely inspect their header, payload, and signature data directly in your browser. No server uploads required."
-  canonical="https://solverspro.com/developer/jwt-decoder"
+  description="JWT token decoder to parse, inspect, and verify JSON Web Token headers, payload claims, and signatures locally with zero server uploads."
+  canonical="https://solverspro.com/developer/jwt-decoder/"
   schema={schema}
 >
   <Header />
@@ -37,7 +48,9 @@ const schema = {
       ]} />
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">JWT Token Decoder</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Decode and inspect JSON Web Tokens securely. We do not store or transmit your tokens.</p>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro JWT Token Decoder is a free browser-based developer utility that parses and inspects JSON Web Token (JWT) headers, claims, and signatures client-side with zero server uploads.
+        </p>
       </div>
 
       <div class="flex flex-col lg:flex-row gap-6 w-full min-h-[600px]">
@@ -88,14 +101,76 @@ const schema = {
           </div>
         </div>
       </div>
-      <ToolShare title="JWT Token Decoder" url="https://solverspro.com/developer/jwt-decoder" />
-      <SimilarTools category="developer" currentPath="/developer/jwt-decoder" />
-    
+
+      <!-- Citable Content: Standard JWT Claims Reference -->
+      <div class="mt-16 w-full max-w-4xl mx-auto">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-white mb-2">Standard JWT Claims & Header Specifications (RFC 7519)</h2>
+          <p class="text-zinc-400 text-sm">
+            Registered JSON Web Token claim keys, header parameters, and standard data types.
+          </p>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-white/[0.08] bg-white/[0.02]">
+          <table class="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-white/[0.08] bg-white/[0.04] text-zinc-300 font-semibold">
+                <th class="py-3 px-4">Claim / Header</th>
+                <th class="py-3 px-4">JSON Key</th>
+                <th class="py-3 px-4">Data Type</th>
+                <th class="py-3 px-4">Specification Meaning</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.06] text-zinc-400">
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Algorithm</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">alg</td>
+                <td class="py-3 px-4">String (e.g. HS256, RS256)</td>
+                <td class="py-3 px-4">Cryptographic algorithm used to generate the signature in the header</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Subject</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">sub</td>
+                <td class="py-3 px-4">String</td>
+                <td class="py-3 px-4">Unique principal identifier (user ID or client ID)</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Issuer</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">iss</td>
+                <td class="py-3 px-4">String / URI</td>
+                <td class="py-3 px-4">Identity provider or authorization server that issued the token</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Expiration Time</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">exp</td>
+                <td class="py-3 px-4">NumericDate (Seconds)</td>
+                <td class="py-3 px-4">Unix timestamp beyond which the token is invalid and expired</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Issued At</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">iat</td>
+                <td class="py-3 px-4">NumericDate (Seconds)</td>
+                <td class="py-3 px-4">Unix timestamp when the token was originally signed</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Audience</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">aud</td>
+                <td class="py-3 px-4">String / String Array</td>
+                <td class="py-3 px-4">Resource server or API intended to accept the token</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <ToolFAQ faqs={[
         { question: "Is decoding a JWT safe?", answer: "Yes, decoding a JWT only reads the Base64Url encoded public information. It does not modify or validate the token. Since our tool runs entirely in your browser, your token never leaves your device." },
         { question: "Can I edit the JWT payload?", answer: "Currently, this tool is meant for decoding and inspecting existing tokens. If you edit the payload, the original signature will become invalid." },
         { question: "Why do I see 'Invalid JWT format'?", answer: "A valid JWT must have exactly three parts separated by dots (header.payload.signature) and must be properly Base64Url encoded." }
       ]} />
+
+      <ToolShare title="JWT Token Decoder" url="https://solverspro.com/developer/jwt-decoder" />
+      <SimilarTools category="developer" currentPath="/developer/jwt-decoder" />
     </div>
   </main>
   <Footer />

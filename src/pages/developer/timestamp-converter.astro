@@ -6,22 +6,34 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SearchOverlay from '../../components/SearchOverlay.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Unix Timestamp Converter",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All",
+  "url": "https://solverspro.com/developer/timestamp-converter/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Convert Unix timestamps to human-readable dates or date strings to Unix timestamps. Supports seconds and milliseconds. Free, instant, and runs in your browser."
+  "description": "Free online Unix timestamp converter to convert epoch seconds and milliseconds to human-readable UTC/local date strings and vice versa in real time.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
 <BaseLayout
   title="Unix Timestamp Converter | SolversPro"
   description="Convert Unix timestamps to readable dates or dates to Unix timestamps. Supports seconds and milliseconds. Free and private — runs entirely in your browser."
-  canonical="https://solverspro.com/developer/timestamp-converter"
+  canonical="https://solverspro.com/developer/timestamp-converter/"
   schema={schema}
 >
   <Header />
@@ -37,7 +49,9 @@ const schema = {
 
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">🕐 Unix Timestamp Converter</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Convert Unix timestamps to human-readable date/time strings and vice versa. Supports seconds and milliseconds. Your current local time is shown live.</p>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro Unix Timestamp Converter is a free browser-based developer utility that converts Unix epoch timestamps into UTC/local human-readable dates and formats ISO dates into seconds or milliseconds in real time.
+        </p>
       </div>
 
       <!-- Live Clock -->
@@ -93,7 +107,7 @@ const schema = {
       </div>
 
       <!-- Date → Timestamp -->
-      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 mb-8">
         <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Human Date → Timestamp</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
           <div>
@@ -125,10 +139,91 @@ const schema = {
           ))}
         </div>
       </div>
+
+      <!-- Reference Table -->
+      <div class="mt-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-base font-bold text-white mb-2">Unix Timestamp Conversion Intervals Reference</h2>
+        <p class="text-xs text-zinc-400 mb-4">Common time units, standard durations, and epoch calculation constants.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-300">
+                <th class="py-2.5 px-3 font-semibold">Time Interval</th>
+                <th class="py-2.5 px-3 font-semibold">Seconds</th>
+                <th class="py-2.5 px-3 font-semibold">Milliseconds</th>
+                <th class="py-2.5 px-3 font-semibold">Formula / Definition</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-400 font-mono">
+              <tr>
+                <td class="py-2 px-3 text-zinc-200 font-sans">1 Minute</td>
+                <td class="py-2 px-3 text-[#2dd4bf]">60</td>
+                <td class="py-2 px-3">60,000</td>
+                <td class="py-2 px-3 font-sans">60 seconds</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-zinc-200 font-sans">1 Hour</td>
+                <td class="py-2 px-3 text-[#2dd4bf]">3,600</td>
+                <td class="py-2 px-3">3,600,000</td>
+                <td class="py-2 px-3 font-sans">60 × 60 seconds</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-zinc-200 font-sans">1 Day</td>
+                <td class="py-2 px-3 text-[#2dd4bf]">86,400</td>
+                <td class="py-2 px-3">86,400,000</td>
+                <td class="py-2 px-3 font-sans">24 × 3,600 seconds</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-zinc-200 font-sans">1 Week</td>
+                <td class="py-2 px-3 text-[#2dd4bf]">604,800</td>
+                <td class="py-2 px-3">604,800,000</td>
+                <td class="py-2 px-3 font-sans">7 × 86,400 seconds</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-zinc-200 font-sans">1 Year (365 days)</td>
+                <td class="py-2 px-3 text-[#2dd4bf]">31,536,000</td>
+                <td class="py-2 px-3">31,536,000,000</td>
+                <td class="py-2 px-3 font-sans">365 × 86,400 seconds</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-zinc-200 font-sans">Unix Epoch Origin</td>
+                <td class="py-2 px-3 text-[#2dd4bf]">0</td>
+                <td class="py-2 px-3">0</td>
+                <td class="py-2 px-3 font-sans">1970-01-01T00:00:00Z</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-3 text-zinc-200 font-sans">Year 2038 Limit (32-bit)</td>
+                <td class="py-2 px-3 text-[#2dd4bf]">2,147,483,647</td>
+                <td class="py-2 px-3">2,147,483,647,000</td>
+                <td class="py-2 px-3 font-sans">2038-01-19T03:14:07Z</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={[
+        {
+          question: "What is a Unix epoch timestamp?",
+          answer: "A Unix epoch timestamp is an integer representing the total number of seconds (or milliseconds) that have elapsed since midnight UTC on January 1, 1970, excluding leap seconds."
+        },
+        {
+          question: "How can I detect if a timestamp is in seconds or milliseconds?",
+          answer: "Timestamps with 10 digits (e.g., 1704067200) represent seconds, whereas 13-digit integers (e.g., 1704067200000) represent milliseconds."
+        },
+        {
+          question: "Does this timestamp converter execute in my browser?",
+          answer: "Yes, all epoch conversions and date parsing use the native JavaScript Date API client-side with zero network requests."
+        },
+        {
+          question: "What is the Year 2038 problem?",
+          answer: "On January 19, 2038, signed 32-bit integer timestamps will overflow beyond 2,147,483,647. Modern 64-bit systems and this tool handle dates past 2038 seamlessly."
+        }
+      ]} />
+
       <ToolShare title="Unix Timestamp Converter" url="https://solverspro.com/developer/timestamp-converter" />
       <SimilarTools category="developer" currentPath="/developer/timestamp-converter" />
-    
-
     </div>
   </main>
   <Footer />

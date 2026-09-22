@@ -10,19 +10,30 @@ import SearchOverlay from '../../components/SearchOverlay.astro';
 import SaveResultButton from '../../components/SaveResultButton.astro';
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "Cryptographic Hash Generator",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All",
+  "url": "https://solverspro.com/developer/hash-generator/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Securely generate cryptographic hashes like SHA-1, SHA-256, SHA-384, and SHA-512 instantly from any text. 100% free and runs locally in your browser."
+  "description": "Free online cryptographic hash generator to compute SHA-1, SHA-256, SHA-384, and SHA-512 hashes locally in your browser with zero server uploads.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
 <BaseLayout
   title="Hash Generator | SolversPro"
-  description="Securely generate cryptographic hashes like SHA-1, SHA-256, SHA-384, and SHA-512 instantly from any text. 100% free and runs locally in your browser."
-  canonical="https://solverspro.com/developer/hash-generator"
+  description="Cryptographic hash generator to compute SHA-1, SHA-256, SHA-384, and SHA-512 hashes instantly. Fast client-side Web Crypto API execution with zero server uploads."
+  canonical="https://solverspro.com/developer/hash-generator/"
   schema={schema}
 >
   <Header />
@@ -37,7 +48,9 @@ const schema = {
       ]} />
       <div class="mb-10 mt-4">
         <h1 class="text-4xl font-bold text-white mb-4">Hash Generator</h1>
-        <p class="text-zinc-400 text-lg max-w-2xl">Securely generate cryptographic hashes from your text. Runs locally in your browser.</p>
+        <p class="text-zinc-400 text-lg max-w-2xl">
+          The SolversPro Cryptographic Hash Generator is a free browser-based developer utility that calculates SHA-1, SHA-256, SHA-384, and SHA-512 checksums client-side using hardware-accelerated Web Crypto APIs with zero server uploads.
+        </p>
       </div>
 
       <div class="flex flex-col lg:flex-row gap-6 w-full min-h-[500px]">
@@ -59,22 +72,22 @@ const schema = {
           <div class="flex justify-between items-center bg-[#0d0d14] px-4 py-3 border border-white/[0.06] rounded-t-xl border-b-0">
             <h2 class="text-sm font-semibold uppercase tracking-wider text-zinc-400">Generated Hashes</h2>
           </div>
-          <div class="flex-1 w-full p-6 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl overflow-y-auto space-y-6">
+          <div class="flex-1 w-full p-4 bg-[#1a1a24] border border-white/[0.06] rounded-b-xl space-y-4">
             
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-[#2dd4bf]">SHA-256</h3>
+                <span class="text-xs text-zinc-500 font-mono">64 chars</span>
+              </div>
+              <input type="text" id="hash-sha256" readonly class="w-full bg-[#0d0d14] p-3 rounded-lg border border-white/[0.05] font-mono text-sm text-zinc-300 focus:outline-none focus:ring-1 focus:ring-[#2dd4bf]" />
+            </div>
+
             <div>
               <div class="flex justify-between items-center mb-2">
                 <h3 class="text-xs font-semibold uppercase tracking-wider text-blue-400">SHA-1</h3>
                 <span class="text-xs text-zinc-500 font-mono">40 chars</span>
               </div>
               <input type="text" id="hash-sha1" readonly class="w-full bg-[#0d0d14] p-3 rounded-lg border border-white/[0.05] font-mono text-sm text-zinc-300 focus:outline-none focus:ring-1 focus:ring-blue-500" />
-            </div>
-
-            <div>
-              <div class="flex justify-between items-center mb-2">
-                <h3 class="text-xs font-semibold uppercase tracking-wider text-green-400">SHA-256</h3>
-                <span class="text-xs text-zinc-500 font-mono">64 chars</span>
-              </div>
-              <input type="text" id="hash-sha256" readonly class="w-full bg-[#0d0d14] p-3 rounded-lg border border-white/[0.05] font-mono text-sm text-zinc-300 focus:outline-none focus:ring-1 focus:ring-green-500" />
             </div>
 
             <div>
@@ -100,6 +113,56 @@ const schema = {
           </div>
         </div>
       </div>
+
+      <!-- Citable Content: Cryptographic Hash Specifications Table -->
+      <div class="mt-16 w-full max-w-4xl mx-auto">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-white mb-2">Cryptographic Hash Digest Specifications (NIST FIPS 180-4)</h2>
+          <p class="text-zinc-400 text-sm">
+            Standard bit lengths, hex digest character counts, and security classifications across the Secure Hash Standard family.
+          </p>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-white/[0.08] bg-white/[0.02]">
+          <table class="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-white/[0.08] bg-white/[0.04] text-zinc-300 font-semibold">
+                <th class="py-3 px-4">Algorithm</th>
+                <th class="py-3 px-4">Digest Output (Bits / Hex)</th>
+                <th class="py-3 px-4">Security Classification</th>
+                <th class="py-3 px-4">Primary Application</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.06] text-zinc-400">
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">SHA-256</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">256 bits (64 hex characters)</td>
+                <td class="py-3 px-4 text-emerald-400">Cryptographically Secure</td>
+                <td class="py-3 px-4">Digital signatures, TLS certificates, blockchain verification</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">SHA-512</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">512 bits (128 hex characters)</td>
+                <td class="py-3 px-4 text-emerald-400">Cryptographically Secure</td>
+                <td class="py-3 px-4">High-throughput hashing on 64-bit CPU architectures</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">SHA-384</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">384 bits (96 hex characters)</td>
+                <td class="py-3 px-4 text-emerald-400">Cryptographically Secure</td>
+                <td class="py-3 px-4">NSA Suite B cryptography, high-grade SSL/TLS ciphers</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition-colors">
+                <td class="py-3 px-4 font-mono text-emerald-400 font-medium">SHA-1</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">160 bits (40 hex characters)</td>
+                <td class="py-3 px-4 text-amber-400">Legacy / Deprecated (Collision Risk)</td>
+                <td class="py-3 px-4">Historical Git commits, non-cryptographic checksum comparison</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <ToolShare title="Hash Generator" url="https://solverspro.com/developer/hash-generator" />
       <SimilarTools category="developer" currentPath="/developer/hash-generator" />
     

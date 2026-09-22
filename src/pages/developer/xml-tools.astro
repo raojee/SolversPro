@@ -5,23 +5,35 @@ import SimilarTools from '../../components/SimilarTools.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 import XmlEditor from '../../components/react/XmlEditor.jsx';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "XML Formatter & Validator",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All",
+  "url": "https://solverspro.com/developer/xml-tools/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Free, browser-based XML formatter and validator. Instantly beautify and parse XML securely with no server uploads."
+  "description": "Free online XML formatter and validator to beautify, minify, validate syntax, and inspect XML trees locally in your browser with zero server uploads.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
 <BaseLayout
   title="XML Formatter & Validator | SolversPro"
-  description="Free, browser-based XML formatter, validator, and viewer. Instantly beautify, minify, and parse complex XML trees securely with no server uploads."
-  canonical="https://solverspro.com/developer/xml-tools"
+  description="XML formatter and validator to beautify, minify, validate syntax, and inspect XML trees. Fast client-side parsing with zero server uploads."
+  canonical="https://solverspro.com/developer/xml-tools/"
   schema={schema}
 >
   <Header />
@@ -34,7 +46,7 @@ const schema = {
     <div class="mb-8 mt-4">
       <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">XML Formatter & Validator</h1>
       <p class="text-zinc-400 max-w-3xl">
-        Validate your XML markup, beautify or minify documents, and parse complex XML trees into readable data tables. All processing happens locally in your browser.
+        The SolversPro XML Formatter & Validator is a free browser-based developer utility that validates, beautifies, minifies, and inspects XML document hierarchies client-side with zero server uploads.
       </p>
     </div>
 
@@ -42,6 +54,74 @@ const schema = {
     <div class="min-h-[600px] h-[calc(100vh-250px)]">
       <XmlEditor client:load />
     </div>
+
+    <!-- Citable Content: XML Well-Formedness Rules Table -->
+    <div class="mt-16 w-full max-w-4xl mx-auto">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold text-white mb-2">XML Well-Formedness Rules & Entity Specifications (W3C XML 1.0)</h2>
+        <p class="text-zinc-400 text-sm">
+          Core syntactic constraints and predefined character entity references required for valid XML parsing.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-white/[0.08] bg-white/[0.02]">
+        <table class="w-full text-left border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-white/[0.08] bg-white/[0.04] text-zinc-300 font-semibold">
+              <th class="py-3 px-4">XML Standard Rule</th>
+              <th class="py-3 px-4">Well-Formed Syntax</th>
+              <th class="py-3 px-4">Entity Escape Code</th>
+              <th class="py-3 px-4">Common Validation Error</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/[0.06] text-zinc-400">
+            <tr class="hover:bg-white/[0.02] transition-colors">
+              <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Single Root Element</td>
+              <td class="py-3 px-4 font-mono text-zinc-300">&lt;root&gt;&lt;child/&gt;&lt;/root&gt;</td>
+              <td class="py-3 px-4">N/A</td>
+              <td class="py-3 px-4 text-rose-300">Multiple unparented sibling root tags</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02] transition-colors">
+              <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Closing Tags Required</td>
+              <td class="py-3 px-4 font-mono text-zinc-300">&lt;tag&gt;content&lt;/tag&gt; or &lt;tag/&gt;</td>
+              <td class="py-3 px-4">N/A</td>
+              <td class="py-3 px-4 text-rose-300">Omitting self-closing slash (<code class="text-rose-400 font-mono">&lt;br&gt;</code>)</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02] transition-colors">
+              <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Case-Sensitive Tags</td>
+              <td class="py-3 px-4 font-mono text-zinc-300">&lt;User&gt;&lt;/User&gt;</td>
+              <td class="py-3 px-4">N/A</td>
+              <td class="py-3 px-4 text-rose-300">Mismatched casing (<code class="text-rose-400 font-mono">&lt;User&gt;&lt;/user&gt;</code>)</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02] transition-colors">
+              <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Quoted Attributes</td>
+              <td class="py-3 px-4 font-mono text-zinc-300">&lt;item id="101"&gt;</td>
+              <td class="py-3 px-4">N/A</td>
+              <td class="py-3 px-4 text-rose-300">Unquoted attribute values (<code class="text-rose-400 font-mono">&lt;item id=101&gt;</code>)</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02] transition-colors">
+              <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Ampersand Entity</td>
+              <td class="py-3 px-4 font-mono text-zinc-300">AT&amp;amp;T</td>
+              <td class="py-3 px-4 font-mono text-emerald-400">&amp;amp;</td>
+              <td class="py-3 px-4 text-rose-300">Raw unescaped <code class="text-rose-400 font-mono">&amp;</code> character</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02] transition-colors">
+              <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Less-Than Entity</td>
+              <td class="py-3 px-4 font-mono text-zinc-300">5 &amp;lt; 10</td>
+              <td class="py-3 px-4 font-mono text-emerald-400">&amp;lt;</td>
+              <td class="py-3 px-4 text-rose-300">Raw unescaped <code class="text-rose-400 font-mono">&lt;</code> symbol in text node</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- FAQ Section with Schema.org JSON-LD -->
+    <ToolFAQ faqs={[
+      { question: "What constitutes a 'well-formed' XML document?", answer: "A well-formed XML document strictly adheres to W3C XML syntax rules: exactly one root element, matching opening and closing tags, correctly nested elements, quoted attribute values, and properly escaped entity references." },
+      { question: "Is my XML markup sent to an external server for processing?", answer: "No. All XML parsing, DOM validation, formatting, and tree generation execute entirely inside your local browser via the native DOMParser API. No data is sent across the network." },
+      { question: "Can this tool handle XML with CDATA sections and namespaces?", answer: "Yes. The parser recognizes XML namespaces (xmlns), CDATA unparsed character blocks, processing instructions, and standard XML declaration prologues." }
+    ]} />
   </div>
   <Footer />
 </BaseLayout>
