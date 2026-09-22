@@ -2,11 +2,23 @@
 
 > 100% free, fast, and secure problem-solving utilities and developer calculators running client-side in your web browser.
 
+## Key Facts
+
+- **Price**: 100% free with no registration, no subscription, and no paywalls.
+- **Privacy & Security**: All data processing and transformations execute 100% client-side in the browser. Zero payload logging or server storage.
+- **Performance**: Instant execution powered by native JavaScript/WebAssembly with offline support and PWA capabilities.
+- **Catalog**: 78+ specialized problem solvers spanning developer tools, math calculators, finance modeling, health metrics, and PDF utilities.
+
 ## Core Hubs & Tool Categories
 
 - [All Tools Directory](https://solverspro.com/all-tools/): Complete searchable directory of 78+ free calculators and utilities.
 - [Internet Speed Test](https://speed.solverspro.com/): Accurate real-time internet speed test measuring download, upload, ping, jitter, and bufferbloat against Cloudflare edge network.
 - [Developer Tools](https://solverspro.com/developer/): Format converters, code minifiers, Base64 encoder/decoder, JWT debugger, regex tester, hash generator, JSON/XML tools.
+  - [JSON Formatter & Validator](https://solverspro.com/developer/json-tools/): Beautify, minify, validate syntax, and inspect nested JSON trees locally with zero server uploads.
+  - [JSON to CSV](https://solverspro.com/developer/json-csv/): Convert nested JSON records into flat, downloadable CSV tables.
+  - [JSON Diff & Compare](https://solverspro.com/developer/json-diff/): Side-by-side visual diffing for complex JSON structures.
+  - [JSON to TypeScript](https://solverspro.com/developer/json-to-typescript/): Generate TypeScript interface definitions from sample JSON payloads.
+  - [XML Formatter & Validator](https://solverspro.com/developer/xml-tools/): Format, inspect, and validate XML documents in the browser.
 - [PDF Tools](https://solverspro.com/pdf/): Merge, split, protect, password unlock, flatten, compose, and convert PDF documents entirely in the browser.
 - [Math Tools](https://solverspro.com/math/): Scientific calculator, quadratic solver, matrix calculator, unit converter, geometry calculators, and statistics tools.
 - [Finance Calculators](https://solverspro.com/finance/): Mortgage calculator, compound interest, ROI calculator, cash-on-cash return, and currency converter.

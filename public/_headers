@@ -1,6 +1,6 @@
 # Global security & RFC 8288 Link headers for agent discovery
 /*
-  Link: </.well-known/api-catalog>; rel="api-catalog", </docs>; rel="service-doc", </.well-known/ai-catalog.json>; rel="service-desc", </.well-known/agent-card.json>; rel="agent-card", </.well-known/agent-skills/index.json>; rel="agent-skills", </.well-known/mcp/server-card.json>; rel="mcp-server-card", </.well-known/oauth-protected-resource>; rel="oauth-protected-resource", </auth.md>; rel="author-doc"
+  Link: </.well-known/api-catalog>; rel="api-catalog", </docs>; rel="service-doc", </.well-known/ai-catalog.json>; rel="service-desc", </llms.txt>; rel="describedby"; type="text/markdown", </.well-known/agent-card.json>; rel="agent-card", </.well-known/agent-skills/index.json>; rel="agent-skills", </.well-known/mcp/server-card.json>; rel="mcp-server-card", </.well-known/oauth-protected-resource>; rel="oauth-protected-resource", </auth.md>; rel="author-doc"
   Vary: Accept, Accept-Encoding
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN

@@ -10,19 +10,30 @@ import JsonEditor from '../../components/react/JsonEditor.jsx';
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   "name": "JSON Formatter & Validator",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All",
+  "url": "https://solverspro.com/developer/json-tools/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Free, browser-based JSON formatter, validator, and viewer. Instantly beautify, minify, and parse nested JSON payloads securely with no server uploads."
+  "description": "Free online JSON formatter and validator to beautify, minify, validate syntax, and inspect nested JSON trees locally in your browser with zero server uploads.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
 };
 ---
 
 <BaseLayout
   title="JSON Formatter & Validator | SolversPro"
-  description="Free, browser-based JSON formatter, validator, and viewer. Instantly beautify, minify, and parse nested JSON payloads securely with no server uploads."
-  canonical="https://solverspro.com/developer/json-tools"
+  description="JSON formatter and validator to beautify, minify, validate syntax, and inspect nested JSON trees locally in your browser with zero server uploads."
+  canonical="https://solverspro.com/developer/json-tools/"
   schema={schema}
 >
   <Header />
@@ -35,13 +46,74 @@ const schema = {
     <div class="mb-8 mt-4">
       <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">JSON Formatter & Validator</h1>
       <p class="text-zinc-400 max-w-3xl">
-        Validate your JSON structure, beautify or minify the payload, and parse complex nested arrays into readable data tables. All processing happens locally in your browser.
+        The SolversPro JSON Formatter & Validator is a free browser-based developer utility that validates, beautifies, minifies, and inspects JSON data structures entirely client-side with zero server uploads.
       </p>
     </div>
 
     <!-- React App -->
     <div class="min-h-[600px] h-[calc(100vh-250px)]">
       <JsonEditor client:load />
+    </div>
+
+    <!-- Citable Content: JSON Specification & Data Types Reference Table -->
+    <div class="mt-16 w-full max-w-4xl mx-auto">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold text-white mb-2">JSON Syntax & Data Type Specifications (RFC 8259)</h2>
+        <p class="text-zinc-400 text-sm">
+          Standard JSON data types, syntactic constraints, and validation rules according to ECMA-404 and IETF RFC 8259.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-white/[0.08] bg-white/[0.02]">
+        <table class="w-full text-left border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-white/[0.08] bg-white/[0.04] text-zinc-300 font-semibold">
+              <th class="py-3 px-4">JSON Type</th>
+              <th class="py-3 px-4">Syntax Specification</th>
+              <th class="py-3 px-4">Valid Example</th>
+              <th class="py-3 px-4">Common Validation Pitfall</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/[0.06] text-zinc-400">
+            <tr class="hover:bg-white/[0.02] transition-colors">
+              <td class="py-3 px-4 font-mono text-emerald-400 font-medium">String</td>
+              <td class="py-3 px-4">Delimited by double quotes (`"`); control characters escaped with backslash</td>
+              <td class="py-3 px-4 font-mono text-zinc-300">"name": "SolversPro"</td>
+              <td class="py-3 px-4 text-rose-300">Single quotes (<code class="text-rose-400 font-mono">'value'</code>) or unescaped line breaks</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02] transition-colors">
+              <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Number</td>
+              <td class="py-3 px-4">Integer, fraction, or exponential notation; no base prefixes</td>
+              <td class="py-3 px-4 font-mono text-zinc-300">42, -3.14, 1.5e3</td>
+              <td class="py-3 px-4 text-rose-300">Leading zeros (<code class="text-rose-400 font-mono">012</code>), hex (<code class="text-rose-400 font-mono">0x1F</code>), or <code class="text-rose-400 font-mono">NaN</code></td>
+            </tr>
+            <tr class="hover:bg-white/[0.02] transition-colors">
+              <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Object</td>
+              <td class="py-3 px-4">Key-value collection enclosed in curly brackets (<code class="font-mono">&#123;&#125;</code>)</td>
+              <td class="py-3 px-4 font-mono text-zinc-300">&#123;"id": 1, "ok": true&#125;</td>
+              <td class="py-3 px-4 text-rose-300">Trailing commas (<code class="text-rose-400 font-mono">&#123;"a": 1,&#125;</code>) or unquoted keys</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02] transition-colors">
+              <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Array</td>
+              <td class="py-3 px-4">Zero or more values enclosed in square brackets (<code class="font-mono">[]</code>)</td>
+              <td class="py-3 px-4 font-mono text-zinc-300">["react", "astro", "vue"]</td>
+              <td class="py-3 px-4 text-rose-300">Trailing commas (<code class="text-rose-400 font-mono">[1, 2,]</code>)</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02] transition-colors">
+              <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Boolean</td>
+              <td class="py-3 px-4">Exact lowercase literal <code class="font-mono">true</code> or <code class="font-mono">false</code></td>
+              <td class="py-3 px-4 font-mono text-zinc-300">"isValid": true</td>
+              <td class="py-3 px-4 text-rose-300">Capitalized (<code class="text-rose-400 font-mono">True</code>, <code class="text-rose-400 font-mono">False</code>) or strings</td>
+            </tr>
+            <tr class="hover:bg-white/[0.02] transition-colors">
+              <td class="py-3 px-4 font-mono text-emerald-400 font-medium">Null</td>
+              <td class="py-3 px-4">Exact lowercase literal <code class="font-mono">null</code> denoting absence of value</td>
+              <td class="py-3 px-4 font-mono text-zinc-300">"archivedAt": null</td>
+              <td class="py-3 px-4 text-rose-300"><code class="text-rose-400 font-mono">undefined</code>, <code class="text-rose-400 font-mono">None</code>, or unquoted <code class="text-rose-400 font-mono">nil</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <ToolFAQ faqs={[

@@ -20,6 +20,20 @@
         "bufferbloat"
       ],
       "cost": "free"
+    },
+    {
+      "name": "JSON Formatter & Validator",
+      "description": "Free browser-based JSON formatter, validator, and viewer. Beautify, minify, validate syntax, and inspect nested JSON payloads client-side with zero server uploads.",
+      "url": "https://solverspro.com/developer/json-tools/",
+      "category": "developer-tools",
+      "capabilities": [
+        "json-formatting",
+        "json-validation",
+        "json-minification",
+        "json-syntax-check",
+        "nested-tree-viewer"
+      ],
+      "cost": "free"
     }
   ],
   "entries": [

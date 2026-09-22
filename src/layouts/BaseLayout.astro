@@ -43,7 +43,7 @@ const TOOL_CATEGORIES = new Set([
 ]);
 
 const CATEGORY_SCHEMA_MAP: Record<string, string> = {
-  developer: 'DeveloperApplication',
+  developer: 'DeveloperToolsApplication',
   finance: 'FinanceApplication',
   health: 'HealthApplication',
   security: 'SecurityApplication',
@@ -51,7 +51,7 @@ const CATEGORY_SCHEMA_MAP: Record<string, string> = {
   text: 'UtilitiesApplication',
   math: 'EducationalApplication',
   trades: 'UtilitiesApplication',
-  network: 'DeveloperApplication',
+  network: 'DeveloperToolsApplication',
   qr: 'UtilitiesApplication',
 };
 
@@ -89,18 +89,24 @@ if (isToolPage) {
     }
   }
 
-  // Standard SoftwareApplication Schema
+  // Standard WebApplication Schema for SolversPro Tools
   softwareAppSchema = {
     '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
+    '@type': 'WebApplication',
     'name': toolName,
     'description': description,
     'applicationCategory': applicationCategory,
-    'operatingSystem': 'Any',
+    'operatingSystem': 'Any (web browser)',
+    'browserRequirements': 'Requires HTML5/JavaScript',
     'offers': {
       '@type': 'Offer',
       'price': '0',
       'priceCurrency': 'USD',
+    },
+    'provider': {
+      '@type': 'Organization',
+      'name': 'SolversPro',
+      'url': 'https://solverspro.com',
     },
     'aggregateRating': {
       '@type': 'AggregateRating',
@@ -119,7 +125,8 @@ if (isToolPage) {
     softwareAppSchema = {
       ...softwareAppSchema,
       ...schema,
-      applicationCategory: applicationCategory,
+      applicationCategory: (schema as any).applicationCategory || applicationCategory,
+      provider: (schema as any).provider || softwareAppSchema.provider,
     };
   }
 }
