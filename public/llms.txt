@@ -128,6 +128,10 @@
 - [Board Feet Calculator](https://solverspro.com/trades/board-feet/): Calculate hardwood lumber volume in board feet.
 - [Paint Calculator](https://solverspro.com/trades/paint-calculator/): Determine exactly how many gallons of paint your project needs.
 
+## Blog & Updates
+
+- [SolversPro Update: Free Internet Speed Test, New PDF Hub & 80+ Tools](https://solverspro.com/blog/solverspro-update-speed-test-and-pdf-tools/): Official product update announcing our free Cloudflare-powered internet speed test, rebuilt 100% in-browser PDF tools hub, and expanded 80+ tool directory.
+
 ## Documentation & Help
 
 - [Documentation & User Guides](https://solverspro.com/docs/): Complete feature documentation and step-by-step instructions for all tools.

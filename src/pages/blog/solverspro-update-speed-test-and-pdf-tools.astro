@@ -1,0 +1,319 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import BlogRating from '../../components/BlogRating.astro';
+import BlogShare from '../../components/BlogShare.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "SolversPro Update: Free Internet Speed Test, New PDF Hub & 80+ Tools",
+  "description": "SolversPro just got faster — literally. Meet our new free internet speed test, the rebuilt PDF tools hub, and dozens of new utilities, all running 100% in your browser.",
+  "url": "https://solverspro.com/blog/solverspro-update-speed-test-and-pdf-tools/",
+  "author": {
+    "@type": "Organization",
+    "name": "SolversPro"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://solverspro.com/logo.svg"
+    }
+  },
+  "datePublished": "2026-09-23",
+  "dateModified": "2026-09-23",
+  "image": "https://solverspro.com/og-image.png"
+};
+---
+
+<BaseLayout
+  title="SolversPro Update: Free Internet Speed Test, New PDF Hub & 80+ Tools | SolversPro Blog"
+  description="SolversPro just got faster — literally. Meet our new free internet speed test, the rebuilt PDF tools hub, and dozens of new utilities, all running 100% in your browser."
+  canonical="https://solverspro.com/blog/solverspro-update-speed-test-and-pdf-tools/"
+  ogImage="/og-image.png"
+  ogType="article"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-16 px-6">
+    <article class="max-w-4xl mx-auto">
+      <!-- Header -->
+      <header class="mb-12">
+        <nav aria-label="breadcrumb" class="mb-6">
+          <ol class="flex items-center space-x-2 text-sm text-zinc-400">
+            <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <a href="/blog" class="hover:text-white transition-colors">Blog</a>
+            </li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <span class="text-[#ff6b35]">Product Update</span>
+            </li>
+          </ol>
+        </nav>
+        
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">SolversPro Update: Free Internet Speed Test, New PDF Hub & 80+ Tools</h1>
+        
+        <div class="flex items-center gap-4 text-sm text-zinc-400 mb-8 pb-8 border-b border-white/[0.06]">
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            September 23, 2026
+          </span>
+          <span class="text-zinc-600">•</span>
+          <span>By SolversPro Team</span>
+          <span class="text-zinc-600">•</span>
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            5 min read
+          </span>
+        </div>
+      </header>
+
+      <!-- Article Content -->
+      <div class="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-a:text-[#2dd4bf] hover:prose-a:text-[#5eead4] prose-strong:text-white">
+        <p class="lead text-xl text-zinc-300 mb-8">
+          SolversPro's latest update adds a free internet speed test at speed.solverspro.com, a rebuilt PDF tools hub at solverspro.com/pdf/, and dozens of new browser-based utilities — all free with no signup.
+        </p>
+
+        <p>
+          SolversPro has been busy over the past few weeks expanding, optimizing, and rebuilding our suite of free online utilities. When we started SolversPro, our mission was straightforward: create fast, lightweight, and completely private browser-based problem solvers without ads, subscriptions, or server-side data hoarding.
+        </p>
+        <p>
+          Today, we are taking a massive leap forward. With our dedicated speed test engine, our overhauled PDF workstation, and an catalog of over 80 purpose-built utilities, SolversPro gives professionals, developers, students, and tradespeople everything they need in one clean ecosystem. Here is an in-depth look at everything new in this release.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">1. Dedicated Free Internet Speed Test (speed.solverspro.com)</h2>
+        <p>
+          One of our most requested features is finally live: a standalone, high-precision <a href="https://speed.solverspro.com" target="_blank" rel="noopener">Internet Speed Test</a> deployed at <code>speed.solverspro.com</code>.
+        </p>
+        <p>
+          Traditional speed tests on the web are notoriously frustrating. They are often overloaded with intrusive auto-playing video ads, aggressive third-party trackers, and bloated UI frameworks that consume hundreds of megabytes of RAM just to measure your throughput. Many also test against artificial cached nodes rather than real-world internet routes.
+        </p>
+        <p>
+          The new SolversPro Speedcheck takes an entirely different approach:
+        </p>
+        <ul>
+          <li><strong>Powered by Cloudflare's Edge Network:</strong> Your test connects directly to the closest edge node across Cloudflare's 330+ global cities, providing realistic, real-world connection metrics.</li>
+          <li><strong>Comprehensive Metrics:</strong> Measures your download throughput, upload throughput, unloaded ping (idle latency), loaded latency, and network jitter in milliseconds.</li>
+          <li><strong>Bufferbloat Diagnostics:</strong> Highlights whether your router buffers too many packets during heavy traffic, helping gamers and remote workers diagnose video-call stuttering and game lag.</li>
+          <li><strong>Zero Ads & 100% Privacy:</strong> No telemetry tracking, no marketing cookies, and a lightweight page load under 500 milliseconds.</li>
+        </ul>
+        <p>
+          You can test your broadband or cellular connection right now at <a href="https://speed.solverspro.com" target="_blank" rel="noopener">speed.solverspro.com</a>.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">2. Rebuilt Client-Side PDF Tools Hub (solverspro.com/pdf/)</h2>
+        <p>
+          Working with PDFs is an essential daily task, but most online PDF tools require you to upload sensitive documents—such as contracts, tax filings, medical reports, and bank statements—to third-party cloud servers.
+        </p>
+        <p>
+          We have completely rebuilt the <a href="/pdf/">SolversPro PDF Hub</a> from the ground up to operate <strong>100% client-side</strong> using high-performance WebAssembly engines (<strong>pdf-lib</strong> and <strong>PDF.js</strong>). Your files are processed entirely in your computer's local memory and are never uploaded to any server.
+        </p>
+        <p>
+          Our rebuilt suite features 12 dedicated PDF utilities:
+        </p>
+        <ul class="space-y-2 mt-4">
+          <li><strong><a href="/pdf/pdf-merger">PDF Merger</a>:</strong> Drag, drop, reorder, and combine multiple PDF files into one clean document.</li>
+          <li><strong><a href="/pdf/pdf-split-pages">Split PDF To Pages</a> & <a href="/pdf/pdf-split-range">Split PDF By Range</a>:</strong> Burst a document into single-page files or extract specific chapter page ranges.</li>
+          <li><strong><a href="/pdf/pdf-protect">Protect PDF</a> & <a href="/pdf/pdf-remove-password">Remove Password</a>:</strong> Encrypt documents with owner/user passwords or unlock protected files you own.</li>
+          <li><strong><a href="/pdf/pdf-flatten">Flatten PDF</a>:</strong> Collapse interactive form fields and annotations into static page content for universal printing compatibility.</li>
+          <li><strong><a href="/pdf/pdf-preflight">Preflight PDF</a>:</strong> Inspect document metadata, page dimensions, color spaces, and embedded font structures.</li>
+          <li><strong><a href="/pdf/pdf-compose">Compose PDF</a>:</strong> Draft structured text documents and export them directly into formatted PDF files.</li>
+          <li><strong>Format Converters:</strong> Convert documents seamlessly with <a href="/pdf/images-to-pdf">Images to PDF</a>, <a href="/pdf/pdf-to-images">PDF to Images</a>, <a href="/pdf/pdf-to-text">PDF to Text</a>, and <a href="/pdf/pdf-to-html">PDF to HTML</a>.</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">3. Over 80 Free Tools Across 10 Practical Categories</h2>
+        <p>
+          Alongside our speed test and PDF hub, SolversPro now features more than 80 specialized tools spanning 10 core categories. Every tool is built with the same uncompromising standard: instant execution, modern dark-mode aesthetic, zero tracking, and complete client-side reliability.
+        </p>
+
+        <div class="my-8 overflow-x-auto">
+          <table class="w-full text-left border-collapse border border-zinc-800 text-sm">
+            <thead>
+              <tr class="bg-zinc-900/80 border-b border-zinc-800 text-white">
+                <th class="p-3 font-semibold">Category</th>
+                <th class="p-3 font-semibold">Key Highlights & Popular Tools</th>
+                <th class="p-3 font-semibold">Execution Model</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-800/60 text-zinc-300">
+              <tr>
+                <td class="p-3 font-medium text-white"><a href="/developer/">Developer</a></td>
+                <td class="p-3"><a href="/developer/json-tools">JSON Formatter</a>, <a href="/developer/json-csv">JSON ↔ CSV</a>, <a href="/developer/json-to-typescript">JSON to TypeScript</a>, <a href="/developer/hash-generator">Hash Generator</a>, <a href="/developer/jwt-decoder">JWT Decoder</a></td>
+                <td class="p-3 text-emerald-400">100% Client-Side JS</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium text-white"><a href="/network/">Network</a></td>
+                <td class="p-3"><a href="https://speed.solverspro.com">Internet Speed Test</a>, <a href="/network/ip-subnet-calculator">IP Subnet Calculator</a>, <a href="/network/my-ip">My IP Checker</a>, <a href="/network/ip-lookup">IP Lookup</a></td>
+                <td class="p-3 text-emerald-400">Cloudflare Edge & API</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium text-white"><a href="/pdf/">PDF Tools</a></td>
+                <td class="p-3"><a href="/pdf/pdf-merger">PDF Merger</a>, <a href="/pdf/pdf-split-pages">Split PDF</a>, <a href="/pdf/pdf-protect">Protect</a>, <a href="/pdf/images-to-pdf">Images to PDF</a>, <a href="/pdf/pdf-flatten">Flatten</a></td>
+                <td class="p-3 text-emerald-400">pdf-lib / WebAssembly</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium text-white"><a href="/health/">Health & Fitness</a></td>
+                <td class="p-3"><a href="/health/bmi-calculator-adult/">Adult BMI Calculator</a>, <a href="/health/bmi-calculator-child/">Child BMI Percentile</a>, <a href="/health/tdee-calculator/">TDEE Calculator</a></td>
+                <td class="p-3 text-emerald-400">100% Private In-Browser</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium text-white"><a href="/finance/">Finance</a></td>
+                <td class="p-3"><a href="/finance/currency-converter/">Currency Converter (160+ FX)</a>, <a href="/finance/mortgage-calculator">Mortgage</a>, <a href="/finance/compound-interest">Compound Interest</a>, <a href="/finance/roi-calculator">ROI</a></td>
+                <td class="p-3 text-emerald-400">Client-Side Amortization</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium text-white"><a href="/trades/">Trades & Engineering</a></td>
+                <td class="p-3"><a href="/trades/wire-size">Wire Sizing (NEC ampacity)</a>, <a href="/trades/concrete-slab">Concrete Slab</a>, <a href="/trades/board-feet">Board Feet</a>, <a href="/trades/solar-panel">Solar Array</a></td>
+                <td class="p-3 text-emerald-400">Precision Formulas</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium text-white"><a href="/math/">Math & Solvers</a></td>
+                <td class="p-3"><a href="/math/scientific-calculator">Scientific Calculator</a>, <a href="/math/quadratic-solver">Quadratic Solver</a>, <a href="/math/unit-converter">Unit Converter</a></td>
+                <td class="p-3 text-emerald-400">Instant JS Math</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium text-white"><a href="/security/">Security</a></td>
+                <td class="p-3"><a href="/security/password-generator">Cryptographic Password Generator</a> with entropy analysis</td>
+                <td class="p-3 text-emerald-400">Web Crypto API</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium text-white"><a href="/text/">Text & Utilities</a></td>
+                <td class="p-3"><a href="/text/word-counter">Word & Character Counter</a>, <a href="/text/case-converter">Case Converter</a>, <a href="/text/url-encoder">URL Encoder</a></td>
+                <td class="p-3 text-emerald-400">Local String Engine</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium text-white"><a href="/qr/">QR Code</a></td>
+                <td class="p-3"><a href="/qr/qr-generator">Custom QR Code Generator</a> (URLs, Wi-Fi, vCard, Email, SMS)</td>
+                <td class="p-3 text-emerald-400">In-Browser Canvas Render</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">4. How SolversPro Compares to Traditional Online Tools</h2>
+        <p>
+          Why choose SolversPro over legacy utility portals? Here is how our architecture stacks up against traditional tools:
+        </p>
+
+        <div class="my-8 overflow-x-auto">
+          <table class="w-full text-left border-collapse border border-zinc-800 text-sm">
+            <thead>
+              <tr class="bg-zinc-900/80 border-b border-zinc-800 text-white">
+                <th class="p-3 font-semibold">Feature / Quality</th>
+                <th class="p-3 font-semibold">SolversPro</th>
+                <th class="p-3 font-semibold">Traditional Online Utility Websites</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-800/60 text-zinc-300">
+              <tr>
+                <td class="p-3 font-medium text-white">Document Processing Privacy</td>
+                <td class="p-3 text-emerald-400">100% In-Browser (Files never leave your machine)</td>
+                <td class="p-3 text-rose-400">Files uploaded to third-party cloud servers</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium text-white">Account & Signup Requirement</td>
+                <td class="p-3 text-emerald-400">Zero signups or email walls</td>
+                <td class="p-3 text-rose-400">Requires registration or email submission</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium text-white">Speed Test Advertising</td>
+                <td class="p-3 text-emerald-400">Zero display ads or video interruptions</td>
+                <td class="p-3 text-rose-400">Cluttered with auto-playing video & banner ads</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium text-white">Usage & File Size Caps</td>
+                <td class="p-3 text-emerald-400">Unlimited free usage with local processing</td>
+                <td class="p-3 text-rose-400">Daily file limits and paywalls for basic features</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium text-white">Edge Performance</td>
+                <td class="p-3 text-emerald-400">Cloudflare Edge across 330+ cities worldwide</td>
+                <td class="p-3 text-zinc-400">Centralized regional hosting with high latency</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-8 my-12">
+          <h3 class="text-xl font-bold text-white mb-4 mt-0">Committed to User Privacy</h3>
+          <p class="mb-0 text-zinc-400">
+            We believe you shouldn't have to surrender your personal data, upload sensitive documents, or endure intrusive tracking simply to format JSON or merge two PDF invoices. That is why our tools are built privacy-first by default.
+          </p>
+        </div>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Explore the New SolversPro Features Today</h2>
+        <p>Everything mentioned in this update is live, fully functional, and ready for you to use right now:</p>
+        <ul>
+          <li><a href="https://speed.solverspro.com" target="_blank" rel="noopener">Test your connection at speed.solverspro.com →</a></li>
+          <li><a href="/pdf/">Explore the rebuilt PDF Tools Hub →</a></li>
+          <li><a href="/all-tools/">Browse all 80+ free calculators and utilities →</a></li>
+          <li><a href="/developer/">Format and convert code with Developer Tools →</a></li>
+          <li><a href="/health/bmi-calculator-adult/">Calculate your health metrics with the Adult BMI Calculator →</a></li>
+        </ul>
+
+        <!-- FAQ Section -->
+        <section class="mt-16 bg-zinc-900/60 rounded-xl p-8 border border-zinc-800">
+          <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+          <div class="space-y-6 text-zinc-300">
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-2">What makes the SolversPro Internet Speed Test different from traditional speed tests?</h3>
+              <p class="text-zinc-400">SolversPro's speed test is hosted on a dedicated subdomain (speed.solverspro.com) powered directly by Cloudflare's global edge network across 330+ cities. Unlike legacy speed test platforms, it contains zero video ads, tracks no personal browsing habits, and measures real-world unloaded latency alongside loaded bufferbloat.</p>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-2">Are my files uploaded to your servers when using the PDF tools?</h3>
+              <p class="text-zinc-400">No. All PDF operations—including merging, splitting, encrypting, unlocking, and converting—execute 100% locally in your web browser using client-side JavaScript WebAssembly engines (pdf-lib and PDF.js). Your confidential files never touch an external server or cloud database.</p>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-2">Are all 80+ tools on SolversPro really free to use?</h3>
+              <p class="text-zinc-400">Yes. Every tool across all 10 categories on SolversPro is completely free to use with no account registration, no subscription tiers, and no artificial daily usage limits.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <BlogShare url="https://solverspro.com/blog/solverspro-update-speed-test-and-pdf-tools" title="SolversPro Update: Free Internet Speed Test, New PDF Hub & 80+ Tools" />
+      <BlogRating initialRating={5} totalRatings={3} />
+    </article>
+  </main>
+
+  <script type="application/ld+json" is:raw set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What makes the SolversPro Internet Speed Test different from traditional speed tests?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SolversPro's speed test is hosted on a dedicated subdomain (speed.solverspro.com) powered directly by Cloudflare's global edge network across 330+ cities. Unlike legacy speed test platforms, it contains zero video ads, tracks no personal browsing habits, and measures real-world unloaded latency alongside loaded bufferbloat."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are my files uploaded to your servers when using the PDF tools?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. All PDF operations—including merging, splitting, encrypting, unlocking, and converting—execute 100% locally in your web browser using client-side JavaScript WebAssembly engines (pdf-lib and PDF.js). Your confidential files never touch an external server or cloud database."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are all 80+ tools on SolversPro really free to use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Every tool across all 10 categories on SolversPro is completely free to use with no account registration, no subscription tiers, and no artificial daily usage limits."
+        }
+      }
+    ]
+  }, null, 2)} />
+
+  <Footer />
+</BaseLayout>
