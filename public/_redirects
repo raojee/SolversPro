@@ -1,10 +1,12 @@
 /developer-solver-tools /developer 301
 /math-solver-tools /math 301
-/tools/* /pdf/:splat 301
+/health/bmi-calculator /health/bmi-calculator-adult/ 301
+/health/bmi-calculator/ /health/bmi-calculator-adult/ 301
+/blog/70-free-online-tools-in-one-place /blog/80-free-online-tools-in-one-place 301
+/blog/70-free-online-tools-in-one-place/ /blog/80-free-online-tools-in-one-place/ 301
 /solve /free-ai-solver 301
 /search /free-ai-solver 301
 /solver /free-ai-solver 301
 /ai-solver /free-ai-solver 301
-/blog/70-free-online-tools-in-one-place /blog/80-free-online-tools-in-one-place 301
-/blog/70-free-online-tools-in-one-place/ /blog/80-free-online-tools-in-one-place/ 301
+/tools/* /pdf/:splat 301
 

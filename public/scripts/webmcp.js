@@ -121,7 +121,7 @@
           { name: 'XML Tools', url: '/developer/xml-tools', category: 'developer' },
           { name: 'Base64 Converter', url: '/developer/base64-converter', category: 'developer' },
           { name: 'JWT Decoder', url: '/developer/jwt-decoder', category: 'developer' },
-          { name: 'BMI Calculator', url: '/health/bmi-calculator', category: 'health' },
+          { name: 'BMI Calculator', url: '/health/bmi-calculator-adult', category: 'health' },
           { name: 'TDEE Calculator', url: '/health/tdee-calculator', category: 'health' },
           { name: 'Concrete Slab Calculator', url: '/trades/concrete-slab-calculator', category: 'trades' },
           { name: 'Lumber Board Feet', url: '/trades/board-feet-calculator', category: 'trades' },

@@ -130,9 +130,8 @@ const LASTMOD_MAP = {
 
   // ── Health Tools ────────────────────────────────────────────────────────
   'https://solverspro.com/health/tdee-calculator/':      '2026-06-01',
-  'https://solverspro.com/health/bmi-calculator/':       '2026-06-01',
-  'https://solverspro.com/health/bmi-calculator-adult/': '2026-09-03',
-  'https://solverspro.com/health/bmi-calculator-child/': '2026-09-03',
+  'https://solverspro.com/health/bmi-calculator-adult/': '2026-09-23',
+  'https://solverspro.com/health/bmi-calculator-child/': '2026-09-23',
 
   // ── QR Tools ────────────────────────────────────────────────────────────
   'https://solverspro.com/qr/qr-generator/':             '2026-06-01',

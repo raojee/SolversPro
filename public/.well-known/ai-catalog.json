@@ -527,18 +527,6 @@
       "cost": "free"
     },
     {
-      "name": "BMI Calculator",
-      "description": "Calculate your Body Mass Index (BMI) and check your weight category.",
-      "url": "https://solverspro.com/health/bmi-calculator/",
-      "category": "health-tools",
-      "capabilities": [
-        "bmi-calculator",
-        "health-utility",
-        "browser-based"
-      ],
-      "cost": "free"
-    },
-    {
       "name": "Age Calculator",
       "description": "Calculate your exact age in years, months, days, and discover your next birthday countdown.",
       "url": "https://solverspro.com/math/age-calculator/",

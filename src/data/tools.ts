@@ -263,8 +263,8 @@ export const toolsByCategory: Record<string, Tool[]> = {
   href: '/health/tdee-calculator',
   },
   {
-  title: 'Adult BMI Calculator',
-  description: 'Calculate adult Body Mass Index (BMI) with 6 WHO weight categories and a visual gauge.',
+  title: 'BMI Calculator',
+  description: 'Calculate Body Mass Index (BMI) with 6 WHO weight categories and an interactive visual gauge.',
   icon: '⚖️',
   href: '/health/bmi-calculator-adult',
   },
@@ -273,12 +273,6 @@ export const toolsByCategory: Record<string, Tool[]> = {
   description: 'Calculate pediatric BMI and BMI-for-age percentile (ages 2–19) using official CDC growth chart data.',
   icon: '📊',
   href: '/health/bmi-calculator-child',
-  },
-  {
-  title: 'BMI Calculator',
-  description: 'Calculate your Body Mass Index (BMI) and check your weight category.',
-  icon: '⚖️',
-  href: '/health/bmi-calculator',
   },
 ],
   "math": [
