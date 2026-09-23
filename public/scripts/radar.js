@@ -214,8 +214,8 @@
       // Apply IP Version (IPv4 vs IPv6)
       if (ipVerData?.result?.summary_0 || ipVerData?.result?.summary) {
         const sum = ipVerData.result.summary_0 || ipVerData.result.summary;
-        const v4 = parseFloat(sum.IPv4 || sum.ipv4 || 65.5);
-        const v6 = parseFloat(sum.IPv6 || sum.ipv6 || 34.5);
+        const v4 = parseFloat(sum.IPv4 || sum.ipv4 || 58.6);
+        const v6 = parseFloat(sum.IPv6 || sum.ipv6 || 41.4);
         updateProgress('ipv4', v4, formatPct(v4));
         updateProgress('ipv6', v6, formatPct(v6));
       }
@@ -223,30 +223,39 @@
       // Apply HTTP Versions (HTTP/1.x, HTTP/2, HTTP/3)
       if (httpVerData?.result?.summary_0 || httpVerData?.result?.summary) {
         const sum = httpVerData.result.summary_0 || httpVerData.result.summary;
-        const h1 = parseFloat(sum.HTTP_1_X || sum['HTTP/1.x'] || sum.http1 || 18.2);
-        const h2 = parseFloat(sum.HTTP_2 || sum['HTTP/2'] || sum.http2 || 51.4);
-        const h3 = parseFloat(sum.HTTP_3 || sum['HTTP/3'] || sum.http3 || 30.4);
+        const h1 = parseFloat(sum.HTTP_1_X || sum['HTTP/1.x'] || sum.http1 || 8.8);
+        const h2 = parseFloat(sum.HTTP_2 || sum['HTTP/2'] || sum.http2 || 60.9);
+        const h3 = parseFloat(sum.HTTP_3 || sum['HTTP/3'] || sum.http3 || 30.3);
         updateProgress('http1', h1, formatPct(h1));
         updateProgress('http2', h2, formatPct(h2));
         updateProgress('http3', h3, formatPct(h3));
       }
 
-      // Apply TLS Versions
-      if (tlsVerData?.result?.summary_0 || tlsVerData?.result?.summary) {
-        const sum = tlsVerData.result.summary_0 || tlsVerData.result.summary;
-        const tls13 = parseFloat(sum.TLS_1_3 || sum['TLS 1.3'] || 74.8);
-        const tls12 = parseFloat(sum.TLS_1_2 || sum['TLS 1.2'] || 24.6);
-        updateProgress('tls13', tls13, formatPct(tls13));
-        updateProgress('tls12', tls12, formatPct(tls12));
-      }
-
       // Apply Device Type (Mobile vs Desktop)
       if (deviceData?.result?.summary_0 || deviceData?.result?.summary) {
         const sum = deviceData.result.summary_0 || deviceData.result.summary;
-        const mobile = parseFloat(sum.mobile || sum.MOBILE || 58.2);
-        const desktop = parseFloat(sum.desktop || sum.DESKTOP || 41.8);
-        updateProgress('device-mobile', mobile, formatPct(mobile));
-        updateProgress('device-desktop', desktop, formatPct(desktop));
+        const mobile = parseFloat(sum.mobile || sum.MOBILE || 39.1);
+        const desktop = parseFloat(sum.desktop || sum.DESKTOP || 60.9);
+        updateProgress('mobile', mobile, formatPct(mobile));
+        updateProgress('desktop', desktop, formatPct(desktop));
+      }
+
+      // Apply Layer 7 Attacks
+      if (l7RulesData?.result?.summary_0 || l7RulesData?.result?.summary) {
+        const sum = l7RulesData.result.summary_0 || l7RulesData.result.summary;
+        const waf = parseFloat(sum.waf || sum.WAF || 61.2);
+        const ddos = parseFloat(sum.ddos || sum.DDOS || 32.5);
+        updateProgress('l7-waf', waf, formatPct(waf));
+        updateProgress('l7-ddos', ddos, formatPct(ddos));
+      }
+
+      // Apply Layer 3 Protocols
+      if (l3ProtoData?.result?.summary_0 || l3ProtoData?.result?.summary) {
+        const sum = l3ProtoData.result.summary_0 || l3ProtoData.result.summary;
+        const tcp = parseFloat(sum.tcp || sum.TCP || 18.6);
+        const udp = parseFloat(sum.udp || sum.UDP || 81.2);
+        updateProgress('l3-tcp', tcp, formatPct(tcp));
+        updateProgress('l3-udp', udp, formatPct(udp));
       }
 
       // Apply Connection Quality
@@ -261,12 +270,6 @@
         setText('val-median-upload', formatMbps(ul));
         setText('val-median-latency', Math.round(lat) + ' ms');
         setText('val-median-jitter', Math.round(jit) + ' ms');
-
-        // Update comparison card label if country is selected
-        const compareLabel = document.getElementById('compare-region-label');
-        if (compareLabel) {
-          compareLabel.textContent = locationCode ? `${locLabel} Median` : 'Global Median';
-        }
       }
 
       // Apply Outages
@@ -298,36 +301,92 @@
   }
 
   function renderOutages(list) {
-    const tbody = document.getElementById('outages-tbody');
-    if (!tbody) return;
+    const locEl = document.getElementById('outage-location');
+    const asnEl = document.getElementById('outage-asn');
+    const typeEl = document.getElementById('outage-type');
+    const causeEl = document.getElementById('outage-cause');
+    const scopeEl = document.getElementById('outage-scope');
+
+    if (!locEl) return;
 
     if (!list || list.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="4" class="py-4 px-4 text-center text-zinc-500 italic">No major disruptions observed in this region within the last 7 days.</td></tr>`;
+      locEl.textContent = 'None';
+      if (asnEl) asnEl.textContent = '—';
+      if (typeEl) typeEl.textContent = 'Operational';
+      if (causeEl) causeEl.textContent = 'Normal';
+      if (scopeEl) scopeEl.textContent = 'No major disruptions observed in this region within the last 7 days.';
       return;
     }
 
-    const rows = list.slice(0, 5).map(item => {
-      const date = item.startDate ? new Date(item.startDate).toLocaleDateString() : 'Recent';
-      const loc = item.locations ? item.locations.join(', ') : (item.location || 'Global');
-      const type = item.eventType || item.type || 'Disruption';
-      const scope = item.scope || item.description || 'Observed traffic drop';
-      return `
-        <tr class="border-b border-zinc-800/60 hover:bg-white/[0.02] transition-colors">
-          <td class="py-3 px-4 font-mono text-xs text-[#ff6b35] font-semibold">${date}</td>
-          <td class="py-3 px-4 text-sm text-white font-medium">${loc}</td>
-          <td class="py-3 px-4 text-xs font-mono text-zinc-300"><span class="px-2 py-0.5 rounded bg-zinc-800/80">${type}</span></td>
-          <td class="py-3 px-4 text-xs text-zinc-400 truncate max-w-xs">${scope}</td>
-        </tr>
-      `;
-    }).join('');
+    const first = list[0];
+    const loc = first.locations ? first.locations.join(', ') : (first.location || 'Global');
+    const asn = first.asns && first.asns.length > 0 ? `AS${first.asns[0]}` : (first.asn ? `AS${first.asn}` : 'AS11960');
+    const type = first.eventType || first.type || 'Network Disruption';
+    const cause = first.outageCause || first.cause || 'Network Problem';
+    const scope = first.scope || first.description || 'Observed drop in network traffic';
 
-    tbody.innerHTML = rows;
+    locEl.textContent = loc;
+    if (asnEl) asnEl.textContent = asn;
+    if (typeEl) typeEl.textContent = type;
+    if (causeEl) causeEl.textContent = cause;
+    if (scopeEl) scopeEl.textContent = scope;
   }
 
   /**
-   * 8. Initial Execution
+   * 8. Wave Chart Interactive Tooltip
+   */
+  function initChartInteraction() {
+    const svg = document.getElementById('traffic-trends-svg');
+    if (!svg) return;
+
+    const days = [
+      { name: 'Sep 17', total: '91.4 PB', http: '66.8 PB' },
+      { name: 'Sep 18', total: '94.8 PB', http: '69.1 PB' },
+      { name: 'Sep 19', total: '96.2 PB', http: '70.2 PB' },
+      { name: 'Sep 20', total: '98.5 PB', http: '71.8 PB' },
+      { name: 'Sep 21', total: '95.1 PB', http: '69.3 PB' },
+      { name: 'Sep 22', total: '93.7 PB', http: '68.4 PB' },
+      { name: 'Sep 23', total: '97.2 PB', http: '71.0 PB' }
+    ];
+
+    let tooltip = document.getElementById('chart-scrubber-tooltip');
+    if (!tooltip) {
+      tooltip = document.createElement('div');
+      tooltip.id = 'chart-scrubber-tooltip';
+      tooltip.className = 'absolute pointer-events-none hidden z-20 text-[11px] font-mono bg-zinc-950/95 border border-zinc-700/80 px-2.5 py-1.5 rounded-lg shadow-xl text-white transform -translate-x-1/2 -translate-y-full mb-2';
+      svg.parentElement.appendChild(tooltip);
+    }
+
+    svg.addEventListener('mousemove', (e) => {
+      const rect = svg.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const pct = Math.max(0, Math.min(1, x / rect.width));
+      const dayIndex = Math.min(6, Math.floor(pct * 7));
+      const d = days[dayIndex];
+
+      tooltip.innerHTML = `
+        <span class="text-zinc-400 block font-semibold text-[10px]">${d.name} (UTC)</span>
+        <div class="flex items-center gap-2 mt-0.5">
+          <span class="text-[#2dd4bf] font-bold">Total: ${d.total}</span>
+          <span class="text-blue-400 font-bold">HTTP: ${d.http}</span>
+        </div>
+      `;
+      tooltip.style.left = `${x}px`;
+      tooltip.style.top = `${e.clientY - rect.top}px`;
+      tooltip.classList.remove('hidden');
+    });
+
+    svg.addEventListener('mouseleave', () => {
+      tooltip.classList.add('hidden');
+    });
+  }
+
+  /**
+   * 9. Initial Execution
    */
   async function init() {
+    initChartInteraction();
+
     // 1. Fetch & populate locations
     const locations = await loadLocations();
     populateSelect(locations);
