@@ -1,0 +1,1054 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const faqs = [
+  {
+    question: "What data powers the SolversPro Network Radar?",
+    answer: "The SolversPro Network Radar is powered by real-time aggregated metrics from Cloudflare Radar, observing DNS, HTTP, and network traffic across Cloudflare's global edge network in over 330 cities."
+  },
+  {
+    question: "How often is the radar data refreshed?",
+    answer: "Metrics are cached and updated hourly from the Cloudflare Radar API. When you filter by country or region, the latest regional metrics are fetched on demand."
+  },
+  {
+    question: "Is the Network Radar free to use?",
+    answer: "Yes. SolversPro Network Radar is 100% free with no login, no API key required, and zero subscription fees."
+  },
+  {
+    question: "How does the internet speed comparison work?",
+    answer: "The comparison card compares your connection to Cloudflare's worldwide median download speed (52.4 Mbps). You can test your personal bandwidth and loaded latency using our free browser-based speed test at speed.solverspro.com."
+  }
+];
+
+const webAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "SolversPro Internet Radar",
+  "url": "https://solverspro.com/radar/",
+  "applicationCategory": "DeveloperToolsApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Live dashboard of global internet traffic trends, HTTP/3 & IPv6 adoption, DDoS attack patterns, and connection quality powered by Cloudflare Radar.",
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+};
+
+const collectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Internet Radar — Live Global Network Statistics — SolversPro",
+  "url": "https://solverspro.com/radar/",
+  "description": "Live internet radar: global traffic trends, HTTP/3 & IPv6 adoption, DDoS attack stats, and connection quality data from Cloudflare's network — free, no signup.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  }
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+};
+---
+
+<BaseLayout
+  title="Internet Radar — Live Global Traffic, Security & Speed Trends | SolversPro"
+  description="Live internet radar: global traffic trends, HTTP/3 & IPv6 adoption, DDoS attack stats, and connection quality data from Cloudflare's network — free, no signup."
+  canonical="https://solverspro.com/radar/"
+  ogImage="https://solverspro.com/og-image.png"
+  ogType="website"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(webAppSchema)} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(collectionSchema)} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 pb-20">
+    <!-- Hero Section -->
+    <div class="container mx-auto px-4 pt-10 pb-6 max-w-7xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Network Tools', href: '/network' },
+        { label: 'Internet Radar' }
+      ]} />
+
+      <div class="mt-6 mb-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium bg-[#2dd4bf]/10 text-[#2dd4bf] border border-[#2dd4bf]/20 mb-4">
+          <span class="w-2 h-2 rounded-full bg-[#2dd4bf] animate-pulse"></span>
+          LIVE TELEMETRY
+        </div>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
+          Internet Radar — Live Global Network Statistics
+        </h1>
+        <p class="text-zinc-300 text-lg leading-relaxed max-w-4xl mb-6">
+          SolversPro Network Radar is a free live dashboard of global internet traffic, protocol adoption, DDoS attacks, and connection quality, powered by Cloudflare Radar data across 330+ cities — no signup required.
+        </p>
+      </div>
+    </div>
+
+    <!-- Sticky Country / Region Selector Bar (Section 6) -->
+    <div id="radar-sticky-bar" class="sticky top-0 z-30 py-3.5 px-4 mb-8 bg-[#0a0a0f]/95 backdrop-blur-md border-y border-zinc-800/80 shadow-lg">
+      <div class="container mx-auto max-w-7xl flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <label for="radar-region-select" class="text-sm font-semibold text-zinc-300 whitespace-nowrap flex items-center gap-2">
+            <span class="inline-block w-2.5 h-2.5 rounded-full bg-[#2dd4bf]"></span>
+            Region:
+          </label>
+          <div class="relative">
+            <select
+              id="radar-region-select"
+              class="appearance-none bg-zinc-900 border border-zinc-700 hover:border-[#2dd4bf] text-white text-sm rounded-lg px-3.5 py-1.5 pr-8 focus:outline-none focus:ring-2 focus:ring-[#2dd4bf]/40 focus:border-[#2dd4bf] transition-colors cursor-pointer"
+            >
+              <option value="">Worldwide</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-zinc-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+          </div>
+          <span id="region-status-badge" class="hidden sm:inline-block text-xs font-mono text-zinc-400 bg-zinc-800/80 border border-zinc-700/60 px-2.5 py-1 rounded">Worldwide</span>
+        </div>
+
+        <div class="flex items-center gap-3 text-xs text-zinc-400 font-mono">
+          <span class="flex items-center gap-1.5 text-emerald-400">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            Live Edge Feed
+          </span>
+          <span class="text-zinc-600 hidden sm:inline">•</span>
+          <span class="text-zinc-500 hidden sm:inline">Hourly Cloudflare Revalidation</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mx-auto px-4 max-w-7xl space-y-12">
+      <!-- "How do you compare?" CTA Banner (with Static Server-Side Medians) -->
+      <section class="p-6 md:p-8 rounded-2xl bg-gradient-to-r from-[#12121a] via-[#161622] to-[#12121a] border border-[#2dd4bf]/30 shadow-xl relative overflow-hidden">
+        <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-[#2dd4bf]/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+          <div class="max-w-2xl">
+            <span class="px-2.5 py-1 rounded text-xs font-mono font-semibold bg-[#2dd4bf]/15 text-[#2dd4bf] border border-[#2dd4bf]/30 uppercase tracking-wider">
+              Network Benchmark
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-bold text-white mt-3 mb-2">How Does Your Connection Compare?</h2>
+            <p class="text-zinc-300 text-sm sm:text-base leading-relaxed">
+              Cloudflare's current global median download speed is <strong id="val-median-download-static" class="text-white font-mono">52.4 Mbps</strong> with <strong id="val-median-latency-static" class="text-white font-mono">28 ms</strong> latency. Test your home or mobile connection to see if your ISP delivers advertised performance.
+            </p>
+          </div>
+          <div class="shrink-0 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+            <div class="grid grid-cols-2 gap-3 text-center sm:text-left bg-zinc-950/60 p-3.5 rounded-xl border border-zinc-800">
+              <div>
+                <p class="text-xs text-zinc-500 uppercase tracking-wider font-mono">Global Download</p>
+                <p class="text-lg font-bold text-[#2dd4bf] font-mono">52.4 Mbps</p>
+              </div>
+              <div>
+                <p class="text-xs text-zinc-500 uppercase tracking-wider font-mono">Global Latency</p>
+                <p class="text-lg font-bold text-[#ff6b35] font-mono">28 ms</p>
+              </div>
+            </div>
+            <a
+              href="https://speed.solverspro.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl text-sm font-bold text-zinc-950 bg-[#2dd4bf] hover:bg-[#34e5ce] shadow-lg shadow-[#2dd4bf]/20 transition-all hover:-translate-y-0.5"
+            >
+              Test your internet speed →
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 1: Traffic & Protocols -->
+      <section>
+        <div class="flex items-center justify-between mb-6 pb-2 border-b border-zinc-800">
+          <div>
+            <h2 class="text-2xl font-bold text-white">Traffic & Protocol Adoption</h2>
+            <p class="text-sm text-zinc-400 mt-1">Live distribution of IP versions, HTTP protocol standards, and TLS encryption.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- IPv4 vs IPv6 Card -->
+          <div class="radar-reactive-card bg-[#12121a] border border-zinc-800/80 rounded-2xl p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                  <span class="text-[#2dd4bf]">🌐</span> IP Version Split
+                </h3>
+                <span class="text-xs font-mono text-zinc-500">Live Traffic</span>
+              </div>
+              <p class="text-xs text-zinc-400 mb-6">Percentage of web requests served over modern IPv6 vs legacy IPv4.</p>
+
+              <!-- Progress Bars -->
+              <div class="space-y-4 mb-6">
+                <div>
+                  <div class="flex justify-between text-xs font-mono mb-1.5">
+                    <span class="text-zinc-300">IPv4 (Legacy)</span>
+                    <span id="val-ipv4" class="text-white font-bold">65.5%</span>
+                  </div>
+                  <div class="w-full bg-zinc-800 h-2.5 rounded-full overflow-hidden">
+                    <div id="bar-ipv4" class="bg-blue-500 h-full rounded-full transition-all duration-500" style="width: 65.5%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs font-mono mb-1.5">
+                    <span class="text-zinc-300">IPv6 (Next Gen)</span>
+                    <span id="val-ipv6" class="text-[#2dd4bf] font-bold">34.5%</span>
+                  </div>
+                  <div class="w-full bg-zinc-800 h-2.5 rounded-full overflow-hidden">
+                    <div id="bar-ipv6" class="bg-[#2dd4bf] h-full rounded-full transition-all duration-500" style="width: 34.5%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Static Citable Table -->
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs text-left text-zinc-300 border-collapse">
+                  <thead>
+                    <tr class="border-b border-zinc-800 text-zinc-500 uppercase font-mono">
+                      <th class="py-2 px-1">Protocol</th>
+                      <th class="py-2 px-1 text-right">Share</th>
+                      <th class="py-2 px-1 text-right">Routing Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">IPv4</td>
+                      <td class="py-2 px-1 text-right font-mono">65.5%</td>
+                      <td class="py-2 px-1 text-right text-zinc-400">Exhausted Pool</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2 px-1 font-medium text-white">IPv6</td>
+                      <td class="py-2 px-1 text-right font-mono text-[#2dd4bf]">34.5%</td>
+                      <td class="py-2 px-1 text-right text-emerald-400">Expanding</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="text-xs text-zinc-500 mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between">
+              <span>Data by <a href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-[#2dd4bf] underline">Cloudflare Radar</a></span>
+              <span>Updated hourly</span>
+            </div>
+          </div>
+
+          <!-- HTTP Version Adoption Card -->
+          <div class="radar-reactive-card bg-[#12121a] border border-zinc-800/80 rounded-2xl p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                  <span class="text-[#ff6b35]">⚡</span> HTTP Protocol Version
+                </h3>
+                <span class="text-xs font-mono text-zinc-500">HTTP/1 vs 2 vs 3</span>
+              </div>
+              <p class="text-xs text-zinc-400 mb-6">QUIC-based HTTP/3 vs multiplexed HTTP/2 and legacy HTTP/1.x.</p>
+
+              <!-- Progress Bars -->
+              <div class="space-y-3.5 mb-6">
+                <div>
+                  <div class="flex justify-between text-xs font-mono mb-1.5">
+                    <span class="text-zinc-300">HTTP/2 (Multiplexed)</span>
+                    <span id="val-http2" class="text-white font-bold">51.4%</span>
+                  </div>
+                  <div class="w-full bg-zinc-800 h-2.5 rounded-full overflow-hidden">
+                    <div id="bar-http2" class="bg-indigo-500 h-full rounded-full transition-all duration-500" style="width: 51.4%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs font-mono mb-1.5">
+                    <span class="text-zinc-300">HTTP/3 (QUIC / UDP)</span>
+                    <span id="val-http3" class="text-[#ff6b35] font-bold">30.4%</span>
+                  </div>
+                  <div class="w-full bg-zinc-800 h-2.5 rounded-full overflow-hidden">
+                    <div id="bar-http3" class="bg-[#ff6b35] h-full rounded-full transition-all duration-500" style="width: 30.4%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs font-mono mb-1.5">
+                    <span class="text-zinc-300">HTTP/1.x (TCP Plain)</span>
+                    <span id="val-http1" class="text-zinc-400 font-bold">18.2%</span>
+                  </div>
+                  <div class="w-full bg-zinc-800 h-2.5 rounded-full overflow-hidden">
+                    <div id="bar-http1" class="bg-zinc-600 h-full rounded-full transition-all duration-500" style="width: 18.2%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Static Citable Table -->
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs text-left text-zinc-300 border-collapse">
+                  <thead>
+                    <tr class="border-b border-zinc-800 text-zinc-500 uppercase font-mono">
+                      <th class="py-2 px-1">Protocol</th>
+                      <th class="py-2 px-1 text-right">Share</th>
+                      <th class="py-2 px-1 text-right">Transport</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">HTTP/2</td>
+                      <td class="py-2 px-1 text-right font-mono">51.4%</td>
+                      <td class="py-2 px-1 text-right text-zinc-400">TCP + TLS</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">HTTP/3</td>
+                      <td class="py-2 px-1 text-right font-mono text-[#ff6b35]">30.4%</td>
+                      <td class="py-2 px-1 text-right text-emerald-400">QUIC (UDP)</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2 px-1 font-medium text-white">HTTP/1.x</td>
+                      <td class="py-2 px-1 text-right font-mono">18.2%</td>
+                      <td class="py-2 px-1 text-right text-zinc-400">TCP Stream</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="text-xs text-zinc-500 mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between">
+              <span>Data by <a href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-[#2dd4bf] underline">Cloudflare Radar</a></span>
+              <span>Updated hourly</span>
+            </div>
+          </div>
+
+          <!-- TLS Encryption Card -->
+          <div class="radar-reactive-card bg-[#12121a] border border-zinc-800/80 rounded-2xl p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                  <span class="text-emerald-400">🔒</span> TLS Version Adoption
+                </h3>
+                <span class="text-xs font-mono text-zinc-500">Security</span>
+              </div>
+              <p class="text-xs text-zinc-400 mb-6">Transport Layer Security version distribution across HTTPS traffic.</p>
+
+              <!-- Progress Bars -->
+              <div class="space-y-4 mb-6">
+                <div>
+                  <div class="flex justify-between text-xs font-mono mb-1.5">
+                    <span class="text-zinc-300">TLS 1.3 (0-RTT Secure)</span>
+                    <span id="val-tls13" class="text-emerald-400 font-bold">74.8%</span>
+                  </div>
+                  <div class="w-full bg-zinc-800 h-2.5 rounded-full overflow-hidden">
+                    <div id="bar-tls13" class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: 74.8%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs font-mono mb-1.5">
+                    <span class="text-zinc-300">TLS 1.2 (Standard)</span>
+                    <span id="val-tls12" class="text-white font-bold">24.6%</span>
+                  </div>
+                  <div class="w-full bg-zinc-800 h-2.5 rounded-full overflow-hidden">
+                    <div id="bar-tls12" class="bg-teal-600 h-full rounded-full transition-all duration-500" style="width: 24.6%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Static Citable Table -->
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs text-left text-zinc-300 border-collapse">
+                  <thead>
+                    <tr class="border-b border-zinc-800 text-zinc-500 uppercase font-mono">
+                      <th class="py-2 px-1">Version</th>
+                      <th class="py-2 px-1 text-right">Adoption</th>
+                      <th class="py-2 px-1 text-right">Security Grade</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">TLS 1.3</td>
+                      <td class="py-2 px-1 text-right font-mono text-emerald-400">74.8%</td>
+                      <td class="py-2 px-1 text-right text-emerald-400">Excellent (A+)</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">TLS 1.2</td>
+                      <td class="py-2 px-1 text-right font-mono">24.6%</td>
+                      <td class="py-2 px-1 text-right text-zinc-400">Standard (A)</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2 px-1 font-medium text-white">TLS 1.0 / 1.1</td>
+                      <td class="py-2 px-1 text-right font-mono text-zinc-500">0.6%</td>
+                      <td class="py-2 px-1 text-right text-red-400">Deprecated</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="text-xs text-zinc-500 mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between">
+              <span>Data by <a href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-[#2dd4bf] underline">Cloudflare Radar</a></span>
+              <span>Updated hourly</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: Device Type, OS Share, and Top Browser Families -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+          <!-- Device Type (Mobile vs Desktop) -->
+          <div class="radar-reactive-card bg-[#12121a] border border-zinc-800/80 rounded-2xl p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                  <span>📱</span> Device Form Factor
+                </h3>
+                <span class="text-xs font-mono text-zinc-500">Hardware</span>
+              </div>
+              <p class="text-xs text-zinc-400 mb-6">Breakdown of human and automated web traffic by client hardware category.</p>
+
+              <div class="space-y-4 mb-6">
+                <div>
+                  <div class="flex justify-between text-xs font-mono mb-1.5">
+                    <span class="text-zinc-300">Mobile Devices</span>
+                    <span id="val-device-mobile" class="text-[#2dd4bf] font-bold">58.2%</span>
+                  </div>
+                  <div class="w-full bg-zinc-800 h-2.5 rounded-full overflow-hidden">
+                    <div id="bar-device-mobile" class="bg-[#2dd4bf] h-full rounded-full transition-all duration-500" style="width: 58.2%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-xs font-mono mb-1.5">
+                    <span class="text-zinc-300">Desktop & Laptop</span>
+                    <span id="val-device-desktop" class="text-white font-bold">41.8%</span>
+                  </div>
+                  <div class="w-full bg-zinc-800 h-2.5 rounded-full overflow-hidden">
+                    <div id="bar-device-desktop" class="bg-purple-500 h-full rounded-full transition-all duration-500" style="width: 41.8%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs text-left text-zinc-300 border-collapse">
+                  <thead>
+                    <tr class="border-b border-zinc-800 text-zinc-500 uppercase font-mono">
+                      <th class="py-2 px-1">Device</th>
+                      <th class="py-2 px-1 text-right">Traffic Share</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">Mobile Phones & Tablets</td>
+                      <td class="py-2 px-1 text-right font-mono text-[#2dd4bf]">58.2%</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2 px-1 font-medium text-white">Desktop & Workstations</td>
+                      <td class="py-2 px-1 text-right font-mono">41.8%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="text-xs text-zinc-500 mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between">
+              <span>Data by <a href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-[#2dd4bf] underline">Cloudflare Radar</a></span>
+              <span>Updated hourly</span>
+            </div>
+          </div>
+
+          <!-- Operating Systems -->
+          <div class="radar-reactive-card bg-[#12121a] border border-zinc-800/80 rounded-2xl p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                  <span>💻</span> Operating Systems
+                </h3>
+                <span class="text-xs font-mono text-zinc-500">Platform</span>
+              </div>
+              <p class="text-xs text-zinc-400 mb-4">Leading operating systems initiating web sessions globally.</p>
+
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs text-left text-zinc-300 border-collapse">
+                  <thead>
+                    <tr class="border-b border-zinc-800 text-zinc-500 uppercase font-mono">
+                      <th class="py-2 px-1">OS</th>
+                      <th class="py-2 px-1 text-right">Global Share</th>
+                      <th class="py-2 px-1 text-right">Environment</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">Android</td>
+                      <td class="py-2 px-1 text-right font-mono text-[#2dd4bf]">43.6%</td>
+                      <td class="py-2 px-1 text-right text-zinc-400">Mobile</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">Windows</td>
+                      <td class="py-2 px-1 text-right font-mono">28.4%</td>
+                      <td class="py-2 px-1 text-right text-zinc-400">Desktop</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">iOS</td>
+                      <td class="py-2 px-1 text-right font-mono text-[#ff6b35]">17.9%</td>
+                      <td class="py-2 px-1 text-right text-zinc-400">Mobile</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">macOS</td>
+                      <td class="py-2 px-1 text-right font-mono">6.2%</td>
+                      <td class="py-2 px-1 text-right text-zinc-400">Desktop</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2 px-1 font-medium text-white">Linux & Others</td>
+                      <td class="py-2 px-1 text-right font-mono">3.9%</td>
+                      <td class="py-2 px-1 text-right text-zinc-400">Server / Tech</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="text-xs text-zinc-500 mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between">
+              <span>Data by <a href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-[#2dd4bf] underline">Cloudflare Radar</a></span>
+              <span>Updated hourly</span>
+            </div>
+          </div>
+
+          <!-- Top Browser Families (Global Only - Unaffected by Country Filter) -->
+          <div class="bg-[#12121a] border border-zinc-800/80 rounded-2xl p-6 flex flex-col justify-between relative">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                  <span>🧭</span> Browser Families
+                </h3>
+                <span class="px-2 py-0.5 text-xs font-mono font-medium rounded bg-zinc-800 text-zinc-300 border border-zinc-700">Global</span>
+              </div>
+              <p class="text-xs text-zinc-400 mb-4">Global client browser engines (Chromium, WebKit, Gecko).</p>
+
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs text-left text-zinc-300 border-collapse">
+                  <thead>
+                    <tr class="border-b border-zinc-800 text-zinc-500 uppercase font-mono">
+                      <th class="py-2 px-1">Browser</th>
+                      <th class="py-2 px-1 text-right">Share</th>
+                      <th class="py-2 px-1 text-right">Engine</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">Chrome</td>
+                      <td class="py-2 px-1 text-right font-mono text-[#2dd4bf]">64.8%</td>
+                      <td class="py-2 px-1 text-right text-zinc-400">Blink</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">Safari</td>
+                      <td class="py-2 px-1 text-right font-mono">18.5%</td>
+                      <td class="py-2 px-1 text-right text-zinc-400">WebKit</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">Edge</td>
+                      <td class="py-2 px-1 text-right font-mono">5.2%</td>
+                      <td class="py-2 px-1 text-right text-zinc-400">Blink</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">Firefox</td>
+                      <td class="py-2 px-1 text-right font-mono">2.8%</td>
+                      <td class="py-2 px-1 text-right text-zinc-400">Gecko</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2 px-1 font-medium text-white">Other / In-App</td>
+                      <td class="py-2 px-1 text-right font-mono">8.7%</td>
+                      <td class="py-2 px-1 text-right text-zinc-400">Embedded</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="text-xs text-zinc-500 mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between">
+              <span>Data by <a href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-[#2dd4bf] underline">Cloudflare Radar</a></span>
+              <span>Updated hourly</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Connection Quality & Top Locations -->
+      <section>
+        <div class="flex items-center justify-between mb-6 pb-2 border-b border-zinc-800">
+          <div>
+            <h2 class="text-2xl font-bold text-white">Connection Quality Benchmarks</h2>
+            <p class="text-sm text-zinc-400 mt-1">Observed round-trip latency, jitter, and real-world transfer throughput.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <!-- Live Metrics Overview -->
+          <div class="radar-reactive-card bg-[#12121a] border border-zinc-800/80 rounded-2xl p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-bold text-white">Median Bandwidth</h3>
+                <span id="compare-region-label" class="text-xs font-mono text-zinc-500">Global Median</span>
+              </div>
+              
+              <div class="space-y-5 my-4">
+                <div class="p-3 bg-zinc-950/60 rounded-xl border border-zinc-800">
+                  <span class="text-xs text-zinc-500 uppercase tracking-wider font-mono">Download Speed</span>
+                  <p id="val-median-download" class="text-2xl font-bold text-[#2dd4bf] font-mono mt-0.5">52.4 Mbps</p>
+                </div>
+                <div class="p-3 bg-zinc-950/60 rounded-xl border border-zinc-800">
+                  <span class="text-xs text-zinc-500 uppercase tracking-wider font-mono">Upload Speed</span>
+                  <p id="val-median-upload" class="text-2xl font-bold text-indigo-400 font-mono mt-0.5">22.8 Mbps</p>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <div class="p-3 bg-zinc-950/60 rounded-xl border border-zinc-800">
+                    <span class="text-xs text-zinc-500 uppercase tracking-wider font-mono">Latency</span>
+                    <p id="val-median-latency" class="text-lg font-bold text-[#ff6b35] font-mono mt-0.5">28 ms</p>
+                  </div>
+                  <div class="p-3 bg-zinc-950/60 rounded-xl border border-zinc-800">
+                    <span class="text-xs text-zinc-500 uppercase tracking-wider font-mono">Jitter</span>
+                    <p id="val-median-jitter" class="text-lg font-bold text-amber-400 font-mono mt-0.5">8 ms</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-xs text-zinc-500 mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between">
+              <span>Data by <a href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-[#2dd4bf] underline">Cloudflare Radar</a></span>
+              <span>Updated hourly</span>
+            </div>
+          </div>
+
+          <!-- Top Locations Ranked Table -->
+          <div class="lg:col-span-3 bg-[#12121a] border border-zinc-800/80 rounded-2xl p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-bold text-white">Top Ranked Countries by Median Bandwidth</h3>
+                <span class="px-2 py-0.5 text-xs font-mono font-medium rounded bg-zinc-800 text-zinc-300 border border-zinc-700">Global</span>
+              </div>
+              <p class="text-xs text-zinc-400 mb-4">High-throughput nations with the fastest average edge delivery.</p>
+
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs text-left text-zinc-300 border-collapse">
+                  <thead>
+                    <tr class="border-b border-zinc-800 text-zinc-500 uppercase font-mono">
+                      <th class="py-2.5 px-3">Rank</th>
+                      <th class="py-2.5 px-3">Country / Region</th>
+                      <th class="py-2.5 px-3 text-right">Median Download</th>
+                      <th class="py-2.5 px-3 text-right">Median Upload</th>
+                      <th class="py-2.5 px-3 text-right">Median Latency</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-zinc-800/40 hover:bg-white/[0.02]">
+                      <td class="py-2.5 px-3 font-mono text-[#2dd4bf] font-bold">#1</td>
+                      <td class="py-2.5 px-3 font-medium text-white flex items-center gap-2"><span>🇸🇬</span> Singapore (SG)</td>
+                      <td class="py-2.5 px-3 text-right font-mono text-[#2dd4bf] font-bold">285.4 Mbps</td>
+                      <td class="py-2.5 px-3 text-right font-mono">220.1 Mbps</td>
+                      <td class="py-2.5 px-3 text-right font-mono text-emerald-400">8 ms</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40 hover:bg-white/[0.02]">
+                      <td class="py-2.5 px-3 font-mono text-[#2dd4bf] font-bold">#2</td>
+                      <td class="py-2.5 px-3 font-medium text-white flex items-center gap-2"><span>🇦🇪</span> United Arab Emirates (AE)</td>
+                      <td class="py-2.5 px-3 text-right font-mono text-[#2dd4bf] font-bold">268.9 Mbps</td>
+                      <td class="py-2.5 px-3 text-right font-mono">115.4 Mbps</td>
+                      <td class="py-2.5 px-3 text-right font-mono text-emerald-400">11 ms</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40 hover:bg-white/[0.02]">
+                      <td class="py-2.5 px-3 font-mono text-[#2dd4bf] font-bold">#3</td>
+                      <td class="py-2.5 px-3 font-medium text-white flex items-center gap-2"><span>🇭🇰</span> Hong Kong (HK)</td>
+                      <td class="py-2.5 px-3 text-right font-mono text-[#2dd4bf] font-bold">242.3 Mbps</td>
+                      <td class="py-2.5 px-3 text-right font-mono">180.7 Mbps</td>
+                      <td class="py-2.5 px-3 text-right font-mono text-emerald-400">9 ms</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40 hover:bg-white/[0.02]">
+                      <td class="py-2.5 px-3 font-mono text-zinc-400 font-bold">#4</td>
+                      <td class="py-2.5 px-3 font-medium text-white flex items-center gap-2"><span>🇺🇸</span> United States (US)</td>
+                      <td class="py-2.5 px-3 text-right font-mono font-bold">220.8 Mbps</td>
+                      <td class="py-2.5 px-3 text-right font-mono">35.2 Mbps</td>
+                      <td class="py-2.5 px-3 text-right font-mono text-zinc-400">18 ms</td>
+                    </tr>
+                    <tr class="hover:bg-white/[0.02]">
+                      <td class="py-2.5 px-3 font-mono text-zinc-400 font-bold">#5</td>
+                      <td class="py-2.5 px-3 font-medium text-white flex items-center gap-2"><span>🇩🇰</span> Denmark (DK)</td>
+                      <td class="py-2.5 px-3 text-right font-mono font-bold">205.1 Mbps</td>
+                      <td class="py-2.5 px-3 text-right font-mono">140.6 Mbps</td>
+                      <td class="py-2.5 px-3 text-right font-mono text-emerald-400">12 ms</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="text-xs text-zinc-500 mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between">
+              <span>Data by <a href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-[#2dd4bf] underline">Cloudflare Radar</a></span>
+              <span>Updated hourly</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: DDoS & Threat Intelligence -->
+      <section>
+        <div class="flex items-center justify-between mb-6 pb-2 border-b border-zinc-800">
+          <div>
+            <h2 class="text-2xl font-bold text-white">DDoS Attacks & Threat Intelligence</h2>
+            <p class="text-sm text-zinc-400 mt-1">Observed Layer 3 volumetric attacks and Layer 7 application mitigations.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Layer 3 Attack Vectors -->
+          <div class="radar-reactive-card bg-[#12121a] border border-zinc-800/80 rounded-2xl p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                  <span class="text-red-400">🛡️</span> L3 Attack Vectors
+                </h3>
+                <span class="text-xs font-mono text-zinc-500">Volumetric</span>
+              </div>
+              <p class="text-xs text-zinc-400 mb-4">Most prevalent network layer attack methods mitigated at edge.</p>
+
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs text-left text-zinc-300 border-collapse">
+                  <thead>
+                    <tr class="border-b border-zinc-800 text-zinc-500 uppercase font-mono">
+                      <th class="py-2 px-1">Vector</th>
+                      <th class="py-2 px-1 text-right">Mitigation Share</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">SYN Flood</td>
+                      <td class="py-2 px-1 text-right font-mono text-red-400 font-bold">48.2%</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">DNS Amplification</td>
+                      <td class="py-2 px-1 text-right font-mono text-[#ff6b35]">18.4%</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">RST Flood</td>
+                      <td class="py-2 px-1 text-right font-mono">14.6%</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">UDP Flood</td>
+                      <td class="py-2 px-1 text-right font-mono">11.1%</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2 px-1 font-medium text-white">ICMP Flood / Others</td>
+                      <td class="py-2 px-1 text-right font-mono">7.7%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="text-xs text-zinc-500 mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between">
+              <span>Data by <a href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-[#2dd4bf] underline">Cloudflare Radar</a></span>
+              <span>Updated hourly</span>
+            </div>
+          </div>
+
+          <!-- Layer 3 Attack Protocols -->
+          <div class="radar-reactive-card bg-[#12121a] border border-zinc-800/80 rounded-2xl p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                  <span class="text-amber-400">⚔️</span> Attack Protocols
+                </h3>
+                <span class="text-xs font-mono text-zinc-500">Transport</span>
+              </div>
+              <p class="text-xs text-zinc-400 mb-4">Transport protocols targeted during automated attack bursts.</p>
+
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs text-left text-zinc-300 border-collapse">
+                  <thead>
+                    <tr class="border-b border-zinc-800 text-zinc-500 uppercase font-mono">
+                      <th class="py-2 px-1">Protocol</th>
+                      <th class="py-2 px-1 text-right">Target Volume</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">TCP (Transmission Control)</td>
+                      <td class="py-2 px-1 text-right font-mono text-amber-400 font-bold">68.3%</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">UDP (User Datagram)</td>
+                      <td class="py-2 px-1 text-right font-mono">24.5%</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">GRE (Encapsulation)</td>
+                      <td class="py-2 px-1 text-right font-mono">4.8%</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2 px-1 font-medium text-white">ICMP / Other Raw</td>
+                      <td class="py-2 px-1 text-right font-mono">2.4%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="text-xs text-zinc-500 mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between">
+              <span>Data by <a href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-[#2dd4bf] underline">Cloudflare Radar</a></span>
+              <span>Updated hourly</span>
+            </div>
+          </div>
+
+          <!-- Layer 7 Application Mitigations -->
+          <div class="radar-reactive-card bg-[#12121a] border border-zinc-800/80 rounded-2xl p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                  <span class="text-[#2dd4bf]">🧱</span> L7 WAF Mitigations
+                </h3>
+                <span class="text-xs font-mono text-zinc-500">Application</span>
+              </div>
+              <p class="text-xs text-zinc-400 mb-4">Cloudflare WAF managed rulesets triggered by malicious HTTP requests.</p>
+
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs text-left text-zinc-300 border-collapse">
+                  <thead>
+                    <tr class="border-b border-zinc-800 text-zinc-500 uppercase font-mono">
+                      <th class="py-2 px-1">Managed Rule / Engine</th>
+                      <th class="py-2 px-1 text-right">Blocked Share</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">HTTP Anomaly & Malformed</td>
+                      <td class="py-2 px-1 text-right font-mono text-[#2dd4bf] font-bold">54.2%</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">SQL Injection (SQLi)</td>
+                      <td class="py-2 px-1 text-right font-mono">19.8%</td>
+                    </tr>
+                    <tr class="border-b border-zinc-800/40">
+                      <td class="py-2 px-1 font-medium text-white">Cross-Site Scripting (XSS)</td>
+                      <td class="py-2 px-1 text-right font-mono">13.5%</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2 px-1 font-medium text-white">Remote File Inclusion / CVE</td>
+                      <td class="py-2 px-1 text-right font-mono">12.5%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="text-xs text-zinc-500 mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between">
+              <span>Data by <a href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-[#2dd4bf] underline">Cloudflare Radar</a></span>
+              <span>Updated hourly</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Domain Rankings & Outages -->
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Domain Rankings (Global Only - Unaffected by Country Filter) -->
+        <div class="bg-[#12121a] border border-zinc-800/80 rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                <span>🏆</span> Global Top 10 Domains
+              </h3>
+              <span class="px-2 py-0.5 text-xs font-mono font-medium rounded bg-zinc-800 text-zinc-300 border border-zinc-700">Global</span>
+            </div>
+            <p class="text-xs text-zinc-400 mb-4">Highest query volume domains resolved across global recursive DNS resolvers.</p>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs text-left text-zinc-300 border-collapse">
+                <thead>
+                  <tr class="border-b border-zinc-800 text-zinc-500 uppercase font-mono">
+                    <th class="py-2.5 px-3">Rank</th>
+                    <th class="py-2.5 px-3">Domain</th>
+                    <th class="py-2.5 px-3 text-right">Category</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="border-b border-zinc-800/40 hover:bg-white/[0.02]">
+                    <td class="py-2.5 px-3 font-mono font-bold text-[#2dd4bf]">#1</td>
+                    <td class="py-2.5 px-3 font-medium text-white">google.com</td>
+                    <td class="py-2.5 px-3 text-right text-zinc-400">Search / Cloud</td>
+                  </tr>
+                  <tr class="border-b border-zinc-800/40 hover:bg-white/[0.02]">
+                    <td class="py-2.5 px-3 font-mono font-bold text-[#2dd4bf]">#2</td>
+                    <td class="py-2.5 px-3 font-medium text-white">googleapis.com</td>
+                    <td class="py-2.5 px-3 text-right text-zinc-400">API Infrastructure</td>
+                  </tr>
+                  <tr class="border-b border-zinc-800/40 hover:bg-white/[0.02]">
+                    <td class="py-2.5 px-3 font-mono font-bold text-[#2dd4bf]">#3</td>
+                    <td class="py-2.5 px-3 font-medium text-white">facebook.com</td>
+                    <td class="py-2.5 px-3 text-right text-zinc-400">Social</td>
+                  </tr>
+                  <tr class="border-b border-zinc-800/40 hover:bg-white/[0.02]">
+                    <td class="py-2.5 px-3 font-mono font-bold text-zinc-400">#4</td>
+                    <td class="py-2.5 px-3 font-medium text-white">microsoft.com</td>
+                    <td class="py-2.5 px-3 text-right text-zinc-400">Software / Cloud</td>
+                  </tr>
+                  <tr class="border-b border-zinc-800/40 hover:bg-white/[0.02]">
+                    <td class="py-2.5 px-3 font-mono font-bold text-zinc-400">#5</td>
+                    <td class="py-2.5 px-3 font-medium text-white">apple.com</td>
+                    <td class="py-2.5 px-3 text-right text-zinc-400">Ecosystem / Devices</td>
+                  </tr>
+                  <tr class="border-b border-zinc-800/40 hover:bg-white/[0.02]">
+                    <td class="py-2.5 px-3 font-mono font-bold text-zinc-400">#6</td>
+                    <td class="py-2.5 px-3 font-medium text-white">cloudflare.com</td>
+                    <td class="py-2.5 px-3 text-right text-zinc-400">CDN / Security</td>
+                  </tr>
+                  <tr class="border-b border-zinc-800/40 hover:bg-white/[0.02]">
+                    <td class="py-2.5 px-3 font-mono font-bold text-zinc-400">#7</td>
+                    <td class="py-2.5 px-3 font-medium text-white">amazon.com</td>
+                    <td class="py-2.5 px-3 text-right text-zinc-400">E-Commerce / AWS</td>
+                  </tr>
+                  <tr class="border-b border-zinc-800/40 hover:bg-white/[0.02]">
+                    <td class="py-2.5 px-3 font-mono font-bold text-zinc-400">#8</td>
+                    <td class="py-2.5 px-3 font-medium text-white">netflix.com</td>
+                    <td class="py-2.5 px-3 text-right text-zinc-400">Streaming Media</td>
+                  </tr>
+                  <tr class="border-b border-zinc-800/40 hover:bg-white/[0.02]">
+                    <td class="py-2.5 px-3 font-mono font-bold text-zinc-400">#9</td>
+                    <td class="py-2.5 px-3 font-medium text-white">tiktok.com</td>
+                    <td class="py-2.5 px-3 text-right text-zinc-400">Video / Social</td>
+                  </tr>
+                  <tr class="hover:bg-white/[0.02]">
+                    <td class="py-2.5 px-3 font-mono font-bold text-zinc-400">#10</td>
+                    <td class="py-2.5 px-3 font-medium text-white">youtube.com</td>
+                    <td class="py-2.5 px-3 text-right text-zinc-400">Video Hosting</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="text-xs text-zinc-500 mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between">
+            <span>Data by <a href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-[#2dd4bf] underline">Cloudflare Radar</a></span>
+            <span>Global top list</span>
+          </div>
+        </div>
+
+        <!-- Current Outages & Disruptions -->
+        <div class="radar-reactive-card bg-[#12121a] border border-zinc-800/80 rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                <span>⚠️</span> Observed Internet Outages
+              </h3>
+              <span class="text-xs font-mono text-zinc-500">Annotations</span>
+            </div>
+            <p class="text-xs text-zinc-400 mb-4">Recent large-scale connectivity drops and government-directed shutdowns.</p>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs text-left text-zinc-300 border-collapse">
+                <thead>
+                  <tr class="border-b border-zinc-800 text-zinc-500 uppercase font-mono">
+                    <th class="py-2.5 px-3">Date</th>
+                    <th class="py-2.5 px-3">Location</th>
+                    <th class="py-2.5 px-3">Type</th>
+                    <th class="py-2.5 px-3">Scope</th>
+                  </tr>
+                </thead>
+                <tbody id="outages-tbody">
+                  <tr class="border-b border-zinc-800/40 hover:bg-white/[0.02]">
+                    <td class="py-2.5 px-3 font-mono text-xs text-[#ff6b35] font-semibold">2026-09-18</td>
+                    <td class="py-2.5 px-3 text-sm text-white font-medium">Cuba (CU)</td>
+                    <td class="py-2.5 px-3 text-xs font-mono text-zinc-300"><span class="px-2 py-0.5 rounded bg-zinc-800/80">Power Outage</span></td>
+                    <td class="py-2.5 px-3 text-xs text-zinc-400">Island-wide grid failure causing major nationwide traffic disruption</td>
+                  </tr>
+                  <tr class="border-b border-zinc-800/40 hover:bg-white/[0.02]">
+                    <td class="py-2.5 px-3 font-mono text-xs text-[#ff6b35] font-semibold">2026-09-12</td>
+                    <td class="py-2.5 px-3 text-sm text-white font-medium">Syria (SY)</td>
+                    <td class="py-2.5 px-3 text-xs font-mono text-zinc-300"><span class="px-2 py-0.5 rounded bg-zinc-800/80">Gov Shutdown</span></td>
+                    <td class="py-2.5 px-3 text-xs text-zinc-400">Scheduled nationwide mobile internet shutdown during school exams</td>
+                  </tr>
+                  <tr class="border-b border-zinc-800/40 hover:bg-white/[0.02]">
+                    <td class="py-2.5 px-3 font-mono text-xs text-[#ff6b35] font-semibold">2026-08-30</td>
+                    <td class="py-2.5 px-3 text-sm text-white font-medium">Bangladesh (BD)</td>
+                    <td class="py-2.5 px-3 text-xs font-mono text-zinc-300"><span class="px-2 py-0.5 rounded bg-zinc-800/80">Cable Fault</span></td>
+                    <td class="py-2.5 px-3 text-xs text-zinc-400">Subsea cable cut on SMW5 consortium route impacting transit latency</td>
+                  </tr>
+                  <tr class="hover:bg-white/[0.02]">
+                    <td class="py-2.5 px-3 font-mono text-xs text-[#ff6b35] font-semibold">2026-08-15</td>
+                    <td class="py-2.5 px-3 text-sm text-white font-medium">Sudan (SD)</td>
+                    <td class="py-2.5 px-3 text-xs font-mono text-zinc-300"><span class="px-2 py-0.5 rounded bg-zinc-800/80">Conflict Impact</span></td>
+                    <td class="py-2.5 px-3 text-xs text-zinc-400">Intermittent backbone fiber cuts affecting major telecommunication providers</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="text-xs text-zinc-500 mt-4 pt-3 border-t border-zinc-800/60 flex items-center justify-between">
+            <span>Data by <a href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-[#2dd4bf] underline">Cloudflare Radar</a></span>
+            <span>Updated hourly</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: FAQ Accordion -->
+      <section class="max-w-4xl mx-auto pt-8">
+        <div class="text-center mb-10">
+          <span class="text-xs font-mono uppercase tracking-wider text-[#2dd4bf] bg-[#2dd4bf]/10 px-3 py-1 rounded-full border border-[#2dd4bf]/20">
+            FREQUENTLY ASKED QUESTIONS
+          </span>
+          <h2 class="text-3xl font-bold text-white mt-4">SolversPro Network Radar FAQ</h2>
+          <p class="text-zinc-400 text-sm mt-2">Everything you need to know about our live internet observatory.</p>
+        </div>
+
+        <div class="space-y-4">
+          {faqs.map((faq, index) => (
+            <details class="group bg-[#12121a] border border-zinc-800/80 rounded-xl p-5 open:border-[#2dd4bf]/40 transition-colors">
+              <summary class="flex items-center justify-between font-semibold text-white cursor-pointer list-none select-none">
+                <span>{faq.question}</span>
+                <span class="text-zinc-500 group-open:rotate-180 transition-transform duration-200">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </span>
+              </summary>
+              <p class="text-zinc-300 text-sm mt-3 pt-3 border-t border-zinc-800/60 leading-relaxed">
+                {faq.answer}
+              </p>
+            </details>
+          ))}
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <Footer />
+
+  <!-- Deferred Client-Side Hydration Script -->
+  <script src="/scripts/radar.js" defer></script>
+</BaseLayout>
+
+<style>
+  /* Subtle non-blank loading state */
+  .radar-reactive-card {
+    transition: opacity 0.25s ease-in-out;
+  }
+  .radar-is-loading {
+    opacity: 0.65;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .radar-reactive-card,
+    .animate-pulse,
+    .animate-ping,
+    [id^="bar-"] {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+</style>

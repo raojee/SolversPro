@@ -22,6 +22,20 @@
       "cost": "free"
     },
     {
+      "name": "Internet Radar",
+      "description": "Live dashboard of global internet traffic, protocol adoption, DDoS attacks, and connection quality powered by Cloudflare Radar data across 330+ cities.",
+      "url": "https://solverspro.com/radar/",
+      "category": "network-tools",
+      "capabilities": [
+        "traffic-stats",
+        "protocol-adoption",
+        "ddos-stats",
+        "connection-quality",
+        "domain-rankings"
+      ],
+      "cost": "free"
+    },
+    {
       "name": "Universal AI Problem Solver",
       "description": "Gemini-powered multimodal step-by-step problem solver for mathematics, finance, engineering, coding, and scientific questions.",
       "url": "https://solverspro.com/free-ai-solver/",

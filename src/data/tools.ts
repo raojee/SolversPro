@@ -356,6 +356,12 @@ export const toolsByCategory: Record<string, Tool[]> = {
     icon: '📡',
     href: '/network/ip-lookup'
   },
+  {
+    title: 'Internet Radar',
+    description: 'Live global dashboard of internet traffic trends, HTTP/3 & IPv6 adoption, DDoS attacks, and connection quality.',
+    icon: '📡',
+    href: '/radar'
+  },
 ],
   "qr": [
   {

@@ -124,6 +124,7 @@ const LASTMOD_MAP = {
   'https://solverspro.com/trades/paint-calculator/':     '2026-06-01',
 
   // ── Network Tools ───────────────────────────────────────────────────────
+  'https://solverspro.com/radar/':                       '2026-09-23',
   'https://solverspro.com/network/ip-subnet-calculator/':'2026-07-01',
   'https://solverspro.com/network/my-ip/':               '2026-07-01',
   'https://solverspro.com/network/ip-lookup/':           '2026-07-01',

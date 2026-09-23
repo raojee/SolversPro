@@ -128,6 +128,14 @@
 - [Board Feet Calculator](https://solverspro.com/trades/board-feet/): Calculate hardwood lumber volume in board feet.
 - [Paint Calculator](https://solverspro.com/trades/paint-calculator/): Determine exactly how many gallons of paint your project needs.
 
+### Network Utilities
+
+- [Internet Radar](https://solverspro.com/radar/): Live dashboard of global internet traffic trends, HTTP/3 & IPv6 adoption, DDoS attack statistics, and connection quality data from Cloudflare Radar.
+- [Internet Speed Test](https://speed.solverspro.com/): Real-time internet speed test measuring download, upload, ping, jitter, and bufferbloat.
+- [IP Subnet Calculator](https://solverspro.com/network/ip-subnet-calculator/): Calculate network address, broadcast, subnet mask, host range, and usable hosts for IPv4 subnets.
+- [My IP Checker](https://solverspro.com/network/my-ip/): Find your public IP address with location, ISP, timezone, and coordinates.
+- [IP Address Lookup](https://solverspro.com/network/ip-lookup/): Geolocation, ISP, ASN, and network lookup for any public IP.
+
 ## Blog & Updates
 
 - [SolversPro Update: Free Internet Speed Test, New PDF Hub & 80+ Tools](https://solverspro.com/blog/solverspro-update-speed-test-and-pdf-tools/): Official product update announcing our free Cloudflare-powered internet speed test, rebuilt 100% in-browser PDF tools hub, and expanded 80+ tool directory.

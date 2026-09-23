@@ -1428,12 +1428,99 @@ const toolDocs = {
       ],
     },
   ],
+  network: [
+    {
+      title: 'Internet Radar',
+      href: '/radar',
+      description: 'Live global dashboard of internet traffic trends, protocol adoption (HTTP/3, IPv6, TLS 1.3), DDoS attack patterns, connection quality benchmarks, and internet outages powered by Cloudflare Radar.',
+      features: [
+        'Real-time traffic share and netflows monitoring',
+        'Protocol adoption stats: IPv4 vs IPv6, HTTP/1.x, HTTP/2, HTTP/3, and TLS versions',
+        'DDoS threat intelligence: L3 attack vectors, protocols, origin countries, and L7 mitigations',
+        'Connection quality benchmarks: global download/upload medians, latency, and jitter',
+        'Location-aware regional filtering with 24-hour cached entities list',
+        'Recent internet disruptions and outage tracking',
+      ],
+      steps: [
+        'Navigate to the Internet Radar page.',
+        'Use the sticky Region selector below the hero to choose Worldwide or select a specific country.',
+        'Explore live traffic charts and protocol adoption distributions.',
+        'Review the DDoS attack overview for current layer 3 and layer 7 attack vectors.',
+        'Check global median bandwidth, latency, and compare your speeds with the Speed Test link.',
+      ],
+    },
+    {
+      title: 'Internet Speed Test',
+      href: 'https://speed.solverspro.com',
+      description: 'Accurate, real-time internet speed test running across 330+ Cloudflare edge cities. Measure download bandwidth, upload bandwidth, latency, jitter, and bufferbloat without ads.',
+      features: [
+        'Multi-stream adaptive download and upload testing',
+        'Loaded and unloaded latency and jitter analysis',
+        'Bufferbloat grading for streaming and gaming',
+        'Zero intrusive ads or third-party tracking scripts',
+      ],
+      steps: [
+        'Open the Speed Test tool.',
+        'Click "Start Test" to measure latency and ping.',
+        'Wait as download and upload tests execute in real time.',
+        'Review your final speeds, bufferbloat grade, and connection metrics.',
+      ],
+    },
+    {
+      title: 'IP Subnet Calculator',
+      href: '/network/ip-subnet-calculator',
+      description: 'Calculate network address, broadcast address, subnet mask, wildcard mask, host range, and usable host capacity for any IPv4 subnet using CIDR notation.',
+      features: [
+        'Full CIDR notation support from /0 to /32',
+        'Calculates subnet mask, wildcard mask, and broadcast address',
+        'Displays first usable, last usable, and total usable hosts',
+        'Binary representation of IP address and subnet mask',
+      ],
+      steps: [
+        'Enter an IPv4 address and select or type a CIDR prefix (e.g. 192.168.1.0/24).',
+        'View the calculated network parameters instantly.',
+        'Copy any network address, broadcast, or mask value with one click.',
+      ],
+    },
+    {
+      title: 'My IP Checker',
+      href: '/network/my-ip',
+      description: 'Instantly discover your public IPv4 or IPv6 address, geographic location, Internet Service Provider (ISP), and connection metadata.',
+      features: [
+        'Instant public IP detection',
+        'ISP, Autonomous System Number (ASN), and organization details',
+        'City, region, country, and approximate coordinates',
+        'One-click copy IP to clipboard',
+      ],
+      steps: [
+        'Visit the My IP page.',
+        'Your public IP address and network details load automatically.',
+        'Click the copy button to copy your IP to the clipboard.',
+      ],
+    },
+    {
+      title: 'IP Address Lookup',
+      href: '/network/ip-lookup',
+      description: 'Query any public IPv4 or IPv6 address to retrieve comprehensive geolocation data, ISP information, ASN details, and timezone.',
+      features: [
+        'Lookup any public IPv4 or IPv6 address',
+        'Displays country, region, city, postal code, and coordinates',
+        'ISP, ASN, and hosting provider identification',
+        'Clean tabular layout with one-click copy',
+      ],
+      steps: [
+        'Enter a public IP address into the search input.',
+        'Click "Lookup IP" or press Enter.',
+        'Inspect the geolocation, ISP, and network routing specifications.',
+      ],
+    },
+  ],
 };
 ---
 
 <BaseLayout
   title="User Guide & Documentation — How to Use Every Tool | SolversPro"
-  description="Complete user guide for all SolversPro free online tools. Step-by-step how-to instructions, features, and FAQs for 80+ tools including developer utilities, PDF tools, finance calculators, math solvers, and more."
+  description="Complete user guide for all SolversPro free online tools. Step-by-step how-to instructions, features, and FAQs for 90+ tools including developer utilities, PDF tools, finance calculators, math solvers, network tools, and more."
   canonical="https://solverspro.com/docs/"
 >
   <Header />
@@ -1454,14 +1541,14 @@ const toolDocs = {
           </div>
           <div>
             <h1 class="text-3xl md:text-4xl font-bold text-white">Documentation</h1>
-            <p class="text-zinc-300 text-lg leading-relaxed mt-3">SolversPro Documentation is the comprehensive user guide for 80+ client-side web tools, calculators, and converters with step-by-step instructions and technical specifications.</p>
+            <p class="text-zinc-300 text-lg leading-relaxed mt-3">SolversPro Documentation is the comprehensive user guide for 90+ client-side web tools, calculators, and converters with step-by-step instructions and technical specifications.</p>
             <p class="text-zinc-500 mt-1">Complete guide to every tool on SolversPro.</p>
           </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
           <div class="bg-[#1a1a2e] border border-zinc-800 rounded-xl p-5 text-center">
-            <p class="text-3xl font-bold text-white">80+</p>
+            <p class="text-3xl font-bold text-white">90+</p>
             <p class="text-sm text-zinc-500 mt-1">Free Tools</p>
           </div>
           <div class="bg-[#1a1a2e] border border-zinc-800 rounded-xl p-5 text-center">
