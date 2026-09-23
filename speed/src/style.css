@@ -952,3 +952,37 @@ body {
   line-height: 1.6;
   color: var(--text-muted);
 }
+
+/* Product Update Announcement Card */
+.update-banner-card {
+  margin-top: 18px;
+}
+
+.update-banner-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 14px 20px;
+  background: rgba(12, 14, 23, 0.6);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 13px;
+  text-decoration: none;
+  line-height: 1.5;
+  transition: all var(--transition-fast);
+}
+
+.update-banner-link:hover {
+  border-color: var(--border-glow);
+  background: rgba(12, 14, 23, 0.85);
+  color: var(--text-primary);
+}
+
+.update-banner-link strong {
+  color: var(--accent-blue);
+  font-weight: 600;
+  margin-left: 4px;
+}
+
