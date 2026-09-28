@@ -89,7 +89,7 @@ const faqSchema = {
   <main class="flex-1 bg-[#0b0c10] text-zinc-300 pb-20">
     <div class="container mx-auto px-3 sm:px-4 max-w-7xl pt-4">
 
-      <!-- Top Operational Bar: Overview + Region Select + Last 7 Days (Compact like Cloudflare) -->
+      <!-- Top Operational Bar: Overview + Region Select + Date Picker (Cloudflare-style) -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 mb-2 border-b border-zinc-800/80">
         <div class="flex flex-wrap items-center gap-2.5">
           <div class="flex items-center gap-2">
@@ -97,27 +97,136 @@ const faqSchema = {
             <h1 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Overview</h1>
           </div>
 
-          <!-- Country / Region Selector Dropdown -->
-          <div class="relative inline-flex items-center">
-            <label for="radar-region-select" class="sr-only">Region</label>
-            <select
-              id="radar-region-select"
-              class="appearance-none bg-zinc-900/90 border border-zinc-700/80 hover:border-zinc-500 text-white font-medium text-xs sm:text-sm rounded-lg pl-3 pr-8 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#2dd4bf] focus:border-[#2dd4bf] cursor-pointer"
+          <!-- Rich Country / Region Selector (Custom Searchable Dropdown) -->
+          <div class="relative inline-flex items-center" id="region-dropdown-container">
+            <button
+              type="button"
+              id="region-dropdown-trigger"
+              class="flex items-center gap-1.5 bg-zinc-900/90 border border-zinc-700/80 hover:border-[#2dd4bf]/60 text-white font-medium text-xs sm:text-sm rounded-lg pl-3 pr-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#2dd4bf] focus:border-[#2dd4bf] cursor-pointer transition-colors"
+              aria-haspopup="listbox"
+              aria-expanded="false"
             >
-              <option value="">Worldwide</option>
-            </select>
-            <div class="pointer-events-none absolute right-2 text-zinc-400">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+              <span class="inline-flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-zinc-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                <span id="region-dropdown-label">Worldwide</span>
+              </span>
+              <svg class="w-3.5 h-3.5 text-zinc-400 shrink-0 transition-transform duration-200" id="region-dropdown-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+
+            <!-- Dropdown Panel -->
+            <div
+              id="region-dropdown-panel"
+              class="hidden absolute left-0 top-full mt-1.5 w-72 sm:w-80 max-h-[420px] bg-[#0f1015] border border-zinc-700/80 rounded-xl shadow-2xl shadow-black/60 z-50 flex flex-col overflow-hidden"
+              role="listbox"
+            >
+              <!-- Search Input -->
+              <div class="p-2.5 border-b border-zinc-800/80">
+                <div class="relative">
+                  <svg class="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                  <input
+                    type="text"
+                    id="region-search-input"
+                    placeholder="Search countries…"
+                    autocomplete="off"
+                    class="w-full bg-zinc-900/80 border border-zinc-700/60 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-[#2dd4bf] focus:border-[#2dd4bf]"
+                  />
+                </div>
+              </div>
+
+              <!-- Scrollable List -->
+              <div id="region-dropdown-list" class="overflow-y-auto flex-1 overscroll-contain" style="max-height:360px;">
+                <!-- "Worldwide" always first -->
+                <div
+                  class="radar-region-option flex items-center gap-2 px-3 py-2 text-xs text-white cursor-pointer hover:bg-zinc-800/70 transition-colors"
+                  data-value=""
+                  data-name="Worldwide"
+                  role="option"
+                >
+                  <svg class="w-3.5 h-3.5 text-zinc-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                  <span>Worldwide</span>
+                </div>
+
+                <!-- Continent + country groups will be injected by JS -->
+                <div id="region-groups-container"></div>
+
+                <!-- Empty state -->
+                <div id="region-no-results" class="hidden px-3 py-4 text-xs text-zinc-500 text-center">No countries match your search.</div>
+              </div>
             </div>
           </div>
+
           <span id="region-status-badge" class="hidden sm:inline-block text-[11px] font-mono text-zinc-400 bg-zinc-800/60 px-2 py-0.5 rounded border border-zinc-700/50">Worldwide</span>
         </div>
 
         <div class="flex items-center gap-2 self-start sm:self-auto">
-          <div class="px-3 py-1 text-xs font-mono rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 flex items-center gap-1.5 cursor-default">
-            <span>Last 7 days</span>
-            <span class="text-zinc-600">▾</span>
+          <!-- Date Range Picker -->
+          <div class="relative" id="date-picker-container">
+            <button
+              type="button"
+              id="date-picker-trigger"
+              class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg bg-zinc-900/90 border border-zinc-700/80 hover:border-[#2dd4bf]/60 text-zinc-300 cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#2dd4bf] transition-colors"
+              aria-haspopup="dialog"
+              aria-expanded="false"
+            >
+              <svg class="w-3.5 h-3.5 text-zinc-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              <span id="date-picker-label">Last 7 days</span>
+              <svg class="w-3 h-3 text-zinc-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+
+            <!-- Date Picker Panel -->
+            <div
+              id="date-picker-panel"
+              class="hidden absolute right-0 top-full mt-1.5 bg-[#0f1015] border border-zinc-700/80 rounded-xl shadow-2xl shadow-black/60 z-50 overflow-hidden"
+              role="dialog"
+              aria-label="Date range picker"
+            >
+              <div class="flex">
+                <!-- Left: Dual-month Calendar -->
+                <div class="p-3 border-r border-zinc-800/80">
+                  <div class="flex items-center justify-between mb-2">
+                    <button type="button" id="cal-prev-btn" class="p-1 rounded hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <div class="flex items-center gap-6">
+                      <span id="cal-month-left-title" class="text-xs font-bold text-white"></span>
+                      <span id="cal-month-right-title" class="text-xs font-bold text-white"></span>
+                    </div>
+                    <button type="button" id="cal-next-btn" class="p-1 rounded hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                  </div>
+                  <div class="flex gap-4">
+                    <!-- Left Month -->
+                    <div>
+                      <div class="grid grid-cols-7 gap-0 text-center text-[10px] text-zinc-500 font-mono mb-1">
+                        <span>SU</span><span>MO</span><span>TU</span><span>WE</span><span>TH</span><span>FR</span><span>SA</span>
+                      </div>
+                      <div id="cal-grid-left" class="grid grid-cols-7 gap-0 text-center"></div>
+                    </div>
+                    <!-- Right Month -->
+                    <div>
+                      <div class="grid grid-cols-7 gap-0 text-center text-[10px] text-zinc-500 font-mono mb-1">
+                        <span>SU</span><span>MO</span><span>TU</span><span>WE</span><span>TH</span><span>FR</span><span>SA</span>
+                      </div>
+                      <div id="cal-grid-right" class="grid grid-cols-7 gap-0 text-center"></div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Right: Preset Buttons -->
+                <div class="p-2 flex flex-col gap-1 min-w-[130px]">
+                  <button type="button" class="radar-date-preset text-left px-3 py-1.5 text-xs font-mono rounded-lg hover:bg-zinc-800/80 text-zinc-300 hover:text-white transition-colors" data-hours="24">Last 24 hours</button>
+                  <button type="button" class="radar-date-preset text-left px-3 py-1.5 text-xs font-mono rounded-lg hover:bg-zinc-800/80 text-zinc-300 hover:text-white transition-colors" data-hours="48">Last 48 hours</button>
+                  <button type="button" class="radar-date-preset text-left px-3 py-1.5 text-xs font-mono rounded-lg bg-blue-600/20 border border-blue-500/40 text-blue-300 font-semibold" data-hours="168">Last 7 days</button>
+                  <button type="button" class="radar-date-preset text-left px-3 py-1.5 text-xs font-mono rounded-lg hover:bg-zinc-800/80 text-zinc-300 hover:text-white transition-colors" data-hours="336">Last 2 weeks</button>
+                  <button type="button" class="radar-date-preset text-left px-3 py-1.5 text-xs font-mono rounded-lg hover:bg-zinc-800/80 text-zinc-300 hover:text-white transition-colors" data-hours="672">Last 4 weeks</button>
+                  <button type="button" class="radar-date-preset text-left px-3 py-1.5 text-xs font-mono rounded-lg hover:bg-zinc-800/80 text-zinc-300 hover:text-white transition-colors" data-hours="2160">Last 3 months</button>
+                  <button type="button" class="radar-date-preset text-left px-3 py-1.5 text-xs font-mono rounded-lg hover:bg-zinc-800/80 text-zinc-300 hover:text-white transition-colors" data-hours="4320">Last 6 months</button>
+                  <button type="button" class="radar-date-preset text-left px-3 py-1.5 text-xs font-mono rounded-lg hover:bg-zinc-800/80 text-zinc-300 hover:text-white transition-colors" data-hours="8760">Last 12 months</button>
+                </div>
+              </div>
+            </div>
           </div>
+
           <div class="hidden md:flex items-center gap-1.5 text-[11px] font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
             Live Telemetry
