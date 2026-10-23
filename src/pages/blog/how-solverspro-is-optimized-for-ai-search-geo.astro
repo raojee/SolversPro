@@ -1,0 +1,232 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import BlogRating from '../../components/BlogRating.astro';
+import BlogShare from '../../components/BlogShare.astro';
+
+const url = "https://solverspro.com/blog/how-solverspro-is-optimized-for-ai-search-geo/";
+const title = "How SolversPro Is Optimized for AI Search: Our GEO Playbook";
+const description = "How SolversPro uses Generative Engine Optimization (GEO) — JSON-LD, llms.txt, ai-catalog.json and direct-answer content — so AI assistants can find and cite our free tools.";
+
+const faqs = [
+  {
+    q: "What is Generative Engine Optimization (GEO)?",
+    a: "Generative Engine Optimization is the practice of structuring a website so that AI assistants and answer engines such as ChatGPT, Gemini, Perplexity and Google AI Overviews can understand, trust, and cite its content in generated answers."
+  },
+  {
+    q: "How is GEO different from traditional SEO?",
+    a: "Traditional SEO focuses on ranking a link in a list of search results. GEO focuses on being quoted inside an AI-generated answer, which rewards clear self-contained statements, structured data, and machine-readable site summaries."
+  },
+  {
+    q: "What is llms.txt?",
+    a: "llms.txt is a plain Markdown file served at the root of a website that gives large language models a concise summary of the site, its key facts, and links to its most important pages."
+  },
+  {
+    q: "Does GEO change how SolversPro tools work?",
+    a: "No. GEO work only adds metadata, structured data, and descriptive content. Every SolversPro tool still runs 100% client-side in your browser, with no sign-up and no data uploaded to our servers."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": title,
+      "description": description,
+      "url": url,
+      "image": "https://solverspro.com/images/blog/how-solverspro-is-optimized-for-ai-search-geo.jpg",
+      "author": { "@type": "Organization", "name": "SolversPro" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "SolversPro",
+        "logo": { "@type": "ImageObject", "url": "https://solverspro.com/logo.svg" }
+      },
+      "datePublished": "2026-10-23",
+      "dateModified": "2026-10-23",
+      "mainEntityOfPage": url
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqs.map((f) => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="How SolversPro Is Optimized for AI Search (GEO) | SolversPro Blog"
+  description={description}
+  canonical={url}
+  ogImage="/images/blog/how-solverspro-is-optimized-for-ai-search-geo.jpg"
+  ogType="article"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-16 px-6">
+    <article class="max-w-4xl mx-auto">
+      <!-- Header -->
+      <header class="mb-12">
+        <nav aria-label="breadcrumb" class="mb-6">
+          <ol class="flex items-center space-x-2 text-sm text-zinc-400">
+            <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <a href="/blog" class="hover:text-white transition-colors">Blog</a>
+            </li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <span class="text-[#ff6b35]">Behind the Build</span>
+            </li>
+          </ol>
+        </nav>
+
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">{title}</h1>
+
+        <div class="flex items-center gap-4 text-sm text-zinc-400 mb-8 pb-8 border-b border-white/[0.06]">
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            October 23, 2026
+          </span>
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            6 min read
+          </span>
+        </div>
+
+        <!-- Featured Hero Image -->
+        <figure class="mb-10 rounded-2xl overflow-hidden border border-zinc-800 shadow-2xl bg-zinc-950">
+          <img
+            src="/images/blog/how-solverspro-is-optimized-for-ai-search-geo.jpg"
+            alt="Diagram of a SolversPro tool page feeding JSON-LD, llms.txt, ai-catalog.json and FAQPage data to AI assistants"
+            class="w-full h-auto object-cover max-h-[520px] rounded-t-2xl"
+            loading="eager"
+            decoding="async"
+            width="1376"
+            height="768"
+          />
+          <figcaption class="text-xs text-zinc-400 p-3.5 text-center border-t border-zinc-800/60 bg-zinc-900/60 font-medium">
+            Every SolversPro tool page publishes structured, machine-readable signals that AI assistants can parse and cite.
+          </figcaption>
+        </figure>
+      </header>
+
+      <!-- Content -->
+      <div class="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-a:text-[#2dd4bf] hover:prose-a:text-[#5eead4] prose-strong:text-white">
+        <p class="lead text-xl text-zinc-300 mb-8">
+          SolversPro is optimized for AI search through Generative Engine Optimization (GEO): every one of our free tool pages ships structured data, a quotable one-sentence summary, and citable reference content, backed by site-wide <code>llms.txt</code> and <code>ai-catalog.json</code> files that tell AI assistants exactly what each tool does.
+        </p>
+
+        <p>
+          More people now ask ChatGPT, Gemini, or Perplexity "what's a free tool to minify CSS?" instead of typing keywords into a search box. Those assistants don't show ten blue links — they write an answer and cite a handful of sources. We wanted SolversPro to be one of those sources, so we audited and upgraded every tool page on the site. Here's exactly what we did and why.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">SEO vs. GEO: What Changes</h2>
+        <p>
+          Classic SEO is still the foundation — fast pages, clean URLs, canonical tags, and a sitemap. GEO builds on top of it by making content easy for a language model to extract and attribute.
+        </p>
+
+        <div class="overflow-x-auto my-8">
+          <table class="w-full text-left text-sm border border-white/[0.06] rounded-xl overflow-hidden">
+            <thead class="bg-white/[0.04] text-white">
+              <tr>
+                <th class="p-3">Aspect</th>
+                <th class="p-3">Traditional SEO</th>
+                <th class="p-3">GEO (AI Search)</th>
+              </tr>
+            </thead>
+            <tbody class="text-zinc-300">
+              <tr class="border-t border-white/[0.06]"><td class="p-3">Goal</td><td class="p-3">Rank a link in search results</td><td class="p-3">Get quoted inside an AI answer</td></tr>
+              <tr class="border-t border-white/[0.06]"><td class="p-3">Unit of content</td><td class="p-3">Whole page</td><td class="p-3">Self-contained sentences, tables, and FAQs</td></tr>
+              <tr class="border-t border-white/[0.06]"><td class="p-3">Key signals</td><td class="p-3">Keywords, backlinks, Core Web Vitals</td><td class="p-3">Structured data, clarity, machine-readable summaries</td></tr>
+              <tr class="border-t border-white/[0.06]"><td class="p-3">Discovery files</td><td class="p-3"><code>sitemap.xml</code>, <code>robots.txt</code></td><td class="p-3"><code>llms.txt</code>, <code>ai-catalog.json</code>, Link headers</td></tr>
+              <tr class="border-t border-white/[0.06]"><td class="p-3">Success metric</td><td class="p-3">Clicks and rankings</td><td class="p-3">Citations and brand mentions in answers</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">The 5 Signals on Every Tool Page</h2>
+        <p>
+          Each SolversPro tool — from the <a href="/developer/code-minifier">Code Minifier</a> to the <a href="/developer/markdown-to-html">Markdown to HTML Converter</a> and the <a href="/developer/slug-generator">URL Slug Generator</a> — now carries the same five on-page signals:
+        </p>
+        <ol>
+          <li><strong>WebApplication JSON-LD</strong> — schema.org markup stating the tool's name, URL, category, that it runs in any web browser, and that it's free (price "0").</li>
+          <li><strong>FAQPage JSON-LD</strong> — mirrors the visible FAQ accordion on the page word-for-word, so answer engines can lift accurate Q&amp;A pairs.</li>
+          <li><strong>Complete meta tags</strong> — a keyword-first meta description, canonical URL, Open Graph tags, and a large Twitter card.</li>
+          <li><strong>A direct-answer paragraph</strong> — the first line under each heading is one quotable sentence explaining what the tool is, what it does, and that it's free.</li>
+          <li><strong>Citable reference content</strong> — tables, formulas, or spec lists with clear headers that an AI can cite as a fact.</li>
+        </ol>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Site-Wide Files That Help AI Find Us</h2>
+        <p>
+          On-page markup tells an assistant what a single page is about. These root-level files describe the whole site in one place:
+        </p>
+        <div class="overflow-x-auto my-8">
+          <table class="w-full text-left text-sm border border-white/[0.06] rounded-xl overflow-hidden">
+            <thead class="bg-white/[0.04] text-white">
+              <tr>
+                <th class="p-3">File</th>
+                <th class="p-3">Location</th>
+                <th class="p-3">Purpose</th>
+              </tr>
+            </thead>
+            <tbody class="text-zinc-300">
+              <tr class="border-t border-white/[0.06]"><td class="p-3"><code>llms.txt</code></td><td class="p-3"><a href="/llms.txt">/llms.txt</a></td><td class="p-3">Markdown summary of SolversPro, key facts, and links to every tool</td></tr>
+              <tr class="border-t border-white/[0.06]"><td class="p-3"><code>ai-catalog.json</code></td><td class="p-3"><a href="/.well-known/ai-catalog.json">/.well-known/ai-catalog.json</a></td><td class="p-3">Structured list of tools with descriptions, categories, capabilities, and cost</td></tr>
+              <tr class="border-t border-white/[0.06]"><td class="p-3">Link headers</td><td class="p-3">Every HTTP response</td><td class="p-3"><code>rel="service-desc"</code> and <code>rel="describedby"</code> point agents to the files above</td></tr>
+              <tr class="border-t border-white/[0.06]"><td class="p-3"><code>sitemap.xml</code></td><td class="p-3"><a href="/sitemap-index.xml">/sitemap-index.xml</a></td><td class="p-3">Auto-generated list of every public URL with last-modified dates</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Standalone tools on their own subdomain, like our <a href="https://speed.solverspro.com">Internet Speed Test</a>, get their own <code>llms.txt</code>, sitemap, and headers, while still pointing back to the main catalog so there's a single source of truth.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">The Audit: 94 Pages, 6 Checks Each</h2>
+        <p>
+          To make sure nothing slipped through, we ran an automated audit against the live site. It fetched every tool page listed in our registry and checked for WebApplication schema, FAQPage schema, meta description, Open Graph title and description, a direct-answer paragraph, and citable content.
+        </p>
+        <p>
+          <strong>Result: all 94 tool pages passed every check.</strong> We also spot-checked pages by hand in the browser to confirm they render exactly as before — GEO work never touches tool logic or design.
+        </p>
+
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-8 my-12">
+          <h3 class="text-xl font-bold text-white mb-4 mt-0">Same Tools, Same Privacy</h3>
+          <p class="mb-0 text-zinc-400">
+            None of this changes how SolversPro works for you. Every tool is still free, needs no sign-up, and processes your data 100% client-side in your browser. The only difference is that AI assistants can now describe and recommend our tools accurately.
+          </p>
+        </div>
+
+        <h2 class="text-2xl font-bold mt-12 mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-4 not-prose">
+          {faqs.map((f) => (
+            <details class="group bg-white/[0.02] border border-white/[0.06] rounded-xl p-5">
+              <summary class="cursor-pointer font-semibold text-white list-none flex justify-between items-center">
+                {f.q}
+                <span class="text-[#2dd4bf] transition-transform group-open:rotate-45">+</span>
+              </summary>
+              <p class="mt-3 text-zinc-400 leading-relaxed">{f.a}</p>
+            </details>
+          ))}
+        </div>
+
+        <p class="mt-12">
+          Want to see the result for yourself? Browse <a href="/all-tools">all SolversPro tools</a> — or ask your favourite AI assistant for a free browser-based developer tool and see who it recommends.
+        </p>
+      </div>
+
+      <BlogShare url={url} title={title} />
+      <BlogRating />
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>

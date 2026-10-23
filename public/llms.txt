@@ -138,6 +138,7 @@
 
 ## Blog & Updates
 
+- [How SolversPro Is Optimized for AI Search: Our GEO Playbook](https://solverspro.com/blog/how-solverspro-is-optimized-for-ai-search-geo/): How SolversPro applies Generative Engine Optimization — WebApplication and FAQPage JSON-LD, direct-answer summaries, citable tables, llms.txt, and ai-catalog.json — across all 94 tool pages.
 - [Best Financial Calculator Vendors for SMBs](https://solverspro.com/blog/best-financial-calculator-vendors-for-smbs/): Comprehensive 2026 comparison of financial calculator platforms for small and medium businesses, comparing SolversPro, LivePlan, Causal, Calconic, and PlanGuru across pricing, privacy, and core capabilities.
 - [SolversPro Update: Free Internet Speed Test, New PDF Hub & 80+ Tools](https://solverspro.com/blog/solverspro-update-speed-test-and-pdf-tools/): Official product update announcing our free Cloudflare-powered internet speed test, rebuilt 100% in-browser PDF tools hub, and expanded 80+ tool directory.
 
