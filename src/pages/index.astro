@@ -108,14 +108,15 @@ const testimonials = [
   description="Free, lightning-fast, client-side calculation engines for engineering, finance, and health. All running at the speed of light, right in your browser."
   isHomePage={true}
 >
-  <link rel="preload" as="image" href="/hero-dark-tech.webp" fetchpriority="high" slot="head" />
+  <link rel="preload" as="image" href="/hero-dark-tech.webp" media="(min-width: 640px)" fetchpriority="high" slot="head" />
   <Header />
 
   <main id="main-content" class="flex-1">
   <!-- Hero Section -->
   <section class="relative pt-24 pb-32 overflow-hidden border-b border-white/[0.06]">
-    <!-- Abstract Background Element -->
-    <div class="absolute inset-0 w-full h-full pointer-events-none z-0">
+    <!-- Abstract Background Element: Lightweight CSS gradient on mobile, High-res tech artwork on desktop -->
+    <div class="absolute inset-0 w-full h-full pointer-events-none z-0 block sm:hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#1a1a2e]/60 via-[#0a0a0f] to-[#0a0a0f]"></div>
+    <div class="absolute inset-0 w-full h-full pointer-events-none z-0 hidden sm:block">
       <img src="/hero-dark-tech.webp" alt="SolversPro precision computing background" width="1920" height="1080" fetchpriority="high" loading="eager" decoding="async" class="w-full h-full object-cover object-top opacity-50 mix-blend-screen" />
     </div>
 
@@ -528,14 +529,16 @@ const testimonials = [
     const el = document.getElementById('hero-dynamic-text');
     
     if (el) {
-      setInterval(() => {
-        el.style.opacity = '0';
-        setTimeout(() => {
-          i = (i + 1) % words.length;
-          el.textContent = words[i];
-          el.style.opacity = '1';
-        }, 300);
-      }, 2500);
+      setTimeout(() => {
+        setInterval(() => {
+          el.style.opacity = '0';
+          setTimeout(() => {
+            i = (i + 1) % words.length;
+            el.textContent = words[i];
+            el.style.opacity = '1';
+          }, 300);
+        }, 3000);
+      }, 3500);
     }
 
     // --- AI Typing Effect Logic ---

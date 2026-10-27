@@ -211,9 +211,6 @@ const organizationSchema = isHomePage ? {
   <!-- WebMCP (In-browser Agent Tools) -->
   <script is:inline src="/scripts/webmcp.js" defer></script>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
   <!-- SoftwareApplication Schema for Tool Pages -->
   {softwareAppSchema && (
@@ -313,13 +310,35 @@ const organizationSchema = isHomePage ? {
   <Toast />
   <ActivityTracker />
 
-  <!-- Hidden Google Translate Element & Script (Global Single Instance) -->
+  <!-- Hidden Google Translate Element & Script (Loaded on Demand / Idle) -->
   <div id="google_translate_element" style="display:none;" aria-hidden="true"></div>
-  <script is:inline src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
-
-  <!-- Clean Google Translate Banner & Body Offset -->
   <script is:inline>
     (function() {
+      function loadGT() {
+        if (window.__gtScriptLoaded) return;
+        window.__gtScriptLoaded = true;
+        var s = document.createElement('script');
+        s.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+        s.async = true;
+        document.body.appendChild(s);
+      }
+
+      var stored = localStorage.getItem('solverspro_lang');
+      if (stored && stored !== 'en') {
+        loadGT();
+      } else {
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(loadGT, { timeout: 4000 });
+        } else {
+          window.addEventListener('load', function() { setTimeout(loadGT, 2000); });
+        }
+        document.addEventListener('pointerdown', function(e) {
+          if (e.target && e.target.closest && e.target.closest('.language-switcher-container')) {
+            loadGT();
+          }
+        }, { once: true, passive: true });
+      }
+
       function cleanGoogleUI() {
         if (document.body) {
           if (document.body.style.top && document.body.style.top !== '0px') {
@@ -344,8 +363,6 @@ const organizationSchema = isHomePage ? {
         observer.observe(document.body, { attributes: true, attributeFilter: ['style'], childList: true });
       }
       cleanGoogleUI();
-      var interval = setInterval(cleanGoogleUI, 250);
-      setTimeout(function() { clearInterval(interval); }, 15000);
     })();
   </script>
 </body>
