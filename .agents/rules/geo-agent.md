@@ -37,8 +37,7 @@ subfolder copies like /developer/llms.txt. Per-page requirements:
    clear headers (benchmarks, formulas, unit tables, etc.).
 Then verify (not create) the centralized root files include this tool:
 6. **Root llms.txt**: listed under ## Pages & Tools with one-line description.
-7. **Root ai-catalog.json**: entry in tools array with name, description, url, 
-   category, capabilities[], cost "free".
+7. **Root ai-catalog.json / ard.json**: verify manifest conforms strictly to ARD schema (specVersion, host, entries with valid URN, media type, and representativeQueries).
 8. **Root _headers**: Link headers with rel="service-desc" and 
    rel="describedby" present site-wide (verify once per audit, not per tool).
 9. **sitemap**: URL present in root sitemap with current lastmod.

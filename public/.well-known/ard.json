@@ -1,0 +1,67 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "SolversPro",
+    "identifier": "did:web:solverspro.com",
+    "documentationUrl": "https://solverspro.com/docs",
+    "logoUrl": "https://solverspro.com/favicon.svg"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:solverspro.com:tool:speed-test",
+      "displayName": "SolversPro Internet Speed Test",
+      "description": "Real-time internet speed test measuring download, upload, ping, jitter, and bufferbloat via Cloudflare edge.",
+      "type": "application/mcp-server-card+json",
+      "url": "https://solverspro.com/.well-known/mcp/server-card.json",
+      "representativeQueries": [
+        "Test internet speed online",
+        "Measure download and upload bandwidth",
+        "Check network latency, jitter, and bufferbloat"
+      ]
+    },
+    {
+      "identifier": "urn:air:solverspro.com:agent:card",
+      "displayName": "SolversPro Agent Card",
+      "description": "Autonomous agent card defining capabilities, tools, and execution endpoints for SolversPro.",
+      "type": "application/agent-card+json",
+      "url": "https://solverspro.com/.well-known/agent-card.json",
+      "representativeQueries": [
+        "Discover SolversPro autonomous agent capabilities",
+        "Connect to SolversPro agent endpoints"
+      ]
+    },
+    {
+      "identifier": "urn:air:solverspro.com:mcp:server-card",
+      "displayName": "SolversPro MCP Server Card",
+      "description": "Model Context Protocol (MCP) server card advertising mathematical and developer tools for AI agents.",
+      "type": "application/mcp-server-card+json",
+      "url": "https://solverspro.com/.well-known/mcp/server-card.json",
+      "representativeQueries": [
+        "Connect to SolversPro via Model Context Protocol",
+        "Use MCP server to execute calculations and developer conversions"
+      ]
+    },
+    {
+      "identifier": "urn:air:solverspro.com:skills:suite",
+      "displayName": "SolversPro Suite Agent Skill",
+      "description": "Agent skill specification defining problem solver, math, and financial calculation workflows.",
+      "type": "text/markdown; profile=\"urn:air:agent-skills\"",
+      "url": "https://solverspro.com/.well-known/agent-skills/solverspro-suite/SKILL.md",
+      "representativeQueries": [
+        "What agent skills does SolversPro support?",
+        "Download agent skill for math and finance solvers"
+      ]
+    },
+    {
+      "identifier": "urn:air:solverspro.com:skills:developer",
+      "displayName": "Developer Tools Agent Skill",
+      "description": "Agent skill specification for formatting, validating, and converting JSON, XML, YAML, and Base64.",
+      "type": "text/markdown; profile=\"urn:air:agent-skills\"",
+      "url": "https://solverspro.com/.well-known/agent-skills/developer-tools/SKILL.md",
+      "representativeQueries": [
+        "Format and validate JSON with SolversPro skill",
+        "Convert JSON to TypeScript or Python via agent skill"
+      ]
+    }
+  ]
+}
