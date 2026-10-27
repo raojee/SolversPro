@@ -66,7 +66,7 @@
 ### Health & Fitness Calculators
 
 - [TDEE Calculator](https://solverspro.com/health/tdee-calculator/): Calculate your Total Daily Energy Expenditure based on your activity level.
-- [Adult BMI Calculator](https://solverspro.com/health/bmi-calculator-adult/): Calculate adult Body Mass Index (BMI) with 6 WHO weight categories and a visual gauge.
+- [Adult BMI Calculator](https://solverspro.com/health/bmi-calculator-adult/): Calculate adult Body Mass Index (BMI) for women and men with 6 WHO weight categories, body fat reference tables, and a visual gauge.
 - [Child & Teen BMI Calculator](https://solverspro.com/health/bmi-calculator-child/): Calculate pediatric BMI and BMI-for-age percentile (ages 2–19) using official CDC growth chart data.
 
 ### Math Solvers & Calculators

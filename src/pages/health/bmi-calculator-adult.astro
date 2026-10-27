@@ -32,26 +32,53 @@ const schema = {
 
 const faqItems = [
   {
+    question: "How do you calculate BMI for women?",
+    answer: "To calculate BMI for women manually, divide weight in kilograms by height in meters squared: BMI = weight (kg) ÷ [height (m)]². In imperial units, multiply weight in pounds by 703 and divide by height in inches squared: BMI = [weight (lbs) × 703] ÷ [height (in)]². For example, an adult woman weighing 65 kg who is 1.68 m tall has a BMI of 23.0, placing her in the healthy weight bracket."
+  },
+  {
+    question: "Is BMI calculated differently for women than for men?",
+    answer: "The mathematical formula and numeric threshold categories (18.5 to 24.9 for healthy weight) are the same for adult women and men. However, body composition differs significantly: at the identical BMI, women naturally carry 8% to 10% more essential body fat than men due to reproductive and hormonal biology. Because of this, healthcare providers often evaluate waist circumference alongside BMI."
+  },
+  {
+    question: "What is a healthy BMI range for adult females?",
+    answer: "According to World Health Organization (WHO) and CDC standards, a healthy BMI range for adult women is 18.5 to 24.9. A BMI below 18.5 is considered underweight, 25.0 to 29.9 is overweight, and 30.0 or higher is classified as obese."
+  },
+  {
+    question: "Why can BMI be inaccurate or misleading for women?",
+    answer: "BMI does not distinguish between lean muscle tissue, bone density, and adipose fat. Fit or athletic women with high muscle mass may be classified as 'overweight' despite having low body fat. Conversely, postmenopausal women or those with lower muscle mass may have a 'healthy' BMI while carrying excess visceral fat. Measuring waist-to-height ratio alongside BMI provides a clearer picture."
+  },
+  {
     question: "How accurate is BMI as a health indicator?",
-    answer: "BMI is a useful screening tool but has limitations. It does not directly measure body fat and cannot distinguish between muscle mass and fat mass. Athletes or muscular individuals may have a high BMI despite having low body fat. BMI should be used alongside other measurements — such as waist circumference, body fat percentage, and bloodwork — for a complete health assessment. Consult your healthcare provider for personalized advice."
+    answer: "BMI is a reliable population-level screening metric, but it is not a direct diagnostic measure of cardiovascular or metabolic health. It is best used alongside other screening assessments — including waist circumference, blood pressure, lipid panels, and blood glucose. Always consult a healthcare provider for personalized medical evaluation."
   },
   {
     question: "What is the difference between BMI categories for adults vs. children?",
-    answer: "For adults aged 20 and older, BMI categories are fixed numeric thresholds (underweight < 18.5, healthy 18.5–24.9, overweight 25–29.9, obese ≥ 30). For children and teens (ages 2–19), BMI is interpreted using age-and-sex-specific percentiles from CDC growth charts because body composition changes significantly during growth. Use our Child & Teen BMI Calculator for pediatric assessments."
-  },
-  {
-    question: "Does BMI differ by age and sex for adults?",
-    answer: "The standard BMI formula and category thresholds are the same for all adults regardless of age and sex. However, at the same BMI, women typically have more body fat than men, and older adults tend to have more body fat than younger adults. Some health organizations have proposed adjusted thresholds for different populations, but the WHO standard categories remain the most widely used clinical reference."
+    answer: "For adults aged 20 and older, BMI uses fixed numeric thresholds. For children and teens (ages 2–19), BMI is interpreted using age-and-sex-specific percentiles from CDC growth charts because body composition changes significantly during growth. Use our Child & Teen BMI Calculator for pediatric assessments."
   },
 ];
 ---
 
 <BaseLayout
-  title="Adult BMI Calculator — Free Body Mass Index Tool | SolversPro"
-  description="Calculate your adult Body Mass Index (BMI) instantly with our free online calculator. Supports metric and imperial units, shows 6 weight categories with a visual gauge. 100% private — no data stored."
+  title="Adult BMI Calculator — Calculate BMI for Women & Men | SolversPro"
+  description="Calculate your adult Body Mass Index (BMI) instantly. Learn how to calculate BMI for women and men, view WHO charts, and check healthy weight ranges. 100% private."
   canonical="https://solverspro.com/health/bmi-calculator-adult/"
   schema={schema}
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" is:raw set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqItems.map(item => ({
+        "@type": "Question",
+        "name": item.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.answer
+        }
+      }))
+    }, null, 2)} />
+  </Fragment>
+
   <Header />
   <SearchOverlay />
 
@@ -69,7 +96,7 @@ const faqItems = [
           Adult BMI Calculator
         </h1>
         <p class="text-zinc-300 text-base leading-relaxed mb-4 max-w-2xl mx-auto">
-          The SolversPro Adult BMI Calculator is a free health tool that calculates your body mass index, classifies your result against World Health Organization (WHO) weight categories, and identifies your optimal healthy weight range.
+          The SolversPro Adult BMI Calculator is a free health tool that calculates your body mass index, classifies your result against World Health Organization (WHO) weight categories, and identifies your optimal healthy weight range for both women and men.
         </p>
         <p class="text-sm text-zinc-400">
           Supports both metric and imperial units with an interactive visual gauge. All calculations run locally in your browser with complete privacy.
@@ -289,7 +316,9 @@ const faqItems = [
             </div>
           ))}
         </div>
-      <!-- Reference Table -->
+      </div>
+
+      <!-- Reference Table: WHO Standards -->
       <div class="result-surface mb-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-3xl mx-auto">
         <h2 class="text-2xl font-bold text-white mb-4">WHO Adult BMI Weight Categories</h2>
         <p class="text-sm text-zinc-400 mb-4">Official World Health Organization adult body mass index brackets and associated health risk levels.</p>
@@ -337,6 +366,88 @@ const faqItems = [
           </table>
         </div>
       </div>
+
+      <!-- Dedicated Guide: How to Calculate BMI for Women -->
+      <section class="result-surface mb-12 p-6 md:p-8 bg-[#0d0d14] border border-white/[0.06] rounded-xl max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-4">How to Calculate BMI for Women</h2>
+        <p class="text-zinc-300 text-sm leading-relaxed mb-4">
+          To calculate Body Mass Index (BMI) for women, divide your body weight by your height squared. Although the mathematical formula is identical for adult women and men, interpreting the resulting score requires understanding key female biological differences in essential fat percentages, estrogen levels, and body composition.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div class="p-4 bg-white/[0.02] border border-white/[0.08] rounded-lg">
+            <h3 class="text-sm font-semibold text-[#ff6b35] uppercase tracking-wider mb-2 font-mono">Metric Calculation Formula</h3>
+            <p class="text-white font-mono text-sm mb-1 font-semibold">BMI = weight (kg) ÷ [height (m)]²</p>
+            <p class="text-xs text-zinc-400 mt-2">Example: A woman weighing 64 kg with a height of 1.65 m:<br /><span class="font-mono text-zinc-300">64 ÷ (1.65 × 1.65) = 23.51</span> (Healthy Weight).</p>
+          </div>
+          <div class="p-4 bg-white/[0.02] border border-white/[0.08] rounded-lg">
+            <h3 class="text-sm font-semibold text-[#ff6b35] uppercase tracking-wider mb-2 font-mono">Imperial Calculation Formula</h3>
+            <p class="text-white font-mono text-sm mb-1 font-semibold">BMI = [weight (lbs) × 703] ÷ [height (in)]²</p>
+            <p class="text-xs text-zinc-400 mt-2">Example: A woman weighing 140 lbs who is 5 feet 4 inches (64 inches):<br /><span class="font-mono text-zinc-300">(140 × 703) ÷ (64 × 64) = 24.02</span> (Healthy Weight).</p>
+          </div>
+        </div>
+
+        <h3 class="text-lg font-semibold text-white mb-3">Why BMI Interpretation Differs for Women</h3>
+        <ul class="space-y-2.5 text-sm text-zinc-300 mb-6 list-disc list-inside">
+          <li><strong class="text-white">Higher Essential Body Fat:</strong> Adult females naturally require 10%–13% essential body fat (compared to 2%–5% in males) to support reproductive organs, endocrine function, and normal hormonal balance.</li>
+          <li><strong class="text-white">Healthy Body Fat Range:</strong> A healthy body fat percentage for adult women is typically 21%–31%, whereas healthy men average 14%–24%. Two individuals with the exact same 22.0 BMI will have different muscular and adipose distributions.</li>
+          <li><strong class="text-white">Fat Distribution Patterns:</strong> Premenopausal women predominantly store peripheral subcutaneous fat (hips and thighs), which has lower cardiovascular risk than visceral abdominal fat. Postmenopause, hormonal changes often redistribute fat toward the abdomen.</li>
+          <li><strong class="text-white">Waist Circumference Guideline:</strong> Major health organizations (WHO, NIH) recommend that adult women keep their waist circumference below 35 inches (88 cm) to minimize metabolic syndrome and diabetes risk regardless of BMI.</li>
+        </ul>
+
+        <h3 class="text-lg font-semibold text-white mb-3">Female Body Fat % vs. Adult BMI Reference Table</h3>
+        <p class="text-xs text-zinc-400 mb-4">Reference comparison of American Council on Exercise (ACE) female body fat standards correlated with standard WHO BMI categories.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-zinc-300 border-collapse">
+            <thead>
+              <tr class="border-b border-white/10 text-white font-semibold">
+                <th class="py-2.5 px-3">ACE Classification</th>
+                <th class="py-2.5 px-3">Female Body Fat %</th>
+                <th class="py-2.5 px-3">Standard BMI Range</th>
+                <th class="py-2.5 px-3">Clinical Context</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-[#60a5fa]">Essential Fat</td>
+                <td class="py-2.5 px-3 font-mono">10% – 13%</td>
+                <td class="py-2.5 px-3 font-mono">&lt; 18.5</td>
+                <td class="py-2.5 px-3 text-zinc-400">Critical minimum for hormonal regulation; below this risks amenorrhea and bone density loss</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-[#2dd4bf]">Athletes</td>
+                <td class="py-2.5 px-3 font-mono">14% – 20%</td>
+                <td class="py-2.5 px-3 font-mono">18.5 – 24.9</td>
+                <td class="py-2.5 px-3 text-[#2dd4bf]">Elite muscular conditioning; low cardiovascular risk</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-[#2dd4bf]">Fitness</td>
+                <td class="py-2.5 px-3 font-mono">21% – 24%</td>
+                <td class="py-2.5 px-3 font-mono">18.5 – 24.9</td>
+                <td class="py-2.5 px-3 text-[#2dd4bf]">Optimal metabolic balance, active lifestyle, and balanced endurance</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-white">Acceptable / Average</td>
+                <td class="py-2.5 px-3 font-mono">25% – 31%</td>
+                <td class="py-2.5 px-3 font-mono">18.5 – 24.9</td>
+                <td class="py-2.5 px-3 text-zinc-400">Standard healthy range for adult women in general population</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-[#facc15]">Overweight</td>
+                <td class="py-2.5 px-3 font-mono">32% – 41%</td>
+                <td class="py-2.5 px-3 font-mono">25.0 – 29.9</td>
+                <td class="py-2.5 px-3 text-zinc-400">Elevated risk of insulin resistance; waist measurement recommended</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-semibold text-[#f87171]">Obese</td>
+                <td class="py-2.5 px-3 font-mono">≥ 42%</td>
+                <td class="py-2.5 px-3 font-mono">≥ 30.0</td>
+                <td class="py-2.5 px-3 text-zinc-400">Significant risk for hypertension, type 2 diabetes, and cardiovascular strain</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       <!-- FAQ -->
       <div class="mb-12 max-w-3xl mx-auto">
