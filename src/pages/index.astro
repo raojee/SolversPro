@@ -529,7 +529,9 @@ const testimonials = [
     const el = document.getElementById('hero-dynamic-text');
     
     if (el) {
-      setTimeout(() => {
+      const startRotator = () => {
+        if ((window as any).__rotatorStarted) return;
+        (window as any).__rotatorStarted = true;
         setInterval(() => {
           el.style.opacity = '0';
           setTimeout(() => {
@@ -538,7 +540,12 @@ const testimonials = [
             el.style.opacity = '1';
           }, 300);
         }, 3000);
-      }, 3500);
+      };
+
+      ['scroll', 'touchstart', 'mousemove', 'keydown'].forEach(evt => {
+        window.addEventListener(evt, startRotator, { once: true, passive: true });
+      });
+      setTimeout(startRotator, 7000);
     }
 
     // --- AI Typing Effect Logic ---
