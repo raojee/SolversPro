@@ -74,7 +74,7 @@ const faqs = [
       <Breadcrumbs items={[
         { label: 'Home', href: '/' },
         { label: 'Math', href: '/math' },
-        { label: 'Statistics' },
+        { label: 'Statistics Calculator' },
       ]} />
 
       <div class="mb-8 max-w-3xl mx-auto text-center">
@@ -180,12 +180,12 @@ const faqs = [
           </div>
 
           <div class="p-4 bg-white/[0.02] rounded-lg border border-white/[0.04]">
-            <h3 class="font-bold text-white mb-1">Step 4: Calculate Sample Variance and Standard Deviation</h3>
-            <p class="text-zinc-400 text-xs mb-2">Subtract the mean (15) from each observation, square the results, sum them, and divide by (N - 1) = 4.</p>
+            <h3 class="font-bold text-white mb-1">Step 4: Calculate Sample & Population Variance and Standard Deviation</h3>
+            <p class="text-zinc-400 text-xs mb-2">Subtract the mean (15) from each observation, square the results, sum them, and divide by (N - 1) = 4 for a sample or N = 5 for a population.</p>
             <p class="font-mono text-xs text-[#38bdf8]">(5 - 15)² = 100, (10 - 15)² = 25, (15 - 15)² = 0, (20 - 15)² = 25, (25 - 15)² = 100</p>
             <p class="font-mono text-xs text-[#38bdf8]">Sum of Squared Deviations = 100 + 25 + 0 + 25 + 100 = 250</p>
-            <p class="font-mono text-xs text-[#38bdf8]">Sample Variance (s²) = 250 / (5 - 1) = 250 / 4 = 62.5000</p>
-            <p class="font-mono text-xs text-yellow-400">Sample Standard Deviation (s) = √(62.5) ≈ 7.9057</p>
+            <p class="font-mono text-xs text-[#38bdf8]">Sample Variance (s²) = 250 / (5 - 1) = 62.5000 | Sample Std Dev (s) = √(62.5) ≈ 7.9057</p>
+            <p class="font-mono text-xs text-yellow-400">Population Variance (σ²) = 250 / 5 = 50.0000 | Population Std Dev (σ) = √(50) ≈ 7.0711</p>
           </div>
         </div>
       </div>
@@ -197,6 +197,17 @@ const faqs = [
           <p>
             Descriptive statistics summarize and describe the features of a specific collection of information. Instead of drawing conclusions about a larger population, descriptive measures give you an immediate picture of what your dataset looks like.
           </p>
+          <figure class="my-4 rounded-xl overflow-hidden border border-white/[0.06] bg-[#0d0d14]">
+            <img
+              src="/images/tools/statistics-calculator.svg"
+              alt="Statistics calculator diagram showing mean, median, mode, variance, and standard deviation distribution"
+              width="800"
+              height="320"
+              loading="lazy"
+              decoding="async"
+              class="w-full h-auto block"
+            />
+          </figure>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
             <div class="p-4 bg-white/[0.02] rounded-lg border border-white/[0.04]">
               <h3 class="text-base font-semibold text-white mb-1">Measures of Central Tendency</h3>
@@ -254,10 +265,22 @@ const faqs = [
                 <td class="py-3 px-4 font-mono">Σ(xᵢ - x̄)² / (N - 1)</td>
               </tr>
               <tr>
-                <td class="py-3 px-4 text-yellow-400 font-bold">Standard Deviation</td>
+                <td class="py-3 px-4 text-yellow-400 font-bold">Sample Std Deviation</td>
                 <td class="py-3 px-4 text-white font-mono">s</td>
-                <td class="py-3 px-4">Square root of variance in native units</td>
+                <td class="py-3 px-4">Square root of sample variance in native units</td>
                 <td class="py-3 px-4 font-mono">√(s²)</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#38bdf8] font-bold">Population Variance</td>
+                <td class="py-3 px-4 text-white font-mono">σ²</td>
+                <td class="py-3 px-4">Mean squared deviation across an entire population</td>
+                <td class="py-3 px-4 font-mono">Σ(xᵢ - μ)² / N</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-yellow-400 font-bold">Population Std Deviation</td>
+                <td class="py-3 px-4 text-white font-mono">σ</td>
+                <td class="py-3 px-4">Square root of population variance in native units</td>
+                <td class="py-3 px-4 font-mono">√(σ²)</td>
               </tr>
             </tbody>
           </table>
@@ -321,6 +344,7 @@ const faqs = [
       const variance = data.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / (n - 1);
       const popVariance = data.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / n;
       const stdDev = Math.sqrt(variance);
+      const popStdDev = Math.sqrt(popVariance);
       
       const results = [
         { label: 'Count (N)', value: n },
@@ -331,8 +355,10 @@ const faqs = [
         { label: 'Min', value: sorted[0] },
         { label: 'Max', value: sorted[n - 1] },
         { label: 'Range', value: (sorted[n - 1] - sorted[0]).toFixed(4) },
-        { label: 'Sample Variance', value: variance.toFixed(4) },
-        { label: 'Sample Std Dev', value: stdDev.toFixed(4) }
+        { label: 'Sample Variance (s²)', value: variance.toFixed(4) },
+        { label: 'Sample Std Dev (s)', value: stdDev.toFixed(4) },
+        { label: 'Population Variance (σ²)', value: popVariance.toFixed(4) },
+        { label: 'Population Std Dev (σ)', value: popStdDev.toFixed(4) }
       ];
 
       const grid = document.getElementById('result-grid');
@@ -363,7 +389,9 @@ const faqs = [
               'Max': sorted[n - 1].toString(),
               'Range': (sorted[n - 1] - sorted[0]).toFixed(4),
               'Sample Var': variance.toFixed(4),
-              'Sample Std Dev': stdDev.toFixed(4)
+              'Sample Std Dev': stdDev.toFixed(4),
+              'Pop Var': popVariance.toFixed(4),
+              'Pop Std Dev': popStdDev.toFixed(4)
             };
             const success = window.saveToDashboard('Statistics Calculator', '/math/statistics-calculator', {
               type: 'key-value',
