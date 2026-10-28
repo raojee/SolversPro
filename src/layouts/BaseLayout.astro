@@ -26,7 +26,10 @@ const {
   isHomePage = false,
 } = Astro.props;
 
-const canonicalUrl = canonical || Astro.url.href;
+const rawCanonical = canonical || Astro.url.href;
+const canonicalUrl = rawCanonical.endsWith('/') || /\.[a-z0-9]+$/i.test(rawCanonical)
+  ? rawCanonical
+  : `${rawCanonical}/`;
 
 // ── Dynamic SoftwareApplication Schema for Tool Pages ───────────────────────
 const TOOL_CATEGORIES = new Set([

@@ -13,7 +13,7 @@ import imageSitemapPlugin from './scripts/generate-image-sitemap.mjs';
 //   - Tool pages: set to their approximate launch/last-update date
 //   - Static pages (privacy, terms, faq, about, contact, docs): set once
 //   - Blog posts: set to publish date
-//   - /free-ai-solver/ and /dashboard/: excluded from sitemap (dynamic / auth-gated)
+//   - /dashboard/: excluded from sitemap (private local-storage dashboard)
 // ---------------------------------------------------------------------------
 const LASTMOD_MAP = {
   // ── Static / Informational ──────────────────────────────────────────────
@@ -25,6 +25,7 @@ const LASTMOD_MAP = {
   'https://solverspro.com/privacy/':                     '2026-05-01',
   'https://solverspro.com/terms/':                       '2026-05-01',
   'https://solverspro.com/contact/':                     '2026-05-01',
+  'https://solverspro.com/free-ai-solver/':              '2026-10-28',
 
   // ── Category Hubs ───────────────────────────────────────────────────────
   'https://solverspro.com/developer/':                   '2026-07-10',
@@ -156,6 +157,9 @@ const LASTMOD_MAP = {
   'https://solverspro.com/blog/how-to-convert-currency-accurately/':                           '2026-07-22',
   'https://solverspro.com/blog/how-to-calculate-board-feet-for-lumber-projects/':             '2026-07-27',
   'https://solverspro.com/blog/concrete-slab-calculator-how-much-concrete-do-you-need/':     '2026-07-30',
+  'https://solverspro.com/blog/introducing-solverspro-network-radar/':                        '2026-10-25',
+  'https://solverspro.com/blog/best-financial-calculator-vendors-for-smbs/':                  '2026-10-26',
+  'https://solverspro.com/blog/how-solverspro-is-optimized-for-ai-search-geo/':               '2026-10-27',
 };
 
 // ---------------------------------------------------------------------------
@@ -180,7 +184,7 @@ function getPriorityAndChangefreq(url) {
   if (['/about/', '/docs/', '/faq/', '/privacy/', '/terms/', '/contact/'].includes(path)) {
     return { priority: 0.3, changefreq: 'yearly' };
   }
-  // Individual tool pages (everything else)
+  // Individual tool pages (everything else, including /free-ai-solver/ and /radar/)
   return { priority: 0.6, changefreq: 'monthly' };
 }
 
@@ -189,12 +193,9 @@ export default defineConfig({
   output: 'static',
   integrations: [
     sitemap({
-      // Exclude auth-gated, dynamic, and noindexed thin category hubs from sitemap
+      // Exclude private local-storage dashboard from sitemap
       filter: (page) =>
-        !page.includes('/dashboard') &&
-        !page.includes('/free-ai-solver') &&
-        !page.endsWith('/qr/') &&
-        !page.endsWith('/security/'),
+        !page.includes('/dashboard'),
 
       serialize(item) {
         // Use the per-URL date if available; otherwise omit lastmod rather
