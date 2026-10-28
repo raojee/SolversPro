@@ -97,7 +97,7 @@ const LASTMOD_MAP = {
   'https://solverspro.com/math/age-calculator/':         '2026-09-03',
   'https://solverspro.com/math/unit-converter/':         '2026-05-20',
   'https://solverspro.com/math/geometry-calculator/':    '2026-05-20',
-  'https://solverspro.com/math/statistics-calculator/':  '2026-05-20',
+  'https://solverspro.com/math/statistics-calculator/':  '2026-10-28',
 
   // ── Text Tools ──────────────────────────────────────────────────────────
   'https://solverspro.com/text/number-to-words/':        '2026-05-20',

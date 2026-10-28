@@ -16,10 +16,10 @@ const schema = {
   "@type": "WebApplication",
   "name": "Statistics Calculator",
   "url": "https://solverspro.com/math/statistics-calculator/",
-  "applicationCategory": "UtilitiesApplication",
+  "applicationCategory": "EducationalApplication",
   "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
-  "description": "Free online descriptive statistics calculator to compute mean, median, mode, sample variance, standard deviation, and sum for any numeric dataset.",
+  "description": "Free statistics calculator to compute mean, median, mode, variance, and standard deviation for any dataset. Instant results with clear formula breakdowns.",
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -48,13 +48,21 @@ const faqs = [
   {
     question: "Can this calculator process negative numbers and decimals?",
     answer: "Yes. The calculator parses floating-point numbers, negative values, and zero seamlessly from your comma-separated input list."
+  },
+  {
+    question: "How do I calculate standard deviation with this statistics calculator?",
+    answer: "Simply enter your comma-separated numbers into the data input field and click 'Calculate Stats'. The statistics calculator instantly calculates the sample standard deviation by finding the square root of the sample variance."
+  },
+  {
+    question: "Is this online statistics calculator completely free to use?",
+    answer: "Yes. The SolversPro statistics calculator is 100% free with no registration, no subscriptions, and all math runs locally in your web browser for complete data privacy."
   }
 ];
 ---
 
 <BaseLayout
-  title="Statistics Calculator — Mean, Median, Mode & Standard Deviation | SolversPro"
-  description="Calculate mean, median, mode, variance, and standard deviation of a dataset instantly. Free, browser-based descriptive statistics tool."
+  title="Statistics Calculator — Mean, Median & Mode | SolversPro"
+  description="Free statistics calculator to compute mean, median, mode, variance, and standard deviation for any dataset. Instant results with clear formula breakdowns."
   canonical="https://solverspro.com/math/statistics-calculator/"
   schema={schema}
 >
@@ -71,8 +79,11 @@ const faqs = [
 
       <div class="mb-8 max-w-3xl mx-auto text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">Statistics Calculator</h1>
-        <p class="text-lg text-zinc-400">
+        <p class="text-lg text-zinc-300 leading-relaxed mb-4">
           The SolversPro Statistics Calculator is a free browser-based math utility that evaluates arithmetic mean, median, mode, variance, and sample standard deviation for any numerical dataset in real time.
+        </p>
+        <p class="text-sm text-zinc-400">
+          Enter your numbers separated by commas below to generate an instant statistical summary with formulas and step-by-step breakdowns.
         </p>
       </div>
 
@@ -102,6 +113,103 @@ const faqs = [
           </div>
           <div class="flex justify-end pt-4 border-t border-white/[0.05]">
             <SaveResultButton id="save-stats-btn" />
+          </div>
+        </div>
+      </div>
+
+      <!-- How It Works Section -->
+      <div class="mb-12 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">How to Use This Statistics Calculator</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5 text-center">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mx-auto mb-3 bg-[#ff6b35]">
+              1
+            </div>
+            <h3 class="font-semibold text-white mb-2">Input Your Numbers</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed">
+              Type or paste your data into the box separated by commas. Decimals and negative numbers are fully supported.
+            </p>
+          </div>
+          <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5 text-center">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mx-auto mb-3 bg-[#2dd4bf]">
+              2
+            </div>
+            <h3 class="font-semibold text-white mb-2">Run Instant Analysis</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed">
+              Click Calculate Stats. The statistics calculator computes mean, median, mode, variance, and standard deviation in milliseconds.
+            </p>
+          </div>
+          <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5 text-center">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mx-auto mb-3 bg-[#a78bfa]">
+              3
+            </div>
+            <h3 class="font-semibold text-white mb-2">Review & Save</h3>
+            <p class="text-xs text-zinc-400 leading-relaxed">
+              Examine the metrics cards and save your computation history directly to your private local dashboard with one click.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Worked Example Section -->
+      <div class="mb-12 max-w-3xl mx-auto bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-2xl font-bold text-white mb-3">Worked Example: Step-by-Step Calculation</h2>
+        <p class="text-sm text-zinc-400 mb-6">
+          To see how this statistics calculator works under the hood, let us solve the default sample dataset: <span class="font-mono text-[#2dd4bf] font-semibold">5, 10, 15, 20, 25</span>.
+        </p>
+
+        <div class="space-y-4 text-sm text-zinc-300">
+          <div class="p-4 bg-white/[0.02] rounded-lg border border-white/[0.04]">
+            <h3 class="font-bold text-white mb-1">Step 1: Determine Count and Total Sum</h3>
+            <p class="text-zinc-400 text-xs mb-2">Count the total items (N) and sum all values together.</p>
+            <p class="font-mono text-xs text-[#2dd4bf]">N = 5</p>
+            <p class="font-mono text-xs text-[#2dd4bf]">Sum = 5 + 10 + 15 + 20 + 25 = 75</p>
+          </div>
+
+          <div class="p-4 bg-white/[0.02] rounded-lg border border-white/[0.04]">
+            <h3 class="font-bold text-white mb-1">Step 2: Find the Arithmetic Mean (Average)</h3>
+            <p class="text-zinc-400 text-xs mb-2">Divide the sum of all elements by the total count N.</p>
+            <p class="font-mono text-xs text-[#ff6b35]">Mean (x̄) = 75 / 5 = 15.0000</p>
+          </div>
+
+          <div class="p-4 bg-white/[0.02] rounded-lg border border-white/[0.04]">
+            <h3 class="font-bold text-white mb-1">Step 3: Locate the Median and Mode</h3>
+            <p class="text-zinc-400 text-xs mb-2">Sort the values from smallest to largest and pick the center number. With 5 values, the 3rd item is the median. Every number appears once, so there is no mode.</p>
+            <p class="font-mono text-xs text-[#a78bfa]">Median (x̃) = 15.0000</p>
+            <p class="font-mono text-xs text-[#a78bfa]">Mode = None (all values appear once)</p>
+          </div>
+
+          <div class="p-4 bg-white/[0.02] rounded-lg border border-white/[0.04]">
+            <h3 class="font-bold text-white mb-1">Step 4: Calculate Sample Variance and Standard Deviation</h3>
+            <p class="text-zinc-400 text-xs mb-2">Subtract the mean (15) from each observation, square the results, sum them, and divide by (N - 1) = 4.</p>
+            <p class="font-mono text-xs text-[#38bdf8]">(5 - 15)² = 100, (10 - 15)² = 25, (15 - 15)² = 0, (20 - 15)² = 25, (25 - 15)² = 100</p>
+            <p class="font-mono text-xs text-[#38bdf8]">Sum of Squared Deviations = 100 + 25 + 0 + 25 + 100 = 250</p>
+            <p class="font-mono text-xs text-[#38bdf8]">Sample Variance (s²) = 250 / (5 - 1) = 250 / 4 = 62.5000</p>
+            <p class="font-mono text-xs text-yellow-400">Sample Standard Deviation (s) = √(62.5) ≈ 7.9057</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Descriptive Statistics Core Concepts -->
+      <div class="mb-12 max-w-3xl mx-auto bg-white/[0.02] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-2xl font-bold text-white mb-4">Core Concepts of Descriptive Statistics</h2>
+        <div class="space-y-4 text-sm text-zinc-300 leading-relaxed">
+          <p>
+            Descriptive statistics summarize and describe the features of a specific collection of information. Instead of drawing conclusions about a larger population, descriptive measures give you an immediate picture of what your dataset looks like.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <div class="p-4 bg-white/[0.02] rounded-lg border border-white/[0.04]">
+              <h3 class="text-base font-semibold text-white mb-1">Measures of Central Tendency</h3>
+              <p class="text-xs text-zinc-400 leading-relaxed">
+                Central tendency identifies the center point or typical value in a dataset. The mean provides the mathematical balance point, the median reveals the middle ranking value, and the mode identifies the most frequent observation.
+              </p>
+            </div>
+            <div class="p-4 bg-white/[0.02] rounded-lg border border-white/[0.04]">
+              <h3 class="text-base font-semibold text-white mb-1">Measures of Dispersion</h3>
+              <p class="text-xs text-zinc-400 leading-relaxed">
+                Measures of spread show how scattered data points are around the center. Range shows the extreme boundaries, variance calculates average squared distance, and standard deviation translates that spread back into original measurement units.
+              </p>
+            </div>
           </div>
         </div>
       </div>
