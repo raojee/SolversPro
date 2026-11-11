@@ -34,7 +34,7 @@ const LASTMOD_MAP = {
   'https://solverspro.com/text/':                        '2026-06-20',
   'https://solverspro.com/finance/':                     '2026-06-10',
   'https://solverspro.com/trades/':                      '2026-06-10',
-  'https://solverspro.com/network/':                     '2026-07-01',
+  'https://solverspro.com/network/':                     '2026-11-11',
   'https://solverspro.com/health/':                      '2026-06-01',
   'https://solverspro.com/qr/':                          '2026-06-01',
   'https://solverspro.com/security/':                    '2026-06-01',

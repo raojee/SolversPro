@@ -4,22 +4,42 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import ToolCard from '../../components/ToolCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
 
 import { toolsByCategory } from '../../data/tools';
 const tools = toolsByCategory['network'] || [];
+
+const faqs = [
+  {
+    question: "How do I run a free internet speed test on SolversPro?",
+    answer: "Click the Internet Speed Test card above or visit speed.solverspro.com and press Start Speed Test. The utility measures your real-time download speed, upload speed, ping, jitter, and loaded bufferbloat against Cloudflare's global edge network across 330+ cities."
+  },
+  {
+    question: "What is the difference between a WiFi speed test and a wired network speed test?",
+    answer: "A WiFi speed test measures the wireless link between your device, your router, and your ISP, which can be affected by wall attenuation and 2.4GHz/5GHz channel congestion. A wired Ethernet network speed test bypasses wireless interference to measure the true broadband connection speed delivered by your ISP modem."
+  },
+  {
+    question: "What is a good connection speed for 4K streaming and online gaming?",
+    answer: "For 4K Ultra HD streaming, a minimum download connection speed of 25–50 Mbps is recommended. For competitive online gaming and video calls, low latency (ping under 25–40 ms), low jitter (under 5 ms), and minimal bufferbloat are more critical than raw bandwidth."
+  },
+  {
+    question: "How do the IP Subnet Calculator and Internet Radar complement the speed test?",
+    answer: "While the Internet Speed Test measures your local broadband and WiFi throughput, SolversPro Network Radar tracks global internet traffic, BGP routing anomalies, and DDoS trends per country, and the IP Subnet Calculator computes CIDR address ranges and netmasks for local network engineering."
+  }
+];
 ---
 <BaseLayout
-  title="Network Tools — Free Speed Test, Internet Radar, Subnet & IP Utilities | SolversPro"
-  description="Free online network tools. Test internet speed, monitor live global internet radar stats, calculate IP subnets using CIDR notation, and check IP addresses."
+  title="Network Tools — Free Internet Speed Test, WiFi Speed, Radar & IP | SolversPro"
+  description="Free online network tools: run an accurate internet speed test and WiFi speed test, monitor live global internet radar stats, calculate IP CIDR subnets, and lookup IPs."
   canonical="https://solverspro.com/network/"
 >
   <script type="application/ld+json" is:inline>
   {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": "Network Tools & Utilities — SolversPro",
+    "name": "Network Tools & Internet Speed Test Utilities — SolversPro",
     "url": "https://solverspro.com/network/",
-    "description": "Free online network tools for internet speed testing, live internet radar statistics, CIDR subnet calculations, port reference, and IP address geolocation.",
+    "description": "Free online network tools for internet speed testing, WiFi connection speed diagnostics, live internet radar statistics, CIDR subnet calculations, and IP address geolocation.",
     "publisher": {
       "@type": "Organization",
       "name": "SolversPro",
@@ -31,12 +51,46 @@ const tools = toolsByCategory['network'] || [];
   <div class="container mx-auto px-4 py-12 max-w-6xl">
     <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Network Tools' }]} />
     <div class="mb-12 mt-4">
-      <h1 class="text-4xl font-bold text-white mb-4">Network Tools</h1>
-      <p class="text-zinc-300 text-lg leading-relaxed mt-3">SolversPro Network Hub delivers free, browser-based networking utilities including multi-stream speed testing, live global internet radar trends, CIDR subnet calculators, port lookup reference, and IP geolocation with zero client tracking.</p>
-      <p class="text-zinc-400 text-lg max-w-2xl mt-2">Essential networking utilities for sysadmins, developers, and everyday users. Measure bandwidth and latency, monitor global internet traffic and DDoS trends, calculate subnets, and inspect IP addresses.</p>
+      <h1 class="text-4xl font-bold text-white mb-4">Network Tools & Internet Speed Test Hub</h1>
+      <p class="text-zinc-300 text-lg leading-relaxed mt-3">SolversPro Network Hub delivers free, browser-based networking utilities including a multi-stream internet speed test and WiFi speed test, live global internet radar trends, CIDR subnet calculators, and IP geolocation with zero client tracking.</p>
+      <p class="text-zinc-400 text-lg max-w-2xl mt-2">Essential networking utilities for sysadmins, developers, and everyday users. Check broadband connection speed and latency, monitor global internet traffic, calculate subnets, and inspect IP addresses.</p>
     </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
       {tools.map(tool => <ToolCard {...tool} />)}
+    </div>
+
+    <!-- Spotlight: Free Internet Speed Test & Connection Speed Guide -->
+    <section class="mb-16 bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 md:p-8">
+      <h2 class="text-2xl font-bold text-white mb-3">Free Internet Speed Test — Check Broadband, WiFi & Network Speed</h2>
+      <p class="text-sm text-zinc-300 leading-relaxed mb-4">
+        Need to check your broadband connection speed or diagnose wireless lag? Launch the <a href="https://speed.solverspro.com/" class="text-[#2dd4bf] hover:underline font-semibold">SolversPro Internet Speed Test</a> to measure real-time download bandwidth, upload speed, unloaded ping, jitter, and loaded bufferbloat directly from your browser across 330+ Cloudflare edge locations worldwide.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+        <div class="p-4 bg-[#0d0d14] rounded-lg border border-white/[0.05]">
+          <h3 class="text-base font-semibold text-white mb-1">Broadband & Fiber Speed Test</h3>
+          <p class="text-xs text-zinc-400 leading-relaxed">
+            Verify whether your ISP delivers the advertised download and upload megabits per second (Mbps) without local ISP cache distortion.
+          </p>
+        </div>
+        <div class="p-4 bg-[#0d0d14] rounded-lg border border-white/[0.05]">
+          <h3 class="text-base font-semibold text-white mb-1">WiFi Speed Test & Jitter</h3>
+          <p class="text-xs text-zinc-400 leading-relaxed">
+            Test wireless throughput in different rooms to spot router dead zones, packet jitter, and channel interference on 2.4 GHz and 5 GHz bands.
+          </p>
+        </div>
+        <div class="p-4 bg-[#0d0d14] rounded-lg border border-white/[0.05]">
+          <h3 class="text-base font-semibold text-white mb-1">Network Speed & Bufferbloat</h3>
+          <p class="text-xs text-zinc-400 leading-relaxed">
+            Measure loaded latency under active traffic to grade your network connection for competitive gaming, 4K streaming, and Zoom/Teams calls.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <div class="mb-12">
+      <ToolFAQ faqs={faqs} />
     </div>
   </div>
   <Footer />
