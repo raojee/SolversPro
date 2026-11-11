@@ -7,6 +7,7 @@
     "/_astro/*",
     "/images/*",
     "/scripts/*",
+    "/.well-known/*",
     "/favicon.ico",
     "/favicon.svg",
     "/icon-192x192.png",
@@ -20,6 +21,9 @@
     "/robots.txt",
     "/sitemap*.xml",
     "/BingSiteAuth.xml",
-    "/ads.txt"
+    "/ads.txt",
+    "/llms.txt",
+    "/auth.md",
+    "/7d68607e235f409d8a9069a31fb6558c.txt"
   ]
 }
