@@ -31,6 +31,37 @@ import DashboardCore from '../../components/react/DashboardCore.jsx';
 
       <DashboardCore client:load />
 
+      <!-- Static Overview & Privacy Architecture Section -->
+      <section class="mt-16 pt-12 border-t border-white/[0.06] space-y-8">
+        <div>
+          <h2 class="text-2xl font-bold text-white mb-3">How Your Private SolversPro Dashboard Works</h2>
+          <p class="text-zinc-400 text-sm leading-relaxed max-w-3xl">
+            The SolversPro User Dashboard gives you a unified workspace to track your recently used calculators, pin your favorite utilities, and revisit saved calculation snapshots without creating an account or transmitting personal data to external servers.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="p-6 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+            <h3 class="text-base font-bold text-white mb-2">🔒 100% Browser-Local Storage</h3>
+            <p class="text-sm text-zinc-400 leading-relaxed">
+              All activity logs, bookmarked tools, and saved calculation results are stored exclusively in your browser's local storage (`localStorage`). Your financial figures, developer tokens, and health metrics never leave your device.
+            </p>
+          </div>
+          <div class="p-6 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+            <h3 class="text-base font-bold text-white mb-2">⚡ Instant Tool Pinning &amp; History</h3>
+            <p class="text-sm text-zinc-400 leading-relaxed">
+              Every time you run a calculation across our 90+ utilities—from Mortgage and ROI Calculators to JSON Formatters and PDF Mergers—your recent tools appear here automatically for one-click access.
+            </p>
+          </div>
+          <div class="p-6 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+            <h3 class="text-base font-bold text-white mb-2">🧹 Full Data Control</h3>
+            <p class="text-sm text-zinc-400 leading-relaxed">
+              You remain in complete control of your workspace data at all times. Clear individual history items or reset your entire local dashboard cache with a single click whenever you use a shared computer.
+            </p>
+          </div>
+        </div>
+      </section>
+
     </div>
   </main>
 

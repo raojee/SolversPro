@@ -26,10 +26,12 @@ const {
   isHomePage = false,
 } = Astro.props;
 
-const rawCanonical = canonical || Astro.url.href;
+const cleanCurrentUrl = `${Astro.url.origin}${Astro.url.pathname}`;
+const rawCanonical = canonical || cleanCurrentUrl;
 const canonicalUrl = rawCanonical.endsWith('/') || /\.[a-z0-9]+$/i.test(rawCanonical)
   ? rawCanonical
   : `${rawCanonical}/`;
+const isParameterizedUrl = Astro.url.search.length > 0;
 
 // ── Dynamic SoftwareApplication Schema for Tool Pages ───────────────────────
 const TOOL_CATEGORIES = new Set([
@@ -173,8 +175,12 @@ const organizationSchema = isHomePage ? {
   {robots && <meta name="robots" content={robots} />}
 
   <!-- hreflang -->
-  <link rel="alternate" hreflang="en" href={canonicalUrl} />
-  <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+  {!isParameterizedUrl && (
+    <>
+      <link rel="alternate" hreflang="en" href={canonicalUrl} />
+      <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+    </>
+  )}
 
   <!-- Open Graph -->
   <meta property="og:type" content={resolvedOgType} />
@@ -201,7 +207,7 @@ const organizationSchema = isHomePage ? {
 
   <!-- AI Agent Discovery & RFC 8288 Link Relations -->
   <link rel="api-catalog" type="application/linkset+json" href="/.well-known/api-catalog" />
-  <link rel="service-doc" href="/docs" />
+  <link rel="service-doc" href="/docs/" />
   <link rel="service-desc" type="application/vnd.oai.openapi+json" href="/api/openapi.json" />
   <link rel="agent-skills" type="application/json" href="/.well-known/agent-skills/index.json" />
   <link rel="mcp-server-card" type="application/json" href="/.well-known/mcp/server-card.json" />

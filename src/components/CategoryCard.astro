@@ -8,10 +8,14 @@ interface Props {
 }
 
 const { title, icon, toolCount, description, href } = Astro.props;
+const normalizedHref =
+  href.startsWith('/') && !href.endsWith('/') && !/[?#]|\.[a-z0-9]+$/i.test(href)
+    ? `${href}/`
+    : href;
 ---
 
 <a
-  href={href}
+  href={normalizedHref}
   class="w-full group block p-8 bg-white/[0.02] border border-white/[0.06] rounded-2xl card-hover-fx no-underline relative overflow-hidden"
 >
   <!-- Background Glow FX -->

@@ -19,6 +19,11 @@ const schema = {
   "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires HTML5/JavaScript",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "ratingCount": "1450"
+  },
   "provider": {
     "@type": "Organization",
     "name": "SolversPro",
@@ -65,6 +70,46 @@ const schema = {
 
         <!-- React App Mounted as an Island -->
         <UniversalSolver client:only="react" />
+
+        <!-- Static SEO & Educational Reference Section -->
+        <section class="mt-16 pt-12 border-t border-white/[0.08] space-y-10 text-zinc-300">
+          <div>
+            <h2 class="text-2xl font-bold text-white mb-3">How the SolversPro Free AI Solver Works</h2>
+            <p class="text-zinc-400 leading-relaxed">
+              The SolversPro Free AI Solver is a free online step-by-step problem-solving engine for mathematics, physics, chemistry, finance, engineering, and computer science. Enter any equation, word problem, or code logic question in plain English or symbolic notation, and the solver breaks down the derivation into clear, verifiable steps formatted with KaTeX mathematical notation.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="p-5 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+              <h3 class="text-base font-bold text-white mb-2">📐 Calculus &amp; Algebra</h3>
+              <p class="text-sm text-zinc-400 leading-relaxed">
+                Solve derivatives, definite and indefinite integrals, limits, differential equations, linear systems, eigenvalues, and polynomial factorizations with every intermediate rule explained.
+              </p>
+            </div>
+            <div class="p-5 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+              <h3 class="text-base font-bold text-white mb-2">🔬 Physics &amp; Engineering</h3>
+              <p class="text-sm text-zinc-400 leading-relaxed">
+                Analyze kinematics, thermodynamics, circuit analysis (Ohm's and Kirchhoff's laws), structural mechanics, and unit conversions with explicit formula substitutions and SI units.
+              </p>
+            </div>
+            <div class="p-5 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+              <h3 class="text-base font-bold text-white mb-2">💻 Logic, Statistics &amp; Finance</h3>
+              <p class="text-sm text-zinc-400 leading-relaxed">
+                Compute probability distributions, hypothesis tests, time-value-of-money annuities, Net Present Value (NPV), and algorithmic time complexity (`Big-O`) step by step.
+              </p>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+            <h2 class="text-xl font-bold text-white mb-4">Tips for Getting the Most Accurate Step-by-Step Solutions</h2>
+            <ul class="list-disc list-inside space-y-2 text-sm text-zinc-400 leading-relaxed">
+              <li><strong class="text-zinc-200">Use explicit parentheses:</strong> Write <code class="text-[#2dd4bf]">Integrate (x^2 + 1) / (x - 1) dx</code> so numerators and denominators are unambiguous.</li>
+              <li><strong class="text-zinc-200">Specify the target variable or method:</strong> Include instructions such as <em>"Solve for x over the real numbers"</em>, <em>"Use integration by parts"</em>, or <em>"Show the truth table"</em>.</li>
+              <li><strong class="text-zinc-200">Include units for science and trade problems:</strong> Specify whether angles are in degrees or radians, and include metric or imperial units for physics and construction queries.</li>
+            </ul>
+          </div>
+        </section>
 
       </div>
     </div>

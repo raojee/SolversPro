@@ -10,16 +10,24 @@ interface Props {
 
 const { items } = Astro.props;
 
+const normalizeHref = (h?: string) => {
+  if (!h) return undefined;
+  return h.startsWith('/') && !h.endsWith('/') && !/[?#]|\.[a-z0-9]+$/i.test(h) ? `${h}/` : h;
+};
+
 // BreadcrumbList schema
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": items.map((item, index) => ({
-    "@type": "ListItem",
-    "position": index + 1,
-    "name": item.label,
-    ...(item.href ? { "item": `https://solverspro.com${item.href}` } : {}),
-  }))
+  "itemListElement": items.map((item, index) => {
+    const cleanHref = normalizeHref(item.href);
+    return {
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": item.label,
+      ...(cleanHref ? { "item": `https://solverspro.com${cleanHref}` } : {}),
+    };
+  })
 };
 ---
 
@@ -27,24 +35,27 @@ const breadcrumbSchema = {
 
 <nav aria-label="Breadcrumb" class="mb-8">
   <ol class="flex items-center flex-wrap gap-2 text-[13px]" style="font-family: 'JetBrains Mono', monospace;">
-    {items.map((item, index) => (
-      <li class="flex items-center gap-2">
-        {index > 0 && (
-          <span class="text-zinc-600" aria-hidden="true">/</span>
-        )}
-        {item.href && index < items.length - 1 ? (
-          <a
-            href={item.href}
-            class="text-zinc-400 hover:text-[#ff6b35] transition-colors"
-          >
-            {item.label}
-          </a>
-        ) : (
-          <span class="font-medium text-[#2dd4bf]">
-            {item.label}
-          </span>
-        )}
-      </li>
-    ))}
+    {items.map((item, index) => {
+      const cleanHref = normalizeHref(item.href);
+      return (
+        <li class="flex items-center gap-2">
+          {index > 0 && (
+            <span class="text-zinc-600" aria-hidden="true">/</span>
+          )}
+          {cleanHref && index < items.length - 1 ? (
+            <a
+              href={cleanHref}
+              class="text-zinc-400 hover:text-[#ff6b35] transition-colors"
+            >
+              {item.label}
+            </a>
+          ) : (
+            <span class="font-medium text-[#2dd4bf]">
+              {item.label}
+            </span>
+          )}
+        </li>
+      );
+    })}
   </ol>
 </nav>

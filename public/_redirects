@@ -8,5 +8,6 @@
 /search /free-ai-solver/ 301
 /solver /free-ai-solver/ 301
 /ai-solver /free-ai-solver/ 301
+/tools /pdf/ 301
 /tools/* /pdf/:splat 301
 
