@@ -1,0 +1,528 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Bufferbloat Test",
+  "url": "https://solverspro.com/network/bufferbloat-test/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free browser-based bufferbloat test measuring unloaded latency vs. loaded ping during active download and upload traffic, assigning an A+ to F bufferbloat grade.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
+};
+
+const faqs = [
+  {
+    question: "What is bufferbloat?",
+    answer: "Bufferbloat is a spike in network latency (ping) caused by oversized packet queues inside routers or modems when your internet connection is under heavy download or upload load. Even on fast fiber or cable plans, bufferbloat makes gaming, video calls, and web browsing feel sluggish whenever another device downloads or uploads large files."
+  },
+  {
+    question: "What is a good bufferbloat grade?",
+    answer: "A grade of A+ (under 5 ms latency increase under load) or A (under 30 ms increase) means your router manages queues cleanly for real-time gaming and VoIP calls. Grades C through F (60 ms to 400+ ms latency spikes) indicate significant bufferbloat that causes lag spikes during simultaneous traffic."
+  },
+  {
+    question: "How does the SolversPro Bufferbloat Test work?",
+    answer: "The test runs in three automated phases against Cloudflare's edge network: first measuring your idle (unloaded) latency baseline, then measuring ping while saturating your download link, and finally measuring ping while saturating your upload link. Your grade is determined by the worst-case latency increase under load."
+  },
+  {
+    question: "How can I fix high bufferbloat on my router?",
+    answer: "The most effective fix for bufferbloat is enabling Smart Queue Management (SQM) such as CAKE or FQ-CoDel in your router settings, or configuring QoS bandwidth limits to roughly 85-90% of your maximum download and upload speeds so packets do not pile up in your ISP modem's buffer."
+  }
+];
+---
+
+<BaseLayout
+  title="Bufferbloat Test — Check Loaded Latency & Router Lag | SolversPro"
+  description="Free online bufferbloat test to measure unloaded vs. loaded download and upload latency in your browser. Get an A+ to F bufferbloat grade for gaming and VoIP."
+  canonical="https://solverspro.com/network/bufferbloat-test/"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-3xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Network Tools', href: '/network' },
+        { label: 'Bufferbloat Test' },
+      ]} />
+
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">🚦 Bufferbloat Test</h1>
+        <p class="text-zinc-300 text-lg max-w-2xl">
+          The SolversPro Bufferbloat Test is a free, browser-based network diagnostic tool that compares your unloaded idle ping against your loaded latency during active download and upload traffic, assigning an A+ to F bufferbloat grade.
+        </p>
+      </div>
+
+      <!-- Controls & Progress -->
+      <div class="bg-[#0d0d14] border border-white/[0.08] rounded-2xl p-6 mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div class="text-sm font-bold text-white">3-Phase Loaded Latency Diagnostic</div>
+            <p class="text-xs text-zinc-400">Measures Idle Ping → Download Load → Upload Load (~15 seconds total)</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <button id="btn-start" type="button" class="px-6 py-2.5 bg-[#2dd4bf] hover:bg-[#14b8a6] text-[#07070c] font-bold rounded-xl transition-all cursor-pointer text-sm shadow-lg shadow-[#2dd4bf]/20">
+              Start Bufferbloat Test
+            </button>
+            <button id="btn-reset" type="button" class="px-4 py-2.5 bg-white/[0.05] hover:bg-white/[0.1] text-zinc-300 font-semibold rounded-xl border border-white/[0.08] transition-all cursor-pointer text-sm">
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-5">
+          <div class="flex items-center justify-between text-xs text-zinc-400 mb-1.5">
+            <span id="phase-status">Ready to test bufferbloat</span>
+            <span id="phase-pct" class="font-mono">0%</span>
+          </div>
+          <div class="w-full h-2 bg-white/[0.05] rounded-full overflow-hidden">
+            <div id="phase-bar" class="h-full bg-[#2dd4bf] transition-all duration-200 rounded-full" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grade Card -->
+      <div class="bg-gradient-to-br from-[#0d0d14] to-[#111122] border border-[#2dd4bf]/20 rounded-2xl p-8 mb-6 text-center shadow-xl shadow-[#2dd4bf]/5">
+        <div class="text-xs text-zinc-400 uppercase tracking-widest font-semibold mb-2">Bufferbloat Grade</div>
+        <div id="grade-letter" class="text-6xl sm:text-7xl font-black font-mono text-white mb-3">--</div>
+        <div id="grade-summary" class="inline-flex items-center gap-2 px-4 py-1.5 bg-white/[0.05] border border-white/[0.1] rounded-full text-sm text-zinc-300 font-semibold">
+          Click "Start Bufferbloat Test" to measure latency under load
+        </div>
+      </div>
+
+      <!-- Unloaded vs Loaded Breakdown -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 text-center">
+          <div class="text-xs text-zinc-400 uppercase tracking-wider mb-1">Unloaded Latency</div>
+          <div id="unloaded-ms" class="text-3xl font-bold font-mono text-white">--</div>
+          <div class="text-xs text-zinc-500 mt-1">Idle baseline median</div>
+        </div>
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 text-center">
+          <div class="text-xs text-zinc-400 uppercase tracking-wider mb-1">Download Active</div>
+          <div id="dl-loaded-ms" class="text-3xl font-bold font-mono text-white">--</div>
+          <div id="dl-delta-ms" class="text-xs text-zinc-400 mt-1 font-mono">+-- ms bloat</div>
+        </div>
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5 text-center">
+          <div class="text-xs text-zinc-400 uppercase tracking-wider mb-1">Upload Active</div>
+          <div id="ul-loaded-ms" class="text-3xl font-bold font-mono text-white">--</div>
+          <div id="ul-delta-ms" class="text-xs text-zinc-400 mt-1 font-mono">+-- ms bloat</div>
+        </div>
+      </div>
+
+      <!-- Latency Timeline -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-6 mb-6">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-sm font-bold text-white uppercase tracking-wider">Latency Under Load Timeline</h2>
+            <p class="text-xs text-zinc-400">Teal = Idle · Blue = Download Load · Orange = Upload Load</p>
+          </div>
+          <button id="btn-copy-results" type="button" class="px-3 py-1.5 bg-white/[0.05] hover:bg-white/[0.1] text-zinc-300 text-xs font-semibold rounded-lg border border-white/[0.08] transition-all cursor-pointer">
+            Copy Summary
+          </button>
+        </div>
+        <div id="bloat-chart" class="h-36 flex items-end gap-1 pt-4 border-b border-white/[0.08]">
+          <div class="w-full h-full flex items-center justify-center text-xs text-zinc-500">
+            Waiting for latency samples...
+          </div>
+        </div>
+      </div>
+
+      <!-- Cross-links -->
+      <div class="bg-[#111122] border border-[#ff6b35]/30 rounded-2xl p-5 mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <div class="text-sm font-bold text-white mb-1">Check Full Speed &amp; Dedicated Jitter Too</div>
+          <p class="text-xs text-zinc-400">Measure Mbps throughput on our Speed Test or run a 50-probe ping stability check on our Network Jitter Test.</p>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <a href="/network/jitter-test/" class="px-3.5 py-2 bg-white/[0.06] hover:bg-white/[0.12] text-white text-xs font-bold rounded-xl border border-white/[0.1] transition-all">
+            Jitter Test
+          </a>
+          <a href="https://speed.solverspro.com/" class="px-4 py-2 bg-[#ff6b35] hover:bg-[#e85a27] text-white text-xs font-bold rounded-xl transition-all">
+            Full Speed Test →
+          </a>
+        </div>
+      </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mt-10 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-xl font-bold text-white mb-2">Bufferbloat Grade Scale &amp; Real-World Impact</h2>
+        <p class="text-zinc-400 text-sm mb-6">Industry-standard bufferbloat grading based on the latency increase (loaded ping minus unloaded ping) during bandwidth saturation.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-400 font-mono text-xs uppercase">
+                <th class="py-3 px-4">Grade</th>
+                <th class="py-3 px-4">Latency Increase</th>
+                <th class="py-3 px-4">SQM / Queue Health</th>
+                <th class="py-3 px-4">Gaming &amp; Video Call Experience</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-300 text-xs">
+              <tr>
+                <td class="py-3 px-4 font-mono font-bold text-emerald-400">A+</td>
+                <td class="py-3 px-4 font-mono text-white">&lt; 5 ms</td>
+                <td class="py-3 px-4 text-emerald-400">Optimal (CAKE / FQ-CoDel active)</td>
+                <td class="py-3 px-4 text-zinc-300">Zero lag spikes even during 4K downloads or cloud backups</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono font-bold text-[#2dd4bf]">A</td>
+                <td class="py-3 px-4 font-mono text-white">5 – 30 ms</td>
+                <td class="py-3 px-4 text-[#2dd4bf]">Very Good</td>
+                <td class="py-3 px-4 text-zinc-300">Smooth gaming and clear VoIP calls under normal household load</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono font-bold text-sky-400">B</td>
+                <td class="py-3 px-4 font-mono text-white">30 – 60 ms</td>
+                <td class="py-3 px-4 text-sky-400">Moderate</td>
+                <td class="py-3 px-4 text-zinc-400">Occasional jitter spikes when multiple devices saturate bandwidth</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono font-bold text-yellow-400">C</td>
+                <td class="py-3 px-4 font-mono text-white">60 – 200 ms</td>
+                <td class="py-3 px-4 text-yellow-400">Elevated Bufferbloat</td>
+                <td class="py-3 px-4 text-zinc-400">Noticeable rubber-banding and voice delay during downloads/uploads</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono font-bold text-orange-400">D</td>
+                <td class="py-3 px-4 font-mono text-white">200 – 400 ms</td>
+                <td class="py-3 px-4 text-orange-400">Severe Bufferbloat</td>
+                <td class="py-3 px-4 text-zinc-400">Frequent game disconnects and frozen video conferencing</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-mono font-bold text-red-400">F</td>
+                <td class="py-3 px-4 font-mono text-white">&gt; 400 ms</td>
+                <td class="py-3 px-4 text-red-400">Critical Queue Saturation</td>
+                <td class="py-3 px-4 text-zinc-400">Real-time apps unusable when the line is busy; SQM/QoS needed</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={faqs} />
+
+      <ToolShare title="Bufferbloat Test — Loaded Latency & Router Lag" url="https://solverspro.com/network/bufferbloat-test/" />
+      <SimilarTools category="network" currentPath="/network/bufferbloat-test" />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { copyToClipboard } from '../../utils/clipboard';
+
+  const btnStart = document.getElementById('btn-start') as HTMLButtonElement;
+  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
+  const btnCopy = document.getElementById('btn-copy-results') as HTMLButtonElement;
+
+  const phaseStatus = document.getElementById('phase-status')!;
+  const phasePct = document.getElementById('phase-pct')!;
+  const phaseBar = document.getElementById('phase-bar')!;
+  const gradeLetterEl = document.getElementById('grade-letter')!;
+  const gradeSummaryEl = document.getElementById('grade-summary')!;
+  const unloadedMsEl = document.getElementById('unloaded-ms')!;
+  const dlLoadedMsEl = document.getElementById('dl-loaded-ms')!;
+  const dlDeltaMsEl = document.getElementById('dl-delta-ms')!;
+  const ulLoadedMsEl = document.getElementById('ul-loaded-ms')!;
+  const ulDeltaMsEl = document.getElementById('ul-delta-ms')!;
+  const bloatChartEl = document.getElementById('bloat-chart')!;
+
+  interface TimelinePoint {
+    phase: 'idle' | 'dl' | 'ul';
+    rtt: number;
+  }
+
+  let isRunning = false;
+  let abortController: AbortController | null = null;
+  let lastSummary = '';
+
+  function median(arr: number[]): number {
+    if (arr.length === 0) return 0;
+    const sorted = [...arr].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    return sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+  }
+
+  function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  function computeGrade(maxDelta: number) {
+    if (maxDelta < 5) {
+      return {
+        letter: 'A+',
+        text: 'A+ — Optimal Queue Control (No Bufferbloat)',
+        cls: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400',
+        letterCls: 'text-emerald-400',
+      };
+    }
+    if (maxDelta < 30) {
+      return {
+        letter: 'A',
+        text: 'A — Low Bufferbloat (Great for Gaming & Calls)',
+        cls: 'bg-[#2dd4bf]/15 border-[#2dd4bf]/30 text-[#2dd4bf]',
+        letterCls: 'text-[#2dd4bf]',
+      };
+    }
+    if (maxDelta < 60) {
+      return {
+        letter: 'B',
+        text: 'B — Moderate Bufferbloat Under Heavy Load',
+        cls: 'bg-sky-500/15 border-sky-500/30 text-sky-400',
+        letterCls: 'text-sky-400',
+      };
+    }
+    if (maxDelta < 200) {
+      return {
+        letter: 'C',
+        text: 'C — Elevated Bufferbloat (Consider Router SQM/QoS)',
+        cls: 'bg-yellow-500/15 border-yellow-500/30 text-yellow-400',
+        letterCls: 'text-yellow-400',
+      };
+    }
+    if (maxDelta < 400) {
+      return {
+        letter: 'D',
+        text: 'D — Severe Bufferbloat (High Lag Under Load)',
+        cls: 'bg-orange-500/15 border-orange-500/30 text-orange-400',
+        letterCls: 'text-orange-400',
+      };
+    }
+    return {
+      letter: 'F',
+      text: 'F — Critical Bufferbloat (Enable SQM / QoS)',
+      cls: 'bg-red-500/15 border-red-500/30 text-red-400',
+      letterCls: 'text-red-400',
+    };
+  }
+
+  function renderChart(points: TimelinePoint[]) {
+    if (points.length === 0) {
+      bloatChartEl.innerHTML = '<div class="w-full h-full flex items-center justify-center text-xs text-zinc-500">Waiting for latency samples...</div>';
+      return;
+    }
+
+    const maxVal = Math.max(30, ...points.map((p) => p.rtt));
+    bloatChartEl.innerHTML = points
+      .map((p, i) => {
+        const pct = Math.max(8, Math.min(100, (p.rtt / maxVal) * 100));
+        const color =
+          p.phase === 'idle' ? 'bg-[#2dd4bf]' : p.phase === 'dl' ? 'bg-sky-400' : 'bg-[#ff6b35]';
+        const label = p.phase === 'idle' ? 'Idle' : p.phase === 'dl' ? 'Download Load' : 'Upload Load';
+        return `<div title="Sample ${i + 1} (${label}): ${p.rtt.toFixed(1)} ms" class="flex-1 ${color} rounded-t-sm transition-all" style="height: ${pct.toFixed(1)}%"></div>`;
+      })
+      .join('');
+  }
+
+  async function measurePing(signal: AbortSignal): Promise<number | null> {
+    const t0 = performance.now();
+    try {
+      const resp = await fetch(`https://speed.cloudflare.com/__down?bytes=0&t=${Date.now()}-${Math.random()}`, {
+        cache: 'no-store',
+        signal,
+      });
+      if (!resp.ok) throw new Error('Probe failed');
+      return performance.now() - t0;
+    } catch (err: any) {
+      if (err?.name === 'AbortError') return null;
+      return null;
+    }
+  }
+
+  async function saturateDownload(signal: AbortSignal) {
+    while (!signal.aborted) {
+      try {
+        const resp = await fetch(`https://speed.cloudflare.com/__down?bytes=15000000&t=${Date.now()}`, {
+          cache: 'no-store',
+          signal,
+        });
+        await resp.arrayBuffer();
+      } catch {
+        break;
+      }
+    }
+  }
+
+  async function saturateUpload(signal: AbortSignal) {
+    const payload = new Uint8Array(2 * 1024 * 1024); // 2 MB chunk
+    while (!signal.aborted) {
+      try {
+        await fetch('https://speed.cloudflare.com/__up', {
+          method: 'POST',
+          body: payload,
+          cache: 'no-store',
+          signal,
+        });
+      } catch {
+        break;
+      }
+    }
+  }
+
+  function setProgress(pct: number, text: string) {
+    phaseStatus.textContent = text;
+    phasePct.textContent = `${Math.round(pct)}%`;
+    phaseBar.style.width = `${pct}%`;
+  }
+
+  function resetAll() {
+    if (abortController) {
+      abortController.abort();
+      abortController = null;
+    }
+    isRunning = false;
+    btnStart.textContent = 'Start Bufferbloat Test';
+    setProgress(0, 'Ready to test bufferbloat');
+    gradeLetterEl.textContent = '--';
+    gradeLetterEl.className = 'text-6xl sm:text-7xl font-black font-mono text-white mb-3';
+    gradeSummaryEl.textContent = 'Click "Start Bufferbloat Test" to measure latency under load';
+    gradeSummaryEl.className = 'inline-flex items-center gap-2 px-4 py-1.5 bg-white/[0.05] border border-white/[0.1] rounded-full text-sm text-zinc-300 font-semibold';
+    unloadedMsEl.textContent = '--';
+    dlLoadedMsEl.textContent = '--';
+    dlDeltaMsEl.textContent = '+-- ms bloat';
+    ulLoadedMsEl.textContent = '--';
+    ulDeltaMsEl.textContent = '+-- ms bloat';
+    lastSummary = '';
+    renderChart([]);
+  }
+
+  async function runTest() {
+    if (isRunning) {
+      if (abortController) abortController.abort();
+      isRunning = false;
+      btnStart.textContent = 'Start Bufferbloat Test';
+      phaseStatus.textContent = 'Test stopped by user';
+      return;
+    }
+
+    isRunning = true;
+    abortController = new AbortController();
+    const signal = abortController.signal;
+    btnStart.textContent = 'Stop Test';
+
+    const timeline: TimelinePoint[] = [];
+    const idleSamples: number[] = [];
+    const dlSamples: number[] = [];
+    const ulSamples: number[] = [];
+
+    try {
+      // Warmup
+      setProgress(5, 'Connecting to Cloudflare Edge...');
+      await measurePing(signal);
+
+      // Phase 1: Idle Unloaded Latency (10 probes)
+      for (let i = 0; i < 10; i++) {
+        if (signal.aborted) break;
+        setProgress(5 + (i + 1) * 2.5, `Phase 1/3: Measuring unloaded latency (${i + 1}/10)...`);
+        const rtt = await measurePing(signal);
+        if (rtt !== null) {
+          idleSamples.push(rtt);
+          timeline.push({ phase: 'idle', rtt });
+          renderChart(timeline);
+        }
+        await sleep(180);
+      }
+      if (signal.aborted) return;
+
+      const unloadedMedian = median(idleSamples);
+      unloadedMsEl.textContent = `${unloadedMedian.toFixed(1)} ms`;
+
+      // Phase 2: Download Load (2 parallel streams for ~5s)
+      const dlAbort = new AbortController();
+      const onParentAbortDl = () => dlAbort.abort();
+      signal.addEventListener('abort', onParentAbortDl);
+      const dlWorkers = [saturateDownload(dlAbort.signal), saturateDownload(dlAbort.signal)];
+
+      for (let i = 0; i < 16; i++) {
+        if (signal.aborted) break;
+        setProgress(30 + (i + 1) * 2.2, `Phase 2/3: Measuring latency under download load (${i + 1}/16)...`);
+        const rtt = await measurePing(signal);
+        if (rtt !== null) {
+          dlSamples.push(rtt);
+          timeline.push({ phase: 'dl', rtt });
+          renderChart(timeline);
+        }
+        await sleep(250);
+      }
+      dlAbort.abort();
+      signal.removeEventListener('abort', onParentAbortDl);
+      await Promise.allSettled(dlWorkers);
+      if (signal.aborted) return;
+
+      const dlMedian = median(dlSamples);
+      const dlDelta = Math.max(0, dlMedian - unloadedMedian);
+      dlLoadedMsEl.textContent = `${dlMedian.toFixed(1)} ms`;
+      dlDeltaMsEl.textContent = `+${dlDelta.toFixed(1)} ms bloat`;
+
+      // Phase 3: Upload Load (2 parallel streams for ~5s)
+      const ulAbort = new AbortController();
+      const onParentAbortUl = () => ulAbort.abort();
+      signal.addEventListener('abort', onParentAbortUl);
+      const ulWorkers = [saturateUpload(ulAbort.signal), saturateUpload(ulAbort.signal)];
+
+      for (let i = 0; i < 16; i++) {
+        if (signal.aborted) break;
+        setProgress(65 + (i + 1) * 2.1, `Phase 3/3: Measuring latency under upload load (${i + 1}/16)...`);
+        const rtt = await measurePing(signal);
+        if (rtt !== null) {
+          ulSamples.push(rtt);
+          timeline.push({ phase: 'ul', rtt });
+          renderChart(timeline);
+        }
+        await sleep(250);
+      }
+      ulAbort.abort();
+      signal.removeEventListener('abort', onParentAbortUl);
+      await Promise.allSettled(ulWorkers);
+      if (signal.aborted) return;
+
+      const ulMedian = median(ulSamples);
+      const ulDelta = Math.max(0, ulMedian - unloadedMedian);
+      ulLoadedMsEl.textContent = `${ulMedian.toFixed(1)} ms`;
+      ulDeltaMsEl.textContent = `+${ulDelta.toFixed(1)} ms bloat`;
+
+      const worstDelta = Math.max(dlDelta, ulDelta);
+      const grade = computeGrade(worstDelta);
+
+      gradeLetterEl.textContent = grade.letter;
+      gradeLetterEl.className = `text-6xl sm:text-7xl font-black font-mono mb-3 ${grade.letterCls}`;
+      gradeSummaryEl.textContent = grade.text;
+      gradeSummaryEl.className = `inline-flex items-center gap-2 px-4 py-1.5 border rounded-full text-sm font-semibold ${grade.cls}`;
+
+      setProgress(100, 'Bufferbloat test complete');
+      lastSummary = `SolversPro Bufferbloat Test — Grade: ${grade.letter} | Unloaded: ${unloadedMedian.toFixed(1)} ms | Download Loaded: ${dlMedian.toFixed(1)} ms (+${dlDelta.toFixed(1)} ms) | Upload Loaded: ${ulMedian.toFixed(1)} ms (+${ulDelta.toFixed(1)} ms)`;
+    } finally {
+      isRunning = false;
+      btnStart.textContent = 'Start Bufferbloat Test';
+    }
+  }
+
+  btnStart?.addEventListener('click', runTest);
+  btnReset?.addEventListener('click', resetAll);
+  btnCopy?.addEventListener('click', async () => {
+    if (!lastSummary) return;
+    await copyToClipboard(lastSummary, btnCopy);
+  });
+</script>
+

@@ -170,11 +170,16 @@ const faqs = [
       <div class="bg-[#111122] border border-[#ff6b35]/30 rounded-2xl p-5 mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <div class="text-sm font-bold text-white mb-1">Want Download, Upload &amp; Bufferbloat Testing Too?</div>
-          <p class="text-xs text-zinc-400">Run our full Cloudflare-powered speed test to measure bandwidth alongside unloaded and loaded latency.</p>
+          <p class="text-xs text-zinc-400">Measure loaded latency with our dedicated Bufferbloat Test or run a full Cloudflare-powered Speed Test.</p>
         </div>
-        <a href="https://speed.solverspro.com/" class="shrink-0 px-4 py-2.5 bg-[#ff6b35] hover:bg-[#e85a27] text-white text-xs font-bold rounded-xl transition-all">
-          Open Full Speed Test →
-        </a>
+        <div class="flex items-center gap-2 shrink-0">
+          <a href="/network/bufferbloat-test/" class="px-3.5 py-2 bg-white/[0.06] hover:bg-white/[0.12] text-white text-xs font-bold rounded-xl border border-white/[0.1] transition-all">
+            Bufferbloat Test
+          </a>
+          <a href="https://speed.solverspro.com/" class="px-4 py-2 bg-[#ff6b35] hover:bg-[#e85a27] text-white text-xs font-bold rounded-xl transition-all">
+            Full Speed Test →
+          </a>
+        </div>
       </div>
 
       <!-- Citable Reference Table -->

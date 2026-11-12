@@ -1297,6 +1297,24 @@ const toolDocs = {
       ],
     },
     {
+      title: 'Bufferbloat Test',
+      href: '/network/bufferbloat-test',
+      description: 'Compare your unloaded idle latency against loaded ping during active download and upload traffic against Cloudflare edge, assigning an A+ to F bufferbloat grade.',
+      features: [
+        '3-phase diagnostic: Idle baseline, Download saturation, and Upload saturation',
+        'Calculates exact +ms latency bloat for both download and upload directions',
+        'Assigns an A+ to F bufferbloat grade based on worst-case loaded latency delta',
+        'Color-coded live latency timeline chart and one-click summary copy',
+      ],
+      steps: [
+        'Open the Bufferbloat Test tool.',
+        'Click "Start Bufferbloat Test" and keep other heavy downloads paused.',
+        'Wait ~15 seconds as the tool runs Idle, Download Load, and Upload Load phases.',
+        'Review your Bufferbloat Grade (A+ to F) and download/upload latency deltas.',
+        'Click "Copy Summary" to save or share your loaded latency results.',
+      ],
+    },
+    {
       title: 'IP Subnet Calculator',
       href: '/network/ip-subnet-calculator',
       description: 'Calculate network address, broadcast address, subnet mask, host range, and usable hosts for any IPv4 CIDR notation.',

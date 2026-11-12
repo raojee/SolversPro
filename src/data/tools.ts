@@ -345,6 +345,12 @@ export const toolsByCategory: Record<string, Tool[]> = {
     href: '/network/jitter-test'
   },
   {
+    title: 'Bufferbloat Test',
+    description: 'Test unloaded vs. loaded download and upload latency in your browser and get an A+ to F bufferbloat grade for gaming and VoIP.',
+    icon: '🚦',
+    href: '/network/bufferbloat-test'
+  },
+  {
     title: 'IP Subnet Calculator',
     description: 'Calculate network address, broadcast, subnet mask, host range, and usable hosts for any IPv4 subnet using CIDR notation.',
     icon: '🌐',
