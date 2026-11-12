@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Internet Speed Test — Check Broadband, WiFi & Network Speed | SolversPro</title>
+    <title>Internet Speed Test — WiFi & Broadband | SolversPro</title>
     <meta
       name="description"
-      content="Free internet speed test to check broadband, WiFi, and network connection speed in real time. Measure download, upload, ping, jitter, and bufferbloat."
+      content="Free internet speed test that automatically checks your WiFi and broadband download speed, upload speed, unloaded ping, jitter, and bufferbloat in real time."
     />
-    <meta name="keywords" content="internet speed test, speed test, wifi speed test, network speed test, connection speed, check broadband speed, best internet speed test free, download speed, upload speed, ping test, jitter test, bufferbloat test" />
+    <meta name="keywords" content="internet speed test, speed test, wifi speed test, network speed test, connection speed, broadband speed test, download speed, upload speed, ping test, bufferbloat test" />
     <meta name="author" content="SolversPro" />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-    <meta name="theme-color" content="#0c0e17" />
+    <meta name="theme-color" content="#ffffff" id="meta-theme-color" />
     <link rel="canonical" href="https://speed.solverspro.com/" />
 
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://speed.solverspro.com/" />
     <meta property="og:site_name" content="SolversPro" />
-    <meta property="og:title" content="Internet Speed Test — Check Broadband, WiFi & Network Speed | SolversPro" />
-    <meta property="og:description" content="Free internet speed test to check broadband, WiFi, and network connection speed in real time. Measure download, upload, ping, jitter, and bufferbloat." />
+    <meta property="og:title" content="Internet Speed Test — WiFi & Broadband | SolversPro" />
+    <meta property="og:description" content="Free internet speed test that automatically checks your WiFi and broadband download speed, upload speed, unloaded ping, jitter, and bufferbloat in real time." />
     <meta property="og:image" content="https://solverspro.com/og-image.png" />
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Internet Speed Test — Check Broadband, WiFi & Network Speed | SolversPro" />
-    <meta name="twitter:description" content="Free internet speed test to check broadband, WiFi, and network connection speed in real time. Measure download, upload, ping, jitter, and bufferbloat." />
+    <meta name="twitter:title" content="Internet Speed Test — WiFi & Broadband | SolversPro" />
+    <meta name="twitter:description" content="Free internet speed test that automatically checks your WiFi and broadband download speed, upload speed, unloaded ping, jitter, and bufferbloat in real time." />
     <meta property="twitter:image" content="https://solverspro.com/og-image.png" />
 
     <!-- Schema.org JSON-LD (WebApplication + FAQPage) -->
@@ -40,7 +40,7 @@
             "applicationCategory": "UtilitiesApplication",
             "operatingSystem": "Any (web browser)",
             "browserRequirements": "Requires JavaScript. Requires HTML5.",
-            "description": "Free internet speed test measuring real-time broadband and WiFi download bandwidth, upload bandwidth, latency (ping), jitter, and bufferbloat using Cloudflare's global edge network across 330+ cities.",
+            "description": "Free internet speed test that automatically measures real-time broadband and WiFi download speed, upload speed, unloaded latency (ping), jitter, and loaded bufferbloat using Cloudflare's global edge network across 330+ cities.",
             "offers": {
               "@type": "Offer",
               "price": "0",
@@ -60,7 +60,7 @@
                 "name": "How does the SolversPro Internet Speed Test work?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Our internet speed test is powered by Cloudflare's official open-source measurement engine. It performs multiple parallel HTTPS GET and POST requests with dynamic payload chunks directly against Cloudflare's global edge network across 330+ cities. This measures your true end-to-end connection speed, unloaded latency, and loaded bufferbloat."
+                  "text": "Our internet speed test is powered by Cloudflare's official open-source measurement engine. As soon as you open the page, it performs parallel HTTPS GET and POST requests against Cloudflare's global edge network across 330+ cities to measure your true download speed, upload speed, unloaded ping, jitter, and loaded bufferbloat."
                 }
               },
               {
@@ -68,7 +68,7 @@
                 "name": "How do I run an accurate WiFi speed test vs. a wired network speed test?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "To run a WiFi speed test, stand in the room where you normally use your device and click Start Speed Test to measure wireless signal throughput and jitter. To test your maximum ISP connection speed, connect your computer directly to your router with a Cat6 Ethernet cable and run a wired network speed test."
+                  "text": "To run a WiFi speed test, open this page in the room where you normally use your device; the test starts automatically and measures wireless throughput and jitter. To test your maximum ISP connection speed, connect your computer directly to your router with a Cat6 Ethernet cable and click the circular re-test button."
                 }
               },
               {
@@ -81,10 +81,10 @@
               },
               {
                 "@type": "Question",
-                "name": "What is bufferbloat and why is it important?",
+                "name": "What is bufferbloat (loaded latency) and why does it matter?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Bufferbloat is high latency that occurs when your router buffers too many packets during heavy downloads or uploads. If your loaded latency is significantly higher than your unloaded latency, your connection will experience lag and stuttering whenever multiple devices are active on your home network."
+                  "text": "Bufferbloat is high latency that occurs when your router buffers too many packets during heavy downloads or uploads. If your loaded latency is significantly higher than your unloaded ping, your connection will experience lag and stuttering whenever multiple devices are active on your network."
                 }
               },
               {
@@ -92,15 +92,7 @@
                 "name": "How can I improve my internet connection speed?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "To maximize your connection speed: (1) Use an Ethernet cable instead of Wi-Fi whenever possible; (2) Place your Wi-Fi router in a central, elevated location away from thick walls and metal objects; (3) Restart your modem and router periodically; (4) Close bandwidth-heavy background downloads, torrents, or cloud syncing apps; (5) Upgrade your router firmware."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "What makes this the best internet speed test free of ISP bias?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Unlike ISP-hosted tests that measure speed only to a local provider cache, SolversPro measures real-world HTTPS throughput against Cloudflare's 330+ global edge nodes. It is 100% free, requires no app install, and includes live ping, jitter, and bufferbloat grading."
+                  "text": "To maximize your connection speed: (1) Use an Ethernet cable instead of Wi-Fi whenever possible; (2) Place your Wi-Fi router in a central, elevated location away from thick walls and metal objects; (3) Restart your modem and router periodically; (4) Close bandwidth-heavy background downloads or cloud syncing apps; (5) Upgrade your router firmware."
                 }
               }
             ]
@@ -113,34 +105,56 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
-    <div class="background-glow"></div>
+    <!-- Top 2px Live Progress Line -->
+    <div class="top-progress-track" aria-hidden="true">
+      <div id="top-progress-bar" class="top-progress-bar"></div>
+    </div>
 
-    <!-- Header Navigation -->
+    <!-- Minimal Header -->
     <header class="app-header">
       <div class="header-inner">
         <a href="https://solverspro.com" class="brand-logo" title="SolversPro Home">
-          <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
-          <div class="brand-text">
-            <span class="brand-title">Solvers<span class="highlight">Pro</span></span>
-            <span class="brand-sub">Speed Test</span>
-          </div>
+          <span class="brand-title">Solvers<span class="highlight">Pro</span></span>
+          <span class="brand-tag">SPEED</span>
         </a>
 
-        <div class="header-badges">
-          <span class="edge-badge">
-            <span class="status-pulse"></span>
-            Cloudflare Edge Engine
-          </span>
-          <a href="https://solverspro.com/all-tools/" class="btn-ghost" target="_blank" rel="noopener">
-            All SolversPro Tools &rarr;
+        <div class="header-actions">
+          <button
+            id="theme-toggle"
+            class="btn-icon-toggle"
+            type="button"
+            aria-label="Toggle Dark or Light Mode"
+            title="Switch Dark / Light Theme"
+          >
+            <!-- Moon icon (shown in light mode) -->
+            <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+            <!-- Sun icon (shown in dark mode) -->
+            <svg id="icon-sun" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+          </button>
+
+          <a href="https://solverspro.com/all-tools/" class="btn-all-tools" target="_blank" rel="noopener">
+            All Tools &rarr;
           </a>
         </div>
       </div>
@@ -148,467 +162,300 @@
 
     <!-- Main Container -->
     <main class="main-content">
-      <div class="content-wrapper">
+      <!-- STAGE 1: Fast.com-Style Minimalist Speed Readout -->
+      <section class="hero-stage" aria-live="polite">
+        <h1 class="seo-eyebrow">Internet Speed Test</h1>
+        <p id="geo-direct-answer" class="sr-only">
+          The SolversPro Internet Speed Test is a free browser-based WiFi and broadband speed test that automatically measures your real-time download speed, upload speed, unloaded ping, jitter, and loaded bufferbloat across Cloudflare's 330+ global edge cities.
+        </p>
 
-        <!-- Page Header for SEO & Clarity -->
-        <div class="hero-text-wrap">
-          <h1 class="page-title">Free Internet Speed Test</h1>
-          <p class="page-subtitle">The SolversPro Internet Speed Test is a free browser-based network speed test and WiFi speed test that accurately measures real-time download speed, upload speed, latency (ping), jitter, and bufferbloat using Cloudflare's global edge network across 330+ cities.</p>
-        </div>
+        <div id="test-status-label" class="status-label">Testing your internet speed...</div>
 
-        <!-- Top Network Telemetry Bar -->
-        <section class="telemetry-bar">
-          <div class="telemetry-item">
-            <span class="telemetry-label">Your IP</span>
-            <span id="client-ip" class="telemetry-value">Detecting...</span>
-          </div>
-          <div class="telemetry-divider"></div>
-          <div class="telemetry-item">
-            <span class="telemetry-label">Service Provider</span>
-            <span id="client-isp" class="telemetry-value">Detecting...</span>
-          </div>
-          <div class="telemetry-divider"></div>
-          <div class="telemetry-item">
-            <span class="telemetry-label">Server Location</span>
-            <span id="server-location" class="telemetry-value">Cloudflare Edge (Auto)</span>
-          </div>
-        </section>
+        <!-- Giant Number + Unit + Circular Re-test / Stop Control -->
+        <div class="speed-hero-row">
+          <span id="live-speed" class="giant-speed-number is-testing">0</span>
 
-        <!-- Speed Gauge Card -->
-        <section class="gauge-card">
-          <div class="gauge-container">
-            <svg class="gauge-svg" viewBox="0 0 320 215" overflow="hidden">
-              <defs>
-                <linearGradient id="gaugeTrackGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#252b42" />
-                  <stop offset="50%" stop-color="#303860" />
-                  <stop offset="100%" stop-color="#252b42" />
-                </linearGradient>
-                <linearGradient id="gaugeProgressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#00d4ff" />
-                  <stop offset="40%" stop-color="#5a8aff" />
-                  <stop offset="70%" stop-color="#a855f7" />
-                  <stop offset="100%" stop-color="#c026d3" />
-                </linearGradient>
-                <filter id="gaugeGlow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
-                  <feMerge>
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
+          <div class="speed-unit-col">
+            <span id="live-unit" class="giant-speed-unit">Mbps</span>
 
-              <!-- Outer Gauge Track Arc (180-deg semicircle, R=115, Center=(160, 175)) -->
-              <path
-                class="gauge-track"
-                d="M 45 175 A 115 115 0 0 1 275 175"
-                fill="none"
-                stroke="url(#gaugeTrackGradient)"
-                stroke-width="16"
-                stroke-linecap="round"
-              />
-
-              <!-- Active Gauge Progress Arc (Length = 361.3px) -->
-              <path
-                id="gauge-progress"
-                class="gauge-progress"
-                d="M 45 175 A 115 115 0 0 1 275 175"
-                fill="none"
-                stroke="url(#gaugeProgressGradient)"
-                stroke-width="16"
-                stroke-linecap="round"
-                stroke-dasharray="362"
-                stroke-dashoffset="362"
-                filter="url(#gaugeGlow)"
-              />
-
-              <!-- Needle Group (kept empty for script compatibility) -->
-              <g id="needle-group" transform="rotate(-90 160 175)"></g>
-
-              <!-- Gauge Scale Ticks (Positioned outside arc so they never overlap text or progress bar) -->
-              <text x="25" y="175" text-anchor="middle" class="gauge-scale">0</text>
-              <text x="65" y="80" text-anchor="middle" class="gauge-scale">25</text>
-              <text x="160" y="38" text-anchor="middle" class="gauge-scale">100</text>
-              <text x="255" y="80" text-anchor="middle" class="gauge-scale">500</text>
-              <text x="295" y="175" text-anchor="middle" class="gauge-scale">1G+</text>
-            </svg>
-
-            <!-- Digital Readout inside Gauge -->
-            <div class="gauge-center">
-              <div id="test-phase-badge" class="phase-badge">READY</div>
-              <div class="speed-value-wrap">
-                <span id="live-speed" class="speed-number">0.0</span>
-                <span class="speed-unit">Mbps</span>
-              </div>
-              <div id="test-substatus" class="test-substatus">Click start to measure speed</div>
-            </div>
-          </div>
-
-          <!-- Controls -->
-          <div class="gauge-controls">
-            <button id="start-btn" class="btn-start" type="button">
-              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            <button
+              id="action-circle-btn"
+              class="action-circle-btn is-spinning"
+              type="button"
+              aria-label="Restart or stop speed test"
+              title="Restart Speed Test"
+            >
+              <!-- Refresh / Spinner SVG -->
+              <svg class="circle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-2.64-6.36" />
+                <polyline points="21 3 21 9 15 9" />
               </svg>
-              <span>Start Speed Test</span>
             </button>
           </div>
-        </section>
+        </div>
 
-        <!-- Live Primary Metrics Grid -->
-        <section class="metrics-grid">
-          <!-- Download -->
-          <div class="metric-card" id="card-download">
-            <div class="metric-header">
-              <div class="metric-icon-wrap download">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                </svg>
-              </div>
-              <span class="metric-title">Download</span>
-            </div>
-            <div class="metric-body">
-              <div class="metric-value-row">
-                <span id="metric-download" class="metric-number">—</span>
-                <span class="metric-unit">Mbps</span>
-              </div>
-              <div class="metric-meta">
-                <span>Peak: <strong id="metric-download-peak">—</strong> Mbps</span>
-              </div>
-            </div>
-          </div>
+        <!-- 1-Line Human Verdict (Appears when test finishes or during upload) -->
+        <p id="speed-verdict" class="speed-verdict">
+          Connecting to nearest Cloudflare edge server...
+        </p>
 
-          <!-- Upload -->
-          <div class="metric-card" id="card-upload">
-            <div class="metric-header">
-              <div class="metric-icon-wrap upload">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                </svg>
-              </div>
-              <span class="metric-title">Upload</span>
-            </div>
-            <div class="metric-body">
-              <div class="metric-value-row">
-                <span id="metric-upload" class="metric-number">—</span>
-                <span class="metric-unit">Mbps</span>
-              </div>
-              <div class="metric-meta">
-                <span>Peak: <strong id="metric-upload-peak">—</strong> Mbps</span>
-              </div>
-            </div>
-          </div>
+        <!-- "Show more info" Progressive Disclosure Button -->
+        <div class="more-info-trigger-wrap">
+          <button
+            id="more-info-btn"
+            class="btn-more-info"
+            type="button"
+            aria-expanded="false"
+            aria-controls="more-info-drawer"
+          >
+            <span id="more-info-text">Show more info</span>
+            <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+        </div>
+      </section>
 
-          <!-- Latency (Ping) -->
-          <div class="metric-card" id="card-latency">
-            <div class="metric-header">
-              <div class="metric-icon-wrap latency">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <circle cx="12" cy="12" r="9" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3" />
-                </svg>
-              </div>
-              <span class="metric-title">Latency (Ping)</span>
-            </div>
-            <div class="metric-body">
-              <div class="metric-value-row">
-                <span id="metric-latency" class="metric-number">—</span>
-                <span class="metric-unit">ms</span>
-              </div>
-              <div class="metric-meta">
-                <span>Jitter: <strong id="metric-jitter">—</strong> ms</span>
-              </div>
-            </div>
-          </div>
+      <!-- STAGE 2: Progressive Disclosure Drawer (Opened when user clicks "Show more info") -->
+      <div id="more-info-drawer" class="more-info-drawer" aria-hidden="true">
+        <div class="drawer-inner">
 
-          <!-- Loaded Latency (Bufferbloat) -->
-          <div class="metric-card" id="card-bufferbloat">
-            <div class="metric-header">
-              <div class="metric-icon-wrap bufferbloat">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+          <!-- Fast.com-Style Primary Secondary Row: Latency & Upload -->
+          <section class="fast-details-grid">
+            <!-- Latency Column -->
+            <div class="fast-detail-card" id="card-latency">
+              <span class="fast-detail-heading">Latency</span>
+              <div class="fast-submetrics">
+                <div class="fast-submetric">
+                  <span class="submetric-label">Unloaded</span>
+                  <div class="submetric-val-wrap">
+                    <span id="metric-latency" class="submetric-number">—</span>
+                    <span class="submetric-unit">ms</span>
+                  </div>
+                </div>
+                <div class="fast-submetric-divider"></div>
+                <div class="fast-submetric" id="card-bufferbloat">
+                  <span class="submetric-label">Loaded</span>
+                  <div class="submetric-val-wrap">
+                    <span id="metric-loaded-ping" class="submetric-number">—</span>
+                    <span class="submetric-unit">ms</span>
+                  </div>
+                </div>
+                <div class="fast-submetric-divider"></div>
+                <div class="fast-submetric">
+                  <span class="submetric-label">Jitter</span>
+                  <div class="submetric-val-wrap">
+                    <span id="metric-jitter" class="submetric-number">—</span>
+                    <span class="submetric-unit">ms</span>
+                  </div>
+                </div>
               </div>
-              <span class="metric-title">Loaded Ping (Bufferbloat)</span>
             </div>
-            <div class="metric-body">
-              <div class="metric-value-row">
-                <span id="metric-loaded-ping" class="metric-number">—</span>
-                <span class="metric-unit">ms</span>
-              </div>
-              <div class="metric-meta">
-                <span>Under Load Latency</span>
+
+            <!-- Upload Column -->
+            <div class="fast-detail-card" id="card-upload">
+              <span class="fast-detail-heading">Upload</span>
+              <div class="fast-submetrics">
+                <div class="fast-submetric">
+                  <span class="submetric-label">Speed</span>
+                  <div class="submetric-val-wrap">
+                    <span id="metric-upload" class="submetric-number">—</span>
+                    <span class="submetric-unit">Mbps</span>
+                  </div>
+                </div>
+                <div class="fast-submetric-divider"></div>
+                <div class="fast-submetric" id="card-download">
+                  <span class="submetric-label">Peak Down / Up</span>
+                  <div class="submetric-val-wrap peak-pair">
+                    <span id="metric-download-peak">—</span>
+                    <span class="slash">/</span>
+                    <span id="metric-upload-peak">—</span>
+                    <span class="submetric-unit">Mbps</span>
+                  </div>
+                  <span id="metric-download" class="sr-only">—</span>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <!-- Experience & Use-Case Scores -->
-        <section class="scores-section">
-          <div class="section-title-wrap">
-            <h2 class="section-title">Experience Quality Scores</h2>
-            <p class="section-desc">Performance ratings based on latency, jitter, and bandwidth stability</p>
-          </div>
+          <!-- Compact Client & Server Telemetry Row (like Fast.com's Client / Server line) -->
+          <section class="client-server-bar">
+            <div class="cs-item">
+              <span class="cs-icon">💻</span>
+              <span class="cs-label">Client</span>
+              <span id="client-isp" class="cs-value">Detecting ISP...</span>
+              <span class="cs-dot">•</span>
+              <span id="client-ip" class="cs-value mono">Detecting IP...</span>
+              <button id="toggle-ip-btn" class="btn-tiny-link" type="button" title="Hide or show IP address">Hide IP</button>
+            </div>
+            <div class="cs-item">
+              <span class="cs-icon">🌐</span>
+              <span class="cs-label">Server(s)</span>
+              <span id="server-location" class="cs-value">Cloudflare Edge (Auto)</span>
+            </div>
+          </section>
 
-          <div class="scores-grid">
-            <!-- Gaming -->
-            <div class="score-card">
-              <div class="score-icon-wrap">🎮</div>
-              <div class="score-details">
-                <h3 class="score-name">Online Gaming</h3>
-                <p class="score-desc">Requires ultra-low latency & consistent ping</p>
-              </div>
-              <div class="score-badge-wrap">
+          <!-- Experience Quality Pills + Actions Bar -->
+          <section class="quality-and-actions">
+            <div class="quality-pills">
+              <div class="quality-pill">
+                <span class="qp-label">🎮 Gaming</span>
                 <span id="score-gaming" class="score-badge badge-pending">PENDING</span>
               </div>
-            </div>
-
-            <!-- Streaming -->
-            <div class="score-card">
-              <div class="score-icon-wrap">🎬</div>
-              <div class="score-details">
-                <h3 class="score-name">4K Video Streaming</h3>
-                <p class="score-desc">Requires high continuous download bandwidth</p>
-              </div>
-              <div class="score-badge-wrap">
+              <div class="quality-pill">
+                <span class="qp-label">🎬 4K Streaming</span>
                 <span id="score-streaming" class="score-badge badge-pending">PENDING</span>
               </div>
-            </div>
-
-            <!-- Video Calls -->
-            <div class="score-card">
-              <div class="score-icon-wrap">📹</div>
-              <div class="score-details">
-                <h3 class="score-name">Video Calls & Conferencing</h3>
-                <p class="score-desc">Requires low jitter & balanced two-way speed</p>
-              </div>
-              <div class="score-badge-wrap">
+              <div class="quality-pill">
+                <span class="qp-label">📹 Video Calls</span>
                 <span id="score-rtc" class="score-badge badge-pending">PENDING</span>
               </div>
             </div>
-          </div>
-        </section>
 
-        <!-- Results Action Footer -->
-        <section id="results-actions" class="results-actions hidden">
-          <button id="btn-copy-summary" class="btn-action" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-            <span>Copy Results Summary</span>
-          </button>
-          <button id="btn-share" class="btn-action" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="18" cy="5" r="3"></circle>
-              <circle cx="6" cy="12" r="3"></circle>
-              <circle cx="18" cy="19" r="3"></circle>
-              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-            </svg>
-            <span>Share Test</span>
-          </button>
-        </section>
+            <div id="results-actions" class="results-actions">
+              <button id="btn-copy-summary" class="btn-action" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Copy Summary</span>
+              </button>
+              <button id="btn-share" class="btn-action" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="18" cy="5" r="3"></circle>
+                  <circle cx="6" cy="12" r="3"></circle>
+                  <circle cx="18" cy="19" r="3"></circle>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+                <span>Share</span>
+              </button>
+            </div>
+          </section>
 
-        <!-- Educational Section: How It Works & Metrics Explained -->
-        <section class="info-section">
-          <div class="section-title-wrap">
-            <h2 class="section-title">Internet Speed Test & What Your Test Result Means</h2>
-            <p class="section-desc">Key broadband, WiFi, and network connection speed metrics that determine how fast your internet really is</p>
-          </div>
+          <!-- Local Recent Tests History (Last 3 Tests) -->
+          <section id="history-section" class="history-section hidden">
+            <div class="history-header">
+              <span class="history-title">Recent Tests on This Device</span>
+              <button id="clear-history-btn" class="btn-tiny-link" type="button">Clear</button>
+            </div>
+            <div id="history-list" class="history-list"></div>
+          </section>
 
-          <div class="info-grid">
-            <div class="info-card">
-              <div class="info-card-header">
-                <span class="info-icon">⬇️</span>
-                <h3>Download Speed</h3>
-              </div>
-              <div class="info-card-body">
-                How fast data transfers from the internet to your device (measured in Mbps). High download speed is critical for smooth 4K streaming, fast webpage loads, and quick software downloads.
-              </div>
+          <!-- Educational & SEO/GEO Reference Section -->
+          <section class="info-section">
+            <div class="section-title-wrap">
+              <h2 class="section-title">What Your Internet Speed Test Result Means</h2>
+              <p class="section-desc">
+                The SolversPro Internet Speed Test is a free browser-based network and WiFi speed test that measures real-time download throughput, upload bandwidth, unloaded ping, jitter, and bufferbloat across 330+ Cloudflare edge cities.
+              </p>
             </div>
 
-            <div class="info-card">
-              <div class="info-card-header">
-                <span class="info-icon">⬆️</span>
-                <h3>Upload Speed</h3>
-              </div>
-              <div class="info-card-body">
-                How fast your device sends data to the internet (measured in Mbps). Essential for crisp Zoom/Teams video conferencing, Twitch streaming, uploading cloud backups, and sending emails with attachments.
-              </div>
+            <!-- Speed Benchmarks Table (GEO Citable Content) -->
+            <div class="benchmark-table-wrap">
+              <table class="benchmark-table">
+                <thead>
+                  <tr>
+                    <th>Online Activity</th>
+                    <th>Minimum Download</th>
+                    <th>Minimum Upload</th>
+                    <th>Recommended Ping</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>General Browsing & Email</strong></td>
+                    <td>5 – 10 Mbps</td>
+                    <td>1 – 2 Mbps</td>
+                    <td>&lt; 100 ms</td>
+                  </tr>
+                  <tr>
+                    <td><strong>HD Video Streaming (1080p)</strong></td>
+                    <td>10 – 15 Mbps</td>
+                    <td>2 Mbps</td>
+                    <td>&lt; 70 ms</td>
+                  </tr>
+                  <tr>
+                    <td><strong>4K Ultra HD Streaming</strong></td>
+                    <td>25 – 50 Mbps</td>
+                    <td>5 Mbps</td>
+                    <td>&lt; 50 ms</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Video Conferencing (Zoom / Teams)</strong></td>
+                    <td>10 – 25 Mbps</td>
+                    <td>5 – 10 Mbps</td>
+                    <td>&lt; 40 ms (Jitter &lt; 5ms)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Competitive Online Gaming</strong></td>
+                    <td>25 – 50 Mbps</td>
+                    <td>5 – 10 Mbps</td>
+                    <td>&lt; 25 ms (Low bufferbloat)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Heavy Cloud Backups & Large Downloads</strong></td>
+                    <td>100+ Mbps</td>
+                    <td>20+ Mbps</td>
+                    <td>Any</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
 
-            <div class="info-card">
-              <div class="info-card-header">
-                <span class="info-icon">⚡</span>
-                <h3>Latency (Ping)</h3>
-              </div>
-              <div class="info-card-body">
-                The round-trip reaction time (in milliseconds) for a packet to reach the edge server and return. Lower ping (&lt; 30 ms) is vital for lag-free multiplayer gaming and snappy web browsing.
-              </div>
+            <!-- Interactive FAQ (1:1 Match with FAQPage JSON-LD) -->
+            <div class="section-title-wrap">
+              <h3 class="section-title" style="font-size: 16px;">Frequently Asked Questions</h3>
             </div>
 
-            <div class="info-card">
-              <div class="info-card-header">
-                <span class="info-icon">📶</span>
-                <h3>Jitter</h3>
-              </div>
-              <div class="info-card-body">
-                The variance or fluctuation in latency over time. Low jitter (&lt; 5 ms) ensures consistent, uninterrupted VoIP calls and prevents random stuttering in online gaming.
-              </div>
+            <div class="faq-section">
+              <details class="faq-item" open>
+                <summary>How does the SolversPro Internet Speed Test work?</summary>
+                <div class="faq-answer">
+                  Our internet speed test is powered by Cloudflare's official open-source measurement engine. As soon as you open the page, it performs parallel HTTPS GET and POST requests against Cloudflare's global edge network across 330+ cities to measure your true download speed, upload speed, unloaded ping, jitter, and loaded bufferbloat.
+                </div>
+              </details>
+
+              <details class="faq-item">
+                <summary>How do I run an accurate WiFi speed test vs. a wired network speed test?</summary>
+                <div class="faq-answer">
+                  To run a WiFi speed test, open this page in the room where you normally use your device; the test starts automatically and measures wireless throughput and jitter. To test your maximum ISP connection speed, connect your computer directly to your router with a Cat6 Ethernet cable and click the circular re-test button.
+                </div>
+              </details>
+
+              <details class="faq-item">
+                <summary>Why does my speed test result differ from my ISP plan?</summary>
+                <div class="faq-answer">
+                  ISPs advertise theoretical maximum "burst" speeds under optimal laboratory conditions. Real-world speeds can be affected by Wi-Fi interference, distance from your router, network congestion during peak hours, outdated router hardware, background app updates, or ISP traffic throttling.
+                </div>
+              </details>
+
+              <details class="faq-item">
+                <summary>What is bufferbloat (loaded latency) and why does it matter?</summary>
+                <div class="faq-answer">
+                  Bufferbloat is high latency that occurs when your router buffers too many packets during heavy downloads or uploads. If your loaded latency is significantly higher than your unloaded ping, your connection will experience lag and stuttering whenever multiple devices are active on your network.
+                </div>
+              </details>
+
+              <details class="faq-item">
+                <summary>How can I improve my internet connection speed?</summary>
+                <div class="faq-answer">
+                  To maximize your connection speed: (1) Use an Ethernet cable instead of Wi-Fi whenever possible; (2) Place your Wi-Fi router in a central, elevated location away from thick walls and metal objects; (3) Restart your modem and router periodically; (4) Close bandwidth-heavy background downloads or cloud syncing apps; (5) Upgrade your router firmware.
+                </div>
+              </details>
             </div>
+          </section>
 
-            <div class="info-card">
-              <div class="info-card-header">
-                <span class="info-icon">🔄</span>
-                <h3>Bufferbloat (Loaded Ping)</h3>
-              </div>
-              <div class="info-card-body">
-                Latency measured while actively downloading or uploading heavy traffic. If your ping spikes dramatically under load, video calls and gaming will lag whenever someone else in the house streams or downloads.
-              </div>
-            </div>
-
-            <div class="info-card">
-              <div class="info-card-header">
-                <span class="info-icon">🌐</span>
-                <h3>Cloudflare Edge Routing</h3>
-              </div>
-              <div class="info-card-body">
-                Your test connects to Cloudflare's nearest edge datacenter across 330+ cities worldwide, eliminating ISP artificial caching and providing true real-world network performance.
-              </div>
-            </div>
-          </div>
-
-          <!-- Speed Benchmarks Table -->
-          <div class="section-title-wrap" style="margin-top: 12px;">
-            <h3 class="section-title" style="font-size: 16px;">Recommended Internet Speeds by Activity</h3>
-          </div>
-
-          <div class="benchmark-table-wrap">
-            <table class="benchmark-table">
-              <thead>
-                <tr>
-                  <th>Online Activity</th>
-                  <th>Minimum Download</th>
-                  <th>Minimum Upload</th>
-                  <th>Recommended Ping</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>General Browsing & Email</strong></td>
-                  <td>5 – 10 Mbps</td>
-                  <td>1 – 2 Mbps</td>
-                  <td>&lt; 100 ms</td>
-                </tr>
-                <tr>
-                  <td><strong>HD Video Streaming (1080p)</strong></td>
-                  <td>10 – 15 Mbps</td>
-                  <td>2 Mbps</td>
-                  <td>&lt; 70 ms</td>
-                </tr>
-                <tr>
-                  <td><strong>4K Ultra HD Streaming</strong></td>
-                  <td>25 – 50 Mbps</td>
-                  <td>5 Mbps</td>
-                  <td>&lt; 50 ms</td>
-                </tr>
-                <tr>
-                  <td><strong>Video Conferencing (Zoom / Teams)</strong></td>
-                  <td>10 – 25 Mbps</td>
-                  <td>5 – 10 Mbps</td>
-                  <td>&lt; 40 ms (Jitter &lt; 5ms)</td>
-                </tr>
-                <tr>
-                  <td><strong>Competitive Online Gaming</strong></td>
-                  <td>25 – 50 Mbps</td>
-                  <td>5 – 10 Mbps</td>
-                  <td>&lt; 25 ms (Low bufferbloat)</td>
-                </tr>
-                <tr>
-                  <td><strong>Heavy Cloud Backups & Large Downloads</strong></td>
-                  <td>100+ Mbps</td>
-                  <td>20+ Mbps</td>
-                  <td>Any</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Interactive FAQ -->
-          <div class="section-title-wrap" style="margin-top: 12px;">
-            <h3 class="section-title" style="font-size: 16px;">Frequently Asked Questions</h3>
-          </div>
-
-          <div class="faq-section">
-            <details class="faq-item" open>
-              <summary>How does the SolversPro Internet Speed Test work?</summary>
-              <div class="faq-answer">
-                Our internet speed test is powered by Cloudflare's official open-source measurement engine. It performs multiple parallel HTTPS GET and POST requests with dynamic payload chunks directly against Cloudflare's global edge network across 330+ cities. This measures your true end-to-end connection speed, unloaded latency, and loaded bufferbloat.
-              </div>
-            </details>
-
-            <details class="faq-item">
-              <summary>How do I run an accurate WiFi speed test vs. a wired network speed test?</summary>
-              <div class="faq-answer">
-                To run a WiFi speed test, stand in the room where you normally use your device and click Start Speed Test to measure wireless signal throughput and jitter. To test your maximum ISP connection speed, connect your computer directly to your router with a Cat6 Ethernet cable and run a wired network speed test.
-              </div>
-            </details>
-
-            <details class="faq-item">
-              <summary>Why does my speed test result differ from my ISP plan?</summary>
-              <div class="faq-answer">
-                ISPs advertise theoretical maximum "burst" speeds under optimal laboratory conditions. Real-world speeds can be affected by Wi-Fi interference, distance from your router, network congestion during peak hours, outdated router hardware, background app updates, or ISP traffic throttling.
-              </div>
-            </details>
-
-            <details class="faq-item">
-              <summary>What is bufferbloat and why is it important?</summary>
-              <div class="faq-answer">
-                Bufferbloat is high latency that occurs when your router buffers too many packets during heavy downloads or uploads. If your loaded latency is significantly higher than your unloaded latency, your connection will experience lag and stuttering whenever multiple devices are active on your home network.
-              </div>
-            </details>
-
-            <details class="faq-item">
-              <summary>How can I improve my internet connection speed?</summary>
-              <div class="faq-answer">
-                To maximize your connection speed: (1) Use an Ethernet cable instead of Wi-Fi whenever possible; (2) Place your Wi-Fi router in a central, elevated location away from thick walls and metal objects; (3) Restart your modem and router periodically; (4) Close bandwidth-heavy background downloads, torrents, or cloud syncing apps; (5) Upgrade your router firmware.
-              </div>
-            </details>
-
-            <details class="faq-item">
-              <summary>What makes this the best internet speed test free of ISP bias?</summary>
-              <div class="faq-answer">
-                Unlike ISP-hosted tests that measure speed only to a local provider cache, SolversPro measures real-world HTTPS throughput against Cloudflare's 330+ global edge nodes. It is 100% free, requires no app install, and includes live ping, jitter, and bufferbloat grading.
-              </div>
-            </details>
-          </div>
-
-          <!-- Product Update Announcement Card -->
-          <div class="update-banner-card">
-            <a
-              href="https://solverspro.com/blog/solverspro-update-speed-test-and-pdf-tools/"
-              target="_blank"
-              rel="noopener"
-              class="update-banner-link"
-            >
-              <span>📢 New here? We just launched this speed test along with a rebuilt PDF tools hub. <strong>Read the update →</strong></span>
-            </a>
-          </div>
-        </section>
-
+        </div>
       </div>
     </main>
 
-    <!-- Footer -->
+    <!-- Minimal Footer -->
     <footer class="app-footer">
       <div class="footer-inner">
-        <p>
-          Measurement engine powered by Cloudflare Edge Network. Built for accuracy with zero bloat.
-        </p>
+        <span>Powered by Cloudflare Global Edge (330+ cities)</span>
         <div class="footer-links">
-          <a href="https://solverspro.com" target="_blank" rel="noopener">SolversPro Home</a>
+          <a href="https://solverspro.com" target="_blank" rel="noopener">SolversPro</a>
           <span>•</span>
           <a href="https://solverspro.com/network/" target="_blank" rel="noopener">Network Tools</a>
           <span>•</span>
