@@ -1,0 +1,456 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolShare from '../../components/ToolShare.astro';
+import SimilarTools from '../../components/SimilarTools.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Network Jitter Test",
+  "url": "https://solverspro.com/network/jitter-test/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free browser-based network jitter and ping stability test measuring RFC 3550 jitter, min/avg/max RTT latency, standard deviation, and packet loss in real time.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com"
+  }
+};
+
+const faqs = [
+  {
+    question: "What is network jitter?",
+    answer: "Network jitter is the variation in latency (ping) over time as data packets travel across your internet connection. Even if your average ping is low, high jitter causes inconsistent packet arrival times, resulting in lag spikes in online games, robotic audio in VoIP calls, and stuttering in video conferences."
+  },
+  {
+    question: "What is a good jitter score for gaming and VoIP?",
+    answer: "For competitive online gaming, VoIP, and real-time video calls, jitter under 10 ms is ideal and under 20 ms is generally acceptable. Jitter above 30 ms frequently causes noticeable voice distortion, rubber-banding, and dropped frames."
+  },
+  {
+    question: "How does the SolversPro Network Jitter Test calculate jitter?",
+    answer: "The tool sends a sequence of lightweight HTTPS round-trip timing (RTT) probes directly from your browser and computes both the average consecutive RTT delta (RFC 3550 inter-arrival jitter) and standard deviation, alongside minimum, average, and maximum ping and failed-probe packet loss."
+  },
+  {
+    question: "How can I reduce high internet jitter?",
+    answer: "Switching from Wi-Fi to a wired Ethernet connection eliminates wireless interference and is the single fastest fix for jitter. You can also enable Smart Queue Management (SQM/QoS) on your router to prevent bufferbloat, pause background downloads, and verify full loaded latency with the SolversPro Internet Speed Test."
+  }
+];
+---
+
+<BaseLayout
+  title="Network Jitter Test — Free Online Ping & Latency Stability | SolversPro"
+  description="Free online network jitter test to measure ping stability, RFC 3550 jitter, min/max latency, and packet loss in your browser for gaming and VoIP calls."
+  canonical="https://solverspro.com/network/jitter-test/"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-12">
+    <div class="container mx-auto px-4 py-12 max-w-3xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Network Tools', href: '/network' },
+        { label: 'Network Jitter Test' },
+      ]} />
+
+      <div class="mb-10 mt-4">
+        <h1 class="text-4xl font-bold text-white mb-4">📶 Network Jitter Test</h1>
+        <p class="text-zinc-300 text-lg max-w-2xl">
+          The SolversPro Network Jitter Test is a free, browser-based latency diagnostic tool that measures real-time ping (RTT), RFC 3550 jitter, packet loss, and connection stability without installing software.
+        </p>
+      </div>
+
+      <!-- Controls -->
+      <div class="bg-[#0d0d14] border border-white/[0.08] rounded-2xl p-6 mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div class="grid grid-cols-2 gap-4 flex-1">
+            <div>
+              <label for="probe-count" class="block text-xs text-zinc-400 uppercase tracking-wider font-semibold mb-2">Probe Count</label>
+              <select id="probe-count" class="w-full bg-[#13131f] border border-white/[0.1] rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[#2dd4bf]">
+                <option value="20">20 Probes (Quick)</option>
+                <option value="35" selected>35 Probes (Standard)</option>
+                <option value="50">50 Probes (Deep)</option>
+              </select>
+            </div>
+            <div>
+              <label for="probe-interval" class="block text-xs text-zinc-400 uppercase tracking-wider font-semibold mb-2">Interval</label>
+              <select id="probe-interval" class="w-full bg-[#13131f] border border-white/[0.1] rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[#2dd4bf]">
+                <option value="150">150 ms (Rapid)</option>
+                <option value="250" selected>250 ms (Standard)</option>
+                <option value="500">500 ms (Relaxed)</option>
+              </select>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <button id="btn-start" type="button" class="px-6 py-2.5 bg-[#2dd4bf] hover:bg-[#14b8a6] text-[#07070c] font-bold rounded-xl transition-all cursor-pointer text-sm shadow-lg shadow-[#2dd4bf]/20">
+              Start Jitter Test
+            </button>
+            <button id="btn-reset" type="button" class="px-4 py-2.5 bg-white/[0.05] hover:bg-white/[0.1] text-zinc-300 font-semibold rounded-xl border border-white/[0.08] transition-all cursor-pointer text-sm">
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="mt-5">
+          <div class="flex items-center justify-between text-xs text-zinc-400 mb-1.5">
+            <span id="status-text">Ready to measure network jitter</span>
+            <span id="progress-label" class="font-mono">0 / 35</span>
+          </div>
+          <div class="w-full h-2 bg-white/[0.05] rounded-full overflow-hidden">
+            <div id="progress-bar" class="h-full bg-[#2dd4bf] transition-all duration-150 rounded-full" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Primary Jitter Readout -->
+      <div class="bg-gradient-to-br from-[#0d0d14] to-[#111122] border border-[#2dd4bf]/20 rounded-2xl p-8 mb-6 text-center shadow-xl shadow-[#2dd4bf]/5">
+        <div class="text-xs text-zinc-400 uppercase tracking-widest font-semibold mb-2">Measured Jitter (Mean Delta)</div>
+        <div class="flex items-baseline justify-center gap-2 mb-4">
+          <span id="jitter-value" class="text-5xl sm:text-6xl font-bold font-mono text-white">--</span>
+          <span class="text-xl text-zinc-400 font-mono">ms</span>
+        </div>
+        <div id="grade-badge" class="inline-flex items-center gap-2 px-4 py-1.5 bg-white/[0.05] border border-white/[0.1] rounded-full text-sm text-zinc-300 font-semibold">
+          Click "Start Jitter Test" to begin
+        </div>
+      </div>
+
+      <!-- Secondary Metrics Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-4 text-center">
+          <div class="text-xs text-zinc-400 uppercase tracking-wider mb-1">Avg Ping</div>
+          <div id="avg-ping" class="text-2xl font-bold font-mono text-white">--</div>
+        </div>
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-4 text-center">
+          <div class="text-xs text-zinc-400 uppercase tracking-wider mb-1">Min / Max</div>
+          <div id="minmax-ping" class="text-xl font-bold font-mono text-white">--</div>
+        </div>
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-4 text-center">
+          <div class="text-xs text-zinc-400 uppercase tracking-wider mb-1">Std Dev</div>
+          <div id="stddev-ping" class="text-2xl font-bold font-mono text-white">--</div>
+        </div>
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-4 text-center">
+          <div class="text-xs text-zinc-400 uppercase tracking-wider mb-1">Packet Loss</div>
+          <div id="packet-loss" class="text-2xl font-bold font-mono text-white">--</div>
+        </div>
+      </div>
+
+      <!-- Live RTT Chart -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-6 mb-6">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-sm font-bold text-white uppercase tracking-wider">Real-Time Latency (RTT) Stability</h2>
+            <p class="text-xs text-zinc-400">Each bar represents one HTTPS round-trip probe in milliseconds</p>
+          </div>
+          <button id="btn-copy-results" type="button" class="px-3 py-1.5 bg-white/[0.05] hover:bg-white/[0.1] text-zinc-300 text-xs font-semibold rounded-lg border border-white/[0.08] transition-all cursor-pointer">
+            Copy Summary
+          </button>
+        </div>
+        <div id="rtt-chart" class="h-36 flex items-end gap-1 pt-4 border-b border-white/[0.08]">
+          <div class="w-full h-full flex items-center justify-center text-xs text-zinc-500">
+            Waiting for probe samples...
+          </div>
+        </div>
+      </div>
+
+      <!-- Full Speed Test CTA -->
+      <div class="bg-[#111122] border border-[#ff6b35]/30 rounded-2xl p-5 mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <div class="text-sm font-bold text-white mb-1">Want Download, Upload &amp; Bufferbloat Testing Too?</div>
+          <p class="text-xs text-zinc-400">Run our full Cloudflare-powered speed test to measure bandwidth alongside unloaded and loaded latency.</p>
+        </div>
+        <a href="https://speed.solverspro.com/" class="shrink-0 px-4 py-2.5 bg-[#ff6b35] hover:bg-[#e85a27] text-white text-xs font-bold rounded-xl transition-all">
+          Open Full Speed Test →
+        </a>
+      </div>
+
+      <!-- Citable Reference Table -->
+      <div class="mt-10 bg-[#0d0d14] border border-white/[0.06] rounded-xl p-6">
+        <h2 class="text-xl font-bold text-white mb-2">Network Jitter &amp; Ping Benchmarks by Use Case</h2>
+        <p class="text-zinc-400 text-sm mb-6">Recommended maximum latency, jitter, and packet loss thresholds for common real-time internet applications.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-400 font-mono text-xs uppercase">
+                <th class="py-3 px-4">Application</th>
+                <th class="py-3 px-4">Ideal Ping</th>
+                <th class="py-3 px-4">Target Jitter</th>
+                <th class="py-3 px-4">Max Loss</th>
+                <th class="py-3 px-4">Symptom of High Jitter</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-300 text-xs">
+              <tr>
+                <td class="py-3 px-4 text-[#2dd4bf] font-bold">Competitive FPS Gaming</td>
+                <td class="py-3 px-4 font-mono text-white">&lt; 30 ms</td>
+                <td class="py-3 px-4 font-mono text-green-400">&lt; 5 ms</td>
+                <td class="py-3 px-4 font-mono">0%</td>
+                <td class="py-3 px-4 text-zinc-400">Rubber-banding &amp; hit-reg delay</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#38bdf8] font-bold">VoIP &amp; Voice Chat</td>
+                <td class="py-3 px-4 font-mono text-white">&lt; 100 ms</td>
+                <td class="py-3 px-4 font-mono text-green-400">&lt; 15 ms</td>
+                <td class="py-3 px-4 font-mono">&lt; 1%</td>
+                <td class="py-3 px-4 text-zinc-400">Choppy, robotic, or clipped audio</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#a78bfa] font-bold">Video Conferencing</td>
+                <td class="py-3 px-4 font-mono text-white">&lt; 100 ms</td>
+                <td class="py-3 px-4 font-mono text-yellow-400">&lt; 25 ms</td>
+                <td class="py-3 px-4 font-mono">&lt; 1%</td>
+                <td class="py-3 px-4 text-zinc-400">Frozen frames &amp; audio desync</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-[#ff6b35] font-bold">Cloud Gaming / Remote Desktop</td>
+                <td class="py-3 px-4 font-mono text-white">&lt; 40 ms</td>
+                <td class="py-3 px-4 font-mono text-green-400">&lt; 10 ms</td>
+                <td class="py-3 px-4 font-mono">&lt; 0.5%</td>
+                <td class="py-3 px-4 text-zinc-400">Input stutter &amp; bitrate drops</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-zinc-200 font-bold">4K Video Streaming</td>
+                <td class="py-3 px-4 font-mono text-white">&lt; 150 ms</td>
+                <td class="py-3 px-4 font-mono text-zinc-300">&lt; 50 ms</td>
+                <td class="py-3 px-4 font-mono">&lt; 2%</td>
+                <td class="py-3 px-4 text-zinc-400">Buffered playback (mitigated by cache)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <ToolFAQ faqs={faqs} />
+
+      <ToolShare title="Network Jitter Test — Ping & Latency Stability" url="https://solverspro.com/network/jitter-test/" />
+      <SimilarTools category="network" currentPath="/network/jitter-test" />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { copyToClipboard } from '../../utils/clipboard';
+
+  const btnStart = document.getElementById('btn-start') as HTMLButtonElement;
+  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
+  const btnCopy = document.getElementById('btn-copy-results') as HTMLButtonElement;
+  const probeCountEl = document.getElementById('probe-count') as HTMLSelectElement;
+  const probeIntervalEl = document.getElementById('probe-interval') as HTMLSelectElement;
+
+  const statusText = document.getElementById('status-text')!;
+  const progressLabel = document.getElementById('progress-label')!;
+  const progressBar = document.getElementById('progress-bar')!;
+  const jitterValueEl = document.getElementById('jitter-value')!;
+  const gradeBadgeEl = document.getElementById('grade-badge')!;
+  const avgPingEl = document.getElementById('avg-ping')!;
+  const minmaxPingEl = document.getElementById('minmax-ping')!;
+  const stddevPingEl = document.getElementById('stddev-ping')!;
+  const packetLossEl = document.getElementById('packet-loss')!;
+  const rttChartEl = document.getElementById('rtt-chart')!;
+
+  let isRunning = false;
+  let abortController: AbortController | null = null;
+  let lastSummary = '';
+
+  function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  function calculateStats(samples: number[], failedCount: number, totalSent: number) {
+    const valid = samples.length;
+    const lossPct = totalSent > 0 ? (failedCount / totalSent) * 100 : 0;
+
+    if (valid === 0) {
+      return { avg: 0, min: 0, max: 0, jitter: 0, stdDev: 0, lossPct };
+    }
+
+    const min = Math.min(...samples);
+    const max = Math.max(...samples);
+    const avg = samples.reduce((a, b) => a + b, 0) / valid;
+
+    let deltaSum = 0;
+    for (let i = 1; i < samples.length; i++) {
+      deltaSum += Math.abs(samples[i] - samples[i - 1]);
+    }
+    const jitter = samples.length > 1 ? deltaSum / (samples.length - 1) : 0;
+
+    const variance = samples.reduce((sum, val) => sum + Math.pow(val - avg, 2), 0) / valid;
+    const stdDev = Math.sqrt(variance);
+
+    return { avg, min, max, jitter, stdDev, lossPct };
+  }
+
+  function getGrade(jitter: number, lossPct: number) {
+    if (lossPct > 5) {
+      return { text: 'Poor — Packet Loss Detected', cls: 'bg-red-500/15 border-red-500/30 text-red-400' };
+    }
+    if (jitter <= 5) {
+      return { text: 'Excellent — Competitive Gaming & VoIP Ready', cls: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400' };
+    }
+    if (jitter <= 15) {
+      return { text: 'Good — Smooth Video Calls & Streaming', cls: 'bg-[#2dd4bf]/15 border-[#2dd4bf]/30 text-[#2dd4bf]' };
+    }
+    if (jitter <= 30) {
+      return { text: 'Fair — Minor Latency Fluctuations', cls: 'bg-yellow-500/15 border-yellow-500/30 text-yellow-400' };
+    }
+    return { text: 'High Jitter — Unstable Connection', cls: 'bg-red-500/15 border-red-500/30 text-red-400' };
+  }
+
+  function renderChart(samples: (number | null)[]) {
+    if (samples.length === 0) {
+      rttChartEl.innerHTML = '<div class="w-full h-full flex items-center justify-center text-xs text-zinc-500">Waiting for probe samples...</div>';
+      return;
+    }
+
+    const validNums = samples.filter((s): s is number => s !== null);
+    const maxVal = Math.max(20, ...validNums);
+
+    rttChartEl.innerHTML = samples
+      .map((val, idx) => {
+        if (val === null) {
+          return `<div title="Probe ${idx + 1}: Timeout/Loss" class="flex-1 bg-red-500/70 rounded-t-sm" style="height: 100%"></div>`;
+        }
+        const pct = Math.max(8, Math.min(100, (val / maxVal) * 100));
+        const color = val > maxVal * 0.8 ? 'bg-[#ff6b35]' : 'bg-[#2dd4bf]';
+        return `<div title="Probe ${idx + 1}: ${val.toFixed(1)} ms" class="flex-1 ${color} rounded-t-sm transition-all" style="height: ${pct.toFixed(1)}%"></div>`;
+      })
+      .join('');
+  }
+
+  function updateUI(samples: number[], rawTimeline: (number | null)[], failed: number, sent: number, total: number) {
+    const stats = calculateStats(samples, failed, sent);
+
+    progressLabel.textContent = `${sent} / ${total}`;
+    progressBar.style.width = `${total > 0 ? (sent / total) * 100 : 0}%`;
+
+    if (samples.length > 0) {
+      jitterValueEl.textContent = stats.jitter.toFixed(1);
+      avgPingEl.textContent = `${stats.avg.toFixed(1)} ms`;
+      minmaxPingEl.textContent = `${stats.min.toFixed(0)} / ${stats.max.toFixed(0)} ms`;
+      stddevPingEl.textContent = `${stats.stdDev.toFixed(1)} ms`;
+      packetLossEl.textContent = `${stats.lossPct.toFixed(1)}%`;
+
+      const grade = getGrade(stats.jitter, stats.lossPct);
+      gradeBadgeEl.textContent = grade.text;
+      gradeBadgeEl.className = `inline-flex items-center gap-2 px-4 py-1.5 border rounded-full text-sm font-semibold ${grade.cls}`;
+
+      lastSummary = `SolversPro Network Jitter Test — Jitter: ${stats.jitter.toFixed(1)} ms | Avg Ping: ${stats.avg.toFixed(1)} ms | Min/Max: ${stats.min.toFixed(0)}/${stats.max.toFixed(0)} ms | Std Dev: ${stats.stdDev.toFixed(1)} ms | Packet Loss: ${stats.lossPct.toFixed(1)}% (${sent} probes)`;
+    }
+
+    renderChart(rawTimeline);
+  }
+
+  function resetAll() {
+    if (abortController) {
+      abortController.abort();
+      abortController = null;
+    }
+    isRunning = false;
+    btnStart.textContent = 'Start Jitter Test';
+    const total = parseInt(probeCountEl.value, 10) || 35;
+    statusText.textContent = 'Ready to measure network jitter';
+    progressLabel.textContent = `0 / ${total}`;
+    progressBar.style.width = '0%';
+    jitterValueEl.textContent = '--';
+    avgPingEl.textContent = '--';
+    minmaxPingEl.textContent = '--';
+    stddevPingEl.textContent = '--';
+    packetLossEl.textContent = '--';
+    gradeBadgeEl.textContent = 'Click "Start Jitter Test" to begin';
+    gradeBadgeEl.className = 'inline-flex items-center gap-2 px-4 py-1.5 bg-white/[0.05] border border-white/[0.1] rounded-full text-sm text-zinc-300 font-semibold';
+    lastSummary = '';
+    renderChart([]);
+  }
+
+  async function runTest() {
+    if (isRunning) {
+      if (abortController) abortController.abort();
+      isRunning = false;
+      btnStart.textContent = 'Start Jitter Test';
+      statusText.textContent = 'Test stopped by user';
+      return;
+    }
+
+    const totalProbes = parseInt(probeCountEl.value, 10) || 35;
+    const intervalMs = parseInt(probeIntervalEl.value, 10) || 250;
+
+    isRunning = true;
+    abortController = new AbortController();
+    btnStart.textContent = 'Stop Test';
+    statusText.textContent = 'Warming up connection...';
+
+    const samples: number[] = [];
+    const rawTimeline: (number | null)[] = [];
+    let failedCount = 0;
+
+    try {
+      // Warmup probe to establish TLS/HTTP2 session (excluded from stats)
+      await fetch(`${window.location.origin}/favicon.svg?warmup=${Date.now()}`, {
+        cache: 'no-store',
+        signal: abortController.signal,
+      }).catch(() => {});
+
+      statusText.textContent = 'Measuring round-trip latency & jitter...';
+
+      for (let i = 0; i < totalProbes; i++) {
+        if (!isRunning || abortController.signal.aborted) break;
+
+        const t0 = performance.now();
+        try {
+          const resp = await fetch(`${window.location.origin}/favicon.svg?t=${Date.now()}-${i}`, {
+            cache: 'no-store',
+            signal: abortController.signal,
+          });
+          if (!resp.ok) throw new Error('HTTP error');
+          const rtt = performance.now() - t0;
+          samples.push(rtt);
+          rawTimeline.push(rtt);
+        } catch (err: any) {
+          if (err?.name === 'AbortError') break;
+          failedCount++;
+          rawTimeline.push(null);
+        }
+
+        updateUI(samples, rawTimeline, failedCount, i + 1, totalProbes);
+
+        if (i < totalProbes - 1 && isRunning) {
+          await sleep(intervalMs);
+        }
+      }
+
+      if (isRunning) {
+        statusText.textContent = `Completed ${totalProbes} probes`;
+      }
+    } finally {
+      isRunning = false;
+      btnStart.textContent = 'Start Jitter Test';
+    }
+  }
+
+  btnStart?.addEventListener('click', runTest);
+  btnReset?.addEventListener('click', resetAll);
+  probeCountEl?.addEventListener('change', () => {
+    if (!isRunning) resetAll();
+  });
+
+  btnCopy?.addEventListener('click', async () => {
+    if (!lastSummary) return;
+    await copyToClipboard(lastSummary, btnCopy);
+  });
+</script>
+

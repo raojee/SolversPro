@@ -339,6 +339,12 @@ export const toolsByCategory: Record<string, Tool[]> = {
     href: 'https://speed.solverspro.com'
   },
   {
+    title: 'Network Jitter Test',
+    description: 'Measure real-time network jitter, ping stability, min/max latency, standard deviation, and packet loss directly in your browser.',
+    icon: '📶',
+    href: '/network/jitter-test'
+  },
+  {
     title: 'IP Subnet Calculator',
     description: 'Calculate network address, broadcast, subnet mask, host range, and usable hosts for any IPv4 subnet using CIDR notation.',
     icon: '🌐',

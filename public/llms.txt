@@ -13,6 +13,7 @@
 
 - [All Tools Directory](https://solverspro.com/all-tools/): Complete searchable directory of 80+ free calculators and utilities.
 - [Internet Speed Test](https://speed.solverspro.com/): Accurate real-time internet speed test measuring download, upload, ping, jitter, and bufferbloat against Cloudflare edge network.
+- [Network Jitter Test](https://solverspro.com/network/jitter-test/): Dedicated browser-based network jitter and ping stability test measuring RFC 3550 jitter, min/avg/max RTT latency, standard deviation, and packet loss.
 - [Universal AI Solver](https://solverspro.com/free-ai-solver/): Gemini-powered multimodal step-by-step problem solver for math, science, and engineering questions.
 
 ## Pages & Tools
@@ -84,6 +85,7 @@
 ### Network Utilities
 
 - [Internet Speed Test](https://speed.solverspro.com): Accurate, real-time internet speed test powered by Cloudflare edge. Measure download, upload, ping, jitter, and bufferbloat.
+- [Network Jitter Test](https://solverspro.com/network/jitter-test/): Measure real-time network jitter, ping stability, min/max latency, standard deviation, and packet loss directly in your browser.
 - [IP Subnet Calculator](https://solverspro.com/network/ip-subnet-calculator/): Calculate network address, broadcast, subnet mask, host range, and usable hosts for any IPv4 subnet using CIDR notation.
 - [My IP Checker](https://solverspro.com/network/my-ip/): Instantly find your public IP address with location, ISP, timezone, and coordinates.
 - [IP Address Lookup](https://solverspro.com/network/ip-lookup/): Look up any public IP address to find its geolocation, ISP, ASN, timezone, and network details.
