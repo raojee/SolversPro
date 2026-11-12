@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Internet Speed Test — WiFi & Broadband | SolversPro</title>
+    <title>Internet Speed, Jitter & Bufferbloat Test | SolversPro</title>
     <meta
       name="description"
-      content="Free internet speed test that automatically checks your WiFi and broadband download speed, upload speed, unloaded ping, jitter, and bufferbloat in real time."
+      content="Free internet speed test, jitter test, and bufferbloat test. Measure real-time download, bandwidth upload speed, and unloaded vs. loaded ping on fiber & WiFi."
     />
-    <meta name="keywords" content="internet speed test, speed test, wifi speed test, network speed test, connection speed, broadband speed test, download speed, upload speed, ping test, bufferbloat test" />
+    <meta name="keywords" content="internet speed test, jitter test, test jitter, speed test jitter, internet jitter test, bufferbloat test, bufferbloat fibre test, bandwidth upload test, measure my internet speed, wifi speed test" />
     <meta name="author" content="SolversPro" />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <meta name="theme-color" content="#ffffff" id="meta-theme-color" />
@@ -18,14 +18,14 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://speed.solverspro.com/" />
     <meta property="og:site_name" content="SolversPro" />
-    <meta property="og:title" content="Internet Speed Test — WiFi & Broadband | SolversPro" />
-    <meta property="og:description" content="Free internet speed test that automatically checks your WiFi and broadband download speed, upload speed, unloaded ping, jitter, and bufferbloat in real time." />
+    <meta property="og:title" content="Internet Speed, Jitter & Bufferbloat Test | SolversPro" />
+    <meta property="og:description" content="Free internet speed test, jitter test, and bufferbloat test. Measure real-time download, bandwidth upload speed, and unloaded vs. loaded ping on fiber & WiFi." />
     <meta property="og:image" content="https://solverspro.com/og-image.png" />
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Internet Speed Test — WiFi & Broadband | SolversPro" />
-    <meta name="twitter:description" content="Free internet speed test that automatically checks your WiFi and broadband download speed, upload speed, unloaded ping, jitter, and bufferbloat in real time." />
+    <meta name="twitter:title" content="Internet Speed, Jitter & Bufferbloat Test | SolversPro" />
+    <meta name="twitter:description" content="Free internet speed test, jitter test, and bufferbloat test. Measure real-time download, bandwidth upload speed, and unloaded vs. loaded ping on fiber & WiFi." />
     <meta property="twitter:image" content="https://solverspro.com/og-image.png" />
 
     <!-- Schema.org JSON-LD (WebApplication + FAQPage) -->
@@ -35,12 +35,12 @@
         "@graph": [
           {
             "@type": "WebApplication",
-            "name": "SolversPro Internet Speed Test",
+            "name": "SolversPro Internet Speed, Jitter & Bufferbloat Test",
             "url": "https://speed.solverspro.com/",
             "applicationCategory": "UtilitiesApplication",
             "operatingSystem": "Any (web browser)",
             "browserRequirements": "Requires JavaScript. Requires HTML5.",
-            "description": "Free internet speed test that automatically measures real-time broadband and WiFi download speed, upload speed, unloaded latency (ping), jitter, and loaded bufferbloat using Cloudflare's global edge network across 330+ cities.",
+            "description": "Free internet speed test, jitter test, and bufferbloat test measuring real-time download speed, bandwidth upload speed, unloaded latency (ping), packet jitter, and loaded bufferbloat on fiber and WiFi across 330+ Cloudflare edge cities.",
             "offers": {
               "@type": "Offer",
               "price": "0",
@@ -57,18 +57,34 @@
             "mainEntity": [
               {
                 "@type": "Question",
-                "name": "How does the SolversPro Internet Speed Test work?",
+                "name": "How does this Internet Speed, Jitter & Bufferbloat Test work?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Our internet speed test is powered by Cloudflare's official open-source measurement engine. As soon as you open the page, it performs parallel HTTPS GET and POST requests against Cloudflare's global edge network across 330+ cities to measure your true download speed, upload speed, unloaded ping, jitter, and loaded bufferbloat."
+                  "text": "Our speed test is powered by Cloudflare's official open-source measurement engine. As soon as you open the page, it performs parallel HTTPS GET and POST requests against Cloudflare's global edge network across 330+ cities to measure your download speed, bandwidth upload speed, unloaded ping, jitter, and loaded bufferbloat."
                 }
               },
               {
                 "@type": "Question",
-                "name": "How do I run an accurate WiFi speed test vs. a wired network speed test?",
+                "name": "What is an internet jitter test and what is a good jitter score?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "To run a WiFi speed test, open this page in the room where you normally use your device; the test starts automatically and measures wireless throughput and jitter. To test your maximum ISP connection speed, connect your computer directly to your router with a Cat6 Ethernet cable and click the circular re-test button."
+                  "text": "An internet jitter test measures the millisecond variation in packet arrival times across consecutive ping probes. A good jitter test score is under 5 ms for competitive online gaming and VoIP video calls, while jitter above 15–20 ms can cause voice stutter and rubber-banding."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What is a bufferbloat test (fibre & WiFi) and why does loaded latency matter?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "A bufferbloat test compares your baseline unloaded ping against your loaded latency while your fiber or WiFi connection is saturated with downloads and uploads. If loaded ping spikes more than 25 ms above unloaded ping, your router queues are bloated and will cause lag whenever multiple devices stream or download."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How does the bandwidth upload test measure my real upload speed?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Our bandwidth upload test streams progressively larger HTTPS POST payloads (from 100 KB up to 25 MB) directly to the nearest Cloudflare edge node to measure sustained upstream throughput and peak upload bandwidth."
                 }
               },
               {
@@ -77,22 +93,6 @@
                 "acceptedAnswer": {
                   "@type": "Answer",
                   "text": "ISPs advertise theoretical maximum \"burst\" speeds under optimal laboratory conditions. Real-world speeds can be affected by Wi-Fi interference, distance from your router, network congestion during peak hours, outdated router hardware, background app updates, or ISP traffic throttling."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "What is bufferbloat (loaded latency) and why does it matter?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Bufferbloat is high latency that occurs when your router buffers too many packets during heavy downloads or uploads. If your loaded latency is significantly higher than your unloaded ping, your connection will experience lag and stuttering whenever multiple devices are active on your network."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "How can I improve my internet connection speed?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "To maximize your connection speed: (1) Use an Ethernet cable instead of Wi-Fi whenever possible; (2) Place your Wi-Fi router in a central, elevated location away from thick walls and metal objects; (3) Restart your modem and router periodically; (4) Close bandwidth-heavy background downloads or cloud syncing apps; (5) Upgrade your router firmware."
                 }
               }
             ]
@@ -164,9 +164,9 @@
     <main class="main-content">
       <!-- STAGE 1: Fast.com-Style Minimalist Speed Readout -->
       <section class="hero-stage" aria-live="polite">
-        <h1 class="seo-eyebrow">Internet Speed Test</h1>
+        <h1 class="seo-eyebrow">Internet Speed, Jitter &amp; Bufferbloat Test</h1>
         <p id="geo-direct-answer" class="sr-only">
-          The SolversPro Internet Speed Test is a free browser-based WiFi and broadband speed test that automatically measures your real-time download speed, upload speed, unloaded ping, jitter, and loaded bufferbloat across Cloudflare's 330+ global edge cities.
+          The SolversPro Internet Speed, Jitter &amp; Bufferbloat Test is a free browser-based utility that automatically measures your real-time download speed, bandwidth upload speed, unloaded ping, internet jitter, and fibre/WiFi bufferbloat across Cloudflare's 330+ global edge cities.
         </p>
 
         <div id="test-status-label" class="status-label">Testing your internet speed...</div>
@@ -222,9 +222,9 @@
 
           <!-- Fast.com-Style Primary Secondary Row: Latency & Upload -->
           <section class="fast-details-grid">
-            <!-- Latency Column -->
+            <!-- Latency, Jitter & Bufferbloat Column -->
             <div class="fast-detail-card" id="card-latency">
-              <span class="fast-detail-heading">Latency</span>
+              <span class="fast-detail-heading">Ping, Bufferbloat &amp; Jitter</span>
               <div class="fast-submetrics">
                 <div class="fast-submetric">
                   <span class="submetric-label">Unloaded</span>
@@ -235,7 +235,7 @@
                 </div>
                 <div class="fast-submetric-divider"></div>
                 <div class="fast-submetric" id="card-bufferbloat">
-                  <span class="submetric-label">Loaded</span>
+                  <span class="submetric-label">Loaded (Bufferbloat)</span>
                   <div class="submetric-val-wrap">
                     <span id="metric-loaded-ping" class="submetric-number">—</span>
                     <span class="submetric-unit">ms</span>
@@ -252,12 +252,12 @@
               </div>
             </div>
 
-            <!-- Upload Column -->
+            <!-- Upload Bandwidth Column -->
             <div class="fast-detail-card" id="card-upload">
-              <span class="fast-detail-heading">Upload</span>
+              <span class="fast-detail-heading">Bandwidth Upload &amp; Peaks</span>
               <div class="fast-submetrics">
                 <div class="fast-submetric">
-                  <span class="submetric-label">Speed</span>
+                  <span class="submetric-label">Upload Speed</span>
                   <div class="submetric-val-wrap">
                     <span id="metric-upload" class="submetric-number">—</span>
                     <span class="submetric-unit">Mbps</span>
@@ -345,9 +345,9 @@
           <!-- Educational & SEO/GEO Reference Section -->
           <section class="info-section">
             <div class="section-title-wrap">
-              <h2 class="section-title">What Your Internet Speed Test Result Means</h2>
+              <h2 class="section-title">Internet Speed, Jitter Test &amp; Bufferbloat Test Benchmarks</h2>
               <p class="section-desc">
-                The SolversPro Internet Speed Test is a free browser-based network and WiFi speed test that measures real-time download throughput, upload bandwidth, unloaded ping, jitter, and bufferbloat across 330+ Cloudflare edge cities.
+                The SolversPro Internet Speed Test is a free browser-based jitter test, fibre &amp; WiFi bufferbloat test, and bandwidth upload test that measures real-time download throughput, upload bandwidth, unloaded ping, and loaded latency across 330+ Cloudflare edge cities.
               </p>
             </div>
 
@@ -357,47 +357,47 @@
                 <thead>
                   <tr>
                     <th>Online Activity</th>
-                    <th>Minimum Download</th>
-                    <th>Minimum Upload</th>
-                    <th>Recommended Ping</th>
+                    <th>Min Download</th>
+                    <th>Min Upload Bandwidth</th>
+                    <th>Target Ping &amp; Jitter</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td><strong>General Browsing & Email</strong></td>
+                    <td><strong>General Browsing &amp; Email</strong></td>
                     <td>5 – 10 Mbps</td>
                     <td>1 – 2 Mbps</td>
-                    <td>&lt; 100 ms</td>
+                    <td>Ping &lt; 100 ms | Jitter &lt; 20 ms</td>
                   </tr>
                   <tr>
                     <td><strong>HD Video Streaming (1080p)</strong></td>
                     <td>10 – 15 Mbps</td>
                     <td>2 Mbps</td>
-                    <td>&lt; 70 ms</td>
+                    <td>Ping &lt; 70 ms | Jitter &lt; 15 ms</td>
                   </tr>
                   <tr>
                     <td><strong>4K Ultra HD Streaming</strong></td>
                     <td>25 – 50 Mbps</td>
                     <td>5 Mbps</td>
-                    <td>&lt; 50 ms</td>
+                    <td>Ping &lt; 50 ms | Jitter &lt; 10 ms</td>
                   </tr>
                   <tr>
                     <td><strong>Video Conferencing (Zoom / Teams)</strong></td>
                     <td>10 – 25 Mbps</td>
                     <td>5 – 10 Mbps</td>
-                    <td>&lt; 40 ms (Jitter &lt; 5ms)</td>
+                    <td>Ping &lt; 40 ms | Jitter &lt; 5 ms</td>
                   </tr>
                   <tr>
                     <td><strong>Competitive Online Gaming</strong></td>
                     <td>25 – 50 Mbps</td>
                     <td>5 – 10 Mbps</td>
-                    <td>&lt; 25 ms (Low bufferbloat)</td>
+                    <td>Ping &lt; 25 ms | Bufferbloat &lt; +15 ms</td>
                   </tr>
                   <tr>
-                    <td><strong>Heavy Cloud Backups & Large Downloads</strong></td>
+                    <td><strong>Fibre Broadband &amp; Cloud Backups</strong></td>
                     <td>100+ Mbps</td>
                     <td>20+ Mbps</td>
-                    <td>Any</td>
+                    <td>Ping &lt; 15 ms | Jitter &lt; 3 ms</td>
                   </tr>
                 </tbody>
               </table>
@@ -410,16 +410,30 @@
 
             <div class="faq-section">
               <details class="faq-item" open>
-                <summary>How does the SolversPro Internet Speed Test work?</summary>
+                <summary>How does this Internet Speed, Jitter &amp; Bufferbloat Test work?</summary>
                 <div class="faq-answer">
-                  Our internet speed test is powered by Cloudflare's official open-source measurement engine. As soon as you open the page, it performs parallel HTTPS GET and POST requests against Cloudflare's global edge network across 330+ cities to measure your true download speed, upload speed, unloaded ping, jitter, and loaded bufferbloat.
+                  Our speed test is powered by Cloudflare's official open-source measurement engine. As soon as you open the page, it performs parallel HTTPS GET and POST requests against Cloudflare's global edge network across 330+ cities to measure your download speed, bandwidth upload speed, unloaded ping, jitter, and loaded bufferbloat.
                 </div>
               </details>
 
               <details class="faq-item">
-                <summary>How do I run an accurate WiFi speed test vs. a wired network speed test?</summary>
+                <summary>What is an internet jitter test and what is a good jitter score?</summary>
                 <div class="faq-answer">
-                  To run a WiFi speed test, open this page in the room where you normally use your device; the test starts automatically and measures wireless throughput and jitter. To test your maximum ISP connection speed, connect your computer directly to your router with a Cat6 Ethernet cable and click the circular re-test button.
+                  An internet jitter test measures the millisecond variation in packet arrival times across consecutive ping probes. A good jitter test score is under 5 ms for competitive online gaming and VoIP video calls, while jitter above 15–20 ms can cause voice stutter and rubber-banding.
+                </div>
+              </details>
+
+              <details class="faq-item">
+                <summary>What is a bufferbloat test (fibre &amp; WiFi) and why does loaded latency matter?</summary>
+                <div class="faq-answer">
+                  A bufferbloat test compares your baseline unloaded ping against your loaded latency while your fiber or WiFi connection is saturated with downloads and uploads. If loaded ping spikes more than 25 ms above unloaded ping, your router queues are bloated and will cause lag whenever multiple devices stream or download.
+                </div>
+              </details>
+
+              <details class="faq-item">
+                <summary>How does the bandwidth upload test measure my real upload speed?</summary>
+                <div class="faq-answer">
+                  Our bandwidth upload test streams progressively larger HTTPS POST payloads (from 100 KB up to 25 MB) directly to the nearest Cloudflare edge node to measure sustained upstream throughput and peak upload bandwidth.
                 </div>
               </details>
 
@@ -427,20 +441,6 @@
                 <summary>Why does my speed test result differ from my ISP plan?</summary>
                 <div class="faq-answer">
                   ISPs advertise theoretical maximum "burst" speeds under optimal laboratory conditions. Real-world speeds can be affected by Wi-Fi interference, distance from your router, network congestion during peak hours, outdated router hardware, background app updates, or ISP traffic throttling.
-                </div>
-              </details>
-
-              <details class="faq-item">
-                <summary>What is bufferbloat (loaded latency) and why does it matter?</summary>
-                <div class="faq-answer">
-                  Bufferbloat is high latency that occurs when your router buffers too many packets during heavy downloads or uploads. If your loaded latency is significantly higher than your unloaded ping, your connection will experience lag and stuttering whenever multiple devices are active on your network.
-                </div>
-              </details>
-
-              <details class="faq-item">
-                <summary>How can I improve my internet connection speed?</summary>
-                <div class="faq-answer">
-                  To maximize your connection speed: (1) Use an Ethernet cable instead of Wi-Fi whenever possible; (2) Place your Wi-Fi router in a central, elevated location away from thick walls and metal objects; (3) Restart your modem and router periodically; (4) Close bandwidth-heavy background downloads or cloud syncing apps; (5) Upgrade your router firmware.
                 </div>
               </details>
             </div>
