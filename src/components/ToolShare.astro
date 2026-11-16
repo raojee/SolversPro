@@ -1,12 +1,13 @@
 ---
 // src/components/ToolShare.astro
 interface Props {
-  url: string;
+  url?: string;
   title: string;
 }
 
 const { url, title } = Astro.props;
-const canonicalUrl = url.endsWith('/') ? url : `${url}/`;
+const safeUrl = url || Astro.url.href;
+const canonicalUrl = safeUrl.endsWith('/') ? safeUrl : `${safeUrl}/`;
 const embedUrl = `${canonicalUrl}?embed=1`;
 const encodedUrl = encodeURIComponent(canonicalUrl);
 const encodedTitle = encodeURIComponent(title);
