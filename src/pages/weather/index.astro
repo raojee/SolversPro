@@ -100,12 +100,21 @@ const faqs = [
               id="city-search-input"
               type="search"
               autocomplete="off"
-              placeholder="Search city or region (e.g., London, New York, Dubai, Tokyo)..."
-              class="w-full bg-[#14141f] border border-white/[0.1] focus:border-[#2dd4bf] rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-zinc-500 focus:outline-none transition-colors"
+              style="padding-left: 2.5rem;"
+              placeholder="Search city, country, or ZIP (e.g., Lahore, London, 10001)..."
+              class="w-full bg-[#14141f] border border-white/[0.1] focus:border-[#2dd4bf] rounded-xl pr-4 py-3 text-sm text-white placeholder-zinc-500 focus:outline-none transition-colors"
             />
             <!-- Autocomplete Dropdown -->
             <div id="search-results" class="hidden absolute left-0 right-0 top-full mt-2 bg-[#13131f] border border-white/[0.12] rounded-xl shadow-2xl overflow-hidden z-40 max-h-72 overflow-y-auto"></div>
           </div>
+
+          <button
+            id="btn-search-city"
+            type="button"
+            class="px-4 py-3 bg-[#ff6b35] hover:bg-[#e85a27] text-white rounded-xl text-xs font-mono font-bold transition-all cursor-pointer shrink-0"
+          >
+            Search
+          </button>
 
           <button
             id="btn-gps"
@@ -661,46 +670,128 @@ const faqs = [
     loadLocation(currentLoc);
   }
 
-  // City Search Autocomplete
+  // Smart City Search (supports "lahore pak", "london, uk", ZIPs, etc.)
+  async function geocodeQuery(rawQ: string) {
+    const q = rawQ.trim();
+    if (!q) return [];
+
+    // 1. Direct Open-Meteo search
+    try {
+      const resp = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=6&language=en&format=json`);
+      const data = await resp.json();
+      if (data.results && data.results.length > 0) return data.results;
+    } catch {}
+
+    // 2. If user typed "city country/state" (e.g. "lahore pak" or "lahore, pakistan")
+    const parts = q.split(/[\s,]+/).filter(Boolean);
+    if (parts.length > 1) {
+      const cityTerm = parts[0];
+      const qualifiers = parts.slice(1).map((p) => p.toLowerCase());
+      try {
+        const resp = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityTerm)}&count=10&language=en&format=json`);
+        const data = await resp.json();
+        if (data.results && data.results.length > 0) {
+          const matched = data.results.filter((r: any) => {
+            const hay = `${r.country || ''} ${r.country_code || ''} ${r.admin1 || ''}`.toLowerCase();
+            return qualifiers.every((qual) => hay.includes(qual));
+          });
+          return matched.length > 0 ? matched : data.results;
+        }
+      } catch {}
+    }
+
+    // 3. Fallback to Nominatim for postal codes or multi-word places
+    try {
+      const nResp = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=5&addressdetails=1&q=${encodeURIComponent(q)}`);
+      const nData = await nResp.json();
+      if (Array.isArray(nData) && nData.length > 0) {
+        return nData.map((item: any) => ({
+          name: item.address?.city || item.address?.town || item.address?.village || item.name || item.display_name.split(',')[0],
+          admin1: item.address?.state || '',
+          country_code: (item.address?.country_code || '').toUpperCase(),
+          latitude: parseFloat(item.lat),
+          longitude: parseFloat(item.lon),
+        }));
+      }
+    } catch {}
+
+    return [];
+  }
+
   let searchTimer: any = null;
+  let lastSearchResults: any[] = [];
+
+  async function showDropdownForQuery(q: string) {
+    if (q.length < 2) {
+      searchResults.classList.add('hidden');
+      return;
+    }
+    const results = await geocodeQuery(q);
+    lastSearchResults = results;
+
+    if (results.length === 0) {
+      searchResults.innerHTML = '<div class="p-3 text-xs text-zinc-400 font-mono">No matching cities found</div>';
+      searchResults.classList.remove('hidden');
+      return;
+    }
+
+    searchResults.innerHTML = results
+      .slice(0, 6)
+      .map(
+        (r: any, idx: number) => `
+        <button type="button" data-idx="${idx}" class="search-opt w-full text-left px-4 py-2.5 hover:bg-white/[0.05] text-sm text-white flex items-center justify-between border-b border-white/[0.04] last:border-none cursor-pointer">
+          <span>${r.name}${r.admin1 ? `, ${r.admin1}` : ''}</span>
+          <span class="text-xs font-mono text-zinc-400">${r.country_code || ''}</span>
+        </button>`
+      )
+      .join('');
+    searchResults.classList.remove('hidden');
+
+    searchResults.querySelectorAll('.search-opt').forEach((el) => {
+      el.addEventListener('click', () => {
+        const r = results[parseInt((el as HTMLElement).dataset.idx || '0', 10)];
+        searchResults.classList.add('hidden');
+        searchInput.value = '';
+        loadLocation({ name: r.name, country: r.country_code, lat: r.latitude, lon: r.longitude });
+      });
+    });
+  }
+
+  async function submitTopSearch() {
+    const q = searchInput.value.trim();
+    if (q.length < 2) return;
+    const results = lastSearchResults.length > 0 ? lastSearchResults : await geocodeQuery(q);
+    if (results.length > 0) {
+      const r = results[0];
+      searchResults.classList.add('hidden');
+      searchInput.value = '';
+      lastSearchResults = [];
+      loadLocation({ name: r.name, country: r.country_code, lat: r.latitude, lon: r.longitude });
+    } else {
+      showDropdownForQuery(q);
+    }
+  }
+
   searchInput?.addEventListener('input', () => {
     clearTimeout(searchTimer);
+    lastSearchResults = [];
     const q = searchInput.value.trim();
     if (q.length < 2) {
       searchResults.classList.add('hidden');
       return;
     }
-    searchTimer = setTimeout(async () => {
-      try {
-        const resp = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=6&language=en&format=json`);
-        const data = await resp.json();
-        if (!data.results || data.results.length === 0) {
-          searchResults.innerHTML = '<div class="p-3 text-xs text-zinc-400 font-mono">No matching cities found</div>';
-          searchResults.classList.remove('hidden');
-          return;
-        }
-        searchResults.innerHTML = data.results
-          .map(
-            (r: any, idx: number) => `
-            <button type="button" data-idx="${idx}" class="search-opt w-full text-left px-4 py-2.5 hover:bg-white/[0.05] text-sm text-white flex items-center justify-between border-b border-white/[0.04] last:border-none cursor-pointer">
-              <span>${r.name}${r.admin1 ? `, ${r.admin1}` : ''}</span>
-              <span class="text-xs font-mono text-zinc-400">${r.country_code || ''}</span>
-            </button>`
-          )
-          .join('');
-        searchResults.classList.remove('hidden');
-
-        searchResults.querySelectorAll('.search-opt').forEach((el) => {
-          el.addEventListener('click', () => {
-            const r = data.results[parseInt((el as HTMLElement).dataset.idx || '0', 10)];
-            searchResults.classList.add('hidden');
-            searchInput.value = '';
-            loadLocation({ name: r.name, country: r.country_code, lat: r.latitude, lon: r.longitude });
-          });
-        });
-      } catch {}
-    }, 260);
+    searchTimer = setTimeout(() => showDropdownForQuery(q), 240);
   });
+
+  searchInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      clearTimeout(searchTimer);
+      submitTopSearch();
+    }
+  });
+
+  document.getElementById('btn-search-city')?.addEventListener('click', submitTopSearch);
 
   document.addEventListener('click', (e) => {
     if (!searchInput.contains(e.target as Node) && !searchResults.contains(e.target as Node)) {
