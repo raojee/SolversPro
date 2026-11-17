@@ -115,6 +115,27 @@ import LanguageSwitcher from './LanguageSwitcher.astro';
 
     <!-- Right Side Actions -->
     <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+      <!-- Live Clock & Weather Pill -->
+      <a
+        href="/weather/"
+        id="header-weather-pill"
+        class="hidden xl:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] hover:border-[#2dd4bf]/30 text-xs font-mono text-zinc-300 transition-all no-underline shrink-0"
+        title="View Live Weather Forecast"
+      >
+        <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
+        <span id="hdr-clock" class="text-white font-semibold tabular-nums">--:--:--</span>
+        <span class="text-zinc-600">|</span>
+        <span id="hdr-city" class="text-zinc-300 truncate max-w-[110px]">Locating...</span>
+        <span class="text-zinc-600">|</span>
+        <span id="hdr-weather" class="text-zinc-200 whitespace-nowrap">⛅ --°C</span>
+        <button
+          type="button"
+          id="hdr-unit-btn"
+          aria-label="Toggle Celsius or Fahrenheit"
+          class="px-1.5 py-0.5 rounded bg-[#ff6b35]/15 border border-[#ff6b35]/30 text-[#ff6b35] text-[10px] font-bold hover:bg-[#ff6b35]/25 cursor-pointer"
+        >°C</button>
+      </a>
+
       <!-- Language Switcher (Desktop) -->
       <LanguageSwitcher idPrefix="desktop-" class="hidden sm:inline-block" />
 

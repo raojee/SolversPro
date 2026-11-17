@@ -83,6 +83,44 @@
       </div>
     </div>
 
+    <!-- Live Client Telemetry & Weather Bar -->
+    <div id="footer-telemetry-bar" class="bg-white/[0.02] border border-white/[0.06] rounded-2xl px-4 py-3.5 mb-8 text-xs font-mono text-zinc-400 space-y-2">
+      <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
+        <span class="inline-flex items-center gap-1.5 text-zinc-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
+          <span id="ftr-engine">0ms Client Engine</span>
+        </span>
+        <span class="text-zinc-600">•</span>
+        <span>IP: <span id="ftr-ip" class="text-zinc-200">--</span></span>
+        <span class="text-zinc-600">•</span>
+        <span>📍 <span id="ftr-loc" class="text-zinc-200">Detecting...</span></span>
+        <span class="text-zinc-600">•</span>
+        <span>🕒 <span id="ftr-clock" class="text-zinc-200 tabular-nums">--:--:--</span></span>
+      </div>
+      <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
+        <span id="ftr-weather" class="text-zinc-200">⛅ --°C --</span>
+        <button
+          type="button"
+          id="ftr-unit-btn"
+          aria-label="Toggle Celsius or Fahrenheit"
+          class="px-2 py-0.5 rounded bg-[#ff6b35]/15 border border-[#ff6b35]/30 text-[#ff6b35] text-[11px] font-bold hover:bg-[#ff6b35]/25 cursor-pointer transition-colors"
+        >°C ⇄ °F</button>
+        <span class="text-zinc-600">•</span>
+        <span id="ftr-aqi" class="text-zinc-300">🟢 AQI: --</span>
+        <span class="text-zinc-600">•</span>
+        <span>💧 Humidity: <span id="ftr-humidity" class="text-zinc-200">--%</span></span>
+        <span class="text-zinc-600">•</span>
+        <span>🌧️ Precip: <span id="ftr-precip" class="text-zinc-200">-- mm</span></span>
+        <span class="text-zinc-600">•</span>
+        <span>💨 Wind: <span id="ftr-wind" class="text-zinc-200">-- km/h</span></span>
+        <span class="text-zinc-600">•</span>
+        <a
+          href="/weather/"
+          class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-[#2dd4bf]/15 border border-[#2dd4bf]/30 text-[#2dd4bf] hover:bg-[#2dd4bf]/25 text-[11px] font-bold no-underline transition-colors"
+        >More →</a>
+      </div>
+    </div>
+
     <div class="glow-line mb-8"></div>
 
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -118,4 +156,175 @@
       }, 2500);
     }
   }
+
+  // Shared Header Pill & Footer Telemetry Weather/Clock/IP Engine
+  (function () {
+    const WMO_SIMPLE: Record<number, [string, string]> = {
+      0: ['☀️', 'Clear Sky'],
+      1: ['🌤️', 'Mainly Clear'],
+      2: ['⛅', 'Partly Cloudy'],
+      3: ['☁️', 'Overcast'],
+      45: ['🌫️', 'Foggy'],
+      48: ['🌫️', 'Rime Fog'],
+      51: ['🌦️', 'Light Drizzle'],
+      53: ['🌦️', 'Drizzle'],
+      55: ['🌧️', 'Heavy Drizzle'],
+      61: ['🌧️', 'Light Rain'],
+      63: ['🌧️', 'Moderate Rain'],
+      65: ['⛈️', 'Heavy Rain'],
+      71: ['🌨️', 'Light Snow'],
+      73: ['❄️', 'Snow'],
+      75: ['❄️', 'Heavy Snow'],
+      80: ['🌦️', 'Rain Showers'],
+      81: ['🌧️', 'Heavy Showers'],
+      82: ['⛈️', 'Violent Showers'],
+      95: ['⛈️', 'Thunderstorm'],
+      96: ['⛈️', 'Thunderstorm'],
+      99: ['🌩️', 'Severe Storm'],
+    };
+
+    const hdrClock = document.getElementById('hdr-clock');
+    const hdrCity = document.getElementById('hdr-city');
+    const hdrWeather = document.getElementById('hdr-weather');
+    const hdrUnitBtn = document.getElementById('hdr-unit-btn');
+
+    const ftrEngine = document.getElementById('ftr-engine');
+    const ftrIp = document.getElementById('ftr-ip');
+    const ftrLoc = document.getElementById('ftr-loc');
+    const ftrClock = document.getElementById('ftr-clock');
+    const ftrWeather = document.getElementById('ftr-weather');
+    const ftrUnitBtn = document.getElementById('ftr-unit-btn');
+    const ftrAqi = document.getElementById('ftr-aqi');
+    const ftrHumidity = document.getElementById('ftr-humidity');
+    const ftrPrecip = document.getElementById('ftr-precip');
+    const ftrWind = document.getElementById('ftr-wind');
+
+    let unit = localStorage.getItem('sp_weather_unit') === 'imperial' ? 'imperial' : 'metric';
+    let telemetry: any = null;
+
+    function updateClock() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+      });
+      if (hdrClock) hdrClock.textContent = timeStr;
+      if (ftrClock) ftrClock.textContent = timeStr;
+    }
+
+    function getUtcOffsetLabel() {
+      const offsetMin = -new Date().getTimezoneOffset();
+      const sign = offsetMin >= 0 ? '+' : '-';
+      const abs = Math.abs(offsetMin);
+      const hh = String(Math.floor(abs / 60)).padStart(2, '0');
+      const mm = String(abs % 60).padStart(2, '0');
+      return `UTC${sign}${hh}:${mm}`;
+    }
+
+    function renderTelemetry() {
+      if (!telemetry) return;
+      const isMetric = unit === 'metric';
+      const tempVal = isMetric ? Math.round(telemetry.tempC) : Math.round((telemetry.tempC * 9) / 5 + 32);
+      const unitSym = isMetric ? '°C' : '°F';
+      const windVal = isMetric ? Math.round(telemetry.windKmh) : Math.round(telemetry.windKmh * 0.621371);
+      const windUnit = isMetric ? 'km/h' : 'mph';
+      const precipVal = isMetric ? `${telemetry.precipMm}` : `${(telemetry.precipMm * 0.03937).toFixed(2)}`;
+      const precipUnit = isMetric ? 'mm' : 'in';
+
+      const [icon, label] = WMO_SIMPLE[telemetry.code] || ['⛅', 'Clear'];
+      const shortLoc = telemetry.country ? `${telemetry.city}, ${telemetry.country}` : telemetry.city;
+
+      if (hdrCity) hdrCity.textContent = shortLoc;
+      if (hdrWeather) hdrWeather.textContent = `${icon} ${tempVal}${unitSym}`;
+      if (hdrUnitBtn) hdrUnitBtn.textContent = unitSym;
+
+      if (ftrEngine) ftrEngine.textContent = `${telemetry.latencyMs ?? 0}ms Client Engine`;
+      if (ftrIp) ftrIp.textContent = telemetry.ip || '--';
+      if (ftrLoc) ftrLoc.textContent = `${shortLoc} (${getUtcOffsetLabel()})`;
+      if (ftrWeather) ftrWeather.textContent = `${icon} ${tempVal}${unitSym} ${label}`;
+      if (ftrHumidity) ftrHumidity.textContent = `${Math.round(telemetry.humidity)}%`;
+      if (ftrPrecip) ftrPrecip.textContent = `${precipVal} ${precipUnit}`;
+      if (ftrWind) ftrWind.textContent = `${windVal} ${windUnit}`;
+
+      if (ftrAqi) {
+        if (telemetry.aqi === null || telemetry.aqi === undefined) {
+          ftrAqi.textContent = '🟢 AQI: N/A';
+        } else {
+          const a = telemetry.aqi;
+          const dot = a <= 50 ? '🟢' : a <= 100 ? '🟡' : a <= 150 ? '🟠' : '🔴';
+          const cat = a <= 50 ? 'Good' : a <= 100 ? 'Moderate' : a <= 150 ? 'Sensitive' : 'Unhealthy';
+          ftrAqi.textContent = `${dot} AQI: ${a} (${cat})`;
+        }
+      }
+    }
+
+    function toggleUnit(e: Event) {
+      e.preventDefault();
+      e.stopPropagation();
+      unit = unit === 'metric' ? 'imperial' : 'metric';
+      localStorage.setItem('sp_weather_unit', unit);
+      renderTelemetry();
+    }
+
+    hdrUnitBtn?.addEventListener('click', toggleUnit);
+    ftrUnitBtn?.addEventListener('click', toggleUnit);
+
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    async function initTelemetry() {
+      const CACHE_KEY = 'sp_telemetry_cache_v1';
+      try {
+        const cached = sessionStorage.getItem(CACHE_KEY);
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (Date.now() - parsed.ts < 10 * 60 * 1000) {
+            telemetry = parsed.data;
+            renderTelemetry();
+            return;
+          }
+        }
+      } catch {}
+
+      try {
+        const t0 = performance.now();
+        const geoResp = await fetch('https://get.geojs.io/v1/ip/geo.json');
+        const geo = await geoResp.json();
+        const lat = parseFloat(geo.latitude);
+        const lon = parseFloat(geo.longitude);
+        if (Number.isNaN(lat) || Number.isNaN(lon)) return;
+
+        const wUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m`;
+        const aUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=us_aqi`;
+
+        const [wResp, aResp] = await Promise.all([fetch(wUrl), fetch(aUrl).catch(() => null)]);
+        const wData = await wResp.json();
+        const aData = aResp && aResp.ok ? await aResp.json() : null;
+        const latencyMs = Math.max(0, Math.round(performance.now() - t0));
+
+        telemetry = {
+          ip: geo.ip || '--',
+          city: geo.city || geo.region || 'Local',
+          country: geo.country_code || '',
+          tempC: wData?.current?.temperature_2m ?? 0,
+          humidity: wData?.current?.relative_humidity_2m ?? 0,
+          precipMm: wData?.current?.precipitation ?? 0,
+          code: wData?.current?.weather_code ?? 0,
+          windKmh: wData?.current?.wind_speed_10m ?? 0,
+          aqi: aData?.current?.us_aqi ?? null,
+          latencyMs,
+        };
+
+        try {
+          sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data: telemetry }));
+        } catch {}
+
+        renderTelemetry();
+      } catch {}
+    }
+
+    initTelemetry();
+  })();
 </script>
