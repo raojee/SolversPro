@@ -1,0 +1,773 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ToolFAQ from '../../components/ToolFAQ.astro';
+import ToolShare from '../../components/ToolShare.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "SolversPro Live Weather Forecast",
+  "url": "https://solverspro.com/weather/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires HTML5/JavaScript",
+  "description": "Free real-time local weather forecast with automatic geolocation, city search, hourly and 7-day outlooks, live precipitation radar map, air quality (AQI), and instant Metric/Imperial switching.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "url": "https://solverspro.com/"
+  }
+};
+
+const faqs = [
+  {
+    question: "How does SolversPro detect my local weather automatically?",
+    answer: "On page load, SolversPro estimates your city using privacy-friendly IP geolocation so your local forecast appears immediately without intrusive permission popups. You can also click 'Use Precise GPS' for neighborhood-level browser geolocation or search any city worldwide."
+  },
+  {
+    question: "Where does the live weather and radar data come from?",
+    answer: "Forecasts, hourly temperatures, UV index, and Air Quality Index (AQI) data are powered by Open-Meteo's high-resolution global weather models. Live animated precipitation radar tiles are streamed from RainViewer."
+  },
+  {
+    question: "Can I switch between Celsius (°C) and Fahrenheit (°F)?",
+    answer: "Yes. Use the °C / °F toggle at the top of the dashboard to switch temperature, wind speed (km/h vs. mph), precipitation (mm vs. in), and atmospheric pressure (hPa vs. inHg) instantaneously. Your preference is saved locally in your browser."
+  },
+  {
+    question: "Is SolversPro Weather free to use without an account?",
+    answer: "Yes. SolversPro Weather is 100% free with no login, no API key required, and zero tracking of your personal GPS coordinates."
+  }
+];
+---
+
+<BaseLayout
+  title="Live Weather Forecast — Hourly & 7-Day | SolversPro"
+  description="Check live local weather, hourly forecasts, 7-day outlooks, precipitation radar, and air quality alerts. Free, fast, with instant °C/°F switching."
+  canonical="https://solverspro.com/weather/"
+  schema={schema}
+>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <Header />
+  <SearchOverlay />
+
+  <main class="py-10 bg-[#08080f] min-h-screen border-b border-white/[0.06]">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <Breadcrumbs items={[
+        { label: 'Home', href: '/' },
+        { label: 'Weather Forecast' }
+      ]} />
+
+      <!-- Hero & Direct-Answer Summary -->
+      <div class="mt-4 mb-8 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+        <div class="max-w-2xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2dd4bf]/10 border border-[#2dd4bf]/20 text-[#2dd4bf] text-xs font-mono mb-3">
+            <span class="w-2 h-2 rounded-full bg-[#2dd4bf] animate-pulse"></span>
+            LIVE GLOBAL WEATHER &amp; RADAR
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-bold text-white mb-3 tracking-tight">
+            Live Weather Forecast
+          </h1>
+          <p class="text-zinc-300 text-sm sm:text-base leading-relaxed">
+            The SolversPro Live Weather Forecast provides real-time local conditions, 24-hour hourly trends, a 7-day outlook, Air Quality Index (AQI), and live precipitation radar with instant Metric (°C) and Imperial (°F) switching—free in your browser.
+          </p>
+        </div>
+
+        <!-- Unit Toggle -->
+        <div class="flex items-center gap-2 shrink-0 self-start lg:self-end bg-[#0d0d14] border border-white/[0.08] p-1.5 rounded-xl">
+          <button id="unit-metric" type="button" class="px-3.5 py-2 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer bg-[#2dd4bf] text-[#08080f]">
+            °C · Metric
+          </button>
+          <button id="unit-imperial" type="button" class="px-3.5 py-2 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer text-zinc-400 hover:text-white">
+            °F · Imperial
+          </button>
+        </div>
+      </div>
+
+      <!-- Search Bar + GPS + Recent Cities -->
+      <div class="bg-[#0d0d14] border border-white/[0.08] rounded-2xl p-4 sm:p-5 mb-6 relative z-30">
+        <div class="flex flex-col sm:flex-row gap-3">
+          <div class="relative flex-1">
+            <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input
+              id="city-search-input"
+              type="search"
+              autocomplete="off"
+              placeholder="Search city or region (e.g., London, New York, Dubai, Tokyo)..."
+              class="w-full bg-[#14141f] border border-white/[0.1] focus:border-[#2dd4bf] rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-zinc-500 focus:outline-none transition-colors"
+            />
+            <!-- Autocomplete Dropdown -->
+            <div id="search-results" class="hidden absolute left-0 right-0 top-full mt-2 bg-[#13131f] border border-white/[0.12] rounded-xl shadow-2xl overflow-hidden z-40 max-h-72 overflow-y-auto"></div>
+          </div>
+
+          <button
+            id="btn-gps"
+            type="button"
+            class="px-4 py-3 bg-[#2dd4bf]/10 hover:bg-[#2dd4bf]/20 text-[#2dd4bf] border border-[#2dd4bf]/30 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer flex items-center justify-center gap-2 shrink-0"
+          >
+            <span>📍</span> Use Precise GPS
+          </button>
+        </div>
+
+        <!-- Recent / Quick Cities -->
+        <div class="flex flex-wrap items-center gap-2 mt-3 pt-3 border-t border-white/[0.05]">
+          <span class="text-[11px] font-mono uppercase text-zinc-500 mr-1">Locations:</span>
+          <div id="recent-cities" class="flex flex-wrap gap-2"></div>
+        </div>
+      </div>
+
+      <!-- Dynamic Weather Alert Banner -->
+      <div id="weather-alert" class="hidden mb-6 rounded-2xl p-4 border flex items-start gap-3">
+        <span id="alert-icon" class="text-xl shrink-0">⚠️</span>
+        <div class="flex-1 min-w-0">
+          <div id="alert-title" class="text-sm font-bold">Weather Advisory</div>
+          <p id="alert-desc" class="text-xs opacity-90 mt-0.5"></p>
+        </div>
+      </div>
+
+      <!-- Current Conditions Hero Card -->
+      <div class="bg-gradient-to-br from-[#0d0d14] via-[#111122] to-[#0d0d14] border border-[#2dd4bf]/20 rounded-2xl p-6 sm:p-8 mb-6 shadow-xl shadow-[#2dd4bf]/5">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <div class="flex items-center gap-2 text-xs font-mono text-zinc-400 mb-2">
+              <span id="location-name" class="text-white font-bold text-base sm:text-lg">Detecting location...</span>
+              <span id="location-meta" class="text-zinc-500"></span>
+            </div>
+            <div class="flex items-center gap-5 mt-3">
+              <div id="current-icon" class="text-6xl sm:text-7xl select-none">⛅</div>
+              <div>
+                <div class="flex items-baseline gap-2">
+                  <span id="current-temp" class="text-5xl sm:text-6xl font-black font-mono text-white">--°</span>
+                  <span id="current-condition" class="text-lg sm:text-xl font-semibold text-[#2dd4bf]">Loading...</span>
+                </div>
+                <div id="current-hi-lo" class="text-xs sm:text-sm text-zinc-400 font-mono mt-1">
+                  Feels like --° · High --° / Low --°
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6-Metric Current Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 md:w-[420px]">
+            <div class="bg-[#14141f]/90 border border-white/[0.06] rounded-xl p-3">
+              <div class="text-[11px] font-mono text-zinc-500 uppercase">Wind</div>
+              <div id="metric-wind" class="text-base font-bold font-mono text-white mt-0.5">--</div>
+            </div>
+            <div class="bg-[#14141f]/90 border border-white/[0.06] rounded-xl p-3">
+              <div class="text-[11px] font-mono text-zinc-500 uppercase">Humidity</div>
+              <div id="metric-humidity" class="text-base font-bold font-mono text-white mt-0.5">--%</div>
+            </div>
+            <div class="bg-[#14141f]/90 border border-white/[0.06] rounded-xl p-3">
+              <div class="text-[11px] font-mono text-zinc-500 uppercase">UV Index</div>
+              <div id="metric-uv" class="text-base font-bold font-mono text-white mt-0.5">--</div>
+            </div>
+            <div class="bg-[#14141f]/90 border border-white/[0.06] rounded-xl p-3">
+              <div class="text-[11px] font-mono text-zinc-500 uppercase">Air Quality</div>
+              <div id="metric-aqi" class="text-base font-bold font-mono text-white mt-0.5">--</div>
+            </div>
+            <div class="bg-[#14141f]/90 border border-white/[0.06] rounded-xl p-3">
+              <div class="text-[11px] font-mono text-zinc-500 uppercase">Pressure</div>
+              <div id="metric-pressure" class="text-base font-bold font-mono text-white mt-0.5">--</div>
+            </div>
+            <div class="bg-[#14141f]/90 border border-white/[0.06] rounded-xl p-3">
+              <div class="text-[11px] font-mono text-zinc-500 uppercase">Cloud Cover</div>
+              <div id="metric-clouds" class="text-base font-bold font-mono text-white mt-0.5">--%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 24-Hour Hourly Forecast -->
+      <div class="bg-[#0d0d14] border border-white/[0.08] rounded-2xl p-6 mb-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-bold text-white">Hourly Forecast (Next 24 Hours)</h2>
+          <span id="hourly-updated" class="text-xs font-mono text-zinc-500">Live</span>
+        </div>
+        <div id="hourly-strip" class="flex gap-3 overflow-x-auto pb-2 scrollbar-thin">
+          <div class="text-xs text-zinc-500 font-mono py-6">Loading hourly forecast...</div>
+        </div>
+      </div>
+
+      <!-- 7-Day Outlook & Radar Map Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+        <!-- 7-Day Forecast -->
+        <div class="lg:col-span-6 bg-[#0d0d14] border border-white/[0.08] rounded-2xl p-6">
+          <h2 class="text-lg font-bold text-white mb-4">7-Day Weather Outlook</h2>
+          <div id="daily-list" class="divide-y divide-white/[0.05]">
+            <div class="text-xs text-zinc-500 font-mono py-6">Loading 7-day forecast...</div>
+          </div>
+        </div>
+
+        <!-- Live Precipitation Radar Map -->
+        <div class="lg:col-span-6 bg-[#0d0d14] border border-white/[0.08] rounded-2xl p-6 flex flex-col">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h2 class="text-lg font-bold text-white">Live Precipitation Radar</h2>
+              <p class="text-xs text-zinc-400">Animated RainViewer radar overlay</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button id="radar-toggle" type="button" class="px-3 py-1.5 bg-white/[0.06] hover:bg-white/[0.12] text-xs font-mono text-white rounded-lg border border-white/[0.1] cursor-pointer">
+                ⏸ Pause
+              </button>
+              <span id="radar-time" class="text-xs font-mono text-[#2dd4bf]">--:--</span>
+            </div>
+          </div>
+          <div id="weather-map" class="w-full h-80 lg:flex-1 min-h-[320px] rounded-xl overflow-hidden border border-white/[0.08] bg-[#14141f] z-10"></div>
+        </div>
+      </div>
+
+      <!-- Lifestyle, Dressing Tips & Local Condition Check-in -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10">
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
+          <div class="text-xs font-mono uppercase text-[#2dd4bf] mb-1">👕 What to Wear</div>
+          <p id="tip-wear" class="text-xs text-zinc-300 leading-relaxed">Analyzing current temperature and wind chill...</p>
+        </div>
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
+          <div class="text-xs font-mono uppercase text-[#ff6b35] mb-1">🚗 Commute &amp; Travel</div>
+          <p id="tip-commute" class="text-xs text-zinc-300 leading-relaxed">Checking precipitation and wind gusts...</p>
+        </div>
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
+          <div class="text-xs font-mono uppercase text-sky-400 mb-1">☀️ UV &amp; Outdoor</div>
+          <p id="tip-outdoor" class="text-xs text-zinc-300 leading-relaxed">Evaluating UV exposure and air quality...</p>
+        </div>
+        <div class="bg-[#0d0d14] border border-white/[0.06] rounded-xl p-5">
+          <div class="text-xs font-mono uppercase text-purple-400 mb-1">📣 Local Pulse</div>
+          <p class="text-xs text-zinc-400 mb-2">Confirm what you see outside:</p>
+          <div class="flex flex-wrap gap-1.5" id="pulse-buttons">
+            <button type="button" data-pulse="Sunny" class="pulse-btn px-2 py-1 text-[11px] bg-white/[0.05] hover:bg-white/[0.1] text-zinc-300 rounded-md border border-white/[0.08] cursor-pointer">☀️ Sunny</button>
+            <button type="button" data-pulse="Cloudy" class="pulse-btn px-2 py-1 text-[11px] bg-white/[0.05] hover:bg-white/[0.1] text-zinc-300 rounded-md border border-white/[0.08] cursor-pointer">☁️ Cloudy</button>
+            <button type="button" data-pulse="Rainy" class="pulse-btn px-2 py-1 text-[11px] bg-white/[0.05] hover:bg-white/[0.1] text-zinc-300 rounded-md border border-white/[0.08] cursor-pointer">🌧️ Rain</button>
+          </div>
+          <div id="pulse-status" class="text-[11px] text-[#2dd4bf] font-mono mt-2 hidden"></div>
+        </div>
+      </div>
+
+      <!-- Citable Reference Table -->
+      <div class="bg-[#0d0d14] border border-white/[0.06] rounded-2xl p-6 mb-10">
+        <h2 class="text-xl font-bold text-white mb-2">UV Index &amp; Air Quality (AQI) Reference Guide</h2>
+        <p class="text-zinc-400 text-sm mb-5">Standard meteorological thresholds for sun protection and outdoor respiratory safety.</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-zinc-400 font-mono text-xs uppercase">
+                <th class="py-3 px-4">Metric</th>
+                <th class="py-3 px-4">Low / Good</th>
+                <th class="py-3 px-4">Moderate</th>
+                <th class="py-3 px-4">High / Unhealthy</th>
+                <th class="py-3 px-4">Recommended Action</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.04] text-zinc-300 text-xs">
+              <tr>
+                <td class="py-3 px-4 font-bold text-[#2dd4bf]">UV Index</td>
+                <td class="py-3 px-4 font-mono">0 – 2</td>
+                <td class="py-3 px-4 font-mono">3 – 5</td>
+                <td class="py-3 px-4 font-mono text-[#ff6b35]">6 – 11+</td>
+                <td class="py-3 px-4 text-zinc-400">Apply SPF 30+ sunscreen and wear sunglasses at UV 3+</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-bold text-sky-400">US AQI</td>
+                <td class="py-3 px-4 font-mono">0 – 50</td>
+                <td class="py-3 px-4 font-mono">51 – 100</td>
+                <td class="py-3 px-4 font-mono text-[#ff6b35]">101 – 300+</td>
+                <td class="py-3 px-4 text-zinc-400">Limit prolonged outdoor exertion when AQI exceeds 100</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-bold text-purple-400">Wind Speed</td>
+                <td class="py-3 px-4 font-mono">&lt; 20 km/h (12 mph)</td>
+                <td class="py-3 px-4 font-mono">20 – 40 km/h</td>
+                <td class="py-3 px-4 font-mono text-[#ff6b35]">&gt; 50 km/h (31 mph)</td>
+                <td class="py-3 px-4 text-zinc-400">Secure loose outdoor items; expect crosswinds while driving</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Related SolversPro Tools -->
+      <div class="bg-[#111122] border border-white/[0.08] rounded-2xl p-5 mb-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <div class="text-sm font-bold text-white mb-1">Explore Related SolversPro Tools</div>
+          <p class="text-xs text-zinc-400">Convert temperatures/units or estimate solar panel output for your local sunshine hours.</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <a href="/math/unit-converter/" class="px-3.5 py-2 bg-white/[0.06] hover:bg-white/[0.12] text-white text-xs font-bold rounded-xl border border-white/[0.1]">Unit Converter</a>
+          <a href="/trades/solar-panel/" class="px-3.5 py-2 bg-white/[0.06] hover:bg-white/[0.12] text-white text-xs font-bold rounded-xl border border-white/[0.1]">Solar Calculator</a>
+          <a href="/radar/" class="px-3.5 py-2 bg-[#2dd4bf] hover:bg-[#14b8a6] text-[#08080f] text-xs font-bold rounded-xl">Internet Radar</a>
+        </div>
+      </div>
+
+      <ToolFAQ faqs={faqs} />
+      <ToolShare title="Live Weather Forecast — Hourly & 7-Day" url="https://solverspro.com/weather/" />
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  interface LocationInfo {
+    name: string;
+    country?: string;
+    lat: number;
+    lon: number;
+  }
+
+  const WMO_MAP: Record<number, { label: string; icon: string }> = {
+    0: { label: 'Clear Sky', icon: '☀️' },
+    1: { label: 'Mainly Clear', icon: '🌤️' },
+    2: { label: 'Partly Cloudy', icon: '⛅' },
+    3: { label: 'Overcast', icon: '☁️' },
+    45: { label: 'Foggy', icon: '🌫️' },
+    48: { label: 'Rime Fog', icon: '🌫️' },
+    51: { label: 'Light Drizzle', icon: '🌦️' },
+    53: { label: 'Drizzle', icon: '🌦️' },
+    55: { label: 'Heavy Drizzle', icon: '🌧️' },
+    61: { label: 'Light Rain', icon: '🌧️' },
+    63: { label: 'Moderate Rain', icon: '🌧️' },
+    65: { label: 'Heavy Rain', icon: '⛈️' },
+    71: { label: 'Light Snow', icon: '🌨️' },
+    73: { label: 'Snowfall', icon: '❄️' },
+    75: { label: 'Heavy Snow', icon: '❄️' },
+    80: { label: 'Rain Showers', icon: '🌦️' },
+    81: { label: 'Heavy Showers', icon: '🌧️' },
+    82: { label: 'Violent Showers', icon: '⛈️' },
+    95: { label: 'Thunderstorm', icon: '⛈️' },
+    96: { label: 'Thunderstorm & Hail', icon: '⛈️' },
+    99: { label: 'Severe Thunderstorm', icon: '🌩️' },
+  };
+
+  function getWmo(code: number) {
+    return WMO_MAP[code] || { label: 'Variable', icon: '⛅' };
+  }
+
+  let unit: 'metric' | 'imperial' = (localStorage.getItem('sp_weather_unit') as any) || 'metric';
+  let currentLoc: LocationInfo = { name: 'London', country: 'UK', lat: 51.5072, lon: -0.1276 };
+  let lastWeatherData: any = null;
+  let lastAqiVal: number | null = null;
+
+  // Map & Radar state
+  let map: any = null;
+  let marker: any = null;
+  let radarLayers: any[] = [];
+  let radarFrames: any[] = [];
+  let radarIdx = 0;
+  let radarPlaying = true;
+  let radarTimer: any = null;
+
+  const unitMetricBtn = document.getElementById('unit-metric')!;
+  const unitImperialBtn = document.getElementById('unit-imperial')!;
+  const searchInput = document.getElementById('city-search-input') as HTMLInputElement;
+  const searchResults = document.getElementById('search-results')!;
+  const recentCitiesEl = document.getElementById('recent-cities')!;
+  const btnGps = document.getElementById('btn-gps')!;
+
+  function formatTemp(c: number): string {
+    const val = unit === 'metric' ? c : (c * 9) / 5 + 32;
+    return `${Math.round(val)}°${unit === 'metric' ? 'C' : 'F'}`;
+  }
+
+  function formatWind(kmh: number): string {
+    const val = unit === 'metric' ? kmh : kmh * 0.621371;
+    return `${Math.round(val)} ${unit === 'metric' ? 'km/h' : 'mph'}`;
+  }
+
+  function formatPressure(hpa: number): string {
+    if (unit === 'metric') return `${Math.round(hpa)} hPa`;
+    return `${(hpa * 0.02953).toFixed(2)} inHg`;
+  }
+
+  function updateUnitButtons() {
+    if (unit === 'metric') {
+      unitMetricBtn.className = 'px-3.5 py-2 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer bg-[#2dd4bf] text-[#08080f]';
+      unitImperialBtn.className = 'px-3.5 py-2 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer text-zinc-400 hover:text-white';
+    } else {
+      unitImperialBtn.className = 'px-3.5 py-2 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer bg-[#2dd4bf] text-[#08080f]';
+      unitMetricBtn.className = 'px-3.5 py-2 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer text-zinc-400 hover:text-white';
+    }
+  }
+
+  function saveRecentCity(loc: LocationInfo) {
+    let list: LocationInfo[] = [];
+    try {
+      list = JSON.parse(localStorage.getItem('sp_weather_recent') || '[]');
+    } catch {}
+    list = [loc, ...list.filter((c) => c.name !== loc.name)].slice(0, 5);
+    localStorage.setItem('sp_weather_recent', JSON.stringify(list));
+    renderRecentCities();
+  }
+
+  function renderRecentCities() {
+    let list: LocationInfo[] = [];
+    try {
+      list = JSON.parse(localStorage.getItem('sp_weather_recent') || '[]');
+    } catch {}
+    if (list.length === 0) {
+      list = [
+        { name: 'New York', country: 'US', lat: 40.7128, lon: -74.006 },
+        { name: 'London', country: 'UK', lat: 51.5072, lon: -0.1276 },
+        { name: 'Dubai', country: 'AE', lat: 25.2048, lon: 55.2708 },
+        { name: 'Tokyo', country: 'JP', lat: 35.6762, lon: 139.6503 },
+      ];
+    }
+    recentCitiesEl.innerHTML = list
+      .map(
+        (c, i) =>
+          `<button type="button" data-idx="${i}" class="recent-pill px-2.5 py-1 rounded-lg bg-white/[0.04] hover:bg-[#2dd4bf]/15 hover:text-[#2dd4bf] text-xs text-zinc-300 border border-white/[0.06] transition-all cursor-pointer">${c.name}${c.country ? `, ${c.country}` : ''}</button>`
+      )
+      .join('');
+
+    recentCitiesEl.querySelectorAll('.recent-pill').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt((btn as HTMLElement).dataset.idx || '0', 10);
+        if (list[idx]) loadLocation(list[idx]);
+      });
+    });
+  }
+
+  function renderWeather() {
+    if (!lastWeatherData) return;
+    const cur = lastWeatherData.current;
+    const hourly = lastWeatherData.hourly;
+    const daily = lastWeatherData.daily;
+
+    const wmo = getWmo(cur.weather_code);
+    document.getElementById('location-name')!.textContent = `${currentLoc.name}${currentLoc.country ? `, ${currentLoc.country}` : ''}`;
+    document.getElementById('location-meta')!.textContent = `(${currentLoc.lat.toFixed(2)}, ${currentLoc.lon.toFixed(2)})`;
+    document.getElementById('current-icon')!.textContent = wmo.icon;
+    document.getElementById('current-temp')!.textContent = formatTemp(cur.temperature_2m);
+    document.getElementById('current-condition')!.textContent = wmo.label;
+    document.getElementById('current-hi-lo')!.textContent =
+      `Feels like ${formatTemp(cur.apparent_temperature)} · High ${formatTemp(daily.temperature_2m_max[0])} / Low ${formatTemp(daily.temperature_2m_min[0])}`;
+
+    document.getElementById('metric-wind')!.textContent = formatWind(cur.wind_speed_10m);
+    document.getElementById('metric-humidity')!.textContent = `${Math.round(cur.relative_humidity_2m)}%`;
+    const uvToday = daily.uv_index_max?.[0] ?? 0;
+    document.getElementById('metric-uv')!.textContent = `${uvToday.toFixed(1)} ${uvToday >= 6 ? '(High)' : uvToday >= 3 ? '(Mod)' : '(Low)'}`;
+    document.getElementById('metric-aqi')!.textContent = lastAqiVal !== null ? `${lastAqiVal} ${lastAqiVal <= 50 ? '(Good)' : lastAqiVal <= 100 ? '(Mod)' : '(High)'}` : 'N/A';
+    document.getElementById('metric-pressure')!.textContent = formatPressure(cur.surface_pressure);
+    document.getElementById('metric-clouds')!.textContent = `${Math.round(cur.cloud_cover)}%`;
+
+    // Alerts
+    const alertEl = document.getElementById('weather-alert')!;
+    const alertTitle = document.getElementById('alert-title')!;
+    const alertDesc = document.getElementById('alert-desc')!;
+    if (cur.wind_speed_10m >= 45 || cur.weather_code >= 95) {
+      alertEl.className = 'mb-6 rounded-2xl p-4 border bg-red-500/10 border-red-500/30 text-red-200 flex items-start gap-3';
+      alertTitle.textContent = cur.weather_code >= 95 ? 'Thunderstorm Advisory' : 'High Wind Advisory';
+      alertDesc.textContent = `Active ${wmo.label.toLowerCase()} with winds at ${formatWind(cur.wind_speed_10m)}. Exercise caution outdoors.`;
+    } else if (cur.temperature_2m >= 37 || uvToday >= 8) {
+      alertEl.className = 'mb-6 rounded-2xl p-4 border bg-orange-500/10 border-orange-500/30 text-orange-200 flex items-start gap-3';
+      alertTitle.textContent = cur.temperature_2m >= 37 ? 'Heat Advisory' : 'Very High UV Advisory';
+      alertDesc.textContent = `Peak UV ${uvToday.toFixed(1)} and temperature ${formatTemp(cur.temperature_2m)}. Stay hydrated and use sun protection.`;
+    } else {
+      alertEl.className = 'hidden';
+    }
+
+    // Hourly Strip (next 24h from current hour)
+    const nowIso = cur.time.slice(0, 13);
+    let startIdx = hourly.time.findIndex((t: string) => t.startsWith(nowIso));
+    if (startIdx < 0) startIdx = 0;
+
+    const hourlyHtml = [];
+    for (let i = startIdx; i < Math.min(startIdx + 24, hourly.time.length); i++) {
+      const hr = hourly.time[i].slice(11, 16);
+      const hw = getWmo(hourly.weather_code[i]);
+      const pop = hourly.precipitation_probability?.[i] ?? 0;
+      hourlyHtml.push(`
+        <div class="shrink-0 w-20 bg-[#14141f] border border-white/[0.06] rounded-xl p-3 text-center">
+          <div class="text-[11px] font-mono text-zinc-400">${i === startIdx ? 'Now' : hr}</div>
+          <div class="text-2xl my-1.5">${hw.icon}</div>
+          <div class="text-sm font-bold font-mono text-white">${formatTemp(hourly.temperature_2m[i])}</div>
+          <div class="text-[10px] font-mono text-sky-400 mt-1">💧 ${pop}%</div>
+        </div>
+      `);
+    }
+    document.getElementById('hourly-strip')!.innerHTML = hourlyHtml.join('');
+
+    // 7-Day Outlook
+    const allMin = Math.min(...daily.temperature_2m_min);
+    const allMax = Math.max(...daily.temperature_2m_max);
+    const span = Math.max(1, allMax - allMin);
+
+    const dailyHtml = daily.time.map((d: string, i: number) => {
+      const dt = new Date(d + 'T12:00:00');
+      const dayLabel = i === 0 ? 'Today' : dt.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+      const dw = getWmo(daily.weather_code[i]);
+      const pop = daily.precipitation_probability_max?.[i] ?? 0;
+      const tMin = daily.temperature_2m_min[i];
+      const tMax = daily.temperature_2m_max[i];
+      const leftPct = ((tMin - allMin) / span) * 100;
+      const widthPct = Math.max(8, ((tMax - tMin) / span) * 100);
+
+      return `
+        <div class="py-3 flex items-center justify-between gap-3 text-xs sm:text-sm">
+          <div class="w-28 shrink-0 font-semibold text-zinc-200">${dayLabel}</div>
+          <div class="flex items-center gap-2 w-24 shrink-0">
+            <span class="text-lg">${dw.icon}</span>
+            <span class="text-[11px] font-mono text-sky-400">💧${pop}%</span>
+          </div>
+          <div class="flex-1 flex items-center gap-2 min-w-[90px]">
+            <span class="font-mono text-zinc-400 w-9 text-right">${formatTemp(tMin)}</span>
+            <div class="flex-1 h-1.5 bg-white/[0.06] rounded-full relative overflow-hidden">
+              <div class="absolute top-0 bottom-0 rounded-full bg-gradient-to-r from-[#2dd4bf] to-[#ff6b35]" style="left:${leftPct.toFixed(1)}%;width:${widthPct.toFixed(1)}%"></div>
+            </div>
+            <span class="font-mono text-white font-bold w-9">${formatTemp(tMax)}</span>
+          </div>
+        </div>
+      `;
+    });
+    document.getElementById('daily-list')!.innerHTML = dailyHtml.join('');
+
+    // Lifestyle & Dressing Tips
+    const tC = cur.temperature_2m;
+    document.getElementById('tip-wear')!.textContent =
+      tC < 8 ? 'Wear a warm insulated coat, layers, and gloves.'
+      : tC < 18 ? 'A light jacket, hoodie, or long-sleeve layer is recommended.'
+      : tC < 27 ? 'Comfortable t-shirt or breathable casual wear.'
+      : 'Light, loose cotton clothing and sun protection advised.';
+
+    const popToday = daily.precipitation_probability_max?.[0] ?? 0;
+    document.getElementById('tip-commute')!.textContent =
+      popToday >= 50 ? `High rain chance (${popToday}%). Pack an umbrella and allow extra braking distance.`
+      : cur.wind_speed_10m >= 35 ? `Gusty winds (${formatWind(cur.wind_speed_10m)}) may affect high-profile vehicles.`
+      : 'Clear road and visibility conditions expected for commuting.';
+
+    document.getElementById('tip-outdoor')!.textContent =
+      uvToday >= 6 ? `UV Index reaches ${uvToday.toFixed(1)}. Limit midday sun and wear SPF 30+.`
+      : lastAqiVal && lastAqiVal > 100 ? `Air Quality Index is ${lastAqiVal}. Sensitive groups should reduce heavy outdoor exercise.`
+      : 'Good conditions for outdoor walking, running, and cycling.';
+  }
+
+  function initOrUpdateMap(lat: number, lon: number) {
+    const L = (window as any).L;
+    if (!L) return;
+
+    if (!map) {
+      map = L.map('weather-map', { zoomControl: true, attributionControl: false }).setView([lat, lon], 7);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 18,
+      }).addTo(map);
+      marker = L.circleMarker([lat, lon], {
+        radius: 7,
+        color: '#2dd4bf',
+        fillColor: '#2dd4bf',
+        fillOpacity: 0.9,
+      }).addTo(map);
+      loadRadarFrames();
+    } else {
+      map.setView([lat, lon], 7);
+      marker?.setLatLng([lat, lon]);
+    }
+  }
+
+  async function loadRadarFrames() {
+    const L = (window as any).L;
+    if (!L || !map) return;
+    try {
+      const resp = await fetch('https://api.rainviewer.com/public/weather-maps.json');
+      const data = await resp.json();
+      radarFrames = [...(data.radar?.past || []), ...(data.radar?.nowcast || []).slice(0, 2)];
+      radarLayers.forEach((l) => map.removeLayer(l));
+      radarLayers = radarFrames.map((f: any) =>
+        L.tileLayer(`${data.host}${f.path}/256/{z}/{x}/{y}/2/1_1.png`, {
+          opacity: 0,
+          zIndex: 10,
+        }).addTo(map)
+      );
+      if (radarLayers.length > 0) {
+        radarIdx = radarLayers.length - 1;
+        showRadarFrame(radarIdx);
+        startRadarLoop();
+      }
+    } catch {}
+  }
+
+  function showRadarFrame(idx: number) {
+    radarLayers.forEach((l, i) => l.setOpacity(i === idx ? 0.65 : 0));
+    const frame = radarFrames[idx];
+    if (frame) {
+      const d = new Date(frame.time * 1000);
+      document.getElementById('radar-time')!.textContent = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+  }
+
+  function startRadarLoop() {
+    if (radarTimer) clearInterval(radarTimer);
+    radarTimer = setInterval(() => {
+      if (!radarPlaying || radarLayers.length === 0) return;
+      radarIdx = (radarIdx + 1) % radarLayers.length;
+      showRadarFrame(radarIdx);
+    }, 850);
+  }
+
+  async function loadLocation(loc: LocationInfo) {
+    currentLoc = loc;
+    saveRecentCity(loc);
+    initOrUpdateMap(loc.lat, loc.lon);
+
+    const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,cloud_cover,surface_pressure,wind_speed_10m&hourly=temperature_2m,precipitation_probability,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,uv_index_max&timezone=auto`;
+    const aqiUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${loc.lat}&longitude=${loc.lon}&current=us_aqi`;
+
+    try {
+      const [wResp, aResp] = await Promise.all([fetch(weatherUrl), fetch(aqiUrl).catch(() => null)]);
+      lastWeatherData = await wResp.json();
+      if (aResp && aResp.ok) {
+        const aData = await aResp.json();
+        lastAqiVal = aData?.current?.us_aqi ?? null;
+      } else {
+        lastAqiVal = null;
+      }
+      renderWeather();
+    } catch {
+      document.getElementById('current-condition')!.textContent = 'Unable to load forecast';
+    }
+  }
+
+  async function detectInitialLocation() {
+    const params = new URLSearchParams(window.location.search);
+    const cityParam = params.get('city');
+    if (cityParam) {
+      try {
+        const gResp = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityParam)}&count=1&language=en&format=json`);
+        const gData = await gResp.json();
+        if (gData.results?.[0]) {
+          const r = gData.results[0];
+          return loadLocation({ name: r.name, country: r.country_code, lat: r.latitude, lon: r.longitude });
+        }
+      } catch {}
+    }
+
+    try {
+      const resp = await fetch('https://get.geojs.io/v1/ip/geo.json');
+      const geo = await resp.json();
+      if (geo.latitude && geo.longitude) {
+        return loadLocation({
+          name: geo.city || geo.region || 'Your Location',
+          country: geo.country_code || '',
+          lat: parseFloat(geo.latitude),
+          lon: parseFloat(geo.longitude),
+        });
+      }
+    } catch {}
+
+    loadLocation(currentLoc);
+  }
+
+  // City Search Autocomplete
+  let searchTimer: any = null;
+  searchInput?.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    const q = searchInput.value.trim();
+    if (q.length < 2) {
+      searchResults.classList.add('hidden');
+      return;
+    }
+    searchTimer = setTimeout(async () => {
+      try {
+        const resp = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=6&language=en&format=json`);
+        const data = await resp.json();
+        if (!data.results || data.results.length === 0) {
+          searchResults.innerHTML = '<div class="p-3 text-xs text-zinc-400 font-mono">No matching cities found</div>';
+          searchResults.classList.remove('hidden');
+          return;
+        }
+        searchResults.innerHTML = data.results
+          .map(
+            (r: any, idx: number) => `
+            <button type="button" data-idx="${idx}" class="search-opt w-full text-left px-4 py-2.5 hover:bg-white/[0.05] text-sm text-white flex items-center justify-between border-b border-white/[0.04] last:border-none cursor-pointer">
+              <span>${r.name}${r.admin1 ? `, ${r.admin1}` : ''}</span>
+              <span class="text-xs font-mono text-zinc-400">${r.country_code || ''}</span>
+            </button>`
+          )
+          .join('');
+        searchResults.classList.remove('hidden');
+
+        searchResults.querySelectorAll('.search-opt').forEach((el) => {
+          el.addEventListener('click', () => {
+            const r = data.results[parseInt((el as HTMLElement).dataset.idx || '0', 10)];
+            searchResults.classList.add('hidden');
+            searchInput.value = '';
+            loadLocation({ name: r.name, country: r.country_code, lat: r.latitude, lon: r.longitude });
+          });
+        });
+      } catch {}
+    }, 260);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!searchInput.contains(e.target as Node) && !searchResults.contains(e.target as Node)) {
+      searchResults.classList.add('hidden');
+    }
+  });
+
+  // Precise GPS
+  btnGps?.addEventListener('click', () => {
+    if (!navigator.geolocation) return;
+    btnGps.textContent = 'Locating...';
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+        let name = 'GPS Location';
+        let country = '';
+        try {
+          const rev = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`);
+          const rd = await rev.json();
+          name = rd.city || rd.locality || rd.principalSubdivision || 'GPS Location';
+          country = rd.countryCode || '';
+        } catch {}
+        btnGps.innerHTML = '<span>📍</span> Use Precise GPS';
+        loadLocation({ name, country, lat, lon });
+      },
+      () => {
+        btnGps.innerHTML = '<span>📍</span> Permission Denied';
+        setTimeout(() => {
+          btnGps.innerHTML = '<span>📍</span> Use Precise GPS';
+        }, 2500);
+      }
+    );
+  });
+
+  // Unit toggle
+  unitMetricBtn?.addEventListener('click', () => {
+    unit = 'metric';
+    localStorage.setItem('sp_weather_unit', unit);
+    updateUnitButtons();
+    renderWeather();
+  });
+  unitImperialBtn?.addEventListener('click', () => {
+    unit = 'imperial';
+    localStorage.setItem('sp_weather_unit', unit);
+    updateUnitButtons();
+    renderWeather();
+  });
+
+  // Radar Play/Pause
+  const radarToggle = document.getElementById('radar-toggle')!;
+  radarToggle?.addEventListener('click', () => {
+    radarPlaying = !radarPlaying;
+    radarToggle.textContent = radarPlaying ? '⏸ Pause' : '▶ Play';
+  });
+
+  // Local Pulse check-in
+  document.querySelectorAll('.pulse-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const cond = (btn as HTMLElement).dataset.pulse;
+      const status = document.getElementById('pulse-status')!;
+      status.textContent = `✓ Reported "${cond}" in ${currentLoc.name}`;
+      status.classList.remove('hidden');
+    });
+  });
+
+  updateUnitButtons();
+  renderRecentCities();
+  detectInitialLocation();
+</script>
