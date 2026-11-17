@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import SearchOverlay from '../../components/SearchOverlay.astro';
+import BlogRating from '../../components/BlogRating.astro';
+import BlogShare from '../../components/BlogShare.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Introducing Live Weather Radar, Jitter Test & Bufferbloat Diagnostics on SolversPro",
+  "description": "Explore SolversPro's newest tools: an AccuWeather-style Live Weather & Radar hub, a dedicated RFC 3550 Network Jitter Test, and a 3-phase Bufferbloat Test.",
+  "url": "https://solverspro.com/blog/live-weather-radar-jitter-and-bufferbloat-tools/",
+  "author": {
+    "@type": "Organization",
+    "name": "SolversPro"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SolversPro",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://solverspro.com/logo.svg"
+    }
+  },
+  "datePublished": "2026-11-18",
+  "dateModified": "2026-11-18"
+};
+---
+
+<BaseLayout
+  title="Live Weather, Jitter & Bufferbloat Tools | SolversPro"
+  description="Meet SolversPro's newest additions: Live Weather Forecast with animated radar, a dedicated Network Jitter Test, and a 3-phase Bufferbloat Test."
+  ogType="article"
+  schema={schema}
+>
+  <Header />
+  <SearchOverlay />
+
+  <main class="flex-1 py-16 px-6">
+    <article class="max-w-4xl mx-auto">
+      <header class="mb-12">
+        <nav aria-label="breadcrumb" class="mb-6">
+          <ol class="flex items-center space-x-2 text-sm text-zinc-400">
+            <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <a href="/blog/" class="hover:text-white transition-colors">Blog</a>
+            </li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              <span class="text-[#ff6b35]">Product Update</span>
+            </li>
+          </ol>
+        </nav>
+
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">Introducing Live Weather Radar, Network Jitter &amp; Bufferbloat Diagnostics</h1>
+
+        <div class="flex flex-wrap items-center gap-4 text-sm text-zinc-400 mb-8 pb-8 border-b border-white/[0.06]">
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            November 18, 2026
+          </span>
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            6 min read
+          </span>
+          <span class="text-zinc-500">By SolversPro Product Team</span>
+        </div>
+      </header>
+
+      <div class="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-a:text-[#2dd4bf] hover:prose-a:text-[#5eead4] prose-strong:text-white">
+        <p class="lead text-xl text-zinc-300 mb-8">
+          We have just rolled out one of our biggest updates yet on SolversPro: a full-featured <a href="/weather/">Live Weather Forecast &amp; Animated Radar</a> hub, a live weather &amp; telemetry bar built right into the site header and footer, and two dedicated connection stability diagnostics—our <a href="/network/jitter-test/">Network Jitter Test</a> and <a href="/network/bufferbloat-test/">Bufferbloat Test</a>.
+        </p>
+
+        <p>
+          Every new tool follows the same SolversPro philosophy: zero signups, zero intrusive popups, instant browser execution, and clear real-world benchmarks you can act on immediately.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-4">1. Live Weather Forecast, Air Quality &amp; Animated Radar</h2>
+        <p>
+          Weather sites are notoriously cluttered with slow-loading scripts and auto-playing video ads. Our new <a href="/weather/">SolversPro Live Weather Forecast</a> delivers clean, AccuWeather-style telemetry in under a second:
+        </p>
+        <ul>
+          <li><strong>Zero-prompt local detection:</strong> Automatically detects your city via privacy-friendly IP geolocation on load, with an optional <strong>Use Precise GPS</strong> button for neighborhood-level coordinates.</li>
+          <li><strong>Smart multi-format search:</strong> Search any city, country, or postal code worldwide (e.g., <code>Lahore PK</code>, <code>London, UK</code>, or <code>10001</code>) and switch between your last 5 cities with one click.</li>
+          <li><strong>24-hour &amp; 7-day outlooks:</strong> View hourly temperature and rain probability strips alongside a 7-day range chart, live <strong>US Air Quality Index (AQI)</strong>, UV index, wind speed, and surface pressure.</li>
+          <li><strong>Animated precipitation radar:</strong> Built with Leaflet and RainViewer radar frames so you can play or pause live storm movement directly on a dark-mode map.</li>
+          <li><strong>Header &amp; footer live strip:</strong> Wherever you are on SolversPro, the header pill shows your live local clock, city, and temperature (clicking opens <code>/weather/</code>), while the footer displays full telemetry with a <strong>More →</strong> shortcut and synced <code>°C ⇄ °F</code> unit toggle.</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold mt-12 mb-4">2. Dedicated Network Jitter Test</h2>
+        <p>
+          Many people run a standard bandwidth test, see 100+ Mbps download speed, and still wonder why their Zoom audio sounds robotic or their competitive FPS matches stutter. The missing metric is usually <strong>jitter</strong>—the variation in ping (round-trip time) from packet to packet.
+        </p>
+        <p>
+          Our new <a href="/network/jitter-test/">Network Jitter Test</a> sends 20, 35, or 50 rapid HTTPS probes directly from your browser and computes:
+        </p>
+        <ul>
+          <li><strong>RFC 3550 mean inter-arrival jitter (ms)</strong> and <strong>standard deviation</strong></li>
+          <li><strong>Minimum, average, and maximum ping (RTT)</strong></li>
+          <li><strong>Failed-probe packet loss percentage</strong> and a live per-probe stability bar chart</li>
+        </ul>
+        <p>
+          As a rule of thumb, jitter under <strong>5 ms</strong> is ideal for competitive gaming, under <strong>15 ms</strong> keeps VoIP calls crystal clear, and anything above <strong>30 ms</strong> points to Wi-Fi interference or congested routing.
+        </p>
+
+        <h2 class="text-2xl font-bold mt-12 mb-4">3. Three-Phase Bufferbloat Test (A+ to F Grade)</h2>
+        <p>
+          Even a low-jitter fiber line can lag badly when someone else on your network starts a 4K stream, cloud backup, or game update. That phenomenon—<strong>bufferbloat</strong>—happens when your router or ISP modem queues too many packets in oversized buffers instead of dropping or pacing them.
+        </p>
+        <p>
+          Our dedicated <a href="/network/bufferbloat-test/">Bufferbloat Test</a> measures latency across three automated phases against Cloudflare's edge network:
+        </p>
+        <ol>
+          <li><strong>Phase 1 (Unloaded Baseline):</strong> Establishes your median idle ping.</li>
+          <li><strong>Phase 2 (Download Load):</strong> Saturates your download link while polling latency every 250 ms to measure <code>+ms</code> download bloat.</li>
+          <li><strong>Phase 3 (Upload Load):</strong> Saturates your upload link to measure <code>+ms</code> upload bloat—often the worst bottleneck on asymmetric cable and DSL connections.</li>
+        </ol>
+
+        <div class="overflow-x-auto my-6">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-white/10 text-zinc-300">
+                <th class="py-2.5 px-3">Grade</th>
+                <th class="py-2.5 px-3">Loaded Latency Increase</th>
+                <th class="py-2.5 px-3">What It Means</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5 text-zinc-400">
+              <tr><td class="py-2 px-3 font-mono text-emerald-400 font-bold">A+</td><td class="py-2 px-3 font-mono">&lt; 5 ms</td><td class="py-2 px-3">Optimal queue control (SQM / CAKE active)</td></tr>
+              <tr><td class="py-2 px-3 font-mono text-[#2dd4bf] font-bold">A</td><td class="py-2 px-3 font-mono">5 – 30 ms</td><td class="py-2 px-3">Low bufferbloat; smooth gaming &amp; calls</td></tr>
+              <tr><td class="py-2 px-3 font-mono text-sky-400 font-bold">B</td><td class="py-2 px-3 font-mono">30 – 60 ms</td><td class="py-2 px-3">Moderate spikes under heavy household load</td></tr>
+              <tr><td class="py-2 px-3 font-mono text-yellow-400 font-bold">C – F</td><td class="py-2 px-3 font-mono">60 – 400+ ms</td><td class="py-2 px-3">Noticeable lag spikes; enable router SQM or QoS limits</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 class="text-2xl font-bold mt-12 mb-4">Try Them Today</h2>
+        <p>
+          Whether you are checking tomorrow's rain radar before a commute on <a href="/weather/">SolversPro Weather</a>, diagnosing packet stability on our <a href="/network/jitter-test/">Jitter Test</a>, or tuning your router's QoS settings with our <a href="/network/bufferbloat-test/">Bufferbloat Test</a>, every tool is live and free to use right now.
+        </p>
+      </div>
+
+      <BlogShare url="https://solverspro.com/blog/live-weather-radar-jitter-and-bufferbloat-tools/" title="Introducing Live Weather Radar, Network Jitter & Bufferbloat Diagnostics" />
+      <BlogRating />
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
