@@ -459,7 +459,7 @@ function shareTest() {
 moreInfoBtn.addEventListener('click', () => {
   const isOpen = moreInfoDrawer.classList.toggle('is-open');
   moreInfoBtn.setAttribute('aria-expanded', String(isOpen));
-  moreInfoDrawer.setAttribute('aria-hidden', String(!isOpen));
+  moreInfoDrawer.inert = !isOpen;
   moreInfoText.textContent = isOpen ? 'Hide more info' : 'Show more info';
 });
 
