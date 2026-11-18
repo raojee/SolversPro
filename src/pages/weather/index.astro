@@ -561,8 +561,12 @@ const faqs = [
 
     if (!map) {
       map = L.map('weather-map', { zoomControl: true, attributionControl: false }).setView([lat, lon], 7);
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        maxZoom: 18,
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 16,
+      }).addTo(map);
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 16,
+        zIndex: 5,
       }).addTo(map);
       marker = L.circleMarker([lat, lon], {
         radius: 7,
